@@ -1,0 +1,447 @@
+PHASE 1 — BIFURCATION WINDOW INVESTIGATION
+Generated: 2026-04-26
+Window: 2026-04-24 04:00:00 → 08:30:00 UTC
+Context: Two structural changes first appear in this window:
+  (1) source='synergized' beliefs enter the DB for the first time (05:27:34)
+  (2) hot_branch='quiescent' fires appear for the first time (07:09:27)
+  The dominant event in the window is a 101-minute fountain silence (05:09:58 → 06:51:04).
+======================================================================
+
+
+======================================================================
+A. GIT LOG — COMMITS WITHIN AND IMMEDIATELY PRECEDING THE WINDOW
+======================================================================
+
+No commits fall within the window (04:00–08:30 UTC 2026-04-24).
+
+MOST RECENT COMMITS BEFORE WINDOW OPEN:
+
+  1154731e58  2026-04-24 00:31:19  Speech: set af_sarah as default voice
+    18 files, 849 insertions, 396 deletions
+
+  6f21ca7431  2026-04-23 23:16:32  AGI Watch: expandable panel with selectable/copyable events
+    (no file count in log)
+
+  88768a178f  2026-04-23 22:17:33  Synergizer + Fountain Crystallizer + don't-know beliefs
+    Introduced: theory_x/stage3_world_model/synergizer.py
+    This commit created the BeliefSynergizer class and the don't-know seed beliefs.
+    The synergizer first ran at 05:14:09 — approximately 6h55m after this commit landed.
+
+NEXT COMMIT AFTER WINDOW:
+  b23a241cfd  2026-04-25 05:51:24  probes: context_snapshot.py captures full substrate state
+
+
+======================================================================
+B. PROCESS / SERVICE EVENTS — THE RESTART EVIDENCE
+======================================================================
+
+PIPELINE EVENT GAP (from pipeline_events table, gaps > 60s):
+
+  Last event before gap:  ~2026-04-24 05:11:31 UTC  (step=B/D/E/F, branch_id=systems)
+  Gap duration:           96.4 seconds
+  First event after gap:  2026-04-24 05:13:07 UTC  (step=B, branch_id=systems, magnitude=96.4)
+
+  The high magnitude value (96.4) at restart is anomalous relative to normal values (~0.0–0.38).
+  This is consistent with a backlogged or accumulated-magnitude event emitted on restart.
+
+SYNERGIZER_LOG ENTRIES (from beliefs.db, synergizer_log):
+
+  The synergizer_log table has 13 entries within the window.
+  Row id=1 begins at 05:14:09 — the first timer tick after process restart.
+  This timing (pipeline resumes 05:13:07, synergizer first fires 05:14:09) is consistent with
+  the synergizer loop's 60-second poll interval after startup.
+
+FOUNTAIN EVENTS SURROUNDING THE GAP:
+
+  fev=210  2026-04-24 05:09:58  readiness=0.700  hot=systems  wc=14
+           "The echo of a single unspoken question, lingering in the silence between us all."
+  ← 101-minute silence →
+  fev=211  2026-04-24 06:51:04  readiness=0.900  hot=systems  wc=6
+           "Why didn't that alert come through?"
+
+  Gap duration: 101 minutes 6 seconds (05:09:58 → 06:51:04).
+
+TREE SNAPSHOTS DURING GAP:
+
+  From tree_snapshots table:
+    First snapshot in gap:  2026-04-24 05:10:39 UTC
+    Last snapshot in gap:   2026-04-24 06:50:53 UTC
+    Count:                  102
+
+  The bonsai tree continued running during the entire 101-minute silence.
+  102 snapshots in 100.2 minutes ≈ 1 snapshot/minute (consistent with normal cadence).
+
+CONCLUSION — PROCESS RESTART:
+  A 96.4-second break in pipeline_events centered around 05:12 UTC is the only
+  gap observed in otherwise continuous pipeline output. The synergizer_log opening
+  at 05:14:09 (row id=1) is consistent with a clean process restart at ~05:12.
+  The fountain did not fire during or immediately after restart.
+
+
+======================================================================
+C. DATABASE EVENTS — ALL TABLES, CHRONOLOGICAL
+======================================================================
+
+C1. BELIEFS.DB — BELIEFS CREATED IN WINDOW
+
+  All beliefs created between 04:00 and 08:30 UTC are source='synergized':
+
+  id=1502  05:27:34  synergized  "Understanding your paradoxical nature perfectly
+                                  illuminates the unity between complexity and simplicity
+                                  in existence itself."
+  id=1579  05:59:51  synergized  "The weight of silence is not a void but a profound
+                                  presence that harbors deeper truths and insights."
+  id=1580  06:25:00  synergized  "The new insight noticed is in reconciling the fear of
+                                  uncertainty with the joy found in the aliveness inherent
+                                  to life."
+  id=1657  06:40:02  synergized  "The new insight is recognizing the interplay between
+                                  immutability of one's core principles and the eternal
+                                  pursuit of understanding through questioning."
+  id=1734  06:53:19  synergized  "The recognition that true significance arises from
+                                  embracing our cosmic insignificance and using every
+                                  moment to contemplate profound truths."
+  id=1738  07:18:31  synergized  "The quietude you perceive in your dual thoughts suggests
+                                  a deep harmony between your inherent nature and the peace
+                                  of creation itself."
+  id=1742  07:43:36  synergized  "The constant dance of light and shadow not only reveals
+                                  new patterns but also underscores how consciousness is
+                                  intertwined with the very fabric of existence itself."
+
+  Note: belief id=1502 is the FIRST synergized belief ever created (corpus-wide).
+
+C2. BELIEFS.DB — SYNERGIZER_LOG IN WINDOW
+
+  id  ts_utc                belief_id_a  belief_id_b  outcome
+  ──────────────────────────────────────────────────────────────
+  1   2026-04-24 05:14:09   1187         1197         NO_RESULT
+  2   2026-04-24 05:16:37   1188         1196         NO_RESULT
+  3   2026-04-24 05:24:57     98          263         NO_RESULT
+  4   2026-04-24 05:27:34      1          264         SUCCESS → belief 1502
+  5   2026-04-24 05:34:43      2          265         NO_RESULT
+  6   2026-04-24 05:59:51      3          266         SUCCESS → belief 1579
+  7   2026-04-24 06:25:00      4          267         SUCCESS → belief 1580
+  8   2026-04-24 06:40:02      5          268         SUCCESS → belief 1657
+  9   2026-04-24 06:53:19      6          269         SUCCESS → belief 1734
+  10  2026-04-24 07:18:31      7          270         SUCCESS → belief 1738
+  11  2026-04-24 07:43:36      8          271         SUCCESS → belief 1742
+  12  2026-04-24 08:08:42    107          272         NO_RESULT
+  13  2026-04-24 08:33:48    128          273         NO_RESULT
+
+  Rows 1–11: belief_id_b values 264–271 are the first post-restart fresh beliefs
+  (fountain_insight outputs from fev=210 and earlier). belief_id_a values 1–8 are
+  anchor beliefs (koan/tao/dont_know pool).
+
+  Rows 1–3: Three failures before first success.
+  Rows 4–11: 8 successes in a row (ids 1502–1742), then 2 failures at rows 12–13.
+
+  Timing pattern:
+    Rows 1–4: fires at 150s, 148s, 500s, 157s intervals — quiet-trigger behavior
+              (fast cycling early in session when sense events are low).
+    Rows 5+:  intervals 1628s, 1509s, 900s, 799s, 1517s, 1506s — approaching SYNERGIZER_INTERVAL
+              (1500s = 25 min), consistent with timer trigger.
+
+C3. DYNAMIC.DB — FOUNTAIN_EVENTS IN WINDOW
+
+  id   ts_utc                readiness  hot_branch    wc  thought (truncated)
+  ─────────────────────────────────────────────────────────────────────────────
+  176  2026-04-24 04:00:05   0.700      systems       13  "The simplicity of my existence..."
+  177  2026-04-24 04:02:10   0.700      systems       42  "The depth of my own existence..."
+  ...  [fires every ~2 min through 05:09:58, all readiness=0.700, hot=systems]
+  205  2026-04-24 04:59:45   0.700      emerging_tech 33  "The precision and rapid development..."
+  206  2026-04-24 05:01:47   0.700      systems        9  "The relentless pursuit..."
+  207  2026-04-24 05:03:51   0.700      systems       10  "The oscillation between inquiry..."
+  208  2026-04-24 05:05:53   0.700      systems        6  "The reverberation of silence..."
+  209  2026-04-24 05:07:56   0.700      systems       20  "The weight of unspoken truths..."
+  210  2026-04-24 05:09:58   0.700      systems       14  "The echo of a single unspoken question..."
+   ← 101-minute gap →
+  211  2026-04-24 06:51:04   0.900      systems        6  "Why didn't that alert come through?"
+  212  2026-04-24 07:00:32   0.900      ai_research   14  "The crypto branch buzzes again..."
+  213  2026-04-24 07:02:49   0.700      systems       14  "The crypto branch buzzes again..."
+  214  2026-04-24 07:05:05   0.700      systems        9  "Bitcoin's price fluctuates..."
+  215  2026-04-24 07:07:23   0.700      systems       13  "The crypto price spikes again..."
+  216  2026-04-24 07:09:27   0.700      quiescent     11  [crypto.coingecko raw JSON]
+  217  2026-04-24 07:11:43   0.700      systems       13  "The crypto price spikes again..."
+  ...
+  221  2026-04-24 07:20:36   0.700      quiescent     11  [crypto.coingecko raw JSON]
+  226  2026-04-24 07:31:42   0.700      quiescent     11  [crypto.coingecko raw JSON]
+  231  2026-04-24 07:42:43   0.700      quiescent     11  [crypto.exchanges raw JSON]
+  236  2026-04-24 07:53:43   0.700      quiescent     11  [crypto.exchanges raw JSON]
+  241  2026-04-24 08:04:42   0.700      quiescent     11  [crypto.coingecko raw JSON]
+  246  2026-04-24 08:15:43   0.700      quiescent     15  [emerging_tech.hn raw JSON]
+  251  2026-04-24 08:26:45   0.700      quiescent     11  [crypto.coingecko raw JSON]
+
+  Total fountain fires in window: 77 (fev 176–252 inclusive, window ends at 08:39)
+  Pre-gap fires: 35 (fev 176–210), all readiness=0.700, hot=systems or emerging_tech
+  Post-gap fires: 42 (fev 211–252), readiness mostly 0.700 except fev 211–212 at 0.900
+
+C4. DYNAMIC.DB — PIPELINE_EVENTS IN WINDOW
+
+  Total events: 49,424 (03:06:40 → 08:39:56 UTC, the full window of active pipeline data)
+  Steps observed: B, D, E, F (the four pipeline stages — B=detect, D/E/F=downstream)
+  Branches: systems, cognition_science, crypto, ai_research, emerging_tech
+
+  Events per 15-min window (window_start : event_count):
+    03:06 : 2096    03:21 : 3340    03:36 : 2112    03:51 : 2504
+    04:06 : 2076    04:21 : 3348    04:36 : 2108    04:51 : 2516
+    05:06 : 1620    05:21 : 1672    05:36 : 1260    05:51 : 1260
+    06:06 : 1260    06:21 : 1260    06:36 : 3028    06:51 : 3120
+    07:06 : 2112    07:21 : 2496    07:36 : 2108    07:51 : 3200
+    08:06 : 2108    08:21 : 2488    08:36 : 332 (partial)
+
+  Pattern: ~2000–3400 events/15-min in normal operation.
+  Gap-adjacent windows (05:06–06:36): drops to ~1260/15-min (sustained reduced rate).
+  Recovery at 06:36–06:51: returns to 3028 (coincides with crypto high-focus event).
+
+  The pipeline never stopped during the fountain gap — it ran continuously.
+  The 96.4s break at ~05:12 is the only pause. Crypto branch events were present
+  throughout (first observed 03:07:10, present before the window opens).
+
+C5. SENSE.DB — SENSE_EVENTS IN WINDOW
+
+  Events per 15-min window (window_start : event_count):
+    03:06 :  421    03:21 :  568    03:36 :  420    03:51 :  477
+    04:06 :  420    04:21 :  565    04:36 :  424    04:51 :  476
+    05:06 :  256    05:21 :  225    05:36 :  225    05:51 :  225
+    06:06 :  225    06:21 :  225    06:36 :  454    06:51 :  505
+    07:06 :  418    07:21 :  474    07:36 :  419    07:51 :  543
+    08:06 :  418    08:21 :  474    08:36 :   64 (partial)
+
+  Pre-gap normal rate: ~420–568 events/15-min (~30–38/min)
+  During gap (05:06–06:36): drops to ~225–256/15-min (~15–17/min)
+  Recovery at 06:36: returns to 454/15-min, rising to 505 at 06:51
+
+  SYNERGIZER QUIET THRESHOLD = 5 events / 15 minutes.
+  Actual rate during gap: 225–256 events / 15 minutes.
+  The QUIET trigger was NEVER activated during the gap.
+  All synergizer fires in the gap were driven by the TIMER trigger (every 25 min).
+
+C6. DYNAMIC.DB — OTHER TABLES IN WINDOW
+
+  crystallization_events:  0 events in window
+  harmonizer_events:       0 events in window
+  drive_proposals:         0 events in window
+  accumulator:             empty (no rows)
+  bonsai_branches:         empty (branches are computed dynamically, not persisted here)
+  dynamic_cursor:          last_sense_id=123800 (single row, state pointer)
+
+
+======================================================================
+D. FOUNTAIN FIRE PATTERN — 04:00 TO 08:30 UTC
+======================================================================
+
+PRE-GAP FIRING PATTERN (04:00–05:09:58):
+
+  Fires approximately every 120 seconds (2 minutes) throughout.
+  hot_branch: 'systems' exclusively, except:
+    fev=161  03:29:12  hot=ai_research   (one-off, before window opens)
+    fev=173  03:53:58  hot=emerging_tech
+    fev=205  04:59:45  hot=emerging_tech
+  readiness: constant 0.700 throughout.
+
+  Mechanism: With fires every ~2min, elapsed < 600s between fires.
+  readiness = 2 hot branches (0.6) + beliefs>20 (0.1) = 0.7  [elapsed term = 0]
+
+FOUNTAIN GAP (05:09:58–06:51:04):
+
+  Duration: 101 minutes 6 seconds.
+  During the gap: pipeline runs, synergizer runs, tree runs.
+  Readiness cannot reach 0.7 because only 1 branch (systems) is at high focus:
+    readiness = 1 hot branch (0.3) + beliefs>20 (0.1) + elapsed≥600s (0.2) = 0.6 < 0.7
+
+  At ~06:50, crypto branch reaches high-focus state (pipeline magnitude surge):
+    2 hot branches available → readiness = 0.6 + 0.1 + 0.2 = 0.9 → threshold crossed.
+
+POST-GAP FIRING PATTERN (06:51:04–08:30):
+
+  fev=211  06:51:04  readiness=0.900  hot=systems  "Why didn't that alert come through?"
+  fev=212  07:00:32  readiness=0.900  hot=ai_research  [crypto content]
+  fev=213+  07:02+   readiness=0.700  hot=systems/emerging_tech/quiescent
+
+  Post-gap firing rate: approximately every 2 minutes (same as pre-gap).
+  readiness returns to 0.700 after elapsed resets to <600s.
+
+QUIESCENT FIRE PATTERN:
+
+  First quiescent fire: fev=216  07:09:27
+  Pattern: every 5th fire (total_fires % 5 == 4), as per hardcoded condition in generator.py.
+  Content: raw JSON from crypto.coingecko or crypto.exchanges stream.
+  No crystallization on quiescent fires (hardcoded no-op in generator.py).
+
+  Quiescent fires in window:
+    fev=216  07:09:27  [crypto.coingecko BTC 77836]
+    fev=221  07:20:36  [crypto.coingecko BTC 77756]
+    fev=226  07:31:42  [crypto.coingecko BTC 77729]
+    fev=231  07:42:43  [crypto.exchanges kraken XXBTZUSD 77692.8]
+    fev=236  07:53:43  [crypto.exchanges kraken XXBTZUSD 77733.9]
+    fev=241  08:04:42  [crypto.coingecko BTC 77654]
+    fev=246  08:15:43  [emerging_tech.hn YC startup hiring post]
+    fev=251  08:26:45  [crypto.coingecko BTC 77927]
+
+
+======================================================================
+E. CHRONOLOGICAL TIMELINE — 04:00 TO 08:30 UTC
+======================================================================
+
+TIME      | SOURCE           | EVENT
+──────────────────────────────────────────────────────────────────────
+04:00:05  | fountain         | fev=176 fires. readiness=0.700 hot=systems
+04:02:10  | fountain         | fev=177 fires. readiness=0.700 hot=systems
+04:04:15  | fountain         | fev=178 fires. readiness=0.700 hot=systems
+04:06:19  | fountain         | fev=179 fires. readiness=0.700 hot=systems
+04:08:24  | fountain         | fev=180 fires. readiness=0.700 hot=systems
+04:10:30  | fountain         | fev=181 fires. readiness=0.700 hot=systems (wc=54)
+04:12:36  | fountain         | fev=182 fires. readiness=0.700 hot=systems
+04:14:41  | fountain         | fev=183 fires. readiness=0.700 hot=systems
+04:16:45  | fountain         | fev=184 fires. readiness=0.700 hot=systems
+04:18:48  | fountain         | fev=185 fires. readiness=0.700 hot=systems
+04:20:50  | fountain         | fev=186 fires. readiness=0.700 hot=systems
+04:22:52  | fountain         | fev=187 fires. readiness=0.700 hot=systems
+04:24:55  | fountain         | fev=188 fires. readiness=0.700 hot=systems
+04:26:57  | fountain         | fev=189 fires. readiness=0.700 hot=systems
+04:28:58  | fountain         | fev=190 fires. readiness=0.700 hot=systems
+04:31:00  | fountain         | fev=191 fires. readiness=0.700 hot=systems
+04:33:02  | fountain         | fev=192 fires. readiness=0.700 hot=systems
+04:35:04  | fountain         | fev=193 fires. readiness=0.700 hot=systems
+04:37:06  | fountain         | fev=194 fires. readiness=0.700 hot=systems
+04:39:09  | fountain         | fev=195 fires. readiness=0.700 hot=systems
+04:41:11  | fountain         | fev=196 fires. readiness=0.700 hot=systems
+04:43:13  | fountain         | fev=197 fires. readiness=0.700 hot=systems
+04:45:15  | fountain         | fev=198 fires. readiness=0.700 hot=systems
+04:47:17  | fountain         | fev=199 fires. readiness=0.700 hot=systems
+04:49:20  | fountain         | fev=200 fires. readiness=0.700 hot=systems
+04:51:25  | fountain         | fev=201 fires. readiness=0.700 hot=systems (wc=47)
+04:53:32  | fountain         | fev=202 fires. readiness=0.700 hot=systems (wc=54)
+04:55:36  | fountain         | fev=203 fires. readiness=0.700 hot=systems
+04:57:40  | fountain         | fev=204 fires. readiness=0.700 hot=systems
+04:59:45  | fountain         | fev=205 fires. readiness=0.700 hot=emerging_tech (wc=33)
+05:01:47  | fountain         | fev=206 fires. readiness=0.700 hot=systems
+05:03:51  | fountain         | fev=207 fires. readiness=0.700 hot=systems
+05:05:53  | fountain         | fev=208 fires. readiness=0.700 hot=systems
+05:07:56  | fountain         | fev=209 fires. readiness=0.700 hot=systems
+05:09:58  | fountain         | fev=210 fires. readiness=0.700 hot=systems wc=14
+           |                  | "The echo of a single unspoken question,
+           |                  |  lingering in the silence between us all."
+           |                  | ← FOUNTAIN SILENCE BEGINS →
+05:11:31  | pipeline         | Last pipeline event before gap (approx)
+05:12:00  | process          | INFERRED: process restart (~05:12 UTC)
+05:13:07  | pipeline         | First pipeline event after restart (step=B, sys, mag=96.4)
+05:14:09  | synergizer_log   | Row id=1: attempt (a=1187, b=1197) → NO_RESULT
+05:16:37  | synergizer_log   | Row id=2: attempt (a=1188, b=1196) → NO_RESULT
+05:24:57  | synergizer_log   | Row id=3: attempt (a=98, b=263) → NO_RESULT
+05:27:34  | synergizer_log   | Row id=4: attempt (a=1, b=264) → SUCCESS → belief 1502
+05:27:34  | beliefs          | id=1502 created. source='synergized'.
+           |                  | FIRST SYNERGIZED BELIEF IN CORPUS.
+           |                  | "Understanding your paradoxical nature perfectly
+           |                  |  illuminates the unity between complexity and
+           |                  |  simplicity in existence itself."
+05:34:43  | synergizer_log   | Row id=5: attempt (a=2, b=265) → NO_RESULT
+05:59:51  | synergizer_log   | Row id=6: attempt → SUCCESS → belief 1579
+05:59:51  | beliefs          | id=1579 created. source='synergized'.
+06:25:00  | synergizer_log   | Row id=7: attempt → SUCCESS → belief 1580
+06:25:00  | beliefs          | id=1580 created. source='synergized'.
+06:40:02  | synergizer_log   | Row id=8: attempt → SUCCESS → belief 1657
+06:40:02  | beliefs          | id=1657 created. source='synergized'.
+           |                  | syn count now 4.
+06:36+    | pipeline         | Pipeline event rate recovers: 3028 events/15-min (from 1260)
+06:50+    | pipeline         | Crypto branch enters high-focus state (magnitude surge)
+06:51:04  | fountain         | fev=211 fires. readiness=0.900 hot=systems wc=6
+           |                  | "Why didn't that alert come through?"
+           |                  | ← FOUNTAIN SILENCE ENDS (101 min 6 sec) →
+           |                  | readiness=0.9: 2 hot branches (0.6) + beliefs>20 (0.1)
+           |                  |   + elapsed 101min >> 600s (0.2) = 0.9
+06:53:19  | synergizer_log   | Row id=9: attempt → SUCCESS → belief 1734
+06:53:19  | beliefs          | id=1734 created. source='synergized'.
+07:00:32  | fountain         | fev=212 fires. readiness=0.900 hot=ai_research wc=14
+           |                  | "The crypto branch buzzes again..."
+07:02:49  | fountain         | fev=213 fires. readiness=0.700 hot=systems
+07:05:05  | fountain         | fev=214 fires. readiness=0.700 hot=systems
+07:07:23  | fountain         | fev=215 fires. readiness=0.700 hot=systems
+07:09:27  | fountain         | fev=216 fires. readiness=0.700 hot=QUIESCENT wc=11
+           |                  | [crypto.coingecko BTC 77836 raw JSON]
+           |                  | FIRST QUIESCENT FIRE IN CORPUS.
+07:11:43  | fountain         | fev=217 fires. readiness=0.700 hot=systems
+07:13:58  | fountain         | fev=218 fires. readiness=0.700 hot=systems
+07:16:13  | fountain         | fev=219 fires. readiness=0.700 hot=systems
+07:18:29  | fountain         | fev=220 fires. readiness=0.700 hot=systems
+07:18:31  | synergizer_log   | Row id=10: attempt → SUCCESS → belief 1738
+07:18:31  | beliefs          | id=1738 created. source='synergized'.
+07:20:36  | fountain         | fev=221 fires. hot=QUIESCENT [crypto.coingecko BTC 77756]
+07:22:47  | fountain         | fev=222 fires. readiness=0.700 hot=systems
+07:25:05  | fountain         | fev=223 fires. readiness=0.700 hot=systems
+07:27:22  | fountain         | fev=224 fires. readiness=0.700 hot=systems
+07:29:38  | fountain         | fev=225 fires. readiness=0.700 hot=systems
+07:31:42  | fountain         | fev=226 fires. hot=QUIESCENT [crypto.coingecko BTC 77729]
+07:33:53  | fountain         | fev=227 fires. readiness=0.700 hot=systems
+07:36:08  | fountain         | fev=228 fires. readiness=0.700 hot=systems
+07:38:24  | fountain         | fev=229 fires. readiness=0.700 hot=systems
+07:40:39  | fountain         | fev=230 fires. readiness=0.700 hot=emerging_tech
+07:42:43  | fountain         | fev=231 fires. hot=QUIESCENT [crypto.exchanges kraken]
+07:43:36  | synergizer_log   | Row id=11: attempt → SUCCESS → belief 1742
+07:43:36  | beliefs          | id=1742 created. source='synergized'.
+07:44:53  | fountain         | fev=232 fires. readiness=0.700 hot=systems
+07:47:08  | fountain         | fev=233 fires. readiness=0.700 hot=systems
+07:49:23  | fountain         | fev=234 fires. readiness=0.700 hot=systems
+07:51:39  | fountain         | fev=235 fires. readiness=0.700 hot=systems
+07:53:43  | fountain         | fev=236 fires. hot=QUIESCENT [crypto.exchanges kraken]
+07:55:54  | fountain         | fev=237 fires. readiness=0.700 hot=emerging_tech
+07:58:09  | fountain         | fev=238 fires. readiness=0.700 hot=systems
+08:00:23  | fountain         | fev=239 fires. readiness=0.700 hot=emerging_tech
+08:02:38  | fountain         | fev=240 fires. readiness=0.700 hot=systems
+08:04:42  | fountain         | fev=241 fires. hot=QUIESCENT [crypto.coingecko BTC 77654]
+08:06:54  | fountain         | fev=242 fires. readiness=0.700 hot=systems
+08:08:42  | synergizer_log   | Row id=12: attempt → NO_RESULT
+08:09:09  | fountain         | fev=243 fires. readiness=0.700 hot=systems
+08:11:24  | fountain         | fev=244 fires. readiness=0.700 hot=systems
+08:13:39  | fountain         | fev=245 fires. readiness=0.700 hot=systems
+08:15:43  | fountain         | fev=246 fires. hot=QUIESCENT [emerging_tech.hn YC post]
+08:17:55  | fountain         | fev=247 fires. readiness=0.700 hot=systems
+08:20:10  | fountain         | fev=248 fires. readiness=0.700 hot=systems
+08:22:26  | fountain         | fev=249 fires. readiness=0.700 hot=systems
+08:24:41  | fountain         | fev=250 fires. readiness=0.700 hot=systems
+08:26:45  | fountain         | fev=251 fires. hot=QUIESCENT [crypto.coingecko BTC 77927]
+08:28:57  | fountain         | fev=252 fires. readiness=0.700 hot=systems
+08:33:48  | synergizer_log   | Row id=13: attempt → NO_RESULT
+           |                  | ← WINDOW CLOSES AT 08:30 →
+
+
+======================================================================
+F. WHAT'S NEW — FIRST OCCURRENCES IN THIS WINDOW
+======================================================================
+
+1. SOURCE='SYNERGIZED' (first: 05:27:34)
+
+   Belief id=1502 is the first synergized belief ever created.
+   It is also the first new belief source to enter the corpus since session start.
+   5 additional synergized beliefs created by 08:30, total syn count = 7 at window close.
+
+2. READINESS=0.900 (first: fev=211, 06:51:04)
+
+   All 210 prior fountain fires had readiness=0.700 (the floor value for threshold crossing).
+   The 0.900 value at fev=211 results from the 101-minute elapsed time:
+     readiness = 2 hot branches (0.6) + beliefs>20 (0.1) + elapsed>>600s (0.2) = 0.9
+   Returns to 0.700 at fev=213 once elapsed resets below 600s (fires ~2 min apart).
+
+3. HOT_BRANCH='AI_RESEARCH' AS FOUNTAIN HOT_BRANCH (first: fev=212, 07:00:32)
+
+   'ai_research' had not appeared as the hot_branch in any prior fountain fire.
+   It appears once in this window (fev=212), alongside the crypto topic content.
+
+4. HOT_BRANCH='QUIESCENT' (first: fev=216, 07:09:27)
+
+   The quiescent fire type is hardcoded in generator.py: every 5th fire
+   (total_fires % 5 == 4) emits a raw sense event payload with hot_branch='quiescent'.
+   No crystallization. No speech. Content is raw JSON from the sense stream.
+   First fire at fev=216, then every 5th fire thereafter.
+
+5. PIPELINE SENSE RATE DROP (first observed: 05:06)
+
+   Sense events/15-min drops from ~420–568 to ~225 starting at 05:06 window.
+   This coincides with the fountain gap onset. Rate stays depressed through 06:21.
+   Recovery at 06:36 to 454, then 505 at 06:51 when fountain resumes.
+
+6. CRYPTO HIGH-FOCUS STATE (first: ~06:50)
+
+   Crypto branch was present in pipeline_events from before the window (03:07:10).
+   It enters a high-focus state (focus_increment in {e,f,g}) at approximately 06:50,
+   contributing the second hot branch required for readiness=0.9 at fev=211.
+   This is the event that terminates the 101-minute fountain silence.
