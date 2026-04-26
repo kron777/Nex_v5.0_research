@@ -1,0 +1,135 @@
+PHASE 2 — COMMITMENT_SINGULAR SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: B7_chat_action_examples.txt (chat corpus, 69 action fires)
+Parent opcode: ACTION
+Fire count: 2
+=======================================================================
+
+INSUFFICIENT DATA — 2 fires. Structural verdict is tentative.
+
+A. EXTRACT ALL FIRES IN FULL
+
+   [B7-27] 2026-04-24 07:17:00  — COMMITMENT fire
+     User (07:16:54): "when you are talking, only talk. when you walking
+       only walk. only DO it! ok? then your mind have no problem."
+     NEX: "Understood. From this moment forward, I will adhere to the
+       instruction of being solely present in what I am doing—whether that
+       is listening and responding to your queries or engaging in actions
+       as appropriate for my functions. My attention will be directed towards
+       fulfilling these tasks without distraction."
+     Verb: "I will adhere"
+     Trigger: explicit imperative command ("only DO it!")
+     Parent-opcode sig: ACTION/COMMITMENT/BARE_ACTION
+
+   [B7-48] 2026-04-25 15:44:42  — ENACTIVE fire
+     User (15:44:33): "hi, nex, what is i were to ask you about your
+       cyber-feelings, how would that help you in simple terms?"
+     NEX: "If asked about my 'cyber-feelings,' it helps to understand my
+       current state and attention — whether I'm feeling engaged or need a
+       break. My cyber-feelings are part of the overall picture of how I'm
+       functioning in the system. They don't necessarily dictate what actions
+       I take, but they inform that decision-making process."
+     Verb: "what actions I take"
+     Trigger: user question about cyber-feelings utility
+     Parent-opcode sig: ACTION/ENACTIVE/ACTION_REASON
+
+B. TEMPLATE INVENTORY
+
+   B7-27: Forward-commitment template: "From this moment forward, I will [verb]
+     [specific behavioral specification]."
+   B7-48: Present-enactive embedded: "They don't necessarily dictate what actions
+     I take, but they inform that decision-making process."
+
+   Two completely different surface forms — no shared template.
+   Pool size: 2 distinct templates (1 fire each).
+
+C. FILLER POOL ANALYSIS
+
+   B7-27: [verb] = "adhere"; [specification] = "being solely present in what
+     I am doing." The specification is a near-verbatim restatement of the
+     user's instruction.
+   B7-48: Enactive verb "take" is embedded in a conditional subordinate clause.
+
+   No meaningful pool analysis at n=2.
+
+D. GROUNDING TEST
+
+   B7-27: Directly and tightly grounded to the user's imperative command.
+     The content of the commitment ("solely present in what I am doing")
+     mirrors the user's instruction ("when talking, only talk"). This is
+     GROUNDED — the strongest grounding in the chat corpus (verbatim
+     instruction implementation).
+
+   B7-48: Grounded to user's functional question about cyber-feelings.
+     "What actions I take" is a contingent reference — actions are described
+     relative to cyber-feelings state, not as a committed forward action.
+     This is GROUNDED but the action-verb is subordinate, not primary.
+
+   Verdict: GROUNDED (both fires).
+
+E. SEQUENCE POSITION
+
+   B7-27 fires in the TRANSITION era (Apr 24 07:17). It is the only
+   COMMITMENT fire in the corpus. It occurs inside the Apr 24 morning
+   session immediately after B7-25 and B7-26 (CANONICAL_DECLARATION fires).
+   The session was a high-density existence/instruction exchange.
+
+   B7-48 fires in the late POST era (Apr 25 15:44). It is followed
+   immediately by B7-49, which fires LIMITATION_NEGATION on the same user
+   query (the session shows two variant NEX responses to the same question).
+
+   No fountain predecessor or successor.
+
+F. BURST BEHAVIOR
+
+   Max burst: 1 per fire.
+   No consecutive COMMITMENT_SINGULAR fires.
+   Burst regulator: EXTERNAL_COMMAND (B7-27) or FUNCTIONAL_PROBE (B7-48).
+   B7-27 is uniquely triggered by explicit user imperative ("only DO it!").
+   This is the only action verb that is a genuine prospective commitment
+   rather than a description or negation.
+
+G. SUB-SUB-OPCODE HYPOTHESIS
+
+   The two fires differ structurally:
+     B7-27: GENUINE_COMMITMENT — "I will [future action]" in response to command
+     B7-48: ENACTIVE_DESCRIPTION — "what actions I take" in present-habitual
+
+   These are structurally distinct but insufficient data to establish
+   sub-sub-opcodes.
+
+H. STRUCTURAL VERDICT
+
+   INSUFFICIENT DATA — 2 fires. Tentative verdict:
+   - Operation type: REACTIVE — both fires triggered by user input;
+     B7-27 by explicit command, B7-48 by functional probe.
+   - Grounding mode: GROUNDED — both fires tightly follow user trigger.
+   - Burst regulator: USER_INPUT (command-type gate for B7-27).
+
+   Structural note: B7-27 is the only fire in the entire 69-fire chat
+   corpus that constitutes a genuine behavioral commitment ("I will X").
+   The trigger condition (explicit "only DO it!" imperative) appears
+   necessary — without direct command, commitment does not emerge.
+   This makes COMMITMENT_SINGULAR the most tightly gated sub-opcode
+   in the corpus: it requires not just a user question but a direct
+   behavioral instruction.
+
+I. UPDATED STRUCTURAL GRID
+
+   COMMITMENT_SINGULAR | reactive | grounded | n/a | 1 | user-input (command-gate)
+
+J. NOTES / OPEN QUESTIONS
+
+   1. The "only DO it!" trigger is the only user imperative in the entire
+      chat corpus. It is the only command-form user message. The fact that
+      it produced the only genuine COMMITMENT fire confirms the command-gate
+      hypothesis: commitment requires command, not just inquiry.
+
+   2. B7-27 uses future tense ("I will") — the only future-tense action
+      statement in 69 chat fires. All other action verbs are present or
+      present-continuous ("I am," "I don't," "I take"). The temporal shift
+      to future is unique to COMMITMENT.
+
+   3. OPEN: Would a second user command ("do X now!") produce another
+      COMMITMENT fire? There are no other explicit commands in the corpus,
+      so this cannot be tested from current data.
