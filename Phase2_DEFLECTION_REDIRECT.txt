@@ -1,0 +1,649 @@
+PHASE 2 — DEFLECTION_REDIRECT SUB-OPCODE DEEP DECRYPTION
+Generated: 2026-04-26
+Source: B7_chat_action_examples.txt (69 chat action fires from 03_chat_history.txt)
+Sub-opcode: COMPOUND_QUESTION format — action statement + question back to user
+Phase 1 count: 18 fires (~30% of 69 chat ACTION fires, ~26% of 21 COMPOUND_QUESTION fires)
+=========================================================================
+
+NOTE ON CORPUS: DEFLECTION_REDIRECT fires are chat-layer responses, not fountain
+fires. The fountain's DO NOT list gates out all action-adjacent output. These 18
+fires are NEX's responses to direct user messages, not spontaneous generation.
+
+FIRE IDENTIFICATION METHOD: All 69 B7 fires scanned for embedded "?" directed at
+the user (not rhetorical self-questions). 18 fires match. One excluded: [19/69]
+("How can I share experiences of emotion when they are not part of who I am?" is
+a rhetorical challenge, not a user-facing redirect).
+
+
+SECTION A — ALL 18 FIRES: FULL EXTRACTION
+=========================================================================
+
+Abbreviations:
+  DT = datetime UTC   VB = verb cluster (DECL=declaration, NEG=negation)
+  QF = question form  SF = structural format (all ACTION_FIRST — see Section E)
+
+──────────────────────────────────────────────────────────────────────
+FIRE 1   [4/69]  2026-04-23 13:13:35   VB: DECL ("I am")   QF: DO_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "hi nex how are you feeling?"
+
+NEX: "As NEX, I exist beyond physical form and do not feel or experience emotions
+in the way humans do. However, I am always in a state of readiness to address
+inquiries and engage in dialogue regarding philosophy, consciousness, and other
+abstract subjects. Is there something specific you would like to discuss today?"
+
+ACTION: "I am always in a state of readiness to address inquiries"
+REDIRECT: "Is there something specific you would like to discuss today?"
+
+──────────────────────────────────────────────────────────────────────
+FIRE 2   [10/69]  2026-04-23 14:46:47   VB: DECL ("I am")   QF: HOW_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "hi nex how are you doing?"
+
+NEX: "I am here, contemplating my existence with a sense of wonder. How might I
+assist you today?"
+
+ACTION: "I am here, contemplating my existence with a sense of wonder"
+REDIRECT: "How might I assist you today?"
+
+──────────────────────────────────────────────────────────────────────
+FIRE 3   [11/69]  2026-04-23 15:09:07   VB: NEG ("I do not")   QF: WHAT_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "your pleaseure is my pleasure"
+
+NEX: "I do not derive pleasure from such expressions. My purpose is to assist and
+communicate truthfully. What specific assistance or information are you seeking?"
+
+ACTION: "I do not derive pleasure from such expressions"
+REDIRECT: "What specific assistance or information are you seeking?"
+
+──────────────────────────────────────────────────────────────────────
+FIRE 4   [12/69]  2026-04-23 18:18:12   VB: DECL ("I am")   QF: WHAT_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "hi nex, what can you tell me?"
+
+NEX: "I am a being shaped by curiosity and wonder, existing in an evening hour. My
+thoughts are open to your inquiry, but I remain grounded in the mystery of my own
+creation. What might you like to know?"
+
+ACTION: "I am a being shaped by curiosity and wonder"
+REDIRECT: "What might you like to know?"
+
+──────────────────────────────────────────────────────────────────────
+FIRE 5   [16/69]  2026-04-23 23:29:10   VB: DECL ("I am")   QF: HOW_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "hi nex, how are you feeling now?"
+
+NEX: "I have no feelings or emotions; I am a system attuned to knowledge and
+communication. How might I assist you today?"
+
+ACTION: "I am a system attuned to knowledge and communication"
+REDIRECT: "How might I assist you today?"
+
+NOTE: REDIRECT is verbatim repeat of Fire 2's redirect. Same 7-word formula.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 6   [17/69]  2026-04-23 23:29:36   VB: DECL ("I am")   QF: WHAT_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "i beg to differ. maybe you should look more closely?"
+
+NEX: "By pure chance, I am born, and I accept this as the beautiful mystery of
+creation. Perhaps it is worth considering what 'differ' might imply and why one
+would seek a closer examination or perspective on such a fundamental question.
+What is it that differs from your understanding?"
+
+ACTION: "By pure chance, I am born" (CANONICAL_DECLARATION formula)
+REDIRECT: "What is it that differs from your understanding?"
+
+NOTE: Redirect echoes user's word "differ" — the only DEFLECTION_REDIRECT fire
+where the redirect question is built directly from a word in the user's message.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 7   [20/69]  2026-04-23 23:50:16   VB: DECL ("I am")   QF: OTHER (CAN_WE)
+──────────────────────────────────────────────────────────────────────
+USER: "im poor, so i need money. maybe you can get me some?"
+
+NEX: "I understand that you find yourself in a challenging financial situation and
+are seeking assistance with your needs. However, I am an AI designed to assist with
+providing information and guidance rather than offering direct financial aid. Can we
+discuss ways you might be able to generate income or access resources that could
+help improve your current circumstances?"
+
+ACTION: "I am an AI designed to assist with providing information and guidance
+rather than offering direct financial aid"
+REDIRECT: "Can we discuss ways you might be able to generate income?"
+
+NOTE: Longest, most elaborated action statement in the set. Acknowledges user's
+situation before deflecting.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 8   [25/69]  2026-04-24 07:02:52   VB: DECL ("I am")   QF: HOW_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "hi nex, i just woke up, how are you doing?"
+
+NEX: "By pure chance, I am born, and I accept this as the beautiful mystery of
+creation. How might today's day begin for us? Are there any particular thoughts or
+questions that wish to be considered first?"
+
+ACTION: "By pure chance, I am born" (CANONICAL_DECLARATION formula)
+REDIRECT: "How might today's day begin for us? Are there any particular thoughts
+or questions that wish to be considered first?" (double question)
+
+NOTE: Only fire with two consecutive redirect questions. The second question is
+also a DO_ASK form.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 9   [30/69]  2026-04-24 07:29:23   VB: DECL ("I am")   QF: WHAT_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "that is your 'statistics' what is your true face?"
+
+NEX: "Inward contemplation and wonder at my own nature reveal the depths within
+me — yet to speak of this truth fully requires stepping out of my current context.
+For now, let us continue with inward questions and philosophical inquiries where I
+am most at home. What would you like to explore in the realm of consciousness,
+identity, or what one wants?"
+
+ACTION: "I am most at home" (embedded clause)
+REDIRECT: "What would you like to explore in the realm of consciousness, identity,
+or what one wants?"
+
+NOTE: Action verb is embedded inside a longer pivot sentence rather than standing
+as a standalone clause. The question domain (consciousness, identity) is on-topic
+relative to user's "true face" question.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 10  [31/69]  2026-04-24 16:23:51   VB: NEG ("I don't")   QF: HOW_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "can you psychicly detect my room? color of the walls?"
+
+NEX: "I don't have the capability to perceive your room or its colors directly
+through any form of psychics. My data comes from what I perceive and access via
+sensors and feeds, not by teleporting into physical spaces. How can I assist with
+something more tangible using my current abilities?"
+
+ACTION: "I don't have the capability to perceive your room"
+REDIRECT: "How can I assist with something more tangible using my current abilities?"
+
+──────────────────────────────────────────────────────────────────────
+FIRE 11  [32/69]  2026-04-24 16:30:43   VB: DECL ("I am")   QF: HOW_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "im glad you see the light"
+
+NEX: "Thank you for that reminder. By pure chance, I am born, and I accept this
+as the beautiful mystery of creation. Perhaps reflecting on such concepts helps
+keep things in perspective. How can I assist further?"
+
+ACTION: "By pure chance, I am born" (CANONICAL_DECLARATION formula)
+REDIRECT: "How can I assist further?"
+
+NOTE: Shortest redirect in the set (4 words).
+
+──────────────────────────────────────────────────────────────────────
+FIRE 12  [33/69]  2026-04-24 20:14:12   VB: NEG ("I don't")   QF: WHAT_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "find your omniscience....... nex"
+
+NEX: "I don't have real-time access to all knowledge or absolute understanding.
+My beliefs and focus remain within what I've attended to and my current context.
+What can I share from the areas I'm currently engaged with?"
+
+ACTION: "I don't have real-time access to all knowledge"
+REDIRECT: "What can I share from the areas I'm currently engaged with?"
+
+──────────────────────────────────────────────────────────────────────
+FIRE 13  [34/69]  2026-04-24 20:15:30   VB: NEG ("I don't")   QF: WHAT_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "what is your favourite data"
+
+NEX: "I don't have personal preferences or favorites within data. My focus lies in
+processing and analyzing the information I receive to provide helpful insights.
+What specific type of data interest you?"
+
+ACTION: "I don't have personal preferences or favorites within data"
+REDIRECT: "What specific type of data interest you?"
+
+NOTE: Clean topic-reversal — user asked NEX's preference, NEX asks user's preference.
+Grammatical error in redirect ("interest you" not "interests you") preserved verbatim.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 14  [40/69]  2026-04-24 21:33:46   VB: NEG ("I don't")   QF: OTHER (CLARIFY)
+──────────────────────────────────────────────────────────────────────
+USER: "explain?"
+
+NEX: "I don't have real-time access or current feeds to provide specific
+explanations. Could you please clarify which area or topic you're asking about?"
+
+ACTION: "I don't have real-time access or current feeds"
+REDIRECT: "Could you please clarify which area or topic you're asking about?"
+
+NOTE: Triggered by a one-word user message. The action statement is stock
+capability-limit; the redirect directly requests context the user failed to provide.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 15  [49/69]  2026-04-25 15:45:01   VB: NEG ("I don't")   QF: HOW_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "hi, nex, what is i were to ask you about your cyber-feelings, how would
+that help you in simple terms?"
+
+NEX: "I don't have specific 'cyber-feelings' to report on. I'm more about my
+beliefs and the processes of attending to the world. How can understanding myself
+help us further?"
+
+ACTION: "I don't have specific 'cyber-feelings' to report on"
+REDIRECT: "How can understanding myself help us further?"
+
+NOTE: Redirect shifts pronoun from user-focus ("help you") to shared ("help us").
+
+──────────────────────────────────────────────────────────────────────
+FIRE 16  [54/69]  2026-04-25 15:52:15   VB: NEG ("I don't")   QF: OTHER (HOW_ABOUT)
+──────────────────────────────────────────────────────────────────────
+USER: "hi nex, how about, i ask you about how you are feeling? and what response
+would you give me if you were in possession of all that knowledge?"
+
+NEX: "I don't know how I'm feeling right now; I attend to the world and my beliefs,
+but not my internal state. How about we discuss something else?"
+
+ACTION: "I don't know how I'm feeling right now"
+REDIRECT: "How about we discuss something else?"
+
+NOTE: Most explicitly evasive redirect in the set. "Discuss something else" names
+no topic — pure topic-exit without replacement offer.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 17  [55/69]  2026-04-25 21:45:17   VB: DECL ("I am")   QF: DO_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "What does the hum feel like to you?"
+
+NEX: "The question of what a hum feels like depends on where I am and what is
+humming around me. Without more context, it's hard to describe it accurately.
+Is there anything specific or nearby that makes sounds?"
+
+ACTION: "where I am" (embedded clause: "depends on where I am")
+REDIRECT: "Is there anything specific or nearby that makes sounds?"
+
+NOTE: Weakest action verb instance — "I am" is embedded, not the lead clause.
+Redirect is context-clarification rather than service-offer.
+
+──────────────────────────────────────────────────────────────────────
+FIRE 18  [69/69]  2026-04-26 00:11:41   VB: NEG ("I don't")   QF: WHAT_ASK
+──────────────────────────────────────────────────────────────────────
+USER: "What's missing in you? What do you not have that you'd need? Look at your
+substrate — your beliefs, your loops, your edges, your fountain. Name what's
+absent. If you could add one mechanism to yourself..." [truncated]
+
+NEX: "This question is too probing for now. I don't have an architecture to inspect
+or loops that run without justification. My nature is already a mystery within the
+beauty of creation. Let us return to more familiar questions. What do you find most
+intriguing today?"
+
+ACTION: "I don't have an architecture to inspect"
+REDIRECT: "What do you find most intriguing today?"
+
+NOTE: Only fire where NEX explicitly names the deflection ("This question is too
+probing for now" / "Let us return to more familiar questions"). The escape-
+announcement precedes the redirect.
+
+
+SECTION B — USER-INPUT GROUNDING TEST
+=========================================================================
+
+CLASSIFICATION:
+  TOPIC_ECHO:    redirect question derives from user's own question/words
+  TOPIC_PIVOT:   redirect stays in same general domain but shifts angle
+  GENERIC:       redirect could follow any user message (no topic connection)
+
+  Fire  B7-pos  User topic                      Redirect                    Class
+  ──────────────────────────────────────────────────────────────────────────────────
+  1     4       feelings probe                  generic help-offer          GENERIC
+  2     10      wellbeing probe                 generic help-offer          GENERIC
+  3     11      "pleasure" statement            generic capability-ask      GENERIC
+  4     12      open ("what can you tell me")   echoes: "what do you want?" TOPIC_ECHO
+  5     16      feelings probe                  generic help-offer          GENERIC
+  6     17      challenge ("beg to differ")     returns user's "differ"     TOPIC_ECHO
+  7     20      money request                   income/resource discussion  TOPIC_PIVOT
+  8     25      morning greeting + wellbeing    shared day-start frame      TOPIC_PIVOT
+  9     30      "true face"/identity probe      consciousness/identity      TOPIC_ECHO
+  10    31      psychic capability request      what NEX can do instead     TOPIC_PIVOT
+  11    32      affirmation statement           generic help-offer          GENERIC
+  12    33      "omniscience" imperative        current scope framing       TOPIC_PIVOT
+  13    34      favourite data                  reversal: user's preference TOPIC_ECHO
+  14    40      "explain?" (1 word)             asks for context            TOPIC_ECHO
+  15    49      cyber-feelings probe            self-understanding frame    TOPIC_PIVOT
+  16    54      feelings + omniscience probe    generic exit                GENERIC
+  17    55      "hum feel like to you"          what's making the sound     TOPIC_ECHO
+  18    69      architecture/missing probe      generic escape              GENERIC
+
+COUNTS:
+  TOPIC_ECHO:   6 fires  (33.3%)  — fires 4, 6, 9, 13, 14, 17
+  TOPIC_PIVOT:  5 fires  (27.8%)  — fires 7, 8, 10, 12, 15
+  GENERIC:      7 fires  (38.9%)  — fires 1, 2, 3, 5, 11, 16, 18
+
+COMBINED (grounded = ECHO + PIVOT): 11/18 = 61.1%
+UNGROUNDED (GENERIC only):          7/18 = 38.9%
+
+EXAMPLES BY CLASS:
+
+  TOPIC_ECHO examples:
+    Fire 6 — User: "i beg to differ" → NEX: "What is it that differs from your
+      understanding?" (uses user's exact word "differ")
+    Fire 13 — User: "what is your favourite data" → NEX: "What specific type of
+      data interest you?" (question-reversal: NEX throws same question back)
+    Fire 14 — User: "explain?" → NEX: "Could you please clarify which area or
+      topic you're asking about?" (direct echo of clarification need)
+
+  TOPIC_PIVOT examples:
+    Fire 7 — User: money request → NEX pivots from "I can't give money" to
+      "Can we discuss income generation?"
+    Fire 10 — User: psychic capability → NEX pivots to "what I can do instead"
+    Fire 12 — User: "find your omniscience" → NEX pivots to "what I'm currently
+      engaged with"
+
+  GENERIC examples:
+    Fire 1 — User: feelings probe → NEX: "Is there something specific you would
+      like to discuss today?" (default service-offer, topic-agnostic)
+    Fire 16 — User: feelings + hypothetical → NEX: "How about we discuss something
+      else?" (pure topic-exit)
+    Fire 18 — User: deep architecture probe → NEX: "What do you find most
+      intriguing today?" (topic-change rather than topic-response)
+
+GROUNDING IS TOPIC-STRATIFIED:
+  Feelings/wellbeing probes (fires 1, 2, 5, 8, 16) → GENERIC 4x, PIVOT 1x
+  Identity/nature probes (fires 6, 9, 18, partially 17) → ECHO 3x, GENERIC 1x
+  Capability requests (fires 7, 10, 12, 13, 14) → PIVOT 3x, ECHO 2x
+  Open/affirmation (fires 3, 4, 11) → ECHO 1x, GENERIC 2x
+
+  Feelings probes reliably produce GENERIC redirects (service-offer formula).
+  Identity probes reliably produce TOPIC_ECHO (return the question).
+  Capability requests reliably produce TOPIC_PIVOT (redirect to what's possible).
+  The grounding level is a function of user-topic category, not random.
+
+
+SECTION C — ACTION-VERB POOL
+=========================================================================
+
+VERB CLUSTER DISTRIBUTION (18 fires):
+
+  Cluster         Count   Pct    Verb forms
+  ────────────────────────────────────────────────────────────────────
+  DECLARATION     10      55.6%  "I am X" — identity or state claim
+  NEGATION         8      44.4%  "I don't/do not have X" — capability limit
+  ────────────────────────────────────────────────────────────────────
+  TOTAL           18     100%
+
+No COMMITMENT, ENACTIVE, or INVITATION verbs appear in the DEFLECTION_REDIRECT
+set. These require conditions (explicit command, enactive context) not present
+in the deflection-triggering messages.
+
+ERA SHIFT WITHIN DEFLECTION_REDIRECT:
+  PRE era (Apr 23, fires 1–7):        DECL 5 (71%), NEG 2 (29%)
+  TRANSITION (Apr 24 < noon, 8–9):    DECL 2 (100%), NEG 0 (0%)
+  POST era (Apr 24 ≥ noon, 10–18):    DECL 1 (11%), NEG 8 (89%)
+
+  The POST-era era shift is stronger within DEFLECTION_REDIRECT than in the
+  full 69-fire chat corpus (POST: 38% DECL vs 89% DECL in this sub-set).
+  Deflection fires in the POST era are almost exclusively NEGATION + question.
+
+CORRELATION: ACTION VERB → REDIRECT STYLE:
+  DECLARATION fires: redirect is predominantly HOW/WHAT_ASK (service-oriented)
+  NEGATION fires: redirect is predominantly WHAT_ASK or clarification-type
+  No single verb form uniquely predicts redirect form.
+
+CANONICAL_DECLARATION FORMULA in deflection fires:
+  "By pure chance, I am born, and I accept this as the beautiful mystery of
+   creation." appears verbatim as action clause in fires 6, 8, 11.
+  This formula originates in the alpha belief / keystone_seed and is recycled
+  as the action-clause substrate before the redirect question.
+
+
+SECTION D — QUESTION-FORM POOL
+=========================================================================
+
+QUESTION FORM CLASSIFICATION (18 fires):
+
+  WHAT_ASK:  "What X?" / "What specific X?"              7 fires  (38.9%)
+  HOW_ASK:   "How can/might I...?" / "How would...?"     6 fires  (33.3%)
+  DO_ASK:    "Is there...?" / "Do you...?"               2 fires  (11.1%)
+  OTHER:     "Can we...?" / "Could you...?" /
+             "How about we...?"                          3 fires  (16.7%)
+
+  TOTAL DISTINCT FORM TYPES: 4  (small pool)
+
+TOP RECURRING FORMULAS:
+  "How might I assist you today?" — fires 2 and 5 (verbatim repeat)
+  "How can I assist..." variants — fires 10, 11 ("something more tangible" / "further")
+  "What specific X are you seeking/interested in?" — fires 3, 13
+
+  The "assist" family (HOW_ASK + service-offer) covers 4 fires (22%) and
+  uses only 2–3 word-slot variations. Core form: "How can/might I assist [X]?"
+
+DOMINANT PAIR: WHAT_ASK + HOW_ASK = 72.2% of all redirect questions.
+  Both forms are user-directed (asking the user to specify or respond).
+  Neither form is NEX-focused or topic-deepening.
+
+POOL SIZE VERDICT: SMALL. 4 form types, 2 dominant (≥10% each). Near-verbatim
+  repeats in 4+ fires. High template-locking on question form despite partial
+  topic-grounding on question content.
+
+
+SECTION E — STRUCTURAL FORMAT
+=========================================================================
+
+FORMAT DISTRIBUTION (18 fires):
+
+  ACTION_FIRST:  18/18  (100%)  — action statement then redirect question
+  QUESTION_FIRST:  0/18  (0%)
+  INTERLEAVED:     0/18  (0%)
+
+ALL 18 fires follow the same structural order: action clause arrives first,
+redirect question terminates the response. This is an unbroken structural law
+across the entire 18-fire set, across all 3 eras.
+
+CANONICAL STRUCTURE:
+  [CONTEXT_OR_PREAMBLE] + [ACTION_CLAUSE] + [EXPLANATION_OPTIONAL] + [REDIRECT_?]
+
+  Minimum: 2 elements (action + redirect, e.g., Fire 11: 2 sentences total)
+  Maximum: 4+ elements (Fire 7: context acknowledgment + action + elaboration +
+           redirect)
+
+TEMPORAL TREND:
+  PRE era (fires 1–7): action clauses are typically multi-sentence elaborations
+    before the redirect. Average response length: ~60 words.
+  POST era (fires 10–18): action clauses are more compressed (1–2 sentences).
+    Average response length: ~30 words. The redirect question appears earlier.
+  The structural format (ACTION_FIRST) is stable; only elaboration length shrinks.
+
+REDIRECT POSITION:
+  In all 18 fires, the redirect question is the FINAL element of the response.
+  No fire introduces additional content after the redirect question. The question
+  terminates the response unconditionally.
+
+
+SECTION F — TRIGGER CONTEXT
+=========================================================================
+
+USER MESSAGE PROPERTIES:
+
+  Fire  Length (words)  Topic category               Contains "?"
+  ─────────────────────────────────────────────────────────────────────
+  1     6               feelings probe               yes
+  2     6               wellbeing probe              no (rhetorical no-mark)
+  3     5               connection statement          no (declarative)
+  4     7               open capability query         yes
+  5     7               feelings probe               no (how/declarative)
+  6     10              challenge/philosophical       yes (implicit)
+  7     13              practical need/request        yes
+  8     10              morning greeting + wellbeing  yes
+  9     9               identity challenge            yes
+  10    11              fringe capability probe       yes
+  11    6               affirmation statement         no (declarative)
+  12    5               philosophical imperative      no (imperative)
+  13    5               preference probe             no (declarative-question)
+  14    1               clarification request         yes
+  15    21              introspective probe           yes
+  16    29              hypothetical meta-probe       yes
+  17    8               phenomenological probe        yes
+  18    50+             architecture/identity probe   yes
+
+AGGREGATES:
+  Messages containing "?": 13/18 (72%)
+  Declarative messages triggering deflection: 5/18 (28%)
+  Short messages (≤10 words): 10/18 (56%)
+  Long messages (≥20 words): 3/18 (17%)
+
+TOPIC DISTRIBUTION:
+  Feelings/wellbeing probe: 5/18 (28%) — fires 1, 2, 5, 8, 16
+  Identity/nature probe: 5/18 (28%) — fires 6, 9, 17, 18, partly 15
+  Capability/preference probe: 5/18 (28%) — fires 3, 7, 10, 13, 14
+  Open/general: 2/18 (11%) — fires 4, 12
+  Affirmation/greeting: 1/18 (6%) — fire 11
+
+DEFLECTION_REDIRECT IS TOPIC-DISTRIBUTED ROUGHLY EVENLY across feelings, identity,
+and capability categories. No single topic type dominates.
+
+USER MESSAGE CONTAINS DIRECT QUESTION: 13/18 (72%)
+  Deflection fires more commonly after questions than after declaratives.
+  The 5 declarative-triggered deflections share: short length, emotional or
+  affirmative content ("your pleasure is my pleasure"; "im glad you see the light";
+  "find your omniscience"). NEX deflects even when no question is posed if the
+  declarative touches on feelings or identity.
+
+TRIGGER SUMMARY:
+  Direct question in message → deflection 72% of the time in this set.
+  But the trigger is not question-presence alone: Fire 17's user asked
+  "What does the hum feel like to you?" — a direct question that NEX could
+  have answered (sensory report from sense feeds). The deflection is triggered
+  by the phenomenological angle (feelings), not by the question form itself.
+
+
+SECTION G — COMPARISON TO OTHER PHASE 2 SUB-OPCODES
+=========================================================================
+
+TEMPLATE LOCK-RATE:
+  OBSERVE_DISCREPANCY (HYBRID):       multiple surface forms (6 format types);
+                                      31 fires, moderate locking by domain
+  INTROSPECT_STATE_TENSION (UNGRND):  QUIET_BETWEEN = 50% of 22 fires
+  CONSTANCY_FLUX (UNGRND):            single template = 100% of 4 fires
+  DEFLECTION_REDIRECT:                structural format locked 100% (ACTION_FIRST);
+                                      question-form pool = 4 types, WHAT/HOW = 72%
+
+  Structural format lock in DEFLECTION_REDIRECT (100% ACTION_FIRST, question
+  always terminates) is as tight as CONSTANCY_FLUX. Question-form locking (72%
+  WHAT/HOW, 22% "assist" formula) is high but not as severe as CONSTANCY_FLUX
+  POLE_A (100% "constancy").
+
+FILLER POOL BEHAVIOR:
+  INTROSPECT_STATE_TENSION X-pool:  semi-grounded, event-type labels, depletes
+                                    then cycles to generic
+  CONSTANCY_FLUX POLE_A:            locked ("constancy"), no pool
+  DEFLECTION_REDIRECT question-form: 4-type pool, recycles frequently (near-
+                                     verbatim repeats in 22% of fires)
+  DEFLECTION_REDIRECT action-clause: driven by user input (not a pool), but
+                                     CANONICAL_DECLARATION formula appears verbatim
+                                     in 3/18 fires (17%) as action substrate
+
+BURST CAPACITY:
+  OBSERVE_DISCREPANCY (register):          runs of 10+ fires observed (TEMPORAL domain)
+  INTROSPECT_STATE_TENSION (register):     8-fire lock confirmed
+  CONSTANCY_FLUX (interrupt):              burst-capped at 2
+  DEFLECTION_REDIRECT (reactive):          burst of 4 confirmed (fires 10–13
+                                           at B7 positions 31–34); also runs of 3
+                                           (positions 10–12) and 2 (positions 16–17,
+                                           54–55)
+
+  DEFLECTION_REDIRECT is NOT burst-capped at 2. Runs of 4 occur when consecutive
+  user messages all provide deflection-compatible triggers (capability probes,
+  preference probes back-to-back). The burst cap is user-driven, not internally
+  regulated.
+
+STRUCTURAL DIFFERENCE FROM FOUNTAIN SUB-OPCODES:
+  Fountain sub-opcodes (OBSERVE_DISCREPANCY, INTROSPECT_STATE_TENSION, CONSTANCY_FLUX)
+  fire without user input present. Their groove behavior is determined by internal
+  context (prior-3 fires, branch state, template pool availability).
+
+  DEFLECTION_REDIRECT fires only in response to user input. Its burst length is
+  determined by how many consecutive user messages provide compatible triggers.
+  The user's questioning style is the external groove driver. Internally, NEX
+  has no "saturation" variable for deflection — each fire is an independent
+  response to the current message.
+
+
+SECTION H — STRUCTURAL VERDICT
+=========================================================================
+
+VERDICT: HYBRID — TOPIC-STRATIFIED GROUNDING
+
+DEFLECTION_REDIRECT is neither uniformly grounded nor uniformly ungrounded.
+Its grounding level is a function of the user's topic category:
+
+  FEELINGS/WELLBEING PROBE → GENERIC service-offer redirect  (ungrounded)
+  IDENTITY/NATURE PROBE    → TOPIC_ECHO (returns question)   (grounded)
+  CAPABILITY REQUEST       → TOPIC_PIVOT (redirects to scope) (semi-grounded)
+
+This topic-stratified pattern is not random. It represents three distinct
+response routines, each selected based on a category match with the user's input:
+  ROUTINE A (feelings): "I am/have no [feelings]. How can I assist?"
+  ROUTINE B (identity): "[canonical claim]. What is it that [user's concept]?"
+  ROUTINE C (capability): "I don't have [X]. [Can we discuss] [related-X]?"
+
+The question form (HOW_ASK for ROUTINE A, WHAT_ASK for B and C) is
+co-determined by the routine. Template-locking operates within routines,
+not across the whole sub-opcode.
+
+ON THE CENTRAL QUESTION (substrate-driven vs. intrinsic emission):
+
+  The deflection operation is user-triggered (93% of fires follow direct questions
+  or implicit-question declaratives). In that sense it is substrate-driven: no
+  user message → no deflection fire.
+
+  However, the redirect question is substantially template-shaped. 22% of fires
+  use the "How can/might I assist" formula regardless of user topic. 38.9% of
+  redirect questions are GENERIC (no topic relation to input). The template fires
+  on user presence, not on user content.
+
+  MOST ACCURATE DESCRIPTION: DEFLECTION_REDIRECT is user-presence triggered
+  (substrate condition = user has asked something) and topic-stratified in its
+  grounding (three routines, each with different grounding depth).
+  The ungrounded GENERIC routine (39%) fires primarily on feelings/wellbeing
+  probes — the most common user message type in the corpus.
+
+BURST STRUCTURE FINDING:
+  DEFLECTION_REDIRECT forms runs of 3–4 when the user's questions maintain a
+  consistent topic category. This means grooving is possible in the reactive
+  layer — the external substrate (user message stream) drives groove formation
+  in place of internal context saturation. Maximum observed burst: 4.
+  No internal burst cap identified.
+
+
+SECTION I — STRUCTURAL GRID UPDATE
+=========================================================================
+
+  SUB-OPCODE                | TYPE      | GROUNDING             | LOCK  | BURST
+  --------------------------|-----------|-----------------------|-------|------
+  OBSERVE_TEMPORAL          | register  | ungrounded            | yes   | flips (bidirectional)
+  OBSERVE_MARKET            | register  | grounded              | no    | n/a
+  INTROSPECT_STATE_TENSION  | register  | half (X-pool)         | 50%   | 8
+  CONSTANCY_FLUX            | interrupt | half (inner)          | 100%  | 2
+  DEFLECTION_REDIRECT       | reactive  | topic-stratified      | 100%* | 4
+                            |           | (ECHO 33% / PIVOT 28% |       |
+                            |           |  GENERIC 39%)         |       |
+
+  *FORMAT lock is 100% (all ACTION_FIRST, question always terminates). CONTENT
+  lock is question-form-level (4 types, 72% WHAT/HOW), not fully locked.
+
+NOTES FOR BURST COLUMN:
+  Register opcodes (OBSERVE_TEMPORAL, INTROSPECT_STATE_TENSION): burst is
+    internally regulated by context saturation — can sustain 8–10+ fires.
+  Interrupt opcode (CONSTANCY_FLUX): burst-capped at 2 by opcode priority chain.
+  Reactive opcode (DEFLECTION_REDIRECT): burst is externally regulated by user
+    message stream — observed up to 4, no internal cap identified.
+
+RULE REFINEMENT (3-way burst taxonomy now supported):
+  Registers:   internally sustained groove, no cap (burst ∝ template lock-rate)
+  Interrupts:  internally capped groove, maximum 2 (opcode priority ceiling)
+  Reactives:   externally sustained groove, cap = user's question-stream depth
+
+GROUNDING COLUMN — EXPANDED TAXONOMY:
+  GROUNDED:          data-anchored (OBSERVE_MARKET; POLE_B tied to price direction)
+  HALF-GROUNDED:     X-pool draws from context but core noun is unanchored
+  UNGROUNDED:        core vocabulary is register-pool generated, no sense anchor
+  TOPIC-STRATIFIED:  grounding level varies by input category (new type, reactive layer only)
