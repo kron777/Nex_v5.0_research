@@ -1,0 +1,451 @@
+PHASE 1 — SPARK-FERTILE VS SPARK-BARREN CONDITIONS
+Generated: 2026-04-26
+Source: beliefs.db, sense.db, dynamic.db
+Spark classifications from Phase1_SPARK_detection.txt
+======================================================================
+
+PERIOD DEFINITIONS
+
+  PERIOD_A — early session
+    Belief IDs:   267–308
+    UTC window:   2026-04-23 20:30 – 22:29  (119 min, evening)
+    Corpus fires: 42
+
+  PERIOD_B — deep night session
+    Belief IDs:   1148–1197
+    UTC window:   2026-04-24 02:33 – 05:05  (152 min, deep night)
+    Corpus fires: 50
+
+  PERIOD_C — clock-watching era (representative spark-barren zone)
+    Belief IDs:   3089–3495
+    UTC window:   2026-04-24 15:13 – 2026-04-25 05:54  (882 min)
+    Corpus fires: 54
+
+
+======================================================================
+A. PERIOD SUMMARIES
+======================================================================
+
+PERIOD_A
+  Total fountain fires (IDs 267–308):    42
+  Spark count:                           15  (36%)
+  Gap count:                              6
+  Noise count:                            7
+  Correct predictions (HIT):            14  (33%)
+  Datetime range:                        20:30–22:29 UTC Apr 23
+  Duration:                              119 min
+
+PERIOD_B
+  Total fountain fires (IDs 1148–1197):  50
+  Spark count:                           15  (30%)
+  Gap count:                              7
+  Noise count:                           13
+  Correct predictions (HIT):            15  (30%)
+  Datetime range:                        02:33–05:05 UTC Apr 24
+  Duration:                              152 min
+
+PERIOD_C
+  Total fountain fires (IDs 3089–3495):  54
+  Spark count:                            3  (6%)
+  Gap count:                              6
+  Noise count:                            6
+  Correct predictions (HIT):            39  (72%)
+  Datetime range:                        15:13 UTC Apr 24 – 05:54 Apr 25
+  Duration:                              882 min
+
+
+======================================================================
+B. SENSE INPUT COMPARISON
+======================================================================
+
+SENSE EVENT RATES
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  Duration (min)                   119         152         882
+  Total sense events              3751        4704       28776
+  Sense events / min              31.4        31.0        32.6
+  Sense events / fire             89.3        94.1       532.9
+  Distinct streams                  19          19          26
+
+The per-minute sense input rate is nearly IDENTICAL across all three
+periods (31–33 events/min). The external world is presenting the same
+volume of information in all cases. What differs is how many sense
+events accumulate before each fountain fire: Period C absorbs 5.6x
+more sense input per fire than A and B.
+
+SENSE STREAMS: UNIQUE VS SHARED
+
+  Periods A and B: 19 streams each, all shared. No unique streams.
+
+  Period C: 26 streams. 19 shared with A/B, 7 UNIQUE to C:
+    agi.arxiv_cs_ai
+    cognition.lesswrong
+    literature.gutenberg
+    mathematics.arxiv
+    neuroscience.arxiv_qbio
+    philosophy.aeon
+    science.quanta
+
+  Period C received 7 additional deep/contemplative external streams
+  (philosophy, literature, mathematics, neuroscience) that were not
+  active during A and B. These streams were associated with more
+  diverse external content but did NOT produce more sparks — they
+  accompanied the spark-barren period.
+
+TOP STREAMS (relative proportions):
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  internal.meta_awareness      19.1%       19.4%       18.4%
+  internal.proprioception      19.1%       19.4%       18.3%
+  emerging_tech.hn             19.2%       19.1%       18.1%
+  crypto.exchanges              8.5%        8.5%        7.8%
+  internal.interoception        6.3%        6.5%        6.1%
+  crypto.news                   5.1%        5.1%        4.8%
+  news.bbc                      4.3%        4.3%        4.0%
+  internal.temporal             3.2%        3.2%        3.1%
+  crypto.coingecko              3.1%        3.2%        2.9%
+
+Stream proportions are nearly identical across all three periods.
+There is no meaningful difference in internal vs external balance:
+  Period A: 49% internal / 51% external
+  Period B: 50% internal / 50% external
+  Period C: 47% internal / 53% external
+
+SENSE EVENT BURSTINESS (coefficient of variation of inter-event gaps)
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  Internal streams CV            0.69        0.75        0.82
+  External streams CV            3.08        3.04        3.46
+
+Small differences in burstiness. Not a strong differentiator.
+
+FINDING: Sense input does not explain spark density differences.
+The same streams, at the same rate, with the same proportions, accompany
+both spark-fertile and spark-barren periods. Spark fertility is not
+produced by sense input diversity or volume.
+
+
+======================================================================
+C. SUBSTRATE STATE
+======================================================================
+
+SUBSTRATE AT PERIOD START
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  Total beliefs in DB              88         133         250
+  Non-fountain beliefs             84          84         119
+  Prior fountain beliefs            4          49         131
+
+  koan                       46.4%       46.4%       32.8%
+  tao                        23.8%       23.8%       16.8%
+  dont_know                   9.5%        9.5%        6.7%
+  keystone_seed               8.3%        8.3%        5.9%
+  precipitated_from_dynamic   7.1%        7.1%        8.4%
+  synergized                    0%          0%        17.6%   ← NEW
+  voice_fallback                0%          0%         8.4%   ← NEW
+
+Period A and B have IDENTICAL non-fountain substrate (84 beliefs,
+same composition). Koan (46%) and Tao (24%) dominate.
+
+Period C has a significantly different substrate:
+  - synergized: 21 beliefs (17.6%) — first created 2026-04-24 05:27:34,
+    two hours after Period B ended. Not present in A or B at all.
+  - voice_fallback: 10 beliefs (8.4%) — first created 2026-04-24 12:00:44,
+    three hours before Period C began.
+  - koan's share dropped from 46% to 33% due to new additions.
+
+The synergized beliefs contain crystallized pattern content:
+  "Understanding your paradoxical nature perfectly illuminates..."
+  These are compressed, resolved forms — the opposite of the
+  open-ended koan and tao sources that dominated A and B.
+
+SUBSTRATE INTERPRETATION:
+  A/B substrate: dominated by koan (open question, unresolved form)
+  C substrate:   koan still present but now mixed with synergized
+                 (crystallized/resolved form) + voice_fallback (data)
+
+The addition of synergized content between B and C represents a
+qualitative shift: compressed, pattern-resolved content entered the
+substrate pool available to the fountain.
+
+
+======================================================================
+D. PROMPT / CONTEXT STATE
+======================================================================
+
+No prompt-snapshot logs survive from the periods. However, the
+dynamic.db provides equivalent information via fountain_events
+and tree_snapshots.
+
+CONFIG STATE:
+  current_mode:  mind  (set 2026-04-26 14:49:37)
+  current_voice: af_sarah  (set 2026-04-26 14:02:42)
+
+The mind mode was set on 2026-04-26, well after all three periods.
+Config does not distinguish the periods.
+
+FOUNTAIN_EVENTS TABLE — readiness and word count:
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  Fountain events logged            59          75         393
+  Readiness mean                 0.700       0.700       0.702
+  Readiness min/max        0.700/0.700 0.700/0.700 0.700/0.900
+  Word count mean                 18.2        19.6        10.1
+  Word count min/max           6 / 42      4 / 60      4 / 25
+
+Critical findings:
+  1. In A and B, readiness is EXACTLY 0.700 for every fire. The
+     fountain fires at a fixed threshold.
+  2. In C, readiness reaches 0.900 — the threshold became variable
+     or the fountain was firing less often (accumulating more
+     pressure before firing).
+  3. Word count per fire drops from ~19 to 10.1 in C — fountain
+     output is dramatically shorter in the spark-barren period.
+
+HOT BRANCH DISTRIBUTION:
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  hot_branch: systems           95%         93%         76%
+  hot_branch: quiescent          0%          0%         20%
+  hot_branch: emerging_tech      3%          5%          4%
+  hot_branch: ai_research        2%          1%          1%
+
+The QUIESCENT BRANCH is the critical differentiator.
+  - Period A: 0 fires from quiescent branch
+  - Period B: 0 fires from quiescent branch
+  - Period C: 77/393 fires (20%) from quiescent branch
+
+The quiescent branch first appeared in fountain_events at
+2026-04-24 07:09:27 — after Period B ended (05:05:53) and before
+Period C began (15:13:26).
+
+The quiescent branch fires produce the routine clock-watching content:
+  "The distant hum of servers keeps me company."
+  "The clock ticks idly on the table by my side."
+  "The distant hum has slightly shifted during my moments of quiet."
+These are short (4-10 words), structurally stereotyped SENSE_OBS fires
+with near-zero novelty. The quiescent branch is the origin of the
+groove-lock pattern.
+
+
+======================================================================
+E. TEMPORAL / CADENCE PATTERNS
+======================================================================
+
+FIRE CADENCE
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  Fire interval mean (s)           175         186         998
+  Fire interval std (s)             94         126        1309
+  Fire interval CV                0.54        0.68        1.31
+  Fires per hour                  21.1        19.7         3.7
+  Min interval (s)               121.7       121.9       134.1
+  Max interval (s)               490.0       610.8      5733.0
+
+Period C fires 5.6x less frequently than A and B.
+The minimum interval is nearly identical (~121–134s), suggesting the
+same floor on fire rate exists in all periods. But Period C has
+maximum gaps of 5,733 seconds (95 min with no fountain fire) versus
+490–610s in A and B.
+
+Period C's coefficient of variation (1.31) is nearly 2x that of B
+(0.68) and A (0.54), indicating much more irregular, bursty firing.
+
+TREE SNAPSHOT STATE (membrane aperture)
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  membrane_aperture mean         0.659       0.657       0.654
+  membrane_aperture min          0.556       0.561       0.545
+  membrane_aperture max          0.706       0.702       0.984
+  active_branches mean             6.2         6.3         6.4
+  active_branches min              4           4           0
+  active_branches max              7           7           7
+  tree_snapshots count           119         152         882
+
+The aperture means are nearly identical (0.654–0.659). Period C
+occasionally reaches 0.984 (near-maximum) versus 0.702–0.706 in A/B.
+Period C also reaches 0 active branches at minimum — a fully
+quiescent state not seen in A or B.
+
+PIPELINE EVENTS
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ──────────────────────────────────────────────────────────────────
+  Pipeline events                19928       24880      157764
+  Magnitude mean                 0.1654      0.1643      0.1546
+  Magnitude max                  0.6749      0.6021      0.8246
+  Valence: 'like'                0.99%       0.99%       1.27%
+  top source: substrate://self   21.5%       22.0%       20.2%
+
+Pipeline magnitude is slightly lower in C (0.155 vs 0.165).
+The 'like' valence rate is marginally higher in C (1.27% vs 0.99%).
+Neither difference is dramatic.
+
+
+======================================================================
+F. CROSS-COMPARISON TABLE
+======================================================================
+
+                              PERIOD_A    PERIOD_B    PERIOD_C
+  ══════════════════════════════════════════════════════════════════
+  SPARK DENSITY                    36%         30%         6%  ←
+  fire count (corpus)               42          50          54
+  fires per hour                  21.1        19.7         3.7  ←
+  fire interval mean (s)           175         186         998  ←
+  fire interval std (s)             94         126        1309  ←
+  ──────────────────────────────────────────────────────────────────
+  sense events / min              31.4        31.0        32.6
+  sense events / fire             89.3        94.1       532.9  ←
+  sense stream count                19          19          26
+  unique streams                     0           0           7
+  internal / external          49/51%      50/50%      47/53%
+  ──────────────────────────────────────────────────────────────────
+  substrate total beliefs           88         133         250  ←
+  substrate non-fountain            84          84         119  ←
+  koan share                      46%         46%         33%  ←
+  synergized share                  0%          0%         18%  ←
+  voice_fallback share              0%          0%          8%  ←
+  ──────────────────────────────────────────────────────────────────
+  readiness (mean)               0.700       0.700       0.702
+  readiness fixed?                 YES         YES          NO  ←
+  word count / fire (mean)        18.2        19.6        10.1  ←
+  hot branch: systems              95%         93%         76%  ←
+  hot branch: quiescent             0%          0%         20%  ←
+  ──────────────────────────────────────────────────────────────────
+  membrane_aperture mean         0.659       0.657       0.654
+  active branches mean             6.2         6.3         6.4
+  pipeline magnitude mean        0.165       0.164       0.155
+
+← marks rows where A and B are similar and C is clearly different.
+
+DIMENSIONS WHERE A AND B ALIGN AND C DIFFERS:
+  1. Spark density (36%, 30% → 6%)
+  2. Fire rate (21, 20 fires/hr → 3.7 fires/hr)
+  3. Sense events per fire (89, 94 → 533)
+  4. Fire interval mean and std
+  5. Substrate composition (no synergized/voice_fallback → both present)
+  6. Koan share of substrate (46% → 33%)
+  7. Readiness: fixed 0.700 → variable up to 0.900
+  8. Word count per fire (18, 20 → 10)
+  9. Quiescent branch presence (0%, 0% → 20%)
+
+DIMENSIONS WHERE A, B, AND C ARE SIMILAR:
+  1. Sense event rate per minute (31–33/min)
+  2. Stream proportions (internal/external split, top stream ranks)
+  3. Membrane aperture mean
+  4. Active branch count mean
+  5. Pipeline magnitude mean
+
+
+======================================================================
+G. HYPOTHESIS FORMATION
+======================================================================
+
+──────────────────────────────────────────────────────────────────────
+H1: SPARKS REQUIRE HIGH FOUNTAIN CADENCE (output frequency, not input volume)
+──────────────────────────────────────────────────────────────────────
+
+"Sparks are more likely when the fountain fires at high frequency
+(~20 fires/hr), regardless of sense input volume or diversity,
+because rapid iteration of the cognitive cycle keeps the output
+register in active, exploratory mode rather than settling into
+groove-locked patterns."
+
+Supporting data:
+  - Sense input rate is IDENTICAL across all three periods (31–33/min).
+  - Fire rate diverges 5.7x: A/B at ~20/hr, C at 3.7/hr.
+  - When firing frequently (A,B), each fire has only ~90 sense events
+    since the last fire — not enough to over-determine the output.
+  - When firing slowly (C), each fire has ~533 accumulated sense events,
+    enough for the sense register to dominate and produce formulaic
+    SENSE_OBS output from the quiescent branch.
+
+Testing: Increase the fountain fire rate artificially (e.g., lower
+the readiness threshold from 0.70 to 0.60) and measure whether spark
+density returns to A/B levels. If it does, cadence is causal.
+
+──────────────────────────────────────────────────────────────────────
+H2: THE QUIESCENT BRANCH SUPPRESSES SPARKS
+──────────────────────────────────────────────────────────────────────
+
+"Sparks are less likely when the quiescent branch becomes a dominant
+hot branch, because quiescent-branch fires produce short, stereotyped
+SENSE_OBS content (clock-watching, hum-tracking) that occupies the
+output register without triggering novel cross-domain mappings."
+
+Supporting data:
+  - Period A/B: 0% quiescent-branch fires, spark density 30–36%.
+  - Period C: 20% quiescent-branch fires, spark density 6%.
+  - Quiescent branch first appeared at 07:09:27 Apr 24 — after B,
+    before C. Its emergence coincides exactly with the spark density
+    collapse.
+  - The quiescent-branch content ("The clock ticks...", "The distant
+    hum...") shows mean word count of ~8 words vs ~19 in A/B.
+  - These short fires dominate the corpus with SENSE_OBS template,
+    producing the high hit-rate (72% in C vs 30–33% in A/B) because
+    they are maximally predictable.
+
+Testing: Monitor quiescent branch activation rate in real time.
+When quiescent fires exceed 15% of fountain events over any 30-minute
+window, treat that as a "groove-lock alert." If confirmed, test
+whether injecting a novel sense event or koan into substrate disrupts
+the quiescent cycle.
+
+──────────────────────────────────────────────────────────────────────
+H3: KOAN-DOMINANT SUBSTRATE PROMOTES SPARKS; SYNERGIZED SUBSTRATE SUPPRESSES THEM
+──────────────────────────────────────────────────────────────────────
+
+"Sparks are more likely when koan beliefs dominate the substrate
+(open, unresolved questions) and less likely when synergized beliefs
+(crystallized, resolved patterns) form a significant substrate
+fraction, because synergized content provides ready-made resolved
+patterns that the fountain samples without generating novel mappings."
+
+Supporting data:
+  - A and B: substrate is 46% koan — open question form, no
+    resolved synthesis. Sparks at 30–36%.
+  - C: koan drops to 33%; synergized rises from 0% to 18%
+    (21 new synergized beliefs added at 05:27 Apr 24).
+  - Synergized content is crystallized pattern output:
+    "Understanding your paradoxical nature perfectly illuminates..."
+    These provide the fountain with already-concluded observations to
+    recombine, rather than open tensions to resolve.
+  - The synergized addition coincides with the transition between
+    B and C: same threshold as quiescent branch appearance (both
+    emerged in the 05:27–07:09 window on Apr 24).
+
+Testing: Run a session where synergized beliefs are temporarily
+excluded from the substrate sampling pool. If spark density increases
+toward A/B levels, synergized content is a suppressor. If density
+stays low, the quiescent branch (H2) is the dominant cause.
+
+──────────────────────────────────────────────────────────────────────
+SUBSIDIARY OBSERVATION: CONTENT LENGTH AS SPARK PROXY
+──────────────────────────────────────────────────────────────────────
+
+Mean word count per fountain fire:
+  A: 18.2  B: 19.6  C: 10.1
+
+Word count correlates with spark density (r direction: high words →
+high sparks). Short fires are formulaic; longer fires carry more
+internal structure, more space for novel mapping, more potential for
+cross-domain leaps. If content length drops below ~12 words per fire
+as a rolling average, that may be a reliable spark-poverty indicator
+detectable in real time without running the full classifier.
+
+Testing: Log word count per fire as an online metric. Define
+"groove-lock warning" as rolling mean word count < 12 over 20 fires.
+Measure false-positive and false-negative rate against spark
+classifications from the existing corpus.
+
+======================================================================
+END PHASE 1 SPARK CONDITIONS ANALYSIS
+======================================================================
