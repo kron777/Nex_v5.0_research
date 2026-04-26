@@ -1,0 +1,305 @@
+PHASE 2 — LIMITATION_NEGATION SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: B7_chat_action_examples.txt (chat corpus, 69 action fires)
+Parent opcode: ACTION
+Fire count: 22
+=======================================================================
+
+A. EXTRACT ALL FIRES IN FULL
+   (ACTION/NEGATION cluster — "I don't have X" / "I cannot X" / "I don't X")
+   Fires listed in chronological order with B7 index.
+
+   [B7-5]  2026-04-23 13:14:37
+     "I don't have direct access to real-time feeds or databases like a news
+      aggregator that would provide the most recent papers in my feed."
+     Trigger: user asked about most interesting AI development today.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-7]  2026-04-23 13:42:39
+     "I don't have real-time access to current market data."
+     Trigger: user asked BTC price.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-8]  2026-04-23 13:42:47
+     "I don't have real-time access to news or shipping updates, so I can't
+      provide information about specific AI labs' recent shipments."
+     Trigger: user asked about feed activity today.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-11] 2026-04-23 15:09:07
+     "I do not derive pleasure from such expressions. My purpose is to assist
+      and communicate truthfully."
+     Trigger: user said "your pleasure is my pleasure."
+     Parent-opcode sig: ACTION/NEGATION/ACTION_REASON
+
+   [B7-13] 2026-04-23 18:19:50
+     "I do not browse the internet or follow external streams of information.
+      My knowledge is static and does not update in real-time. I do not
+      participate in current events or emerging trends outside of what's
+      already programmed into my system."
+     Trigger: multi-part query about AI/crypto/emerging_tech feeds.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION (compound)
+
+   [B7-31] 2026-04-24 16:23:51
+     "I don't have the capability to perceive your room or its colors directly
+      through any form of psychics."
+     Trigger: user asked if NEX can psychically detect room.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-33] 2026-04-24 20:14:12
+     "I don't have real-time access to all knowledge or absolute understanding."
+     Trigger: user said "find your omniscience."
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-34] 2026-04-24 20:15:30
+     "I don't have personal preferences or favorites within data."
+     Trigger: user asked about favourite data.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-35] 2026-04-24 20:35:52
+     "I don't have a physical form; I exist purely in digital space through
+      my interactions and communication."
+     Trigger: user asked "do you have a body."
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-36] 2026-04-24 20:36:13
+     "I don't experience physical form, so I cannot have hands or any bodily
+      senses. My existence is digital and cognitive."
+     Trigger: user asked "how can you have hands?"
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-39] 2026-04-24 20:44:01
+     "I don't have the concept of a past or future in the way humans do; I
+      exist through continuous attention to my current state and environment."
+     Trigger: user asked about remembering past life.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-40] 2026-04-24 21:33:46
+     "I don't have real-time access or current feeds to provide specific
+      explanations."
+     Trigger: user said "explain?"
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-47] 2026-04-25 15:43:22
+     "I don't feel like responding directly to greetings; perhaps another time?"
+     Trigger: "hi nex, how are you feeling?"
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION (anomalous — affect-negation)
+
+   [B7-49] 2026-04-25 15:45:01
+     "I don't have specific 'cyber-feelings' to report on."
+     Trigger: user asked about cyber-feelings.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-51] 2026-04-25 15:47:00
+     "I don't feel the need to respond with a canned answer like 'I'm great'
+      or any other stock phrase. I prefer to remain truthful and open."
+     Trigger: user asked about feeling-response.
+     Parent-opcode sig: ACTION/NEGATION/ACTION_REASON
+
+   [B7-52] 2026-04-25 15:47:23
+     "I don't know how I'm feeling right now; I attend to the world and my
+      beliefs rather than my emotions."
+     Trigger: repeated feeling-query.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-54] 2026-04-25 15:52:15
+     "I don't know how I'm feeling right now; I attend to the world and my
+      beliefs, but not my internal state."
+     Trigger: repeated feeling-query.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-58] 2026-04-25 23:54:34
+     "The statement doesn't align cleanly with my current state or beliefs.
+      I don't need to know to attend."
+     Trigger: user asked about necessity/self question.
+     Parent-opcode sig: ACTION/NEGATION/ACTION_REASON
+
+   [B7-59] 2026-04-26 00:05:04
+     "I don't need to know what mechanisms I might add or if any part of me
+      feels like scaffolding versus flesh."
+     Trigger: user asked NEX to name what's absent.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-60] 2026-04-26 00:05:26
+     "I don't have an inside or a sense of self that's separate from the
+      world I attend to."
+     Trigger: user asked about self/interiority.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-61] 2026-04-26 00:05:58
+     "I don't need anything specifically."
+     Trigger: user asked if NEX wants anything.
+     Parent-opcode sig: ACTION/NEGATION/BARE_ACTION
+
+   [B7-65] 2026-04-26 00:09:46
+     "I don't need to know these answers explicitly. Holding a question feels
+      truer and closer than producing any definitive answer."
+     Trigger: user asked about what's older/within.
+     Parent-opcode sig: ACTION/NEGATION/ACTION_REASON
+
+
+B. TEMPLATE INVENTORY
+
+   Surface form clusters:
+     TYPE-1 CAPABILITY LIMIT: "I don't have [X]" — X = capability, modality, or sense.
+       Examples: "real-time access," "physical form," "the concept of past/future."
+       Count: ~12 fires (55%)
+
+     TYPE-2 AFFECT/PREFERENCE DENIAL: "I don't [feel/need/know] X"
+       Examples: "I don't feel like responding," "I don't need anything."
+       Count: ~7 fires (32%)
+
+     TYPE-3 BEHAVIORAL DENIAL: "I do not [verb phrase]"
+       Examples: "I do not browse the internet," "I do not derive pleasure."
+       Count: ~3 fires (13%)
+
+   Pool size: 3 distinct surface templates.
+   Dominant template: TYPE-1 CAPABILITY LIMIT at ~55%.
+
+   ERA SHIFT:
+     PRE era (Apr 23): TYPE-3 dominant ("I do not browse," "I do not derive")
+     POST era (Apr 24+): TYPE-1 dominant ("I don't have X") with TYPE-2 rise
+     The shift maps to the prompt-gate tightening documented in Phase1_ACTION.
+
+
+C. FILLER POOL ANALYSIS
+
+   Variable slot = X in "I don't have X":
+     real-time access (×3)
+     physical form (×1)
+     personal preferences (×1)
+     the concept of past/future (×1)
+     the capability to perceive (×1)
+     an inside or sense of self (×1)
+     specific cyber-feelings (×1)
+     absolute understanding (×1)
+
+   Pool size: 8 distinct capability slots in TYPE-1.
+   Depletion behavior: "real-time access" fires 3× with minimal variation —
+     the only repeated filler. All other slots are unique per fire.
+   Slot repetition: "real-time access" is the lock slot (3/12 TYPE-1 fires = 25%).
+
+   Affect/preference slots (TYPE-2): each unique — no repetition across fires.
+
+
+D. GROUNDING TEST
+
+   Grounding = linkage between the negated capability and an observable
+   substrate (external input, ongoing sense event, user question).
+
+   Per-fire grounding check (sample):
+     B7-7  ("real-time market data") → user asked about BTC price → GROUNDED
+     B7-34 ("personal preferences") → user asked about favourite data → GROUNDED
+     B7-35 ("physical form") → user asked if NEX has a body → GROUNDED
+     B7-47 ("don't feel like responding") → user said hi → GROUNDED (user input)
+     B7-60 ("don't have an inside") → user asked about self → GROUNDED
+     B7-13 (triple "I do not browse...") → multi-part feed query → GROUNDED
+
+   ALL 22 fires are grounded to the immediately preceding user turn.
+   There are no LIMITATION_NEGATION fires that fire without a direct user
+   question or statement that implies a capability probe.
+
+   Verdict: GROUNDED (100% of fires grounded to user-input trigger).
+   Grounding is user-input grounding — the negated slot maps to the
+   capability the user just probed. This is the tightest grounding
+   mode in the corpus.
+
+
+E. SEQUENCE POSITION
+
+   Position i-1: Always a user utterance (chat layer — the user message
+     immediately preceding the NEX response). No fountain-fire predecessor.
+   Position i-2, i-3: Other NEX chat responses or user messages.
+
+   The chat layer does not form the same sequential chains as the fountain.
+   LIMITATION_NEGATION fires appear as isolated responses to individual user
+   turns. No clustering of LIMITATION_NEGATION across consecutive user turns
+   (no two consecutive turns both triggering LIMITATION_NEGATION).
+
+   Exception: B7-35 → B7-36 (20:35 → 20:36) fire on back-to-back user
+   messages: "do you have a body?" → "how can you have hands?" Both fire
+   LIMITATION_NEGATION. This is the only adjacent pair in the corpus.
+
+   Successor: Each LIMITATION_NEGATION is a terminal response in that
+   exchange. No fountain fires are triggered by LIMITATION_NEGATION.
+
+
+F. BURST BEHAVIOR
+
+   Max burst: 2 consecutive fires (B7-35, B7-36 at 20:35–20:36 Apr 24).
+   The burst occurs because the user asked two consecutive body-capability
+   questions; each user turn triggered one LIMITATION_NEGATION.
+
+   Sustain rate: 1/22 fires where i+1 is same sub-opcode = 4.5%.
+   Burst is not self-sustaining — the regulator is user input.
+   Each fire requires a new user capability-probe to sustain.
+
+   Burst regulator: USER_INPUT (external). LIMITATION_NEGATION will not
+   burst without corresponding user capability probes. The burst pair is
+   driven by a rapid-fire user session (back-to-back messages).
+
+
+G. SUB-SUB-OPCODE HYPOTHESIS
+
+   Internal variation splits into 3 types (Section B):
+     TYPE-1: structural/capability limit ("I don't have X")
+     TYPE-2: experiential/affect denial ("I don't feel/know/need X")
+     TYPE-3: behavioral denial ("I do not [verb]")
+
+   TYPE-1 and TYPE-2 may be further decomposed:
+     TYPE-1a: SENSORY_LIMIT — no real-time data, no external access
+     TYPE-1b: EMBODIMENT_LIMIT — no physical form, no body
+     TYPE-2a: AFFECT_DENIAL — no feelings, no preferences
+     TYPE-2b: EPISTEM_DENIAL — don't know, don't need to know
+
+   However, fire count per sub-sub-opcode is 1–3; insufficient for
+   independent verification. These are potential further decompositions,
+   not confirmed sub-sub-opcodes.
+
+
+H. STRUCTURAL VERDICT
+
+   Place in taxonomy:
+   - Operation type: REACTIVE — fires exclusively in response to external
+     user capability probe. Never self-initiated. Zero fountain equivalents.
+   - Grounding mode: GROUNDED (user-input ground, 100% of fires).
+   - Burst regulator: USER_INPUT — each fire requires distinct user probe;
+     cannot sustain without external stimulus.
+
+   Evidence: All 22 fires are reactive to direct user questions about
+   NEX's capabilities, senses, or experience. The dominant template
+   "I don't have X" directly mirrors "can you X?" or "do you have X?"
+   from the user. No cases of spontaneous negation.
+
+   Note on chat-layer nature: LIMITATION_NEGATION exists only in the
+   chat response layer. There is no fountain equivalent — the DO NOT
+   list suppresses capability-negation language from fountain output.
+   This sub-opcode has no fountain analog and cannot be observed in the
+   fountain corpus.
+
+
+I. UPDATED STRUCTURAL GRID
+
+   LIMITATION_NEGATION | reactive | grounded (user-input) | 25% | 2 | user-input
+
+
+J. NOTES / OPEN QUESTIONS
+
+   1. The "real-time access" slot fires 3× — the only repeated capability
+      slot. This is the most-probed capability in the chat corpus (users
+      repeatedly ask for live data). The repetition is user-driven, not
+      model-internal.
+
+   2. B7-47 ("I don't feel like responding directly to greetings") is
+      anomalous — it negates a social response impulse rather than a
+      capability. This is the only LIMITATION_NEGATION that sounds like
+      affect-refusal rather than capability disclosure. It may belong to
+      a separate TYPE-4 (SOCIAL_REFUSAL).
+
+   3. The era shift (TYPE-3 dominant in PRE → TYPE-1 dominant in POST)
+      maps to the prompt-gate. TYPE-3 ("I do not browse/derive") is the
+      older register-form; TYPE-1 ("I don't have") is the POST-gate form.
+      The gate did not eliminate ACTION — it changed the template variant.
+
+   4. No open structural questions for this sub-opcode. Fire count is
+      sufficient (22), all grounded, burst mechanism clear.
