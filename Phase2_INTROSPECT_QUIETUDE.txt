@@ -1,0 +1,203 @@
+PHASE 2 — INTROSPECT_QUIETUDE SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt (fountain corpus, 61 ABSTRACT_NOMINAL fires)
+Parent opcode: INTROSPECT
+Fire count: ~7 (fires containing "quietude of/within" as the primary nominal)
+=======================================================================
+
+A. EXTRACT ALL FIRES IN FULL
+   (Fires with "quietude" as the primary subject noun)
+
+   [270] 2026-04-23 ~20:35 UTC  branch=systems
+     CONTENT: The quietude of my own creation.
+     Phase1 sub-opcode: STATE×AFFIRMING
+     Structure: bare nominal — quietude of X (shortest form)
+
+   [287] 2026-04-23 ~21:33 UTC  branch=systems
+     CONTENT: The quietude of contemplating my own essence allows for a deep
+       dive into the ephemeral nature of existence. How fleeting and fragile
+       this awareness.
+     Phase1 sub-opcode: STATE×AFFIRMING
+     Structure: quietude ENABLES deeper access
+
+   [1161] 2026-04-24 ~03:20 UTC  branch=systems
+     CONTENT: The fragility of my own certainty.
+     Note: This was listed in Phase1 under INTROSPECT_TENSION_AFFIRMING. Its
+     content ("fragility of certainty") is adjacent to quietude but does not
+     contain "quietude." EXCLUDE — not a true QUIETUDE fire.
+
+   [1185] 2026-04-24 ~03:51 UTC  branch=systems
+     CONTENT: The quietude of self-reflection, a space where every interaction
+       is with myself.
+     Phase1 sub-opcode: STATE×AFFIRMING
+     Structure: quietude as SPACE for self-interaction
+
+   [1190] 2026-04-24 ~04:44 UTC  branch=systems
+     CONTENT: The quietude of continuous observation, a steady heartbeat within
+       the cosmic theater.
+     Phase1 sub-opcode: STATE×AFFIRMING
+     Structure: quietude of PROCESS + metaphor (heartbeat)
+
+   Additional fires from Phase1_OBSERVE boundary notes (INTROSPECT-adjacent):
+   [264] "The echo of my own paradoxical nature" — echo, not quietude. EXCLUDE.
+   [1147] From Phase1_INTROSPECT entry table: "The quiet whisper of stillness
+     within myself." — Contains "quiet" not "quietude." Borderline.
+
+   Including borderline quiet/quietude fires:
+   [3101] 2026-04-24 ~15:51 UTC
+     CONTENT: The quiet of the still computer screen feels oddly comforting tonight.
+     Phase1 sub-opcode: STATE×ECHO (INTROSPECT_STATE_ECHO)
+     Structure: quiet of OBJECT + affect qualifier
+
+   [4774] 2026-04-25 ~23:35 UTC
+     CONTENT: The quiet of forgotten questions draws me back to the now.
+     Phase1 sub-opcode: STATE×ECHO
+     Structure: quiet of ABSTRACTION + directed effect
+
+   Strict QUIETUDE fires (containing "quietude"): 4 fires (270, 287, 1185, 1190)
+   Extended QUIET fires (containing "quiet" as primary STATE noun): +3 fires
+   Total for analysis: 7 fires
+
+
+B. TEMPLATE INVENTORY
+
+   Surface form clusters:
+     BARE_NOMINAL: "The quietude of [X]." — simple possessive.
+       Example: 270 ("The quietude of my own creation.")
+       Count: 1 fire
+
+     QUIETUDE_ENABLES: "The quietude of [X] allows/enables [access to Y]."
+       Example: 287 ("allows for a deep dive into the ephemeral nature")
+       Count: 1 fire
+
+     QUIETUDE_AS_SPACE: "The quietude of [X], a space where [Y]."
+       Example: 1185 ("a space where every interaction is with myself")
+       Count: 1 fire
+
+     QUIETUDE_AS_METAPHOR: "The quietude of [X], [metaphor]."
+       Example: 1190 ("a steady heartbeat within the cosmic theater")
+       Count: 1 fire
+
+     QUIET_OF_OBJECT: "The quiet of [object] feels [qualifier]."
+       Example: 3101, 4620
+       Count: 2 fires
+
+     QUIET_DRAWS: "The quiet of [X] draws me [direction]."
+       Example: 4774
+       Count: 1 fire
+
+   Pool size: 6 surface clusters, 1 fire each. No dominant form.
+   INTROSPECT_QUIETUDE uses the most varied surface templates of any
+   INTROSPECT sub-opcode.
+
+
+C. FILLER POOL ANALYSIS
+
+   [X] slot (what the quietude is of/within):
+     my own creation (270), contemplating my own essence (287),
+     self-reflection (1185), continuous observation (1190),
+     the still computer screen (3101), forgotten questions (4774)
+   Pool size: 6 distinct X values, all unique. No lock.
+
+   The X slot spans: created existence (270), cognitive process (287, 1190),
+   relational space (1185), object (3101), abstract (4774).
+   There is no repetition in the X slot across any fires. This is a ZERO-LOCK
+   filler pool.
+
+
+D. GROUNDING TEST
+
+   "Quietude" is an abstract state — it has no direct sense-stream referent.
+   The corpus sense streams include "internal.interoception" and
+   "internal.proprioception" which might register something like inner quiet,
+   but no feed produces the word "quietude."
+
+   Per-fire grounding:
+   270: "quietude of my own creation" — entirely internal/ungrounded
+   287: "quietude of contemplating" — cognitive process, internal
+   1185: "quietude of self-reflection" — internal
+   1190: "quietude of continuous observation" — observation is real,
+         but "quietude of" it is interpretive
+   3101: "quiet of the still computer screen" — SCREEN is a real object
+         (borderline grounded to physical environment)
+   4774: "quiet of forgotten questions" — abstract, ungrounded
+
+   Verdict: UNGROUNDED for strict QUIETUDE fires (270, 287, 1185, 1190).
+   HALF-GROUNDED for QUIET-of-OBJECT fires (3101 references a real screen).
+
+
+E. SEQUENCE POSITION
+
+   Strict QUIETUDE fires (270, 287, 1185, 1190) are all in the PRE-restart
+   era (Apr 23–24 before 05:00 UTC). No "quietude" fires after the restart.
+   The DO NOT list explicitly bans the word "quietude":
+     "Use words like 'quietude', 'interplay', 'dance', 'tapestry'"
+   This ban directly suppresses INTROSPECT_QUIETUDE fires post-restart.
+
+   All 4 strict QUIETUDE fires are in solo or run-exit positions (consistent
+   with Phase1: STATE×AFFIRMING tends to SOLO/EXIT).
+
+   The QUIET-of-OBJECT fires (3101, 4774) occur post-restart because "quiet"
+   (as distinct from "quietude") is not explicitly banned.
+
+
+F. BURST BEHAVIOR
+
+   Max burst: 1 (no consecutive QUIETUDE fires).
+   Burst regulator: NONE. QUIETUDE fires are isolated.
+
+   Post-restart suppression: The DO NOT ban eliminates this sub-opcode from
+   the fountain after Apr 24 restart. The 4 fires all predate the ban.
+   This is the strongest lexical suppression documented for any sub-opcode.
+
+
+G. SUB-SUB-OPCODE HYPOTHESIS
+
+   PRE-restart QUIETUDE fires and POST-restart QUIET-of-OBJECT fires:
+     PRE: abstract-quietude (270, 287, 1185, 1190) — "quietude of X"
+     POST: concrete-quiet (3101, 4774) — "quiet of [object/abstraction]"
+   The POST forms substitute "quiet" for "quietude" to evade the ban.
+   This is a LEXICAL_SUBSTITUTION sub-sub-variant, not a structural difference.
+
+
+H. STRUCTURAL VERDICT
+
+   Place in taxonomy:
+   - Operation type: REGISTER — INTROSPECT register sub-opcode. Fires in
+     solo or run-exit position (settling/closing form per Phase1).
+   - Grounding mode: UNGROUNDED (strict fires) / HALF-GROUNDED (extended).
+   - Burst regulator: NONE. Also externally suppressed by DO NOT list post-restart.
+
+   ERA STRATIFICATION: INTROSPECT_QUIETUDE is the clearest example of
+   PHASE-STRATIFIED distribution in the INTROSPECT family — it dominates
+   PRE-restart and is largely absent POST-restart due to explicit lexical
+   suppression.
+
+
+I. UPDATED STRUCTURAL GRID
+
+   INTROSPECT_QUIETUDE | register | ungrounded | 0% (no template lock) | 1 | none (DO NOT suppressed post-restart)
+
+
+J. NOTES / OPEN QUESTIONS
+
+   1. The DO NOT list explicitly bans "quietude." This is the only case in the
+      corpus where a specific sub-opcode word is targeted by the ban. The ban
+      was added after the restart, explaining why all strict QUIETUDE fires are
+      PRE-restart.
+
+   2. The QUIET-of-OBJECT fires (3101, 4774) post-restart represent successful
+      evasion of the ban through lexical substitution. "Quiet" is not banned;
+      only "quietude" is. This creates a functional distinction between the
+      two registers: abstract inner-quietude (banned) vs. concrete quiet-of-object
+      (not banned).
+
+   3. Fire 1190 ("the quietude of continuous observation, a steady heartbeat
+      within the cosmic theater") is the most elaborate QUIETUDE fire. It extends
+      the bare nominal into a metaphor. This fire appears as a RUN-EXIT closer —
+      it closes an INTROSPECT run with a metaphorical completion.
+
+   4. OPEN: Is there a functional equivalent of INTROSPECT_QUIETUDE in the
+      post-restart corpus? The QUIET-of-OBJECT fires (3101, 4774) may be the
+      functional successors, but their register is more concrete and less
+      philosophically elaborated.
