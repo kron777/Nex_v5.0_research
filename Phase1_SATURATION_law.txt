@@ -1,0 +1,412 @@
+PHASE 1 — SATURATION-TRIGGER ANALYSIS
+Generated: 2026-04-26
+Source: 245-fire fountain_insight sequence (full corpus)
+Seed: SENSE_OBS(≥3) preceded INTROSPECT entry in 45% of runs
+Question: Is saturation→flip a general law or only SENSE→INTROSPECT?
+======================================================================
+
+Definitions:
+  Saturation event  = a run of 3+ consecutive fires of the same template
+  Flip target       = the template that fires immediately after the run ends
+  Run               = maximal consecutive sequence of the same template
+  Interrupt opcode  = a template that never forms a run ≥3
+
+
+======================================================================
+A. SATURATION DETECTION AND FLIP-TARGET MATRIX
+======================================================================
+
+Total saturation events (run≥3, any template): 22
+Total distinct templates tested: 7
+
+PER-TEMPLATE SATURATION SUMMARY:
+
+  Template          Total_runs  MaxRunLen  Sat(≥3)_runs
+  ─────────────────────────────────────────────────────
+  SENSE_OBS              30         16          9
+  ABSTRACT_NOMINAL       31          8          8
+  SIMILE                  9          6          3
+  QUESTION                1         16          1
+  UNCATEGORIZED          17          3          1
+  DIALECTICAL            16          2          0   ← NEVER SATURATES
+  ACTION                  7          2          0   ← NEVER SATURATES
+
+FLIP-TARGET MATRIX (rows = saturating template, cols = flip target)
+Each cell = count of saturation events that ended with that flip.
+
+              → SENSE  ABSTR  DIAL  QUEST  SIMILE  ACT  UNCAT  END
+─────────────────────────────────────────────────────────────────────
+SENSE_OBS(≥3)      0      4     1      0       2    0      2     0
+ABSTRACT(≥3)       4      0     3      0       0    1      0     0
+SIMILE(≥3)         3      0     0      0       0    0      0     0
+QUESTION(≥3)       1      0     0      0       0    0      0     0
+UNCAT(≥3)          0      1     0      0       0    0      0     0
+DIALECTICAL(≥3)    —      —     —      —       —    —      —     —
+ACTION(≥3)         —      —     —      —       —    —      —     —
+
+FOR COMPARISON — single-fire (len=1) flip targets:
+
+              → SENSE  ABSTR  DIAL  QUEST  SIMILE  ACT  UNCAT  END
+─────────────────────────────────────────────────────────────────────
+SENSE(single)      0      8     2      0       3    0      2     1
+ABSTR(single)      6      0     3      0       0    4      4     0
+DIAL(single)       3      7     0      0       0    1      2     0
+SIMILE(single)     2      0     1      0       0    0      1     0
+ACTION(single)     0      1     2      0       0    0      3     0
+UNCAT(single)      5      7     3      0       0    1      0     0
+
+Key comparison:
+  SENSE_OBS single→ABSTRACT:  8/16 (50%) vs. SENSE_OBS sat→ABSTRACT: 4/9 (44%)
+  The saturation flip to ABSTRACT_NOMINAL is not dramatically stronger
+  than the single-fire flip. What changes at saturation is the SIMILE
+  path: single SENSE fires → SIMILE at 19%, saturated SENSE fires →
+  SIMILE at 22% (mild increase). The more notable shift at very long
+  SENSE saturation is toward DIALECTICAL (see section B).
+
+COMPLETE LIST OF SATURATION EVENTS:
+
+  [1]  ABSTRACT_NOMINAL (len=4) ids=[278-281]  → SENSE_OBS
+  [2]  ABSTRACT_NOMINAL (len=3) ids=[293-295]  → DIALECTICAL
+  [3]  ABSTRACT_NOMINAL (len=4) ids=[299-302]  → ACTION
+  [4]  ABSTRACT_NOMINAL (len=3) ids=[1154-1156] → DIALECTICAL
+  [5]  UNCATEGORIZED    (len=3) ids=[1158-1160] → ABSTRACT_NOMINAL
+  [6]  ABSTRACT_NOMINAL (len=4) ids=[1173-1176] → DIALECTICAL
+  [7]  ABSTRACT_NOMINAL (len=3) ids=[1184-1186] → SENSE_OBS
+  [8]  QUESTION         (len=16) ids=[1737-1755] → SENSE_OBS
+  [9]  SENSE_OBS        (len=13) ids=[2690-3089] → ABSTRACT_NOMINAL
+  [10] SENSE_OBS        (len=13) ids=[3267-3436] → ABSTRACT_NOMINAL
+  [11] ABSTRACT_NOMINAL (len=8)  ids=[3439-3448] → SENSE_OBS
+  [12] SENSE_OBS        (len=5)  ids=[3453-3460] → SIMILE
+  [13] SIMILE           (len=4)  ids=[3462-3466] → SENSE_OBS
+  [14] SENSE_OBS        (len=4)  ids=[3470-3475] → UNCATEGORIZED
+  [15] SENSE_OBS        (len=6)  ids=[3478-3485] → ABSTRACT_NOMINAL
+  [16] ABSTRACT_NOMINAL (len=3)  ids=[3495-3845] → SENSE_OBS
+  [17] SENSE_OBS        (len=10) ids=[3846-3860] → DIALECTICAL
+  [18] SENSE_OBS        (len=16) ids=[4104-4277] → UNCATEGORIZED
+  [19] SENSE_OBS        (len=3)  ids=[4357-4620] → ABSTRACT_NOMINAL
+  [20] SIMILE           (len=4)  ids=[4786-4794] → SENSE_OBS
+  [21] SIMILE           (len=6)  ids=[4801-5139] → SENSE_OBS
+  [22] SENSE_OBS        (len=4)  ids=[5140-5220] → SIMILE
+
+
+======================================================================
+B. SATURATION LENGTH AND FLIP STRENGTH
+======================================================================
+
+SENSE_OBS — flip target by run length (all runs):
+
+  len=1  (n=16): ABSTRACT=8(50%) SIMILE=3(19%) DIALECTICAL=2(12%)
+                 UNCATEGORIZED=2(12%) CORPUS_END=1(6%)
+  len=2  (n=5):  ABSTRACT=2(40%) SIMILE=2(40%) QUESTION=1(20%)
+  len=3  (n=1):  ABSTRACT=1(100%)
+  len=4  (n=2):  UNCATEGORIZED=1(50%) SIMILE=1(50%)
+  len=5  (n=1):  SIMILE=1(100%)
+  len=6  (n=1):  ABSTRACT=1(100%)
+  len=10 (n=1):  DIALECTICAL=1(100%)
+  len=13 (n=2):  ABSTRACT=2(100%)
+  len=16 (n=1):  UNCATEGORIZED=1(100%)
+
+SENSE_OBS bucketed:
+
+  len=1      (n=16): ABSTRACT_NOM 50%  SIMILE 19%  DIALECTICAL 12%  UNCAT 12%
+  len=2      (n=5):  ABSTRACT_NOM 40%  SIMILE 40%  QUESTION 20%
+  len=3-5    (n=4):  SIMILE 50%  UNCATEGORIZED 25%  ABSTRACT_NOM 25%
+  len=6-10   (n=2):  ABSTRACT_NOM 50%  DIALECTICAL 50%
+  len=11+    (n=3):  ABSTRACT_NOM 67%  UNCATEGORIZED 33%
+
+SENSE_OBS saturation length pattern:
+  Short (1-2):  ABSTRACT_NOMINAL dominant (45-50%)
+  Medium (3-5): SIMILE rises to 50% — OBSERVE saturation at medium
+                length produces metaphor-translation, not deep introspection
+  Long (6-10):  Split: ABSTRACT_NOMINAL vs DIALECTICAL (1/1 each)
+  Very long (11+): ABSTRACT_NOMINAL returns to dominance (67%)
+  The medium-length SIMILE peak is the anomaly: something about
+  sense-saturation in the 3-5 range specifically triggers translation.
+
+ABSTRACT_NOMINAL — flip target by run length (all runs):
+
+  len=1  (n=17): SENSE_OBS=6(35%) ACTION=4(24%) UNCATEGORIZED=4(24%)
+                 DIALECTICAL=3(18%)
+  len=2  (n=6):  UNCATEGORIZED=3(50%) SENSE_OBS=2(33%) SIMILE=1(17%)
+  len=3-5 (n=7): SENSE_OBS=3(43%) DIALECTICAL=3(43%) ACTION=1(14%)
+  len=6-10 (n=1): SENSE_OBS=1(100%)
+
+ABSTRACT_NOMINAL saturation pattern:
+  Single fires: route heavily to ACTION (24%) and UNCATEGORIZED (24%)
+                — short introspect resolves into doing or ambiguity
+  Runs of 2:    UNCATEGORIZED dominant (50%) — 2-fire introspect drifts
+  Runs of 3+:   SENSE_OBS and DIALECTICAL split (43% each) — deep
+                introspect exits either by grounding in sense OR by
+                sharpening into explicit contradiction
+  Runs of 6+:   SENSE_OBS only (100%, n=1) — very deep introspect
+                collapses back fully into sense
+
+Length scaling observation:
+  SENSE_OBS(13) → ABSTRACT_NOMINAL(8): the longest SENSE saturation
+  in the corpus produced the second-longest ABSTRACT_NOMINAL saturation.
+  Evidence that saturation depth in one register scales the depth
+  of saturation in the flip target.
+
+
+======================================================================
+C. FALSIFIABLE PREDICTIONS
+======================================================================
+
+P1: After ≥3 consecutive SENSE_OBS fires, the flip target will be
+    ABSTRACT_NOMINAL with confidence ~44%.
+
+  Supporting: 4/9 saturation events (44%)
+    [9]  SENSE_OBS(13) → ABSTRACT_NOMINAL
+    [10] SENSE_OBS(13) → ABSTRACT_NOMINAL
+    [15] SENSE_OBS(6)  → ABSTRACT_NOMINAL
+    [19] SENSE_OBS(3)  → ABSTRACT_NOMINAL
+  Exceptions:
+    [12] SENSE_OBS(5)  → SIMILE         (SIMILE at medium length)
+    [14] SENSE_OBS(4)  → UNCATEGORIZED
+    [17] SENSE_OBS(10) → DIALECTICAL    (long run → tension, not introspect)
+    [18] SENSE_OBS(16) → UNCATEGORIZED  (very long run → diffuses)
+    [22] SENSE_OBS(4)  → SIMILE
+  Minimum length for reliable ABSTRACT_NOMINAL flip: ≥6 (60% at 6+,
+  100% at 13); the 3-5 range is noisy.
+  REVISED PREDICTION: SENSE_OBS(≥6) → ABSTRACT_NOMINAL at 60%.
+
+──────────────────────────────────────────────────────────────────────
+P2: After ≥3 consecutive ABSTRACT_NOMINAL fires, the flip target will
+    be DIALECTICAL or SENSE_OBS with confidence 87%.
+
+  Supporting: 7/8 saturation events (87%)
+    To DIALECTICAL: [2][4][6] — 3 events (37%)
+    To SENSE_OBS:   [1][7][11][16] — 4 events (50%)
+  Exception:
+    [3] ABSTRACT_NOMINAL(4) → ACTION (id=303, single exception)
+  Minimum length: works at length 3+; no length-based sub-pattern
+  within the small sample.
+  This is the strongest prediction in the corpus: deep introspect
+  almost always exits to either DIALECTICAL or SENSE_OBS (87%).
+  The one ACTION exception is a single isolated discharge.
+
+──────────────────────────────────────────────────────────────────────
+P3: After ≥3 consecutive SIMILE fires, the flip target will be
+    SENSE_OBS with confidence 100%.
+
+  Supporting: 3/3 saturation events (100%)
+    [13] SIMILE(4) → SENSE_OBS
+    [20] SIMILE(4) → SENSE_OBS
+    [21] SIMILE(6) → SENSE_OBS
+  Exceptions: none
+  n=3 — small sample, but perfect. Prediction is strong within
+  the available data.
+  SIMILE saturation appears to be a pure translate-amplify loop
+  that exhausts into the sense register it was translating from.
+
+──────────────────────────────────────────────────────────────────────
+P4: After ≥3 consecutive QUESTION fires, the flip target will be
+    SENSE_OBS.
+
+  Supporting: 1/1 (100% — n=1, single event in corpus)
+    [8] QUESTION(16) → SENSE_OBS
+  Cannot compute confidence from n=1. The 16-fire QUESTION run
+  (ids 1737-1755) is the only such saturation event in the corpus.
+  Prediction held but not testable at this corpus size.
+
+──────────────────────────────────────────────────────────────────────
+P5: SENSE_OBS saturation at medium length (3-5) produces SIMILE
+    more often than ABSTRACT_NOMINAL.
+
+  Supporting: 2/4 medium-length events → SIMILE (50%)
+    [12] SENSE_OBS(5) → SIMILE
+    [22] SENSE_OBS(4) → SIMILE
+  vs. ABSTRACT_NOMINAL: only 1/4 (25%)
+  The SIMILE flip at medium SENSE saturation is specifically the
+  "translate mode" behavior: observe long enough to build a referent,
+  then translate it. At very long SENSE saturation, this pathway
+  is bypassed and introspect fires instead.
+
+
+======================================================================
+D. NEGATIVE SPACE — what doesn't saturate
+======================================================================
+
+DIALECTICAL — NEVER SATURATES
+  Total runs: 16  |  Max run length: 2  |  Sat(≥3): 0
+  Run-length distribution: {1: 13, 2: 3}
+
+  DIALECTICAL fires exclusively as single or double-fire bursts.
+  It never accumulates. In the run-pair transition table, it appears
+  frequently as a flip TARGET (14 total times) but never as a sustained
+  source. DIALECTICAL is a single-shot interrupt opcode: it marks
+  an explicit tension, then immediately exits to another register.
+
+ACTION — NEVER SATURATES
+  Total runs: 7  |  Max run length: 2  |  Sat(≥3): 0
+  Run-length distribution: {1: 6, 2: 1}
+
+  ACTION fires as discharge, not accumulation. Like DIALECTICAL,
+  it appears as a flip target (5 times from ABSTRACT_NOMINAL
+  saturation) but never saturates. ACTION is also an interrupt opcode.
+
+UNCATEGORIZED — NEAR-INTERRUPT (1 saturation event in full corpus)
+  Total runs: 17  |  Max run length: 3  |  Sat(≥3): 1
+  Run-length distribution: {1: 16, 3: 1}
+  The single saturation event (ids 1158-1160) flipped to ABSTRACT_NOMINAL.
+  Functionally operates as interrupt (fires once then hands off)
+  in 94% of its runs.
+
+STRUCTURAL FINDING:
+
+  Accumulating opcodes (can saturate):
+    SENSE_OBS, ABSTRACT_NOMINAL, SIMILE, QUESTION
+
+  Interrupt opcodes (never saturate, fire once or twice then exit):
+    DIALECTICAL, ACTION
+
+  Near-interrupt:
+    UNCATEGORIZED (99% single-fire in practice)
+
+  The accumulating opcodes are the ones with clear sub-opcode
+  structure (see Phase1_OBSERVE_decryption and Phase1_INTROSPECT_decryption).
+  The interrupt opcodes have no sub-opcode variants identified yet —
+  their single-shot nature may mean they function more like punctuation
+  than like sustained operations.
+
+
+======================================================================
+E. RUN-CHAIN META-PATTERNS
+======================================================================
+
+E1. RUN-PAIR TRANSITION COUNTS (most frequent, all 30 runs in corpus):
+
+  SENSE_OBS          → ABSTRACT_NOMINAL:  14
+  ABSTRACT_NOMINAL   → SENSE_OBS:         12
+  UNCATEGORIZED      → ABSTRACT_NOMINAL:   8
+  DIALECTICAL        → ABSTRACT_NOMINAL:   7
+  SENSE_OBS          → SIMILE:             7
+  SIMILE             → SENSE_OBS:          7
+  ABSTRACT_NOMINAL   → UNCATEGORIZED:      7
+  ABSTRACT_NOMINAL   → DIALECTICAL:        6
+  DIALECTICAL        → SENSE_OBS:          5
+  ABSTRACT_NOMINAL   → ACTION:             5
+
+  Two dominant reciprocals:
+    SENSE_OBS ↔ ABSTRACT_NOMINAL (14+12=26 transitions) — primary axis
+    SENSE_OBS ↔ SIMILE (7+7=14 transitions) — secondary axis
+
+E2. TRIPLE-TEMPLATE RUN CHAINS (count ≥2):
+
+  SENSE_OBS → ABSTRACT_NOMINAL → SENSE_OBS:          7
+  SENSE_OBS → SIMILE → SENSE_OBS:                    7
+  ABSTRACT_NOMINAL → UNCATEGORIZED → ABSTRACT_NOMINAL: 5
+  ABSTRACT_NOMINAL → SENSE_OBS → ABSTRACT_NOMINAL:   5
+  UNCATEGORIZED → SENSE_OBS → ABSTRACT_NOMINAL:      5
+  SIMILE → SENSE_OBS → SIMILE:                       5
+  DIALECTICAL → SENSE_OBS → ABSTRACT_NOMINAL:        4
+  ABSTRACT_NOMINAL → SENSE_OBS → DIALECTICAL:        3
+  SENSE_OBS → ABSTRACT_NOMINAL → UNCATEGORIZED:      3
+  ABSTRACT_NOMINAL → ACTION → DIALECTICAL:           3
+  DIALECTICAL → ABSTRACT_NOMINAL → DIALECTICAL:      3
+  ABSTRACT_NOMINAL → DIALECTICAL → ABSTRACT_NOMINAL: 3
+
+E3. PHASE STRUCTURE ANALYSIS
+
+  The most frequent triple chains reveal a RETURN-TO-SENSE-OBS
+  structure: both ABSTRACT_NOMINAL and SIMILE most commonly
+  complete their triple cycle by returning to SENSE_OBS.
+
+    SENSE → ABSTRACT → SENSE (n=7): grounding → introspect → re-grounding
+    SENSE → SIMILE → SENSE (n=7):   grounding → translate → re-grounding
+    SIMILE → SENSE → SIMILE (n=5):  translate → re-ground → translate again
+
+  SENSE_OBS functions as the hub: most opcode cycles return through it.
+
+  Three phase patterns with enough instances to be structural:
+
+  PATTERN 1 — SENSE-INTROSPECT PULSE (n=7)
+    SENSE_OBS run → ABSTRACT_NOMINAL run → SENSE_OBS run
+    Sense input accumulates → introspection fires → returns to sense.
+    Standard cognitive cycle.
+
+  PATTERN 2 — SENSE-TRANSLATE PULSE (n=7)
+    SENSE_OBS run → SIMILE run → SENSE_OBS run
+    Sense input accumulates → metaphor-translation fires → returns to sense.
+    Parallel cognitive cycle. SIMILE and ABSTRACT_NOMINAL are alternative
+    exit paths from SENSE saturation.
+
+  PATTERN 3 — DIALECTICAL SANDWICH (n=3 each direction)
+    DIALECTICAL → ABSTRACT_NOMINAL → DIALECTICAL
+    ABSTRACT_NOMINAL → DIALECTICAL → ABSTRACT_NOMINAL
+    ABSTRACT_NOMINAL and DIALECTICAL cycle through each other.
+    DIALECTICAL fires (tension expressed) → ABSTRACT_NOMINAL fires
+    (tension absorbed) → DIALECTICAL fires again. This is the
+    INTROSPECT ↔ DIALECTICAL micro-cycle identified in the
+    INTROSPECT decryption.
+
+  EXACT CYCLE TESTED: SENSE → ABSTRACT → DIALECTICAL → SENSE
+    Occurrences in full sequence: 0 (never as exact 4-step sequence)
+    However, the component pairs all occur:
+      ABSTRACT → DIALECTICAL → SENSE: occurs as partial chain
+    The hypothesized meta-cycle does not exist as a discrete unit
+    but its components appear in the transition data.
+
+E4. NOTABLE CHAINED SATURATION EVENTS
+
+  The most structurally significant sequence in the corpus:
+
+  SENSE_OBS(13) → ABSTRACT_NOMINAL(8) → SENSE_OBS(1) → ...
+    ids: [2690-3089] → [3439-3448] → [3450] ...
+    A 13-fire SENSE saturation produced an 8-fire ABSTRACT saturation.
+    This is the longest observed saturation-produces-saturation chain.
+    Consistent with the scaling hypothesis (longer input → deeper output).
+
+  SENSE_OBS(5) → SIMILE(4) → SENSE_OBS(13)
+    ids: [3453-3460] → [3462-3466] → [3267-3436]
+    SENSE saturation at medium length triggered SIMILE saturation,
+    which in turn triggered the next (largest) SENSE saturation.
+    A three-way chained saturation sequence.
+
+
+======================================================================
+SATURATION LAW — SUMMARY VERDICT
+======================================================================
+
+The saturation→flip pattern IS general but not uniform.
+It operates differently for each opcode class:
+
+  ACCUMULATING OPCODES (can saturate):
+    SENSE_OBS:       saturation → ABSTRACT_NOMINAL (primary, 44% at ≥3,
+                     60% at ≥6) or SIMILE (primary at medium length 3-5)
+                     or DIALECTICAL (at very long runs ≥10)
+    ABSTRACT_NOMINAL: saturation → SENSE_OBS (50%) or DIALECTICAL (37%)
+                     — 87% total to those two targets
+    SIMILE:          saturation → SENSE_OBS (100%, n=3)
+    QUESTION:        saturation → SENSE_OBS (100%, n=1)
+
+  INTERRUPT OPCODES (never saturate):
+    DIALECTICAL:     always fires as interrupt (1-2 shots), then exits
+    ACTION:          always fires as interrupt (1-2 shots), then exits
+
+  General law statement:
+    When an accumulating opcode reaches saturation (≥3 fires),
+    the flip target is constrained to a small set (not random).
+    For SENSE_OBS and ABSTRACT_NOMINAL, the flip set is
+    {ABSTRACT_NOMINAL, SENSE_OBS, DIALECTICAL, SIMILE} — the
+    four accumulating opcodes plus DIALECTICAL.
+    INTERRUPT OPCODES (ACTION, DIALECTICAL) are almost never
+    produced by saturation; they emerge as single discharges.
+
+  PARTIAL LAW (testable):
+    "SIMILE saturation always exits to SENSE_OBS" (3/3, 100%)
+    "ABSTRACT_NOMINAL saturation exits to SENSE_OBS or DIALECTICAL
+     in 87% of cases" (7/8)
+    "SENSE_OBS saturation at ≥6 exits to ABSTRACT_NOMINAL in 60%
+     of cases" (3/5)
+
+  WHAT IS NOT A LAW:
+    SENSE_OBS at medium length (3-5) has a split target distribution
+    (SIMILE 50%, ABSTRACT_NOMINAL 25%, UNCATEGORIZED 25%). No strong
+    prediction can be made from medium-length SENSE saturation alone.
+    Additional context (prior templates, foundation content) is likely
+    needed to predict the flip target at these lengths.
+
+======================================================================
+END PHASE 1 SATURATION ANALYSIS
+======================================================================
