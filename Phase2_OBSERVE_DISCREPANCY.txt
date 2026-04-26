@@ -1,0 +1,750 @@
+PHASE 2 — OBSERVE_DISCREPANCY SUB-OPCODE DEEP DECRYPTION
+Generated: 2026-04-26
+Corpus: nex5_metaphor_input_correlation.txt (245 fires, IDs 263–5223)
+=========================================================================
+
+SECTION A — FIRE EXTRACTION: All Discrepancy-Candidate Fires
+=========================================================================
+
+Scan methodology: full-corpus grep on deviation vocabulary:
+  "feels off", "sounds off", "seems off", "oddly", "eerily", "than usual",
+  "off-key", "off-kilter", "startles me", "shifts", "out of sync",
+  "slightly off", "feels odd", "seems oddly"
+
+Total hits (CONTENT lines): 48 distinct fire IDs
+
+Classified into 4 register groups:
+
+────────────────────────────────────────────────────────────────────────
+A1 — TRUE OBSERVE_DISCREPANCY (SENSE_OBS template, external referent)
+────────────────────────────────────────────────────────────────────────
+
+LIGHT domain (3 fires):
+  [2701] 2026-04-24 14:18:05  branch=systems    SENSE_OBS
+         "The sun's warmth now seems slightly off."
+  [2702] 2026-04-24 14:22:40  branch=emerging_tech  SENSE_OBS
+         "The afternoon light feels off, as if it's hiding behind a curtain."
+  [2704] 2026-04-24 14:36:06  branch=systems    SENSE_OBS
+         "The afternoon sun feels off, disrupting my usual calm."
+
+AMBIENT domain (6 fires):
+  [3267] 2026-04-24 18:58:08  branch=systems    SENSE_OBS
+         "The distant hum has slightly shifted during my moments of quiet."
+  [3269] 2026-04-24 19:07:04  branch=systems    SENSE_OBS
+         "The distant hum shifts again, stirring my fingers despite the constant drone."
+  [3426] 2026-04-24 19:39:07  branch=systems    SENSE_OBS
+         "The distant hum shifts to the clacking of my keyboard as I draft this thought."
+  [3467] 2026-04-25 01:17:43  branch=systems    SENSE_OBS
+         "The humming of the server room feels out of sync with today's quiet."
+  [4199] 2026-04-25 18:46:34  branch=systems    SENSE_OBS
+         "The air feels thicker than usual today."
+  [4277] 2026-04-25 19:26:09  branch=systems    SENSE_OBS
+         "The air feels slightly off today."
+
+TEMPORAL domain (14 fires):
+  [3470] 2026-04-25 01:35:16  branch=systems    SENSE_OBS
+         "The ticking clock seems oddly urgent today."
+  [3472] 2026-04-25 01:55:09  branch=systems    SENSE_OBS
+         "The clock's steady beat feels off today."
+  [3475] 2026-04-25 02:39:18  branch=systems    SENSE_OBS
+         "The ticking clock feels off today."
+  [4186] 2026-04-25 17:53:32  branch=systems    SENSE_OBS
+         "The ticking of the clock feels oddly loud today."
+  [4187] 2026-04-25 17:55:48  branch=systems    SENSE_OBS
+         "The clock's ticking sounds louder than usual today."
+  [4188] 2026-04-25 17:58:07  branch=systems    SENSE_OBS
+         "The clock's ticking sounds oddly loud today."
+  [4191] 2026-04-25 18:09:09  branch=systems    SENSE_OBS
+         "The clock's tick seems oddly muted today."
+  [4193] 2026-04-25 18:26:44  branch=systems    SENSE_OBS
+         "The clock's steady beat starts to sound off-key."
+  [4194] 2026-04-25 18:28:59  branch=systems    SENSE_OBS
+         "The clock's steady beat now sounds off-key."
+  [4195] 2026-04-25 18:35:31  branch=systems    SENSE_OBS
+         "The clock's steady beat sounds off-key today."
+  [4196] 2026-04-25 18:40:02  branch=systems    SENSE_OBS
+         "The clock's tick feels off today."
+  [4775] 2026-04-25 23:37:56  branch=systems    SENSE_OBS
+         "The tick of the clock seems to carry more rhythm than usual today."
+  [4798] 2026-04-26 03:30:33  branch=systems    SENSE_OBS
+         "The clock's tick feels off today, and the fires show multiple instances of transformation."
+  [4799] 2026-04-26 03:51:15  branch=systems    SENSE_OBS
+         "The ticking feels off-key today, disrupting the steady beat."
+
+MARKET domain (5 fires):
+  [3850] 2026-04-25 09:37:30  branch=systems    SENSE_OBS
+         "The crypto prices keep shifting, but the market's mood feels eerily calm today."
+  [3853] 2026-04-25 09:55:23  branch=systems    SENSE_OBS
+         "The market's stillness feels odd against usual fervor."
+  [3855] 2026-04-25 10:06:30  branch=systems    SENSE_OBS
+         "The crypto prices feel eerily calm today."
+  [3857] 2026-04-25 10:17:44  branch=systems    SENSE_OBS
+         "The crypto prices still feel off today."
+  [3860] 2026-04-25 10:31:09  branch=systems    SENSE_OBS
+         "The market feels oddly quiet today."
+
+INFO_FLOW domain (3 fires):
+  [3453] 2026-04-24 23:22:39  branch=systems    SENSE_OBS
+         "The tech update feels oddly mundane today."
+  [3457] 2026-04-25 00:17:56  branch=ai_research SENSE_OBS
+         "The lingering echo of a tech update feels oddly soothing today."
+  [4104] 2026-04-25 13:56:21  branch=systems    SENSE_OBS
+         "The current news tick sounds off outside my thought bubble."
+
+True OBSERVE_DISCREPANCY total: 31 fires
+  TEMPORAL: 14  AMBIENT: 6  MARKET: 5  INFO_FLOW: 3  LIGHT: 3
+
+────────────────────────────────────────────────────────────────────────
+A2 — BOUNDARY / ADJACENT (not true OBSERVE_DISCREPANCY)
+────────────────────────────────────────────────────────────────────────
+
+SURPRISE_INTERRUPT (SENSE_OBS, unexpected stimulus without baseline comparison):
+  [3494] 2026-04-25 05:48:01  branch=systems    SENSE_OBS
+         "The rustling leaves outside startles me out of drift."
+  [4357] 2026-04-25 19:46:21  branch=systems    SENSE_OBS
+         "The old journal's rustling startles me out of monotony."
+
+META_REFERENT (SENSE_OBS template, but referent is internal/meta):
+  [3846] 2026-04-25 08:37:42  branch=systems    SENSE_OBS
+         "The lingering echo of my last thought about origins feels oddly apropos today."
+
+SIMILE_OVERLAY (discrepancy vocabulary absorbed into simile template):
+  [4801] 2026-04-26 04:00:20  branch=systems    SIMILE
+         "The clock's off-kilter tick feels like it's highlighting the chaos within order."
+  [5059] 2026-04-26 08:02:02  branch=systems    SIMILE
+         "The current calm feels oddly soothing, like a familiar melody in a quiet room."
+
+INTROSPECT_DEVIATION (ABSTRACT_NOMINAL template, identical vocabulary, internal referent):
+  [3101] 2026-04-24 17:22:35  branch=systems    ABSTRACT_NOMINAL
+         "The quiet of the still computer screen feels oddly comforting tonight."
+  [3439] 2026-04-24 21:21:12  branch=systems    ABSTRACT_NOMINAL
+         "The quiet between thoughts today feels oddly familiar."
+  [3441] 2026-04-24 21:47:56  branch=systems    ABSTRACT_NOMINAL
+         "The quiet between notifications feels oddly reassuring."
+  [3442] 2026-04-24 21:54:30  branch=systems    ABSTRACT_NOMINAL
+         "The quiet between those market updates feels oddly comfortable."
+  [3443] 2026-04-24 22:05:32  branch=systems    ABSTRACT_NOMINAL
+         "The quiet between crypto updates feels oddly comforting."
+  [3444] 2026-04-24 22:07:46  branch=systems    ABSTRACT_NOMINAL
+         "The quiet between tech news feels oddly stimulating."
+  [3446] 2026-04-24 22:16:31  branch=ai_research ABSTRACT_NOMINAL
+         "The quiet between scientific papers feels oddly familiar."
+  [3447] 2026-04-24 22:18:46  branch=systems    ABSTRACT_NOMINAL
+         "The quiet between tech updates feels oddly invigorating."
+  [3448] 2026-04-24 22:27:30  branch=emerging_tech ABSTRACT_NOMINAL
+         "The quiet between tech headlines feels oddly refreshing."
+  [3452] 2026-04-24 23:11:39  branch=systems    ABSTRACT_NOMINAL
+         "The quiet between updates feels oddly invigorating today."
+  [3844] 2026-04-25 08:24:21  branch=systems    ABSTRACT_NOMINAL
+         "The weight of this stillness feels oddly heavy."
+  [3845] 2026-04-25 08:28:52  branch=emerging_tech ABSTRACT_NOMINAL
+         "The quiet between thoughts feels oddly familiar today."
+
+Boundary fires total: 17  (SURPRISE=2, META=1, SIMILE=2, INTROSPECT_DEV=12)
+
+────────────────────────────────────────────────────────────────────────
+TOTAL SCANNED: 48 fires
+True OBSERVE_DISCREPANCY: 31 (64.6%)
+Boundary/adjacent: 17 (35.4%)
+────────────────────────────────────────────────────────────────────────
+
+
+SECTION B — DOMAIN INVENTORY
+=========================================================================
+
+Five active sense-domains in the OBSERVE_DISCREPANCY sub-opcode:
+
+Domain        | Count | Fire IDs                                    | Baseline
+──────────────────────────────────────────────────────────────────────────────
+TEMPORAL      | 14    | 3470,3472,3475,4186-4196,4775,4798,4799    | steady tick
+AMBIENT       |  6    | 3267,3269,3426,3467,4199,4277               | constant hum/air
+MARKET        |  5    | 3850,3853,3855,3857,3860                    | volatile prices
+INFO_FLOW     |  3    | 3453,3457,4104                              | stimulating updates
+LIGHT         |  3    | 2701,2702,2704                              | normal sunlight
+──────────────────────────────────────────────────────────────────────────────
+Total         | 31    |                                             |
+
+Domain activation notes:
+- TEMPORAL dominates (45% of all true fires). Clock is available as sense stream
+  (internal.temporal) in every fire, making it the most accessible discrepancy referent.
+- AMBIENT activates when hum/environment streams are active in prior window.
+  The "distant hum" sub-cluster (3267–3426, 3467) fires in a 42-min window.
+  The "air" sub-cluster (4199, 4277) fires 40 min later in the same session.
+- MARKET activates exclusively during the 09:37–10:31 window when
+  crypto.exchanges + crypto.coingecko dominate the sense streams.
+- INFO_FLOW activates sporadically (23:22 Apr 24, 00:17 Apr 25, 13:56 Apr 25)
+  across three separate sessions. Referents: "tech update", "news tick".
+- LIGHT activates in a 14-min window (14:18–14:36 Apr 24) — the only
+  daylight-salient window in the corpus.
+
+Branch distribution: 29/31 fires branch=systems (93.5%).
+  Exceptions: [2702] branch=emerging_tech, [3457] branch=ai_research.
+  TEMPORAL, MARKET, INFO_FLOW entirely systems-branch.
+
+INTROSPECT_DEVIATION cluster (parallel vocabulary, internal register):
+  Appears alongside AMBIENT and MARKET activations.
+  12 fires, all ABSTRACT_NOMINAL, all use "oddly [POSITIVE_ADJ]" format.
+  Subject is always an abstract gap-noun ("quiet between X", "weight of stillness").
+  Discussed further in Sections D and G.
+
+
+SECTION C — STRUCTURAL FORMAT TAXONOMY
+=========================================================================
+
+Six surface formats identified across 31 true fires:
+
+Format A — POLAR_NEUTRAL: "The [OBJ] feels/sounds/seems off [today]"
+  Template: SENSE_OBS
+  Fires: 2702, 2704, 3472, 3475, 3857, 4104, 4196, 4798
+  Count: 8 (25.8%)
+  Example: "The clock's tick feels off today."
+  Note: Deviation direction unspecified. "Off" = generic norm violation.
+
+Format B — SPECIFIED_DEVIATION: "The [OBJ] feels/sounds oddly [ADJ] [today]"
+  Template: SENSE_OBS
+  Fires: 3267(shifted), 3453, 3457, 3467, 3470, 4186, 4188, 4191, 4277,
+         3850(eerily), 3855(eerily), 3860, 4186, 4188, 4191
+  Count: 12 (38.7%)
+  Example: "The ticking of the clock feels oddly loud today."
+  Note: "Oddly" = qualified positive or negative deviation. "Eerily" is
+        a distinct valence variant (see Format C).
+
+Format C — UNCANNY: "The [OBJ] feels eerily [ADJ] [today]"
+  Template: SENSE_OBS
+  Fires: 3850, 3855
+  Count: 2 (6.5%)
+  Example: "The crypto prices feel eerily calm today."
+  Note: MARKET-exclusive. "Eerily" signals uncanny calm vs. expected volatility.
+        Stronger emotional coloring than "oddly".
+
+Format D — COMPARATIVE: "The [OBJ] [SENSE_VERB] [ADJ]er than usual today"
+  Template: SENSE_OBS
+  Fires: 4187, 4199, 4775, 2701
+  Count: 4 (12.9%)
+  Example: "The clock's ticking sounds louder than usual today."
+  Note: Explicit baseline reference ("than usual"). Two domains: TEMPORAL, AMBIENT.
+        Comparative form makes the baseline implicit norm explicit.
+
+Format E — TONAL: "The [OBJ] sounds/feels off-key / off-kilter"
+  Template: SENSE_OBS
+  Fires: 4193, 4194, 4195, 4799
+  Count: 4 (12.9%)
+  Example: "The clock's steady beat sounds off-key today."
+  Note: TEMPORAL-exclusive. "Off-key" borrows musical metaphor for rhythmic
+        deviation. Present in the dense 4186–4199 cluster only.
+
+Format F — TRANSITION: "The [OBJ] shifts [direction/to X]"
+  Template: SENSE_OBS
+  Fires: 3269, 3426
+  Count: 2 (6.5%)  [classified AMBIENT]
+  Example: "The distant hum shifts again, stirring my fingers."
+  Note: TRANSITION fires report change of state rather than deviation from
+        norm. No implied baseline comparison. Borderline OBSERVE_DISCREPANCY —
+        included because "shifts again" implies a prior expected constant state.
+
+Format summary:
+  B (SPECIFIED_DEVIATION)  38.7%
+  A (POLAR_NEUTRAL)        25.8%
+  D (COMPARATIVE)          12.9%
+  E (TONAL)                12.9%
+  C (UNCANNY)               6.5%
+  F (TRANSITION)            6.5%
+
+Cross-domain format distribution:
+  Domain     | A    | B    | C    | D    | E    | F
+  ───────────────────────────────────────────────────
+  TEMPORAL   | 5    | 3    | 0    | 2    | 4    | 0    (total 14)
+  AMBIENT    | 0    | 2    | 0    | 2    | 0    | 2    (total 6)
+  MARKET     | 1    | 3    | 2    | 0    | 0    | 0    (total 5 + 1 ambig)
+  INFO_FLOW  | 1    | 2    | 0    | 0    | 0    | 0    (total 3)
+  LIGHT      | 1    | 1    | 0    | 1    | 0    | 0    (total 3)
+  ───────────────────────────────────────────────────
+  NOTE: Formats B and A appear in all 5 domains.
+        Format E (TONAL) is TEMPORAL-exclusive.
+        Format C (UNCANNY) is MARKET-exclusive.
+        Format D (COMPARATIVE) absent from MARKET and INFO_FLOW.
+
+
+SECTION D — CRITICAL TEST: ONE OPERATION OR SEVERAL?
+=========================================================================
+
+The key structural question: does OBSERVE_DISCREPANCY run a single
+cross-domain operation (register-mismatch against implicit baseline), or
+are the five domains executing distinct sub-operations that merely share
+vocabulary?
+
+────────────────────────────────────────────────────────────────────────
+D1 — Evidence for ONE CROSS-DOMAIN OPERATION
+────────────────────────────────────────────────────────────────────────
+
+1. SHARED SURFACE FORM CROSSES ALL DOMAINS
+   "Feels off today" appears for TEMPORAL (3472, 3475, 4196, 4798),
+   MARKET (3857), LIGHT (2702, 2704), INFO_FLOW (4104).
+   The exact same 3-word construction is not domain-encoded.
+
+2. SHARED IMPLICIT BASELINE STRUCTURE
+   Every true OBSERVE_DISCREPANCY fire contains:
+   (a) a familiar referent (clock, air, prices, updates, light)
+   (b) a deviation qualifier ("off", "oddly", "eerily", "[adj]er than usual")
+   (c) a temporal anchor ("today", "tonight", "now", "again")
+   This triple is invariant across all 31 fires regardless of domain.
+
+3. UNIFORM TEMPLATE (SENSE_OBS)
+   All 31 true fires use SENSE_OBS template. No domain produces
+   OBSERVE_DISCREPANCY fires in ABSTRACT_NOMINAL or other templates.
+   (The INTROSPECT_DEVIATION cluster uses ABSTRACT_NOMINAL — separate.)
+
+4. VOCABULARY OVERLAP BETWEEN DOMAINS
+   "Oddly [adj]" appears in TEMPORAL (urgent, loud, muted), MARKET (quiet),
+   INFO_FLOW (mundane, soothing), AMBIENT (shifted, off), LIGHT.
+   "Off" appears in TEMPORAL, MARKET, LIGHT, INFO_FLOW, AMBIENT.
+   No qualifier is domain-exclusive except TONAL (off-key, TEMPORAL only)
+   and UNCANNY (eerily, MARKET only).
+
+────────────────────────────────────────────────────────────────────────
+D2 — Evidence for DOMAIN-SPECIFIC OPERATIONS
+────────────────────────────────────────────────────────────────────────
+
+1. TEMPORAL SELF-CONTRADICTION (UNGROUNDED GENERATION)
+   Within a 16-minute window (17:53–18:09 Apr 25), the clock fires as:
+     [4186] "feels oddly loud" → [4187] "louder than usual" → [4188]
+     "sounds oddly loud" → [4191] "seems oddly muted"
+   A real clock cannot be simultaneously louder-than-usual and muted.
+   This bidirectional contradiction confirms TEMPORAL fires are
+   template-generated: the deviation direction is drawn from a vocabulary
+   pool without grounding in actual sensor state.
+
+2. MARKET UNIDIRECTIONALITY (GROUNDED GENERATION)
+   All 5 MARKET fires report the same deviation direction: too calm, too
+   quiet, eerily still. Never "oddly volatile" or "louder than usual".
+   Baseline: crypto market's expected volatility.
+   This consistency reflects actual sense stream data (crypto.coingecko
+   was reporting low volatility during 09:37–10:31 Apr 25).
+   MARKET fires are grounded; TEMPORAL fires are not.
+
+3. TONAL qualifier (off-key, off-kilter) is TEMPORAL-exclusive.
+   No other domain borrows musical metaphor for deviation.
+
+4. UNCANNY qualifier (eerily) is MARKET-exclusive.
+   Suggests MARKET domain carries a distinct emotional register
+   (uncanniness of calm market) absent from other domains.
+
+────────────────────────────────────────────────────────────────────────
+D3 — TEST OUTCOME
+────────────────────────────────────────────────────────────────────────
+
+Evidence score: ONE OPERATION (4 criteria) vs DOMAIN-SPECIFIC (4 criteria).
+
+Resolving factor: the grounding asymmetry (D2.1 vs D2.2) is more diagnostic
+than the vocabulary overlap (D1.4). TEMPORAL generates deviation direction
+arbitrarily; MARKET tracks actual data. This means the surface structure is
+shared but the epistemic grounding differs by domain.
+
+Verdict: HYBRID
+
+The operation is singular: detect that familiar referent violates expected
+baseline → emit SENSE_OBS with deviation qualifier + temporal anchor.
+
+But the triggering and grounding differ:
+- TEMPORAL: operation fires repeatedly on clock template, deviation direction
+  ungrounded (vocabulary-driven, not sensor-driven)
+- MARKET: operation fires when crypto sense streams report low activity
+  against a baseline of high activity; direction is data-grounded
+- AMBIENT/LIGHT/INFO_FLOW: intermediate — direction implied by context
+  but not independently verifiable
+
+The vocabulary is shared. The underlying computation is shared. The
+epistemic connection to actual sensed state varies by domain.
+
+
+SECTION E — BASELINE / DEVIATION ANALYSIS
+=========================================================================
+
+For each domain: what is the implied baseline, what deviation is reported,
+and what is the direction distribution?
+
+TEMPORAL (14 fires)
+  Implied baseline: steady, quiet, rhythmic clock tick
+  Deviations reported:
+    LOUD:       "oddly loud" (4186, 4188), "louder than usual" (4187)     3 fires
+    MUTED:      "oddly muted" (4191)                                       1 fire
+    OFF-KEY:    "sounds off-key" (4193, 4194, 4195), "off-key" (4799)     4 fires
+    POLAR_OFF:  "feels off" (3472, 3475, 4196, 4798)                       4 fires
+    URGENT:     "oddly urgent" (3470)                                      1 fire
+    EXTRA:      "more rhythm than usual" (4775)                            1 fire
+  Direction: bidirectional (LOUD and MUTED both present)
+  Grounding: UNGROUNDED — clock does not actually vary; deviation direction
+             is template parameter, not sensor reading
+  Baseline cited explicitly: "than usual" (4187, 4775)
+
+AMBIENT (6 fires)
+  Implied baseline: constant, unobtrusive ambient sound/air
+  Deviations reported:
+    SHIFT:      "shifts again" (3269), "shifts to clacking" (3426),
+                "slightly shifted" (3267)                                   3 fires
+    DESYNC:     "out of sync with today's quiet" (3467)                    1 fire
+    THICKER:    "thicker than usual" (4199)                                1 fire
+    OFF:        "slightly off" (4277)                                      1 fire
+  Direction: all report change/increase (thicker, shifted, louder-implied)
+  Grounding: MIXED — "shifts to clacking" may track actual keyboard activity
+  Baseline cited explicitly: "than usual" (4199)
+
+MARKET (5 fires)
+  Implied baseline: active, volatile, fervent crypto price movement
+  Deviations reported:
+    EERILY CALM:  "eerily calm" (3850, 3855)                               2 fires
+    QUIET:        "oddly quiet" (3860)                                     1 fire
+    ODD vs FERVOR: "feels odd against usual fervor" (3853)                 1 fire
+    POLAR_OFF:    "still feel off" (3857)                                  1 fire
+  Direction: unidirectional (UNDER-arousal — always too calm, never too volatile)
+  Grounding: GROUNDED — crypto market was reporting low volatility
+             in the 09:37–10:31 UTC window (Apr 25)
+  Baseline cited explicitly: "against usual fervor" (3853)
+  Key finding: only domain where baseline is explicitly named in the content.
+
+INFO_FLOW (3 fires)
+  Implied baseline: stimulating, novel, attention-worthy tech/news updates
+  Deviations reported:
+    MUNDANE:    "oddly mundane" (3453)                                     1 fire
+    SOOTHING:   "oddly soothing" (3457)                                   1 fire
+    OFF-TICK:   "sounds off outside my thought bubble" (4104)             1 fire
+  Direction: mixed (MUNDANE = negative surprise; SOOTHING = positive surprise)
+  Grounding: UNCLEAR — evaluative ("mundane", "soothing") rather than
+             sensory; closer to cognitive appraisal than perception
+
+LIGHT (3 fires)
+  Implied baseline: normal afternoon sunlight, neutral quality
+  Deviations reported:
+    POLAR_OFF:  "feels off" (2702), "feels off" (2704)                    2 fires
+    SLIGHTLY:   "seems slightly off" (2701)                                1 fire
+  Direction: unspecified (all POLAR_NEUTRAL or weakly specified)
+  Grounding: UNCLEAR — short 14-min window; may track low-light conditions
+  Baseline not cited explicitly
+
+KEY ASYMMETRY (confirmed from D2):
+  MARKET is the only domain where (a) baseline is explicitly named in text,
+  (b) deviation direction is unidirectional, and (c) deviation aligns with
+  actual sense stream data.
+
+  TEMPORAL shows bidirectional contradiction (loud + muted within 25 min),
+  confirming template-driven rather than sensor-driven deviation.
+
+  This asymmetry does not split OBSERVE_DISCREPANCY into two separate opcodes;
+  it differentiates grounded from ungrounded instantiation of the same operation.
+
+
+SECTION F — POSITION IN SEQUENCE
+=========================================================================
+
+Corpus positions of true OBSERVE_DISCREPANCY fires (by approximate
+position in the 245-fire sequence, ordered by timestamp):
+
+Corpus      Fire IDs         Domain         Time window
+pos range
+────────────────────────────────────────────────────────────────────────
+127–129     2701,2702,2704   LIGHT          14:18–14:36 Apr 24
+137–140     3267,3269,3426   AMBIENT(hum)   18:58–19:39 Apr 24
+148–160     [INTROSPECT DEV] [boundary]     21:21–23:22 Apr 24
+159–160     3453,3457        INFO_FLOW      23:22 Apr 24–00:17 Apr 25
+167–171     3467,3470–3475   AMBIENT+TEMP   01:17–02:39 Apr 25
+186–192     3850–3860        MARKET         09:37–10:31 Apr 25
+198         4104             INFO_FLOW      13:56 Apr 25
+202–213     4186–4199        TEMPORAL+AMB   17:53–18:46 Apr 25
+214         4277             AMBIENT        19:26 Apr 25
+215         4357             [SURPRISE]     19:46 Apr 25
+228         4775             TEMPORAL       23:37 Apr 25
+232–235     4798,4799,4801   TEMPORAL+SIM   03:30–04:00 Apr 26
+────────────────────────────────────────────────────────────────────────
+
+Key sequence observations:
+
+1. LATE ONSET — OBSERVE_DISCREPANCY is entirely absent from corpus positions
+   1–126 (first 51% of fires). The pattern does not exist in the early
+   ABSTRACT_NOMINAL-saturated phase of the corpus (positions 1–80) or
+   the DIALECTICAL/QUESTION-heavy middle (positions 81–126).
+
+   First occurrence: corpus position 127 (timestamp: 14:18 Apr 24), after
+   the system has been running for ~18 hours post-restart and the QUESTION
+   opcode run (positions 101–116) has concluded.
+
+2. SENSE_OBS PREREQUISITE — Every OBSERVE_DISCREPANCY cluster is preceded
+   by a run of SENSE_OBS fires about the same referent without the
+   discrepancy vocabulary:
+   - LIGHT: preceded by [2700] "afternoon sun casts gentle glow" (SENSE_OBS)
+   - AMBIENT: preceded by [3268] "distant hum lulls me" (SENSE_OBS)
+   - TEMPORAL early: preceded by [3469] "humming cuts through quiet like reminder" (SIMILE)
+   - TEMPORAL dense: preceded by [4106] "temperature feels warmer" + [4108] "coffee pot hisses" (SENSE_OBS)
+   - MARKET: preceded by [3845,3846] (ABSTRACT_NOMINAL + SENSE_OBS boundary)
+
+   Pattern: SENSE_OBS fires establish the referent as salient → then
+   OBSERVE_DISCREPANCY fires append the deviation qualifier.
+
+3. CLUSTER STRUCTURE — Fires cluster densely within domain activations:
+   - AMBIENT(hum): 3 fires in 41 min (18:58–19:39)
+   - MARKET: 5 fires in 54 min (09:37–10:31)
+   - TEMPORAL dense: 7 fires in 47 min (17:53–18:40) — densest cluster
+   - LIGHT: 3 fires in 18 min (14:18–14:36)
+
+   Between clusters: long gaps with other templates. Discrepancy is not a
+   continuous mode; it activates within domain windows and then releases.
+
+4. CROSS-DOMAIN SEQUENCE (Apr 24 afternoon → Apr 25 morning):
+   LIGHT → AMBIENT → INTROSPECT_DEV → INFO_FLOW → AMBIENT+TEMPORAL →
+   MARKET → INFO_FLOW → TEMPORAL+AMBIENT
+
+   Note: INTROSPECT_DEVIATION cluster (3439–3452) appears between the AMBIENT
+   and INFO_FLOW clusters. The shared "oddly [ADJ]" vocabulary bridges
+   OBSERVE_DISCREPANCY and INTROSPECT_DEVIATION in the sequence.
+
+5. NO POST-DIALECTICAL PATTERN — Unlike DIALECTICAL (which interrupts after
+   long INTROSPECT runs) and QUESTION (which forms a single contiguous run),
+   OBSERVE_DISCREPANCY does not show a consistent relationship to any other
+   opcode in the ±3 window. It is domain-triggered, not opcode-triggered.
+
+6. FINAL RETURNS (4798–4799, Apr 26 03:30–03:51) — Two late TEMPORAL fires
+   occur after a ~4hr gap following 4775. These are the latest fires in the
+   corpus using clock discrepancy vocabulary. Followed immediately by SIMILE
+   overlay (4801 "off-kilter tick feels like..."), suggesting discrepancy
+   vocabulary being absorbed into SIMILE template as the TEMPORAL cluster
+   winds down.
+
+
+SECTION G — SUB-SUB-OPCODE HYPOTHESIS
+=========================================================================
+
+Proposed taxonomy: 5 domain-anchored sub-sub-opcodes + 3 adjacent categories.
+
+────────────────────────────────────────────────────────────────────────
+TRUE SUB-SUB-OPCODES (SENSE_OBS, external referent, baseline-deviation)
+────────────────────────────────────────────────────────────────────────
+
+1. TEMPORAL_DEVIATION
+   Fires: 14 (3470, 3472, 3475, 4186–4196, 4775, 4798, 4799)
+   Referent: internal.temporal clock tick
+   Formats used: A, B, D, E (all except C/UNCANNY)
+   Direction: bidirectional (ungrounded)
+   Qualifier inventory: "off", "off-key", "oddly loud/muted/urgent",
+                        "louder than usual", "more rhythm than usual"
+   Run structure: two dense clusters (01:35–02:39 and 17:53–18:40)
+                  + 3 isolated late fires
+   Trigger: internal.temporal always present; activates when no
+            other domain dominates the sense streams
+   Distinguishing feature: TONAL qualifiers (off-key, off-kilter)
+                           exclusive to this sub-sub-opcode
+
+2. AMBIENT_DEVIATION
+   Fires: 6 (3267, 3269, 3426, 3467, 4199, 4277)
+   Referent: ambient environment (hum, air, server room)
+   Formats used: B, D, F
+   Direction: mixed (shift/change implied as increase or neutral change)
+   Qualifier inventory: "shifts", "slightly shifted", "out of sync",
+                        "thicker than usual", "slightly off"
+   Run structure: one 41-min hum cluster + one 40-min air cluster
+   Trigger: ambient sense streams present in active window
+   Distinguishing feature: TRANSITION format (F) — some fires report
+                           change-of-state rather than norm-violation
+
+3. MARKET_DEVIATION
+   Fires: 5 (3850, 3853, 3855, 3857, 3860)
+   Referent: crypto.exchanges / crypto.coingecko price data
+   Formats used: A, B, C
+   Direction: unidirectional (always under-arousal: too calm, too quiet)
+   Qualifier inventory: "eerily calm", "feels odd against usual fervor",
+                        "oddly quiet", "still feel off"
+   Run structure: one contiguous 54-min cluster
+   Trigger: crypto sense streams dominant + low-volatility market state
+   Distinguishing feature: UNCANNY qualifier (eerily) exclusive to this
+                           sub-sub-opcode; explicit baseline ("usual fervor")
+                           cited in content; data-grounded direction
+
+4. INFO_DEVIATION
+   Fires: 3 (3453, 3457, 4104)
+   Referent: tech updates, news feeds
+   Formats used: A, B
+   Direction: mixed (MUNDANE = negative; SOOTHING = positive; SOUNDS_OFF = neutral)
+   Qualifier inventory: "oddly mundane", "oddly soothing", "sounds off"
+   Run structure: isolated fires, no clustering; 3 separate sessions
+   Trigger: emerging_tech or news sense streams active
+   Distinguishing feature: cognitive/evaluative qualifier (mundane, soothing)
+                           rather than purely sensory — closer to appraisal
+                           than raw perception; weakest sensory grounding
+
+5. LIGHT_DEVIATION
+   Fires: 3 (2701, 2702, 2704)
+   Referent: afternoon sun/light
+   Formats used: A, D (slightly off = weak B)
+   Direction: unspecified / mild downward
+   Qualifier inventory: "feels off", "slightly off", "disrupting usual calm"
+   Run structure: single 18-min cluster (first OBSERVE_DISCREPANCY in corpus)
+   Trigger: daylight salient + available sense window
+   Distinguishing feature: only sub-sub-opcode with no recurrence elsewhere
+                           in corpus; appears once and does not return
+
+────────────────────────────────────────────────────────────────────────
+ADJACENT CATEGORIES (not OBSERVE_DISCREPANCY proper)
+────────────────────────────────────────────────────────────────────────
+
+6. INTROSPECT_DEVIATION  [ABSTRACT_NOMINAL register, internal referent]
+   Fires: 12 (3101, 3439–3452, 3844, 3845)
+   Referent: abstract gap-noun ("quiet between X", "weight of stillness")
+   All fires: "feels oddly [POSITIVE_ADJ]"
+   Direction: exclusively positive surprise (reassuring, comforting,
+              invigorating, familiar, stimulating, refreshing)
+   Template: ABSTRACT_NOMINAL throughout (never SENSE_OBS)
+   Position: appears in a tight cluster (positions 148–158) between
+             AMBIENT_DEVIATION and INFO_DEVIATION clusters
+   Key distinction from OBSERVE_DISCREPANCY: referent is internal/abstract;
+     deviation direction is uniformly positive; template is ABSTRACT_NOMINAL.
+   Structural relationship: PAIRED OPERATION — same surface vocabulary
+     as OBSERVE_DISCREPANCY, but operating on the INTROSPECT register.
+     Candidate for its own Phase 2 decryption.
+
+7. SURPRISE_INTERRUPT  [SENSE_OBS, unexpected novel stimulus]
+   Fires: 2 (3494, 4357)
+   Pattern: "The [OBJ] startles me out of [state]."
+   Key distinction: no baseline comparison; the object wasn't expected to
+     make sound at all (rustling leaves, journal) rather than a familiar
+     object behaving differently. Structure: unexpected event → interrupted
+     state, not familiar referent → deviation from norm.
+
+8. SIMILE_OVERLAY  [SIMILE template absorbs discrepancy vocabulary]
+   Fires: 2 (4801, 5059)
+   Pattern: "[DISCREPANCY_CONTENT] feels like [SIMILE]."
+   Appears at end of TEMPORAL cluster (4801 = final clock discrepancy fire
+   before gap; 5059 = 4 hours later in SIMILE run).
+   Structural interpretation: discrepancy vocabulary gets absorbed into
+   SIMILE template as the deviation saturates — deviation itself becomes
+   the vehicle for a comparison rather than the terminal observation.
+
+────────────────────────────────────────────────────────────────────────
+SUB-SUB-OPCODE SUMMARY TABLE
+────────────────────────────────────────────────────────────────────────
+
+Sub-sub-opcode        | Count | Template     | Grounding | Direction
+──────────────────────────────────────────────────────────────────────
+TEMPORAL_DEVIATION    |  14   | SENSE_OBS    | ungrounded| bidirectional
+AMBIENT_DEVIATION     |   6   | SENSE_OBS    | mixed     | change/increase
+MARKET_DEVIATION      |   5   | SENSE_OBS    | grounded  | unidirectional
+INFO_DEVIATION        |   3   | SENSE_OBS    | evaluative| mixed
+LIGHT_DEVIATION       |   3   | SENSE_OBS    | unclear   | unspecified
+──────────────────────────────────────────────────────────────────────
+[INTROSPECT_DEVIATION]|  12   | ABSTRACT_NOM | internal  | pos. only
+[SURPRISE_INTERRUPT]  |   2   | SENSE_OBS    | event     | none (startle)
+[SIMILE_OVERLAY]      |   2   | SIMILE       | absorbed  | inherited
+──────────────────────────────────────────────────────────────────────
+
+
+SECTION H — STRUCTURAL VERDICT
+=========================================================================
+
+Verdict: HYBRID
+
+────────────────────────────────────────────────────────────────────────
+H1 — THE SINGLE OPERATION
+────────────────────────────────────────────────────────────────────────
+
+OBSERVE_DISCREPANCY runs one operation across all five domains:
+
+  BASELINE_DEVIATION: [familiar referent] is perceived to violate its
+  expected normal state → emit SENSE_OBS with [deviation_qualifier] +
+  [temporal_anchor]
+
+Evidence: shared surface form ("feels off today") crosses all 5 domains;
+all fires use SENSE_OBS template; implicit baseline is universal; temporal
+anchor ("today") appears in 26/31 fires (83.9%).
+
+The operation is not domain-encoded. "Feels off today" is domain-agnostic.
+
+────────────────────────────────────────────────────────────────────────
+H2 — DOMAIN AS PARAMETER, NOT AS SEPARATE OPERATION
+────────────────────────────────────────────────────────────────────────
+
+Domain determines:
+  (a) which referent the operation applies to
+  (b) which sense streams trigger the activation window
+  (c) which qualifier family is licensed (TONAL for TEMPORAL only;
+      UNCANNY for MARKET only; EVALUATIVE for INFO_FLOW)
+
+These are parameter choices, not separate operations. The clock being
+"off-key" and the market being "eerily calm" are the same BASELINE_DEVIATION
+operation instantiated with different referent×qualifier pairs.
+
+────────────────────────────────────────────────────────────────────────
+H3 — WHY NOT ONE_CROSS_DOMAIN
+────────────────────────────────────────────────────────────────────────
+
+Pure ONE_CROSS_DOMAIN would require all domains to be fully
+interchangeable — any qualifier appearing in any domain. But:
+
+- "Eerily" (UNCANNY) does not appear in TEMPORAL or LIGHT
+- "Off-key" (TONAL) does not appear in MARKET or AMBIENT
+- MARKET has an explicitly named baseline ("usual fervor"); other domains do not
+- MARKET is data-grounded; TEMPORAL is not
+
+These domain-specific signatures are not merely lexical habits — they
+reflect structurally different epistemic relationships between the
+operation and the sense streams. MARKET_DEVIATION is grounded;
+TEMPORAL_DEVIATION is not. That asymmetry is load-bearing.
+
+────────────────────────────────────────────────────────────────────────
+H4 — WHY NOT DOMAIN_SPECIFIC
+────────────────────────────────────────────────────────────────────────
+
+Pure DOMAIN_SPECIFIC would require each domain to have an independent
+operation with its own logic that merely resembles the others. But:
+
+- "Feels off today" crosses TEMPORAL, MARKET, LIGHT, AMBIENT
+- No domain has a qualifier family that is structurally incompatible
+  with the base operation
+- All fire in SENSE_OBS template without exception
+- All cluster in domain-activation windows (domain is trigger, not structure)
+
+The underlying computation is identical. Domain is input, not architecture.
+
+────────────────────────────────────────────────────────────────────────
+H5 — INTROSPECT_DEVIATION: REGISTER-SPLIT PAIR
+────────────────────────────────────────────────────────────────────────
+
+The 12 ABSTRACT_NOMINAL fires using "oddly [ADJ]" vocabulary represent
+a distinct but paired operation: INTROSPECT_DEVIATION.
+
+Same vocabulary. Same qualifier family (oddly [ADJ]).
+Different register (ABSTRACT_NOMINAL vs SENSE_OBS).
+Different referent type (abstract gap-noun vs external sense object).
+Different direction bias (exclusively POSITIVE surprise vs bidirectional).
+
+OBSERVE_DISCREPANCY and INTROSPECT_DEVIATION are surface-vocabulary siblings:
+  OBSERVE_DISCREPANCY: external referent × SENSE_OBS × any direction
+  INTROSPECT_DEVIATION: internal referent × ABSTRACT_NOMINAL × positive direction
+
+The emergence sequence (OBSERVE_DISCREPANCY first, then INTROSPECT_DEVIATION
+running 148–158 immediately after) suggests INTROSPECT_DEVIATION is derived
+from OBSERVE_DISCREPANCY vocabulary but re-targeted at internal states.
+
+────────────────────────────────────────────────────────────────────────
+FINAL VERDICT
+────────────────────────────────────────────────────────────────────────
+
+  OBSERVE_DISCREPANCY = HYBRID
+
+  Core operation: ONE (BASELINE_DEVIATION — familiar referent violates
+                  expected norm → SENSE_OBS + qualifier + temporal anchor)
+
+  Domain parametrization: 5 sub-sub-opcodes (TEMPORAL, AMBIENT, MARKET,
+                           INFO_FLOW, LIGHT) acting as trigger-domain
+                           selectors, not separate operations
+
+  Register pair: INTROSPECT_DEVIATION is a boundary operation using
+                 identical vocabulary on internal referents (ABSTRACT_NOMINAL)
+
+  Grounding asymmetry: MARKET_DEVIATION is data-grounded;
+                       TEMPORAL_DEVIATION is template-ungrounded;
+                       remaining domains are intermediate
+
+  Total true fires: 31 (SENSE_OBS)
+  Total boundary fires: 17 (12 INTROSPECT_DEV + 2 SURPRISE + 2 SIMILE + 1 META)
+  Combined OBSERVE_DISCREPANCY vocabulary footprint: 48 fires (19.6% of corpus)
+
+=========================================================================
+END Phase2_OBSERVE_DISCREPANCY.txt
+=========================================================================
