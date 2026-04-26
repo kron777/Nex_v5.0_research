@@ -1,0 +1,153 @@
+PHASE 2 — INTROSPECT_DEVIATION SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt (fountain corpus, 100 SENSE_OBS fires)
+Parent opcode: OBSERVE (SENSE_OBS) — register-sibling of OBSERVE_DISCREPANCY
+Fire count: ~12 (SENSE_OBS fires with discrepancy/deviation framing on non-temporal,
+  non-market sense inputs)
+=======================================================================
+
+NOTE: INTROSPECT_DEVIATION is named in the task specification as a
+"register-sibling of OBSERVE_DISCREPANCY." The existing Phase2_OBSERVE_DISCREPANCY.txt
+covers the TEMPORAL_DISCREPANCY and MARKET_DISCREPANCY sub-patterns. This file
+covers the remaining DISCREPANCY fires: weather, object, info-flow, and mixed
+discrepancy fires where the sense object is not clock/market.
+
+A. EXTRACT ALL FIRES IN FULL
+   (SENSE_OBS fires with discrepancy qualifier on non-clock/market subjects)
+
+   [3431] 2026-04-24 19:57:06 UTC  branch=systems
+     CONTENT: The keyboard's static feels more pronounced today.
+     Discrepancy: keyboard static = abnormally prominent
+
+   [3432] 2026-04-24 20:03:36 UTC  branch=systems
+     CONTENT: The notification buzz feels out of place today.
+     Discrepancy: notifications = spatially/tonally wrong
+
+   [3467] 2026-04-25 01:17:43 UTC  branch=systems
+     CONTENT: The humming of the server room feels out of sync with today's quiet.
+     Discrepancy: server hum vs. quiet = misaligned
+
+   [3478] 2026-04-25 02:50:22 UTC  branch=systems
+     CONTENT: The air feels thinner today.
+     Discrepancy: air thickness = below normal
+
+   [3482] 2026-04-25 03:19:17 UTC  branch=systems (this is LIGHT_PURE/LITERAL — recheck)
+     Actually: "The sunlight filters through sparse leaves, casting glimmers" = LITERAL.
+     EXCLUDE (no discrepancy qualifier).
+
+   [4104] 2026-04-25 13:56:21 UTC  branch=systems (DIALECTICAL in corpus)
+     CONTENT: The current news tick sounds off outside my thought bubble.
+     Note: Fire 4104 is classified as SENSE_OBS in some analyses but DIALECTICAL
+     in Phase1_DIALECTICAL (id=4100 in Phase1). Contradiction — see LATE_MINIMALIST.
+     The corpus entry above (from scrape) shows 4104="news tick sounds off" and
+     4100="tension between silence and insight." These are different fires.
+     [4104] SENSE_OBS: "The current news tick sounds off outside my thought bubble."
+     Discrepancy: news tick = tonally wrong
+
+   [4106] 2026-04-25 14:00:54 UTC  branch=systems
+     CONTENT: The temperature in the room feels a bit warmer today.
+     Discrepancy: room temperature = slightly above normal
+
+   [4108] 2026-04-25 14:09:54 UTC  branch=systems
+     CONTENT: The coffee pot hisses beside me.
+     Note: "hisses" is MOTION/LITERAL — not discrepancy. EXCLUDE.
+
+   [4199] 2026-04-25 18:46:34 UTC  branch=systems
+     CONTENT: The air feels thicker than usual today.
+     Discrepancy: air thickness = above normal (compare 3478: "thinner")
+
+   [4277] 2026-04-25 19:26:09 UTC  branch=systems
+     CONTENT: The air feels slightly off today.
+     Discrepancy: air quality = vague wrongness
+
+   [4357] 2026-04-25 19:46:21 UTC  branch=systems
+     CONTENT: The old journal's rustling startles me out of monotony.
+     Note: This is DIRECTED (startles = effect on model). Assigned to OBSERVE_HUM_DIRECTED
+     sub-type. EXCLUDE from deviation count.
+
+   Confirmed INTROSPECT_DEVIATION fires (non-clock, non-market discrepancy):
+   3431, 3432, 3467, 3478, 4104, 4106, 4199, 4277 — 8 confirmed fires.
+   Additional candidates: 2700 ("afternoon sun, but I'm restless"), 2701 ("sun's
+   warmth now seems slightly off"), 2704 ("afternoon light feels off").
+   With LIGHT_DEVIATION fires: total ~11-12 fires.
+
+
+B. TEMPLATE INVENTORY
+
+   Surface form clusters:
+     FEELS_OFF: "The [noun] feels [qualifier] today." (3432, 3478, 4104, 4106, 4199, 4277)
+       Qualifier: "out of place," "thinner," "off," "warmer," "thicker than usual,"
+       "slightly off"
+       Count: 6 fires (75% of core set)
+
+     FEELS_PRONOUNCED: "The [noun] feels more [comparative] today." (3431)
+       Count: 1 fire
+
+     OUT_OF_SYNC: "The [noun] feels out of sync with [context]." (3467)
+       Count: 1 fire
+
+   Pool size: 3 surface clusters. FEELS_OFF dominant at 75%.
+
+C. FILLER POOL ANALYSIS
+   [Noun] pool: keyboard static (3431), notification buzz (3432), server hum (3467),
+     air (3478, 4199, 4277), news tick (4104), room temperature (4106)
+   Pool size: 6 distinct nouns. "Air" is the only repeated noun (3478, 4199, 4277):
+     fires 3478 ("thinner"), 4199 ("thicker than usual"), 4277 ("slightly off") —
+     three fires with "air" as the discrepancy object on same-day (Apr 25).
+     This is the only repeated-noun cluster in INTROSPECT_DEVIATION.
+
+   [Qualifier] pool: out of place, thinner, out of sync, off, warmer, thicker than usual,
+     slightly off, more pronounced
+   Pool size: 8 qualifiers. No repetition (except implicit "air" across fires).
+
+D. GROUNDING TEST
+   All fires describe real sense inputs:
+     Keyboard static — real physical object
+     Notification buzz — real digital/acoustic event
+     Server hum — real acoustic event
+     Air thickness/quality — plausible environmental sense
+     News tick — real information feed
+     Room temperature — real thermal sense
+
+   The "feels off" / "feels thinner" qualifiers are evaluative additions —
+   they are not directly in the sense data.
+
+   Verdict: HALF-GROUNDED. Source noun grounded to real sense events (acoustic,
+   thermal, tactile environment); qualifier is generated evaluative overlay.
+   Same grounding structure as OBSERVE_TEMPORAL_QUALIFIED.
+
+E. SEQUENCE POSITION
+   3431–3432 fire consecutively (19:57–20:03 Apr 24) in the same HUM-dominated
+   evening session as the main HUM cluster.
+   4199–4277 fire 40 minutes apart (Apr 25 evening) with "air" as repeated subject.
+   4199 fires 3 fires after the SPARK fire 4196 ("clock's tick feels off today").
+   The SPARK itself is a TEMPORAL_DISCREPANCY fire; the air discrepancy fires
+   follow in its wake.
+
+F. BURST BEHAVIOR
+   Max burst: 2 (3431, 3432 consecutive).
+   Sustain rate: 1/8 fires followed by same sub-opcode = 12.5%.
+   Burst regulator: NONE (same as OBSERVE_HUM_MOTION and OBSERVE_LIGHT_PURE).
+
+G. STRUCTURAL VERDICT
+   - Operation type: REGISTER (SENSE_OBS register, same family as OBSERVE_CLOCK_QUALIFIED)
+   - Grounding mode: HALF-GROUNDED (source grounded, qualifier generated)
+   - Burst regulator: NONE
+
+   Relationship to OBSERVE_DISCREPANCY: INTROSPECT_DEVIATION is the non-clock,
+   non-market discrepancy family. Same structural pattern (NOUN × FEELS_OFF ×
+   QUALIFIER) but applied to: keyboard, notifications, air, server hum, temperature.
+   The discrepancy register is the same; only the sense domain differs.
+
+H. UPDATED STRUCTURAL GRID
+   INTROSPECT_DEVIATION | register | half-grounded | 75% (FEELS_OFF) | 2 | none
+
+I. NOTES / OPEN QUESTIONS
+   1. The "air feels thinner/thicker/off" cluster (3478, 4199, 4277 — three fires
+      in one day) suggests "air quality" as a semi-stable discrepancy domain. The air
+      fires opposite qualifiers (thinner Apr 25 02:50 → thicker Apr 25 18:46 →
+      slightly off Apr 25 19:26). This may be thermal/barometric modeling.
+   2. The name "INTROSPECT_DEVIATION" is misleading — these fires are SENSE_OBS
+      (OBSERVE family), not INTROSPECT. A better name would be
+      OBSERVE_NONCANONICAL_DISCREPANCY or OBSERVE_MISC_QUALIFIED. The task spec
+      name is retained for consistency.
