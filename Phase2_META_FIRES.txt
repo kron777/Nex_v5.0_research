@@ -1,0 +1,88 @@
+PHASE 2 — META_FIRES BOUNDARY CASE
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt + Phase1 corpus analysis
+Parent opcode: BOUNDARY CASE (disputed classification)
+Fire count: ~1 confirmed + several candidates
+=======================================================================
+
+INSUFFICIENT DATA — 1 confirmed fire. Structural verdict cannot be reached.
+
+A. DEFINITION AND IDENTIFICATION
+
+   META_FIRES are defined as fountain_insight fires that explicitly reference
+   the fountain system itself, the fire process, or the model's own output.
+   These are fires where the CONTENT contains self-referential meta-language
+   about the system rather than observations about the world or the self.
+
+   Candidate fires identified:
+
+   [4798] 2026-04-26 03:30:33 UTC  TEMPLATE: SENSE_OBS
+     CONTENT: "The clock's tick feels off today, and the fires show multiple
+       instances of transformation."
+     Meta-element: "the fires show multiple instances" — "fires" refers to
+       fountain_insight fires. The fire describes its own output context.
+     This is the clearest META_FIRE in the corpus.
+
+   [4800] (not in analyzed corpus — referenced in Phase1_SIMILE from position data)
+     Context: fire appears between 4799 (SIMILE) and subsequent SENSE_OBS.
+     Content not available in current analysis set.
+
+   Additional candidates (ambiguous):
+   [1735] "The crypto branch buzzes again, and I can't stop thinking about..."
+     Contains "thinking" (meta-cognitive) but references content not process.
+     EXCLUDE.
+
+   [3488] "The draft of my notes shifts as I flip through the old journal."
+     References own notes/writing. Borderline — PHYSICAL OBJECT, not meta.
+     EXCLUDE.
+
+B. CONFIRMED META_FIRE ANALYSIS
+
+   [4798] Full content: "The clock's tick feels off today, and the fires show
+   multiple instances of transformation."
+
+   Two parts:
+   PART 1: "The clock's tick feels off today" — standard OBSERVE_TEMPORAL_QUALIFIED
+   PART 2: "and the fires show multiple instances of transformation" — META
+
+   PART 2 is the META element. "The fires" = fountain_insight fires. This fire
+   is aware that multiple fires have been generated about the same clock event.
+   The meta-awareness element was apparently generated when the model's
+   own-content slot was saturated with clock-discrepancy fires (as documented
+   in Phase1_DISPLACEMENT_test: fire 4196 had 6 consecutive clock fires in top-7
+   own-content slot).
+
+   The META element is not a separate fire — it is embedded in a SENSE_OBS fire.
+   It represents a WITHIN-FIRE meta-awareness moment, not a distinct opcode.
+
+
+C. STRUCTURAL VERDICT
+
+   META_FIRES as a boundary case:
+   - There is no META template in the classifier.
+   - The meta-awareness element appears as a SUFFIX to a standard SENSE_OBS fire.
+   - The mechanism: when own-content slot is saturated with near-duplicate fires,
+     the model generates a meta-comment about the repetition.
+   - This is not a distinct sub-opcode — it is a context-saturation artifact.
+
+   VERDICT: NOT A DISTINCT SUB-OPCODE. Meta-awareness elements appear
+   as suffixes to standard OBSERVE or INTROSPECT fires when the own-content
+   slot is extremely saturated with near-duplicate content. The mechanism
+   is context-repetition-detection, not a distinct opcode class.
+
+   The meta-awareness observation should instead be documented as:
+   CONTEXT_SATURATION_META: when 5+ near-duplicate fires appear in own-content
+   slot, the generation may append a self-referential comment about the repetition.
+
+   UPDATED STRUCTURAL GRID: META_FIRES — NOT A DISTINCT SUB-OPCODE.
+   Reclassified as: CONTEXT_SATURATION_META (suffix phenomenon, n=1).
+
+D. NOTES
+   1. Fire 4798 is significant precisely because it shows the model's own-content
+      saturation affecting output content. The displacement test (Phase1) showed
+      that high own-content saturation does NOT reliably predict sparks. Fire 4798
+      shows that it CAN produce meta-commentary.
+   2. The meta-element ("the fires show...") is entirely accurate — there WERE
+      multiple consecutive clock-discrepancy fires in the preceding context.
+      The meta-observation is factually correct, which makes it structurally
+      unusual: the model is accurately describing its own output state.
