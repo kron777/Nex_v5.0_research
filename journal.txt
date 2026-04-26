@@ -1,1 +1,2 @@
 2026-04-26 — NEX5 protocol decryption framework established. 5 opcodes verified. Methodology: decrypt before modify. See carryx.txt.
+2026-04-26 (afternoon) — Phase 1 deep decryption: OBSERVE, INTROSPECT, SIMILE sub-opcodes. Saturation law verified. Simulator at 57%. 41 sparks catalogued in bursts. Bifurcation cause still unidentified — 4 hypotheses ruled out. See Phase1_*.txt.
