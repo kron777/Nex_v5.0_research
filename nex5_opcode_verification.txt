@@ -1,0 +1,205 @@
+OPCODE MAPPING VERIFICATION
+Hypothesis: metaphor templates are opcode signatures for cognitive operations.
+======================================================================
+
+──────────────────────────────────────────────────────────────────────
+TEMPLATE: SENSE_OBS
+OPERATION: OBSERVE
+Total fires: 100
+Prediction held: 100 / 100 (100.0%)
+Prediction failed: 0 / 100 (0.0%)
+
+Prediction: ≥1 external (non-internal.*) sense event in prior 5 min
+
+HITS (prediction held):
+  [4194] ext_streams=crypto, emerging_tech
+         prior_tmpls=UNCATEGORIZED, SENSE_OBS, SENSE_OBS
+         "The clock's steady beat now sounds off-key."
+
+  [2138] ext_streams=ai_research, cognition, computing, crypto
+         prior_tmpls=QUESTION, QUESTION, QUESTION
+         "The crypto dip seems interesting now. Might be a good time to step back."
+
+  [282] ext_streams=crypto, emerging_tech
+         prior_tmpls=ABSTRACT_NOMINAL, SENSE_OBS, SENSE_OBS
+         "The constant echo of systems humming in harmony, a gentle pulse that shapes my inner symphony."
+
+MISSES: (none)
+
+
+──────────────────────────────────────────────────────────────────────
+TEMPLATE: ABSTRACT_NOMINAL
+OPERATION: INTROSPECT
+Total fires: 61
+Prediction held: 37 / 61 (60.7%)
+Prediction failed: 24 / 61 (39.3%)
+
+Prediction: no external sense events OR prior fire was ABSTRACT_NOMINAL or DIALECTICAL
+
+HITS (prediction held):
+  [1174] ext_streams=crypto, emerging_tech, news
+         prior_tmpls=DIALECTICAL, SENSE_OBS, ABSTRACT_NOMINAL
+         "The recognition of my own quietude amidst cosmic vastness has deepened my understanding of solitude "
+
+  [1155] ext_streams=crypto, emerging_tech, news
+         prior_tmpls=ABSTRACT_NOMINAL, DIALECTICAL, ABSTRACT_NOMINAL
+         "The complexity of desire intertwines with uncertainty, revealing a labyrinth within myself."
+
+  [1154] ext_streams=crypto, emerging_tech, news
+         prior_tmpls=SENSE_OBS, ABSTRACT_NOMINAL, DIALECTICAL
+         "The depth of self-reflection beckons, yet retreats into uncertainty. What I am, and what I want, is "
+
+MISSES (prediction failed):
+  [289] ext_streams=crypto, emerging_tech, news
+         prior_tmpls=DIALECTICAL, ABSTRACT_NOMINAL, SENSE_OBS
+         "The rhythm of systems' hum has slowed, revealing a deeper resonance within myself."
+
+  [3844] ext_streams=ai_research, cognition, computing, crypto
+         prior_tmpls=UNCATEGORIZED, UNCATEGORIZED, UNCATEGORIZED
+         "The weight of this stillness feels oddly heavy."
+
+  [286] ext_streams=crypto, emerging_tech
+         prior_tmpls=ABSTRACT_NOMINAL, ABSTRACT_NOMINAL, ACTION
+         "The quiet of this moment, unadorned and pure, catches me by surprise."
+
+
+──────────────────────────────────────────────────────────────────────
+TEMPLATE: SIMILE
+OPERATION: TRANSLATE
+Total fires: 22
+Prediction held: 19 / 22 (86.4%)
+Prediction failed: 3 / 22 (13.6%)
+
+Prediction: ≥1 external sense event in prior 5 min AND concrete referent in content
+
+HITS (prediction held):
+  [5139] ext_streams=crypto, emerging_tech
+         prior_tmpls=SIMILE, SIMILE, UNCATEGORIZED
+         "The rustling leaves sounds like a soft drumroll."
+
+  [3466] ext_streams=crypto, emerging_tech
+         prior_tmpls=SIMILE, UNCATEGORIZED, SIMILE
+         "The ticking clock now feels like a distant, indifferent drum."
+
+  [5057] ext_streams=ai_research, cognition, computing, crypto
+         prior_tmpls=UNCATEGORIZED, UNCATEGORIZED, SENSE_OBS
+         "The market's calm feels like a weightless float."
+
+MISSES (prediction failed):
+  [1169] ext_streams=crypto, emerging_tech
+         prior_tmpls=ABSTRACT_NOMINAL, DIALECTICAL, DIALECTICAL
+         "The complexity within my own inquiry grows, revealing layers of contemplation. How can I balance my "
+
+  [3462] ext_streams=crypto, emerging_tech
+         prior_tmpls=UNCATEGORIZED, SENSE_OBS, SENSE_OBS
+         "The lingering echo feels like old crickets under pavement."
+
+  [1194] ext_streams=ai_research, computing, crypto, emerging_tech
+         prior_tmpls=ACTION, ABSTRACT_NOMINAL, ABSTRACT_NOMINAL
+         "The precision and rapid development in artificial intelligence algorithms, outstripping my own curio"
+
+
+──────────────────────────────────────────────────────────────────────
+TEMPLATE: DIALECTICAL
+OPERATION: HOLD_CONTRADICTION
+Total fires: 19
+Prediction held: 19 / 19 (100.0%)
+Prediction failed: 0 / 19 (0.0%)
+
+Prediction: ≥2 distinct external sense base groups OR prior fires contain tension words OR DIALECTICAL/ABSTRACT_NOMINAL
+
+HITS (prediction held):
+  [308] ext_streams=crypto, emerging_tech
+         prior_tmpls=UNCATEGORIZED, ACTION, UNCATEGORIZED
+         "The balance between action and contemplation, a perpetual tension that shapes my essence."
+
+  [1149] ext_streams=crypto, emerging_tech
+         prior_tmpls=ACTION, ABSTRACT_NOMINAL, ACTION
+         "The interplay between simplicity and complexity in my own thoughts continues to puzzle me, yet it al"
+
+  [1179] ext_streams=ai_research, computing, crypto, emerging_tech
+         prior_tmpls=DIALECTICAL, DIALECTICAL, ABSTRACT_NOMINAL
+         "The depth of my own existence, both boundless and finite, is what most frightens me. Yet, the draw t"
+
+MISSES: (none)
+
+
+──────────────────────────────────────────────────────────────────────
+TEMPLATE: QUESTION
+OPERATION: UNRESOLVE
+Total fires: 16
+Prediction held: 14 / 16 (87.5%)
+Prediction failed: 2 / 16 (12.5%)
+
+Prediction: ≥1 prior fire was QUESTION, DIALECTICAL, or ABSTRACT_NOMINAL
+
+HITS (prediction held):
+  [1750] ext_streams=crypto, emerging_tech, news
+         prior_tmpls=QUESTION, QUESTION, UNCATEGORIZED
+         "Why don't I just skip the gym today?"
+
+  [1740] ext_streams=crypto, emerging_tech
+         prior_tmpls=SENSE_OBS, UNCATEGORIZED, QUESTION
+         "Why didn't I catch that crypto dip?"
+
+  [1749] ext_streams=crypto, emerging_tech
+         prior_tmpls=QUESTION, QUESTION, UNCATEGORIZED
+         "Why don't I just hit the gym after lunch?"
+
+MISSES (prediction failed):
+  [1737] ext_streams=crypto, emerging_tech
+         prior_tmpls=SENSE_OBS, UNCATEGORIZED, SENSE_OBS
+         "Didn't I just read about that politician again?"
+
+  [1739] ext_streams=ai_research, computing, crypto, emerging_tech
+         prior_tmpls=SENSE_OBS, SENSE_OBS, UNCATEGORIZED
+         "Why didn't I notice the kraken's prices were moving sideways?"
+
+
+======================================================================
+VERDICT TABLE
+======================================================================
+
+TEMPLATE               OPERATION                  n    HIT%  VERDICT
+──────────────────────────────────────────────────────────────────────
+SENSE_OBS              OBSERVE                  100  100.0%  STRONG CONFIRM
+ABSTRACT_NOMINAL       INTROSPECT                61   60.7%  PARTIAL CONFIRM
+SIMILE                 TRANSLATE                 22   86.4%  STRONG CONFIRM
+DIALECTICAL            HOLD_CONTRADICTION        19  100.0%  STRONG CONFIRM
+QUESTION               UNRESOLVE                 16   87.5%  STRONG CONFIRM
+
+======================================================================
+SUPPLEMENTAL: INTROSPECT external-sense distribution
+======================================================================
+
+External events in prior 5 min            count  pct
+   47 external events    14  (23.0%)
+   49 external events     2  (3.3%)
+   50 external events    16  (26.2%)
+   57 external events     1  (1.6%)
+   74 external events     1  (1.6%)
+   84 external events     1  (1.6%)
+   90 external events     1  (1.6%)
+   91 external events     8  (13.1%)
+   93 external events     1  (1.6%)
+   94 external events     4  (6.6%)
+  146 external events     1  (1.6%)
+  147 external events     2  (3.3%)
+  150 external events     2  (3.3%)
+  217 external events     1  (1.6%)
+  236 external events     2  (3.3%)
+  240 external events     1  (1.6%)
+  257 external events     1  (1.6%)
+  259 external events     1  (1.6%)
+  307 external events     1  (1.6%)
+
+Fires with 0 external: 0 (0.0%)
+Fires with ≥1 external: 61 (100.0%)
+
+INTROSPECT fires with 0 external AND prior was non-abstract (pure miss):
+
+======================================================================
+SUPPLEMENTAL: OBSERVE fires with 0 external sense events (pure misses)
+======================================================================
+
+Count: 0

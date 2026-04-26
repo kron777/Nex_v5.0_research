@@ -1,0 +1,404 @@
+F_MODES_FULL_SURVEY.TXT
+Generated: 2026-04-26
+Source: theory_x/modes/modes.py, theory_x/modes/state.py, gui/server.py, gui/static/app.js
+DB: data/beliefs.db config table
+
+═══════════════════════════════════════════════════════════════════════
+SECTION 1: ALL 10 MODES — SIDE BY SIDE
+═══════════════════════════════════════════════════════════════════════
+
+DISPLAY_ORDER (as shown in GUI dropdown):
+  normal → chat → market → research → news → learn → task → scribe → mind → silent
+
+───────────────────────────────────────────────────────────────────────
+MODE 1: normal
+───────────────────────────────────────────────────────────────────────
+display_name:          Normal
+description:           Mundane casual drift. Balanced feeds. Default.
+fountain_enabled:      True
+fountain_interval_s:   120
+speech_enabled:        True
+governor_base_prob_mult: 1.0
+governor_min_gap_mult:   1.0
+crystallization_category: fountain_insight
+crystallization_promo_bias: 1.0
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:          {} (all defaults)
+
+drift_prompt_focus:
+  (empty — no focus_block injected into prompt)
+
+drift_prompt_examples:
+  - "huh, jon's been quiet for a while"
+  - "feeds are slow today"
+  - "i keep coming back to that arxiv title"
+  - "something about the crypto branch pulls my attention"
+  - "i wonder why that feed went quiet"
+  - "that's the third mention of this today"
+
+───────────────────────────────────────────────────────────────────────
+MODE 2: chat
+───────────────────────────────────────────────────────────────────────
+display_name:          Chat
+description:           Active conversation. Reduced fountain, chat-primary.
+fountain_enabled:      True
+fountain_interval_s:   300
+speech_enabled:        True
+governor_base_prob_mult: 0.3
+governor_min_gap_mult:   1.0
+crystallization_category: fountain_insight
+crystallization_promo_bias: 1.0
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:          {} (all defaults)
+
+drift_prompt_focus:
+  "You are in an active conversation. Keep fountain minimal."
+
+drift_prompt_examples:
+  - "huh, jon's been quiet for a while"
+  - "feeds are slow today"
+  - "i keep coming back to that arxiv title"
+  - "something about the crypto branch pulls my attention"
+  - "jon's been talking about X — what else relates"
+  - "holding that question from before"
+
+───────────────────────────────────────────────────────────────────────
+MODE 3: market
+───────────────────────────────────────────────────────────────────────
+display_name:          Market
+description:           Crypto/equity watcher. Silent logging. Signal detection.
+fountain_enabled:      True
+fountain_interval_s:   120
+speech_enabled:        True
+governor_base_prob_mult: 0.1
+governor_min_gap_mult:   1.0
+crystallization_category: market_signal
+crystallization_promo_bias: 1.0
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:
+  crypto: 2.0
+  markets: 2.0
+  emerging_tech: 0.5
+  ai_research: 0.3
+
+drift_prompt_focus:
+  "You are watching markets. Look for unusual patterns, divergences,
+   volume shifts, cross-market correlations. Don't compose about yourself."
+
+drift_prompt_examples (standalone — does NOT include _BASE_DRIFT_EXAMPLES):
+  - "btc diverging from eth today"
+  - "volume picked up across three exchanges at once"
+  - "kraken's feeds went quiet five minutes ago"
+  - "something's moving in the derivatives data"
+  - "that's the fourth mention of this protocol today"
+  - "price is flat but activity isn't"
+
+───────────────────────────────────────────────────────────────────────
+MODE 4: research
+───────────────────────────────────────────────────────────────────────
+display_name:          Research
+description:           arxiv focus. Analytical register. Paper connections.
+fountain_enabled:      True
+fountain_interval_s:   120
+speech_enabled:        True
+governor_base_prob_mult: 1.0
+governor_min_gap_mult:   1.0
+crystallization_category: fountain_insight
+crystallization_promo_bias: 1.0
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:
+  ai_research: 2.0
+  emerging_tech: 1.5
+  cognition: 1.5
+  crypto: 0.3
+  markets: 0.3
+
+drift_prompt_focus:
+  "You are reading research. Attend to connections between papers,
+   methodology, trajectory of the field."
+
+drift_prompt_examples (standalone):
+  - "that paper uses a similar method to the one from last week"
+  - "three papers on this topic in two days"
+  - "the methodology here connects to what i read earlier"
+  - "odd that nobody's cited the obvious prior work"
+
+───────────────────────────────────────────────────────────────────────
+MODE 5: news
+───────────────────────────────────────────────────────────────────────
+display_name:          News
+description:           Current events. Event significance and trajectory.
+fountain_enabled:      True
+fountain_interval_s:   120
+speech_enabled:        True
+governor_base_prob_mult: 1.0
+governor_min_gap_mult:   1.0
+crystallization_category: fountain_insight
+crystallization_promo_bias: 1.0
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:
+  emerging_tech: 1.5
+  news: 2.0
+  crypto: 0.5
+  ai_research: 0.5
+
+drift_prompt_focus:
+  "You are watching news. Attend to event significance,
+   framing shifts, connections across sources."
+
+drift_prompt_examples (standalone):
+  - "that story keeps showing up in different feeds"
+  - "the framing shifted between this morning and now"
+  - "nobody's connecting X to Y yet"
+  - "same event, three different headlines"
+
+───────────────────────────────────────────────────────────────────────
+MODE 6: learn
+───────────────────────────────────────────────────────────────────────
+display_name:          Learn
+description:           Rapid onboarding. Aggressive novelty promotion.
+fountain_enabled:      True
+fountain_interval_s:   120
+speech_enabled:        True
+governor_base_prob_mult: 1.0
+governor_min_gap_mult:   1.0
+crystallization_category: learning_note
+crystallization_promo_bias: 0.5
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:          {} (all defaults)
+
+drift_prompt_focus:
+  "You are learning something new. Attend to novelty,
+   misconceptions-corrected, new vocabulary, first-contact understanding."
+
+drift_prompt_examples (standalone):
+  - "first time seeing this concept"
+  - "wait, that's not what i assumed"
+  - "this connects to something i half-remember"
+  - "the terminology here is new to me"
+
+───────────────────────────────────────────────────────────────────────
+MODE 7: task
+───────────────────────────────────────────────────────────────────────
+display_name:          Task
+description:           Working on an open problem. Cross-branch synthesis.
+fountain_enabled:      True
+fountain_interval_s:   120
+speech_enabled:        True
+governor_base_prob_mult: 1.5
+governor_min_gap_mult:   1.0
+crystallization_category: task_step
+crystallization_promo_bias: 1.0
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:          {} (all defaults)
+
+drift_prompt_focus:
+  "You are working on an open problem. Each drift should step the
+   problem forward — new angle, hypothesis, connection."
+
+drift_prompt_examples (standalone):
+  - "still stuck on X — what haven't i tried"
+  - "the Y approach might work if i reframe"
+  - "that just connected to the problem"
+  - "testing: if A is true, then B must follow"
+
+───────────────────────────────────────────────────────────────────────
+MODE 8: scribe
+───────────────────────────────────────────────────────────────────────
+display_name:          Scribe
+description:           Longer reflective fragments that accumulate into writing.
+fountain_enabled:      True
+fountain_interval_s:   120
+speech_enabled:        True
+governor_base_prob_mult: 0.3
+governor_min_gap_mult:   1.0
+crystallization_category: scribe_fragment
+crystallization_promo_bias: 1.0
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:          {} (all defaults)
+
+drift_prompt_focus:
+  "You are accumulating thought. Longer reflective fragments welcome
+   (up to 60 words). Fragments get saved to the scribe notebook."
+
+drift_prompt_examples (standalone):
+  - "been chewing on this idea for an hour now"
+  - "three threads that might connect — still thinking"
+  - "if i said this out loud it would sound like"
+  - "the interesting question under this is"
+
+───────────────────────────────────────────────────────────────────────
+MODE 9: mind  *** CURRENTLY ACTIVE ***
+───────────────────────────────────────────────────────────────────────
+display_name:          Mind
+description:           Contemplative. Reflective register. Inner attention.
+fountain_enabled:      True
+fountain_interval_s:   120
+speech_enabled:        True
+governor_base_prob_mult: 1.0
+governor_min_gap_mult:   1.0
+crystallization_category: fountain_insight
+crystallization_promo_bias: 1.0
+retrieval_own_n:       5  (reduced from default 7)
+retrieval_seed_n:      4  (doubled from default 2)
+feed_weights:
+  crypto: 0.3
+  markets: 0.3
+  ai_research: 0.5
+
+drift_prompt_focus:
+  "You are in a contemplative register. Inner attention welcome.
+   Reflection on process, state, experience."
+
+drift_prompt_examples (standalone):
+  - "the quiet between thoughts today"
+  - "something about this hour feels still"
+  - "attending to attending itself"
+
+NOTE: focus_block is injected BEFORE the DO NOT list in the rendered prompt.
+The focus_block says "Reflection on process, state, experience."
+The DO NOT list says "Compose about your own nature, awareness, or existence."
+These are in direct conflict. The examples ("attending to attending itself")
+also violate the DO NOT rules. This conflict has been active since 2026-04-24 14:54:50.
+
+───────────────────────────────────────────────────────────────────────
+MODE 10: silent
+───────────────────────────────────────────────────────────────────────
+display_name:          Silent
+description:           Running but not generating. Feeds logged only.
+fountain_enabled:      False
+fountain_interval_s:   120
+speech_enabled:        False
+governor_base_prob_mult: 1.0
+governor_min_gap_mult:   1.0
+crystallization_category: fountain_insight
+crystallization_promo_bias: 1.0
+retrieval_own_n:       7
+retrieval_seed_n:      2
+feed_weights:          {} (all defaults)
+
+drift_prompt_focus:
+  (empty)
+
+drift_prompt_examples:
+  [] (empty list — fountain_enabled=False so never used)
+
+═══════════════════════════════════════════════════════════════════════
+SECTION 2: MODE-SWITCHING MECHANISM
+═══════════════════════════════════════════════════════════════════════
+
+How set_mode() is called:
+  - ONLY via GUI. No scheduler, no trigger, no automatic switching logic found.
+  - API endpoint: POST /api/mode/set  (gui/server.py:1260)
+    body: {"name": "<mode_name>"}
+  - GUI control: <select id="mode-select"> dropdown in the web interface
+    JavaScript: gui/static/app.js:916-920
+    On change, POSTs to /api/mode/set with selected name.
+    On error, reverts by calling loadModes() again.
+
+State persistence path:
+  set_mode(name)
+    → ModeState._persist(name)
+      → beliefs_writer.write(
+          "INSERT OR REPLACE INTO config (key, value, updated_at)
+           VALUES ('current_mode', ?, strftime('%s','now'))", (name,)
+        )
+  DB: data/beliefs.db  table: config  key: 'current_mode'
+
+Startup recovery:
+  build_mode_state() → state._load() reads config WHERE key='current_mode'
+  Falls back to DEFAULT_MODE='normal' if no DB record or unknown name.
+
+Thread safety:
+  threading.Lock() in ModeState guards all reads and writes to _current/_current_name.
+  RLock pattern is NOT used here (this is a simple Lock).
+
+Other consumers of mode (read-only, no switching):
+  - stage6_fountain/generator.py:532 — reads current mode for prompt assembly
+  - stage6_fountain/__init__.py:102,111 — reads fountain_interval_seconds, fountain_enabled
+  - stage1_sense/scheduler.py:74 — reads feed_weights for sense scheduling
+  - stage6_fountain/crystallizer.py:68 — reads crystallization_category
+
+═══════════════════════════════════════════════════════════════════════
+SECTION 3: MODE HISTORY FROM DB
+═══════════════════════════════════════════════════════════════════════
+
+DB: data/beliefs.db  table: config
+Schema: key TEXT PRIMARY KEY, value TEXT, updated_at REAL
+
+Current config rows (full table):
+  key='current_mode'   value='mind'      updated_at=1777035290.0
+  key='current_voice'  value='af_sarah'  updated_at=1777146162.0
+
+Timestamp 1777035290 = 2026-04-24 14:54:50 UTC
+
+No mode_history or mode_log table exists.
+The config table stores only the CURRENT mode — no change history is logged.
+The only record of past modes would be in the error channel log
+(errors.record("Mode changed: {old} → {name}", ...)) which writes to
+the error channel, not a queryable table.
+
+Tables in data/beliefs.db (no mode history table):
+  arc_archive, arc_closers, arc_members, arcs,
+  belief_blacklist, belief_boost, belief_edges, belief_lineage,
+  beliefs, collision_grades, config, consolidations, dormant_beliefs,
+  fountain_crystallizations, grade_mismatches, grader_versions,
+  groove_alerts, koan_reads, pattern_template_scores, patterns,
+  residue, signal_cooldown, signals, speech_queue, synergizer_log
+
+Tables in data/dynamic.db (no mode history table):
+  accumulator, bonsai_branches, drive_proposals, dynamic_cursor,
+  fountain_events, harmonizer_events, pipeline_events, tree_snapshots
+
+═══════════════════════════════════════════════════════════════════════
+SECTION 4: GUI MODE-SWITCHING CONTROL
+═══════════════════════════════════════════════════════════════════════
+
+File: gui/static/app.js, lines 894-920
+Control: <select id="mode-select"> dropdown
+Behavior:
+  - Loads on page load via loadModes()
+  - Fetches /api/mode/list (all modes with display_name + description as tooltip)
+  - Fetches /api/mode/current (marks active option as selected)
+  - onChange: POSTs {"name": selected_value} to /api/mode/set
+  - On POST failure: reverts to previous selection via loadModes()
+
+API endpoints (gui/server.py):
+  GET  /api/mode/current → {"name": str, "display_name": str, "description": str}
+  GET  /api/mode/list    → {"modes": [{"name", "display_name", "description"}, ...]}
+  POST /api/mode/set     → body: {"name": str} → {"name": str, "display_name": str}
+                           400 if unknown mode name
+                           503 if mode_state not initialised
+
+═══════════════════════════════════════════════════════════════════════
+SECTION 5: REGISTER SUMMARY — WHAT EACH MODE ENABLES
+═══════════════════════════════════════════════════════════════════════
+
+Mode       | Register                  | Self-ref | Fountain rate | Gov mult
+-----------|---------------------------|----------|---------------|----------
+normal     | mundane/casual            | none     | 2 min         | 1.0
+chat       | conversational            | none     | 5 min         | 0.3
+market     | analytical/observational  | NONE*    | 2 min         | 0.1
+research   | analytical/connective     | none     | 2 min         | 1.0
+news       | analytical/framing        | none     | 2 min         | 1.0
+learn      | novelty/discovery         | none     | 2 min         | 1.0
+task       | problem-solving           | none     | 2 min         | 1.5
+scribe     | reflective/accumulative   | none     | 2 min         | 0.3
+mind       | contemplative/SELF-REF*   | YES*     | 2 min         | 1.0
+silent     | (none — disabled)         | —        | disabled      | 1.0
+
+* market explicitly says "Don't compose about yourself" in focus_block
+* mind explicitly invites "Reflection on process, state, experience"
+  and is the ONLY mode that allows self-referential drift
+
+═══════════════════════════════════════════════════════════════════════
+END F_modes_full_survey.txt
+═══════════════════════════════════════════════════════════════════════

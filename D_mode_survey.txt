@@ -1,0 +1,296 @@
+MODE SURVEY — theory_x/modes/modes.py
+Generated: 2026-04-26
+======================================================================
+
+CURRENT ACTIVE MODE (from beliefs.db config table):
+  key=current_mode  value=mind  set_at=2026-04-24 14:54:50
+  (set ~20 hours ago and never changed since)
+
+======================================================================
+SELECTION MECHANISM
+======================================================================
+
+1. ModeState (theory_x/modes/state.py) holds current mode in memory
+   under a threading.Lock().
+2. On startup, build_mode_state() loads persisted value from
+   beliefs.db → config WHERE key='current_mode'. Falls back to
+   DEFAULT_MODE='normal' if absent.
+3. set_mode(name) updates in-memory state AND writes back to DB.
+4. At each fountain fire, generator.py line 532:
+     mode = self._mode_state.current() if self._mode_state else get_mode("normal")
+   No dynamic selection — whatever mode is currently set is used.
+5. focus_block is set at line 552:
+     focus_block = f"\n{mode.drift_prompt_focus}\n" if mode.drift_prompt_focus else "\n"
+6. examples_block is set at line 550:
+     examples_list = mode.drift_prompt_examples or _DEFAULT_DRIFT_EXAMPLES
+
+Mode switching is manual only (no automatic switching logic found in codebase).
+
+======================================================================
+_DEFAULT_DRIFT_EXAMPLES (generator.py, used when mode.drift_prompt_examples is empty)
+======================================================================
+- "huh, jon's been quiet for a while"
+- "markets feel slow today"
+- "that arxiv title is oddly phrased"
+- "i wonder what counts as 'emerging' technology"
+- "i had this same thought yesterday i think"
+- "didn't i already read about this?"
+- "wait, bitcoin's moving"
+- "three feeds went quiet at once"
+- "why is 'proprioception' called that"
+- "i forgot what i was doing"
+- "something about the crypto branch keeps pulling my attention"
+
+_BASE_DRIFT_EXAMPLES (modes.py, base list mixed into several modes)
+- "huh, jon's been quiet for a while"
+- "feeds are slow today"
+- "i keep coming back to that arxiv title"
+- "something about the crypto branch pulls my attention"
+
+======================================================================
+ALL 10 MODE DEFINITIONS (full focus_block and examples)
+======================================================================
+
+──────────────────────────────────────────────────────────────────────
+MODE: normal  (DEFAULT_MODE)
+Display: Normal
+Description: Mundane casual drift. Balanced feeds. Default.
+fountain_enabled: True  interval: 120s
+speech_enabled: True
+crystallization_category: fountain_insight
+retrieval_own_n: 7  retrieval_seed_n: 2
+feed_weights: (none — all feeds at base rate)
+governor_base_prob_multiplier: 1.0  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus: (empty string — focus_block collapses to single newline)
+
+drift_prompt_examples:
+- "huh, jon's been quiet for a while"
+- "feeds are slow today"
+- "i keep coming back to that arxiv title"
+- "something about the crypto branch pulls my attention"
+- "i wonder why that feed went quiet"
+- "that's the third mention of this today"
+
+──────────────────────────────────────────────────────────────────────
+MODE: chat
+Display: Chat
+Description: Active conversation. Reduced fountain, chat-primary.
+fountain_enabled: True  interval: 300s
+speech_enabled: True
+crystallization_category: fountain_insight
+retrieval_own_n: 7  retrieval_seed_n: 2
+feed_weights: (none)
+governor_base_prob_multiplier: 0.3  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus:
+  "You are in an active conversation. Keep fountain minimal."
+
+drift_prompt_examples:
+- "huh, jon's been quiet for a while"
+- "feeds are slow today"
+- "i keep coming back to that arxiv title"
+- "something about the crypto branch pulls my attention"
+- "jon's been talking about X — what else relates"
+- "holding that question from before"
+
+──────────────────────────────────────────────────────────────────────
+MODE: market
+Display: Market
+Description: Crypto/equity watcher. Silent logging. Signal detection.
+fountain_enabled: True  interval: 120s
+speech_enabled: True
+crystallization_category: market_signal
+retrieval_own_n: 7  retrieval_seed_n: 2
+feed_weights: crypto=2.0  markets=2.0  emerging_tech=0.5  ai_research=0.3
+governor_base_prob_multiplier: 0.1  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus:
+  "You are watching markets. Look for unusual patterns, divergences,
+  volume shifts, cross-market correlations. Don't compose about yourself."
+
+drift_prompt_examples:
+- "btc diverging from eth today"
+- "volume picked up across three exchanges at once"
+- "kraken's feeds went quiet five minutes ago"
+- "something's moving in the derivatives data"
+- "that's the fourth mention of this protocol today"
+- "price is flat but activity isn't"
+
+──────────────────────────────────────────────────────────────────────
+MODE: research
+Display: Research
+Description: arxiv focus. Analytical register. Paper connections.
+fountain_enabled: True  interval: 120s
+speech_enabled: True
+crystallization_category: fountain_insight
+retrieval_own_n: 7  retrieval_seed_n: 2
+feed_weights: ai_research=2.0  emerging_tech=1.5  cognition=1.5  crypto=0.3  markets=0.3
+governor_base_prob_multiplier: 1.0  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus:
+  "You are reading research. Attend to connections between papers,
+  methodology, trajectory of the field."
+
+drift_prompt_examples:
+- "that paper uses a similar method to the one from last week"
+- "three papers on this topic in two days"
+- "the methodology here connects to what i read earlier"
+- "odd that nobody's cited the obvious prior work"
+
+──────────────────────────────────────────────────────────────────────
+MODE: news
+Display: News
+Description: Current events. Event significance and trajectory.
+fountain_enabled: True  interval: 120s
+speech_enabled: True
+crystallization_category: fountain_insight
+retrieval_own_n: 7  retrieval_seed_n: 2
+feed_weights: emerging_tech=1.5  news=2.0  crypto=0.5  ai_research=0.5
+governor_base_prob_multiplier: 1.0  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus:
+  "You are watching news. Attend to event significance,
+  framing shifts, connections across sources."
+
+drift_prompt_examples:
+- "that story keeps showing up in different feeds"
+- "the framing shifted between this morning and now"
+- "nobody's connecting X to Y yet"
+- "same event, three different headlines"
+
+──────────────────────────────────────────────────────────────────────
+MODE: scribe
+Display: Scribe
+Description: Longer reflective fragments that accumulate into writing.
+fountain_enabled: True  interval: 120s
+speech_enabled: True
+crystallization_category: scribe_fragment
+retrieval_own_n: 7  retrieval_seed_n: 2
+feed_weights: (none)
+governor_base_prob_multiplier: 0.3  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus:
+  "You are accumulating thought. Longer reflective fragments welcome
+  (up to 60 words). Fragments get saved to the scribe notebook."
+
+drift_prompt_examples:
+- "been chewing on this idea for an hour now"
+- "three threads that might connect — still thinking"
+- "if i said this out loud it would sound like"
+- "the interesting question under this is"
+
+──────────────────────────────────────────────────────────────────────
+MODE: learn
+Display: Learn
+Description: Rapid onboarding. Aggressive novelty promotion.
+fountain_enabled: True  interval: 120s
+speech_enabled: True
+crystallization_category: learning_note
+retrieval_own_n: 7  retrieval_seed_n: 2
+feed_weights: (none)
+crystallization_promotion_bias: 0.5
+governor_base_prob_multiplier: 1.0  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus:
+  "You are learning something new. Attend to novelty,
+  misconceptions-corrected, new vocabulary, first-contact understanding."
+
+drift_prompt_examples:
+- "first time seeing this concept"
+- "wait, that's not what i assumed"
+- "this connects to something i half-remember"
+- "the terminology here is new to me"
+
+──────────────────────────────────────────────────────────────────────
+MODE: task
+Display: Task
+Description: Working on an open problem. Cross-branch synthesis.
+fountain_enabled: True  interval: 120s
+speech_enabled: True
+crystallization_category: task_step
+retrieval_own_n: 7  retrieval_seed_n: 2
+feed_weights: (none)
+governor_base_prob_multiplier: 1.5  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus:
+  "You are working on an open problem. Each drift should step the
+  problem forward — new angle, hypothesis, connection."
+
+drift_prompt_examples:
+- "still stuck on X — what haven't i tried"
+- "the Y approach might work if i reframe"
+- "that just connected to the problem"
+- "testing: if A is true, then B must follow"
+
+──────────────────────────────────────────────────────────────────────
+MODE: mind  ← CURRENTLY ACTIVE (set 2026-04-24 14:54:50)
+Display: Mind
+Description: Contemplative. Reflective register. Inner attention.
+fountain_enabled: True  interval: 120s
+speech_enabled: True
+crystallization_category: fountain_insight
+retrieval_own_n: 5  retrieval_seed_n: 4
+feed_weights: crypto=0.3  markets=0.3  ai_research=0.5
+governor_base_prob_multiplier: 1.0  governor_min_gap_multiplier: 1.0
+
+drift_prompt_focus:
+  "You are in a contemplative register. Inner attention welcome.
+  Reflection on process, state, experience."
+
+drift_prompt_examples:
+- "the quiet between thoughts today"
+- "something about this hour feels still"
+- "attending to attending itself"
+
+NOTE: mind mode retrieves MORE seeds (4 vs 2 default) and FEWER own
+beliefs (5 vs 7 default). It actively suppresses crypto/markets feeds
+(0.3x weight) and reduces ai_research (0.5x). This is the mode whose
+focus_block directly contradicts the DO NOT rules in the system prompt.
+
+──────────────────────────────────────────────────────────────────────
+MODE: silent
+Display: Silent
+Description: Running but not generating. Feeds logged only.
+fountain_enabled: FALSE
+speech_enabled: FALSE
+drift_prompt_focus: (empty)
+drift_prompt_examples: (empty list)
+
+======================================================================
+FOCUS_BLOCK CONFLICT ANALYSIS
+======================================================================
+
+_DRIFT_SYSTEM_PROMPT_TEMPLATE DO NOT rules (always present):
+  - DO NOT: Compose about your own nature, awareness, or existence
+  - DO NOT: Start with "The X of my Y"
+  - DO NOT: Use words like "quietude", "interplay", "dance", "tapestry"
+  - DO NOT: Reach for profundity
+  - DO NOT: Philosophize unprompted
+
+mind mode focus_block (injected BEFORE DO NOT rules in prompt order):
+  "You are in a contemplative register. Inner attention welcome.
+  Reflection on process, state, experience."
+
+mind mode examples (replace the default concrete examples):
+  - "the quiet between thoughts today"          ← abstract
+  - "something about this hour feels still"     ← abstract
+  - "attending to attending itself"             ← meta/abstract
+
+CONFLICT: focus_block explicitly invites "Reflection on process,
+state, experience" — the DO NOT list explicitly forbids "Compose about
+your own nature, awareness, or existence." The focus_block appears
+first in the rendered prompt (before DO NOT). LLM resolves in favor of
+the positive instruction.
+
+MODES WITH NO FOCUS_BLOCK CONFLICT: normal, silent
+MODES WITH MILD/DIRECTIONAL FOCUS: chat, market, research, news, learn, task
+MODES WITH DIRECT CONFLICT: mind (only)
+
+======================================================================
+FILE LOCATIONS
+======================================================================
+modes.py:       theory_x/modes/modes.py
+state.py:       theory_x/modes/state.py
+generator.py:   theory_x/stage6_fountain/generator.py  (lines 532, 550-555)
+DB persistence: data/beliefs.db → config WHERE key='current_mode'

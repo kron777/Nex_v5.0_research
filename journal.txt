@@ -1,0 +1,1 @@
+2026-04-26 — NEX5 protocol decryption framework established. 5 opcodes verified. Methodology: decrypt before modify. See carryx.txt.

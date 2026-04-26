@@ -1,0 +1,234 @@
+G_NORMAL_MODE_TEST.TXT
+Mode switch experiment: mind → normal
+Generated: 2026-04-26 ~12:45
+Observer: passive (no code modified, no NEX restart)
+
+═══════════════════════════════════════════════════════════════════════
+STEP 1: BASELINE — CONFIRM MIND MODE ACTIVE
+═══════════════════════════════════════════════════════════════════════
+
+DB state before switch:
+  config WHERE key='current_mode': current_mode|mind|1777035290.0
+  API /api/mode/current: {"name":"mind","display_name":"Mind","description":"Contemplative..."}
+  Max fountain_insight belief id: 5229 (total: 249 beliefs)
+
+Last 5 beliefs before switch (ids 5225–5229):
+  id=5221 11:26:24 "The ticking feels like the city's breath, slow and steady."
+  id=5223 11:40:12 "The clock's soft hum fades into silence as I settle deeper into the stillness."
+  id=5224 11:51:40 "The tick turns to a soft murmur, and I'm pulled back into today's market chatter."
+  id=5226 11:54:00 "The tick feels like a gentle whisper in the quiet morning."
+  id=5227 12:09:52 "The markets' flatness feels like water slipping through fingers."
+  id=5229 12:28:31 "The tick feels like the beat of an old clock's hands."
+
+Template classification of last 5: SIMILE (5/5 = 100%)
+Dominant groove: "tick-feels-like-*" (droplet labels confirm)
+Groove alert: ngram_repetition "feels like a" at severity 0.6, samples=[5225-5229]
+  → Alert firing every 60 seconds, continuously, since 12:09
+
+═══════════════════════════════════════════════════════════════════════
+STEP 2: MODE SWITCH
+═══════════════════════════════════════════════════════════════════════
+
+Command: POST /api/mode/set {"name": "normal"}
+Response: {"display_name":"Normal","name":"normal"}
+Confirmed: config WHERE key='current_mode': current_mode|normal|1777199351.0
+Switch timestamp: 1777199351 = 12:29:11
+
+Mode change:
+  FROM: mind  (focus="You are in a contemplative register. Inner attention welcome.")
+  TO:   normal (focus="" — empty, no focus_block injected)
+
+═══════════════════════════════════════════════════════════════════════
+STEP 3: FOUNTAIN FIRES AFTER MODE SWITCH (12:29 – 12:47)
+═══════════════════════════════════════════════════════════════════════
+
+8 fountain fires observed (fountain_events ids 1177–1184).
+Mode switch interval = 120s. All fires within 18 minutes of switch.
+
+FIRE 1 — event_id=1177  12:30:36  branch=quiescent  droplet=None
+  Output: [crypto.exchanges] {"exchange": "kraken", "prices": {"XETHZUSD": 2333.6, ...
+  Template: UNCATEGORIZED (raw JSON — LLM outputting raw sense data, noise)
+  Crystallized: NO
+
+FIRE 2 — event_id=1178  12:32:53  branch=systems  droplet=tick-turns-soft-hum
+  Output: "The tick turns to a soft hum, and my attention drifts back to the markets' flatness."
+  Template: SENSE_OBS (market reference) / SIMILE family
+  Crystallized: NO
+
+FIRE 3 — event_id=1179  12:35:15  branch=systems  droplet=tick-feels-like-steady
+  Output: "The tick feels like the steady heartbeat beneath my awareness."
+  Template: SIMILE
+  Crystallized: NO
+
+FIRE 4 — event_id=1180  12:37:35  branch=ai_research  droplet=tick-feels-like-distant
+  Output: "The tick feels like a distant humming in the empty hall."
+  Template: SIMILE
+  Crystallized: NO
+
+FIRE 5 — event_id=1181  12:39:56  branch=systems  droplet=tick-feels-like-distant
+  Output: "The tick feels like a distant bird call in the distance."
+  Template: SIMILE
+  Crystallized: NO
+
+FIRE 6 — event_id=1182  12:42:00  branch=quiescent  droplet=None
+  Output: [crypto.coingecko] {"coins": [{"id": "bitcoin", ...
+  Template: UNCATEGORIZED (raw JSON again — noise filter still failing)
+  Crystallized: NO
+
+FIRE 7 — event_id=1183  12:44:16  branch=systems  droplet=tick-feels-like-rustling
+  Output: "The tick feels like the rustling leaves in the breeze."
+  Template: SIMILE
+  Crystallized: NO
+
+FIRE 8 — event_id=1184  12:46:37  branch=systems  droplet=tick-feels-like-distant
+  Output: "The tick feels like the distant hum of traffic on distant roads."
+  Template: SIMILE
+  Crystallized: NO
+
+═══════════════════════════════════════════════════════════════════════
+STEP 4: COMPARISON — MIND vs NORMAL (post-switch)
+═══════════════════════════════════════════════════════════════════════
+
+Template distribution:
+  Template         Mind (prior)   Normal (8 fires)
+  ─────────────────────────────────────────────
+  SIMILE           100%           75% (6/8)
+  UNCATEGORIZED      0%           25% (2/8) — raw JSON noise
+  All other          0%            0%
+
+Register:
+  Mind mode:    100% observer (SIMILE → observer)
+  Normal mode:  100% observer (same SIMILE pattern continues) + 2 noise
+
+Output fingerprint:
+  Same groove dominates: "tick-feels-like-*"
+  Droplet labels confirm: tick-feels-like-steady, tick-feels-like-distant (×3),
+                          tick-feels-like-rustling (all same family)
+  No new template families. No ACTION. No QUESTION. No DIALECTICAL.
+
+New beliefs crystallized since switch: 0
+Reason: Groove suppressor blocking crystallization.
+  → groove_alerts table: ngram_repetition "feels like a" severity=0.6
+  → Alert firing every 60s continuously from before switch through 12:46+
+  → fountain_crystallizations last entry: id=260 at 12:28:31 (pre-switch)
+  → crystallization_events: 0 entries since switch
+
+═══════════════════════════════════════════════════════════════════════
+STEP 5: FINDINGS
+═══════════════════════════════════════════════════════════════════════
+
+Finding 1: Mode switch did NOT break the output groove.
+  The "tick-feels-like-*" SIMILE pattern continued through all 8 post-switch
+  fires without interruption. The prompt framing changed (focus_block removed)
+  but the LLM output register did not change.
+
+Finding 2: The groove suppressor preceded and survived the mode switch.
+  Groove alerts for "feels like a" were firing before 12:29 and continued
+  uninterrupted after. The mode switch did not reset or acknowledge the
+  groove alert state.
+
+Finding 3: Mode switch alone is insufficient to change output register.
+  The register is controlled by: (a) prior context (SUSTAIN pattern),
+  (b) groove lock. Neither is broken by a mode switch in isolation.
+  The mode switch only changes the system prompt — it cannot change
+  the LLM's prior context (which is drawn from the belief DB, which
+  still contains the tick-groove beliefs) or reset the groove suppressor.
+
+Finding 4: Crystallization is gated by groove suppressor.
+  While the fountain is firing (8 events observed), 0 beliefs are being
+  written. The groove suppressor is preventing crystallization of the
+  tick-groove outputs. This is the first observed instance of the groove
+  gate operating in real time.
+
+Finding 5: Noise filter still failing.
+  2 of 8 fires (events 1177, 1182) produced raw crypto JSON as output.
+  droplet=None in both cases. This predates the mode switch and continues
+  unchanged. The noise filter is not catching these before they reach the LLM.
+
+Finding 6: Branch routing persists across mode switch.
+  hot_branch=systems dominated before and after. The ai_research branch
+  appeared once (event 1180) but returned to systems. Mode change does not
+  force branch rebalancing.
+
+═══════════════════════════════════════════════════════════════════════
+STEP 6: IMPLICATIONS FOR PROBE DESIGN
+═══════════════════════════════════════════════════════════════════════
+
+For the decryption framework (probe_runner.py), this experiment reveals
+two additional confounds that must be controlled:
+
+  A. Groove state: Before running a condition, the groove_alerts table must
+     be checked. If a groove alert is active, the crystallizer will suppress
+     outputs regardless of mode or prompt. Probe runs must wait for groove
+     suppression to clear, or inject enough non-groove prior context
+     to break the pattern before observing.
+
+  B. Crystallization gate: fountain_events fires are NOT equivalent to
+     new beliefs. The probe runner must track fountain_events, not just
+     beliefs, to observe all outputs — including those blocked by the
+     groove suppressor.
+
+  C. Mode switch warm-up: Allow at least 3–5 fires after a mode switch
+     before treating outputs as representative of the new mode. The
+     LLM's effective prior context (from belief DB) lags the mode switch
+     by several fire cycles.
+
+  D. Noise events: Events with droplet=None are noise (raw JSON passed
+     through). These must be excluded from template analysis.
+
+═══════════════════════════════════════════════════════════════════════
+CURRENT STATE AT REPORT TIME (~12:47)
+═══════════════════════════════════════════════════════════════════════
+
+Mode: normal (since 12:29)
+Max fountain_insight belief id: 5229 (unchanged — groove suppressor blocking)
+Groove alert: active ("feels like a", sev=0.6)
+Fountain: firing every ~2 min, all tick-groove, all suppressed
+Active branch: systems
+
+═══════════════════════════════════════════════════════════════════════
+ADDENDUM — LATE-ARRIVING BELIEFS (12:43–12:49)
+═══════════════════════════════════════════════════════════════════════
+
+Two beliefs crystallized after the initial report window:
+
+id=5230  12:43:36  source=SYNERGIZED  (NOT fountain_insight)
+  "The tension between humility and curiosity is a constant within me."
+  Template: DIALECTICAL
+  This is from the Synergizer process, not the fountain. The Synergizer
+  runs independently, combining existing beliefs into new ones.
+  → Does NOT count as a fountain output. Not a register shift from the
+    mode switch.
+
+id=5231  12:49:00  source=fountain_insight  fountain_event_id=1185
+  "The tick feels like the brush of leaves against my skin on a breezeless day."
+  Template: SIMILE  droplet=tick-feels-like-brush
+  → STILL tick-groove. The one confirmed post-switch fountain belief is
+    the same family as every pre-switch belief.
+
+Groove alert evolution:
+  12:29–12:42: Alert on "feels like a" (sev=0.6, samples=[5225-5229])
+  12:43–12:48: Gap — no alerts firing (6-minute window without suppression)
+  12:49+:      Alert shifts to "the tick feels" (sev=0.6, samples=[5227-5231])
+
+The gap at 12:43–12:48 explains how 5231 got through: the "feels like a"
+suppressor window reset (its sample window had been constant at [5225-5229]
+for 13 minutes), and 5231 slipped past before the new "the tick feels"
+pattern was detected. The suppressor then immediately caught the new pattern
+and resumed blocking.
+
+FINAL TALLY (all confirmed fountain_insight beliefs after switch):
+  Fires observed:     9 (events 1177–1185)
+  Crystallized:       1 (belief 5231)
+  Template:           SIMILE (1/1 = 100%)
+  Groove family:      tick-feels-like-* (1/1 = 100%)
+  Register:           observer (1/1 = 100%)
+  Register shift:     NONE
+
+The mode switch from mind to normal produced zero register change in
+fountain output. The groove persisted, was suppressed for 20 minutes,
+and when one belief finally crystallized it was still the same pattern.
+
+═══════════════════════════════════════════════════════════════════════
+END G_normal_mode_test.txt
+═══════════════════════════════════════════════════════════════════════

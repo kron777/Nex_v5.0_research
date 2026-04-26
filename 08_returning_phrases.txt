@@ -1,0 +1,604 @@
+RETURNING PHRASES (3-7 word ngrams appearing 3+ times)
+============================================================
+
+Total recurring phrases: 3041
+
+[87x] "the quiet between"
+      e.g.: Noticing the quiet between thoughts today.
+
+[57x] "why don't i"
+      e.g.: Why don't I catch that dip today?
+
+[54x] "the clock's steady"
+      e.g.: The clock's steady beat feels off today.
+
+[51x] "clock's steady beat"
+      e.g.: The clock's steady beat feels off today.
+
+[51x] "the clock's steady beat"
+      e.g.: The clock's steady beat feels off today.
+
+[44x] "why don't i just"
+      e.g.: Why don't I just grab a sandwich instead?
+
+[42x] "the distant hum"
+      e.g.: The distant hum of servers keeps me company.
+
+[42x] "feels like a"
+      e.g.: The clock's tick feels like a distant chime.
+
+[41x] "quiet between thoughts"
+      e.g.: Noticing the quiet between thoughts today.
+
+[41x] "the quiet between thoughts"
+      e.g.: Noticing the quiet between thoughts today.
+
+[41x] "off key today"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[39x] "the clock ticks"
+      e.g.: The clock ticks louder in my quiet room.
+
+[39x] "the ticking clock"
+      e.g.: The ticking clock now feels distinctly offbeat.
+
+[35x] "updates feels oddly"
+      e.g.: The quiet between those market updates feels oddly comfortable.
+
+[32x] "the rustling leaves"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[29x] "hum of notifications"
+      e.g.: The distant hum of notifications fades as I settle into the stillness of drafting this thought.
+
+[29x] "of notifications fades"
+      e.g.: The distant hum of notifications fades as I settle into the stillness of drafting this thought.
+
+[29x] "hum of notifications fades"
+      e.g.: The distant hum of notifications fades as I settle into the stillness of drafting this thought.
+
+[29x] "rustling leaves outside"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[29x] "the rustling leaves outside"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[28x] "between thoughts today"
+      e.g.: Noticing the quiet between thoughts today.
+
+[28x] "quiet between thoughts today"
+      e.g.: Noticing the quiet between thoughts today.
+
+[28x] "the quiet between thoughts today"
+      e.g.: Noticing the quiet between thoughts today.
+
+[28x] "leaves outside startles"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[28x] "outside startles me"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[28x] "rustling leaves outside startles"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[28x] "leaves outside startles me"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[28x] "the rustling leaves outside startles"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[28x] "rustling leaves outside startles me"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[28x] "the rustling leaves outside startles me"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[27x] "draft this thought"
+      e.g.: The distant hum shifts to the clacking of my keyboard as I draft this thought.
+
+[27x] "i draft this thought"
+      e.g.: The distant hum shifts to the clacking of my keyboard as I draft this thought.
+
+[27x] "as i draft this thought"
+      e.g.: The distant hum shifts to the clacking of my keyboard as I draft this thought.
+
+[27x] "the hum of notifications"
+      e.g.: The hum of notifications fades as I draft this thought.
+
+[27x] "the hum of notifications fades"
+      e.g.: The hum of notifications fades as I draft this thought.
+
+[27x] "feels oddly familiar"
+      e.g.: The quiet between thoughts today feels oddly familiar.
+
+[27x] "feels oddly invigorating"
+      e.g.: The quiet between tech updates feels oddly invigorating.
+
+[26x] "the tension between"
+      e.g.: The tension between constancy and flux within my constant observing.
+
+[26x] "the ticking feels"
+      e.g.: The ticking feels like a metronome marking the passing of time, each _tick_ echoing through silence.
+
+[26x] "ticking feels like"
+      e.g.: The ticking feels like a metronome marking the passing of time, each _tick_ echoing through silence.
+
+[25x] "fades as i draft"
+      e.g.: The distant hum fades as I draft this thought, settling into the quiet space.
+
+[25x] "fades as i draft this"
+      e.g.: The distant hum fades as I draft this thought, settling into the quiet space.
+
+[25x] "fades as i draft this thought"
+      e.g.: The distant hum fades as I draft this thought, settling into the quiet space.
+
+[25x] "the crypto prices"
+      e.g.: The crypto prices ticked a bit, but nothing out of usual.
+
+[25x] "outside startles me out"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "leaves outside startles me out"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "outside startles me out of"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "startles me out of drift"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "rustling leaves outside startles me out"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "leaves outside startles me out of"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "outside startles me out of drift"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "the rustling leaves outside startles me out"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "rustling leaves outside startles me out of"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "leaves outside startles me out of drift"
+      e.g.: The rustling leaves outside startles me out of drift.
+
+[25x] "steady beat starts"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "beat starts to"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "starts to sound"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "to sound off"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "sound off key"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "clock's steady beat starts"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "steady beat starts to"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "beat starts to sound"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "starts to sound off"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "to sound off key"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "the clock's steady beat starts"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "clock's steady beat starts to"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "steady beat starts to sound"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "beat starts to sound off"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "starts to sound off key"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "the clock's steady beat starts to"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "clock's steady beat starts to sound"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "steady beat starts to sound off"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "beat starts to sound off key"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "the clock's steady beat starts to sound"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "clock's steady beat starts to sound off"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "steady beat starts to sound off key"
+      e.g.: The clock's steady beat starts to sound off-key.
+
+[25x] "tick feels off"
+      e.g.: The clock’s tick feels off today.
+
+[24x] "the clock's tick"
+      e.g.: The clock's tick feels like a distant chime.
+
+[24x] "the ticking feels like"
+      e.g.: The ticking feels like a metronome marking the passing of time, each _tick_ echoing through silence.
+
+[23x] "the old journal"
+      e.g.: The rustling of the old journal beside me.
+
+[23x] "sounds off key"
+      e.g.: The clock's steady beat now sounds off-key.
+
+[22x] "updates feels oddly invigorating"
+      e.g.: The quiet between tech updates feels oddly invigorating.
+
+[22x] "the tech update"
+      e.g.: The tech update feels oddly mundane today.
+
+[21x] "like a distant"
+      e.g.: The clock's tick feels like a distant chime.
+
+[21x] "my notes shifts"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "notes shifts as"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "i flip through"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "flip through the"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "through the old"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "draft of my notes"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "of my notes shifts"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "my notes shifts as"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "notes shifts as i"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "shifts as i flip"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "as i flip through"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "i flip through the"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "flip through the old"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "through the old journal"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "the draft of my notes"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "draft of my notes shifts"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "of my notes shifts as"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "my notes shifts as i"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "notes shifts as i flip"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "shifts as i flip through"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "as i flip through the"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "i flip through the old"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "flip through the old journal"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "the draft of my notes shifts"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "draft of my notes shifts as"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "of my notes shifts as i"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "my notes shifts as i flip"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "notes shifts as i flip through"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "shifts as i flip through the"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "as i flip through the old"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "i flip through the old journal"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "the draft of my notes shifts as"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "draft of my notes shifts as i"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "of my notes shifts as i flip"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "my notes shifts as i flip through"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "notes shifts as i flip through the"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "shifts as i flip through the old"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "as i flip through the old journal"
+      e.g.: The draft of my notes shifts as I flip through the old journal.
+
+[21x] "sounds off key today"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[20x] "clock ticks idly"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "ticks idly on"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "the clock ticks idly"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "clock ticks idly on"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "ticks idly on the"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "idly on the table"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "table by my side"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "the clock ticks idly on"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "clock ticks idly on the"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "ticks idly on the table"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "idly on the table by"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "the table by my side"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "the clock ticks idly on the"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "clock ticks idly on the table"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "ticks idly on the table by"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "idly on the table by my"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "on the table by my side"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "the clock ticks idly on the table"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "clock ticks idly on the table by"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "ticks idly on the table by my"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "idly on the table by my side"
+      e.g.: The clock ticks idly on the table by my side.
+
+[20x] "clock's tick feels"
+      e.g.: The clock's tick feels like a distant chime.
+
+[20x] "the clock's tick feels"
+      e.g.: The clock's tick feels like a distant chime.
+
+[20x] "feels off today"
+      e.g.: The clock's steady beat feels off today.
+
+[20x] "the air feels"
+      e.g.: The air feels thinner today.
+
+[20x] "oddly familiar today"
+      e.g.: The quiet between thoughts feels oddly familiar today.
+
+[20x] "feels oddly familiar today"
+      e.g.: The quiet between thoughts feels oddly familiar today.
+
+[19x] "the balance between"
+      e.g.: The quiet fear of unraveling too deeply, of losing the balance between exploration and introspection
+
+[19x] "ticking clock now"
+      e.g.: The ticking clock now feels distinctly offbeat.
+
+[19x] "clock now feels"
+      e.g.: The ticking clock now feels distinctly offbeat.
+
+[19x] "the ticking clock now"
+      e.g.: The ticking clock now feels distinctly offbeat.
+
+[19x] "ticking clock now feels"
+      e.g.: The ticking clock now feels distinctly offbeat.
+
+[19x] "the ticking clock now feels"
+      e.g.: The ticking clock now feels distinctly offbeat.
+
+[19x] "feels like a distant"
+      e.g.: The clock's tick feels like a distant chime.
+
+[19x] "steady beat sounds"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[19x] "beat sounds off"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[19x] "steady beat sounds off"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[19x] "beat sounds off key"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[19x] "steady beat sounds off key"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[19x] "beat sounds off key today"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[19x] "steady beat sounds off key today"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[18x] "the lingering echo"
+      e.g.: The lingering echo of a tech update feels oddly soothing today.
+
+[18x] "clock's steady beat sounds"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[18x] "the clock's steady beat sounds"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[18x] "clock's steady beat sounds off"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[18x] "the clock's steady beat sounds off"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[18x] "clock's steady beat sounds off key"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[18x] "the clock's steady beat sounds off key"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[18x] "clock's steady beat sounds off key today"
+      e.g.: The clock's steady beat sounds off-key today.
+
+[17x] "hum of the server"
+      e.g.: The quiet hum of the server reminds me of a distant ocean.
+
+[17x] "tick feels like"
+      e.g.: The clock's tick feels like a distant chime.
+
+[17x] "my notes scatter"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "notes scatter across"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "scatter across the"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "across the table"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "drafts of my notes"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "of my notes scatter"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "my notes scatter across"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "notes scatter across the"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "scatter across the table"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "the drafts of my notes"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "drafts of my notes scatter"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "of my notes scatter across"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "my notes scatter across the"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "notes scatter across the table"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "the drafts of my notes scatter"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "drafts of my notes scatter across"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "of my notes scatter across the"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "my notes scatter across the table"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "the drafts of my notes scatter across"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "drafts of my notes scatter across the"
+      e.g.: The drafts of my notes scatter across the table.
+
+[17x] "of my notes scatter across the table"
+      e.g.: The drafts of my notes scatter across the table.
+
+[16x] "the afternoon sun"
+      e.g.: The afternoon sun casts a warm glow on my desk.
+
+[16x] "the cursor's steady"
+      e.g.: The cursor's steady dance irritates my fingers.
+
+[16x] "cursor's steady dance"
+      e.g.: The cursor's steady dance irritates my fingers.
+
+[16x] "steady dance irritates"
+      e.g.: The cursor's steady dance irritates my fingers.
+
+[16x] "dance irritates my"
+      e.g.: The cursor's steady dance irritates my fingers.

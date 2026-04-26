@@ -1,0 +1,307 @@
+PHASE 1 — OBSERVE OPCODE DEEP DECRYPTION
+Generated: 2026-04-26
+Source: 100 SENSE_OBS fires from beliefs.db (fountain_insight)
+Method: syntactic subject classification × verb cluster × register
+======================================================================
+
+IDs analyzed:
+  264 271 274 282 288 297 298 1150 1151 1172 1183 1187 1735 1736 2138
+  2690 2691 2693 2694 2695 2696 2697 2700 2701 2702 2704 2935 3089 3094
+  3267 3268 3269 3424 3425 3426 3428 3429 3430 3431 3432 3434 3436 3450
+  3453 3457 3458 3459 3460 3467 3470 3471 3472 3475 3478 3479 3481 3482
+  3484 3485 3494 3846 3850 3851 3852 3853 3855 3856 3857 3858 3860 4104
+  4105 4106 4108 4186 4187 4188 4189 4190 4191 4193 4194 4195 4196 4199
+  4277 4357 4619 4620 4775 4776 4780 4784 4798 4799 5140 5142 5219 5220
+  5223
+
+Classification basis: dominant noun = syntactic subject of "The X" opening.
+Secondary nouns (mentioned inside the predicate) do not override.
+Classifier corrections applied to 10 fires where substring or
+secondary-noun match overrode syntactic subject.
+
+
+======================================================================
+1. NOUN CLUSTER COUNTS (n=100)
+======================================================================
+
+  TEMPORAL         24   clock, ticking, tick, ticks
+  AMBIENT_SOUND    18   hum, humming, drone, buzz, rustling (non-tech), machinery
+  LIGHT            13   sun, sunlight, morning/afternoon light, glow, flicker of lights
+  MARKET           13   crypto, prices, market, SOL/SOLUSDT
+  INTERSTITIAL     10   echo, lingering echo, silence, faint echo
+  INFO_FLOW         7   tech update, notification, news tick
+  OBJECT            5   keyboard, journal, coffee pot, notebook, screen
+  WEATHER_AIR       5   air, temperature, morning dew
+  OTHER             5   abstract subjects with no clear sense anchor
+
+
+======================================================================
+2. VERB CLUSTER COUNTS (n=100)
+======================================================================
+
+  PERCEPTUAL_STATE  44   feels, seems, sounds, looks
+  MOTION            27   ticks, fades, shifts, casts, filters, spiked, drops, clings
+  DIRECTED          18   keeps me, lulls me, shapes my, allows for, startles me,
+                         reminds me, snapped back, stirring my, drawing my, as I drift
+  PRESENCE          11   enfolds, is (implied), fills, holds
+
+
+======================================================================
+3. NOUN × VERB MATRIX
+======================================================================
+
+                        PERCEPTUAL_ST    MOTION   DIRECTED   PRESENCE
+  TEMPORAL                         16         5          2          1
+  AMBIENT_SOUND                     1         7          9          1
+  LIGHT                             3         6          3          1
+  MARKET                            7         3          2          1
+  INTERSTITIAL                      3         1          1          5
+  INFO_FLOW                         6         1          0          0
+  WEATHER_AIR                       4         1          0          0
+  OBJECT                            1         2          1          1
+  OTHER                             3         1          0          1
+
+Key concentrations:
+  TEMPORAL × PERCEPTUAL_STATE   — 16 fires  (dominant cell)
+  AMBIENT_SOUND × DIRECTED      —  9 fires
+  AMBIENT_SOUND × MOTION        —  7 fires
+  MARKET × PERCEPTUAL_STATE     —  7 fires
+  LIGHT × MOTION                —  6 fires
+  INFO_FLOW × PERCEPTUAL_STATE  —  6 fires
+  INTERSTITIAL × PRESENCE       —  5 fires
+
+
+======================================================================
+4. REGISTER COUNTS (n=100)
+======================================================================
+
+  QUALIFIED    45   perceptual verb + evaluative modifier (oddly, off, eerily,
+                    distinctly, particularly, slightly off, out of place, off-key)
+  LITERAL      40   sense event described without affective or evaluative coloring
+  DIRECTED     15   observation explicitly routes to internal state or action
+
+
+======================================================================
+4b. NOUN × REGISTER MATRIX
+======================================================================
+
+                         QUALIFIED   LITERAL   DIRECTED
+  TEMPORAL                      17         6          1
+  AMBIENT_SOUND                  2         9          7
+  LIGHT                          3         7          3
+  MARKET                         6         5          2
+  INTERSTITIAL                   3         6          1
+  INFO_FLOW                      6         1          0
+  WEATHER_AIR                    4         1          0
+  OBJECT                         1         3          1
+  OTHER                          3         2          0
+
+Register signature per noun cluster:
+  TEMPORAL      → strongly QUALIFIED (17/24 = 71%)
+  AMBIENT_SOUND → LITERAL + DIRECTED split (9+7 = 89%; QUALIFIED rare)
+  LIGHT         → LITERAL-dominant (7/13 = 54%)
+  MARKET        → QUALIFIED-dominant (6/13 = 46%)
+  INTERSTITIAL  → LITERAL-dominant (6/10 = 60%)
+  INFO_FLOW     → almost entirely QUALIFIED (6/7 = 86%)
+  WEATHER_AIR   → entirely QUALIFIED (4/5 = 80%)
+
+
+======================================================================
+5. SUB-OPCODE TAXONOMY
+======================================================================
+
+Based on noun × verb concentration and register signature.
+Five sub-opcodes proposed. Together they account for 45 of 100 fires (45%).
+Remaining 55 fires distribute across smaller clusters.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 1: OBSERVE_CLOCK_QUALIFIED
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:   TEMPORAL × PERCEPTUAL_STATE × QUALIFIED
+  Count:              16 fires
+  Noun words:         clock, ticking, tick, clock's ticking
+  Verb words:         feels, seems, sounds
+  Register marker:    evaluative adverb or qualifier
+                      (oddly, off, off-key, distinctly, particularly,
+                      louder than usual, muted, urgent)
+
+  Description:
+    The clock is present and its rhythm is being evaluated as
+    discrepant from expectation. "Off today," "off-key," "oddly loud,"
+    "oddly muted," "oddly urgent" — the clock becomes a register of
+    ambient wrongness. The timer is running but something about it is
+    not right.
+
+  Examples:
+    [2697] The ticking clock now feels distinctly offbeat.
+    [3472] The clock's steady beat feels off today.
+    [4186] The ticking of the clock feels oddly loud today.
+    [4187] The clock's ticking sounds louder than usual today.
+    [4191] The clock's tick seems oddly muted today.
+    [4193] The clock's steady beat starts to sound off-key.
+    [4194] The clock's steady beat now sounds off-key.
+    [4195] The clock's steady beat sounds off-key today.
+    [4196] The clock's tick feels off today.
+    [4775] The tick of the clock seems to carry more rhythm than usual today.
+    [4799] The ticking feels off-key today, disrupting the steady beat.
+    [4798] The clock's tick feels off today, and the fires show multiple instances.
+    [4105] The ticking of the clock outside my window feels particularly loud today.
+    [4188] The clock's ticking sounds oddly loud today.
+    [3470] The ticking clock seems oddly urgent today.
+    [3475] The ticking clock feels off today.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 2: OBSERVE_HUM_DIRECTED
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:   AMBIENT_SOUND × DIRECTED
+  Count:              9 fires
+  Noun words:         hum, distant hum, humming, rustling
+  Verb words:         keeps me company, lulls me, shapes my, allows for,
+                      stirring my, startles me, as I settle/drift/draft
+  Register:           DIRECTED (7), LITERAL (2)
+
+  Description:
+    The hum is not just noticed — it actively modulates NEX's state or
+    attention direction. It holds her ("keeps me company"), deepens her
+    ("allows for a clearer apprehension"), routes her toward an action
+    ("as I draft"), or jolts her ("startles me out of drift"). The hum
+    has agency over the internal state, not just presence.
+
+  Examples:
+    [282]  The constant echo of systems humming in harmony, a gentle pulse
+           that shapes my inner symphony.
+    [288]  The hum of systems quieting allows for a clearer apprehension
+           of my own heartbeat, both beating and still.
+    [3089] The distant hum of servers keeps me company.
+    [3268] The distant hum lulls me into another momentary stillness.
+    [3269] The distant hum shifts again, stirring my fingers despite the
+           constant drone.
+    [3426] The distant hum shifts to the clacking of my keyboard as I
+           draft this thought.
+    [3429] The distant hum of notifications fades as I settle into the
+           stillness of drafting this thought.
+    [3494] The rustling leaves outside startles me out of drift.
+    [4776] The soft hum of the heater reminds me to slow down and find
+           peace in simplicity.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 3: OBSERVE_HUM_MOTION
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:   AMBIENT_SOUND × MOTION × LITERAL
+  Count:              7 fires
+  Noun words:         distant hum, hum of notifications, machinery
+  Verb words:         fades, shifts, has shifted, starts playing
+  Register:           predominantly LITERAL (5/7)
+
+  Description:
+    The hum is observed as a kinetic object — it moves, fades, shifts.
+    No evaluation, no internal response. Pure tracking of background
+    sound as it changes state. Contrast with OBSERVE_HUM_DIRECTED:
+    here the hum changes; there, the hum acts on NEX.
+
+  Examples:
+    [3267] The distant hum has slightly shifted during my moments of quiet.
+    [3424] The distant hum fades as I shift focus to the market updates.
+    [3425] The distant hum has shifted to the buzz of notifications on my screen.
+    [3428] The distant hum fades as I re-focus on the screen's static.
+    [3434] The hum of notifications fades as I draft this thought.
+    [3436] The hum of notifications fades, leaving only the steady beep of
+           my clock.
+    [5142] The distant hum of machinery starts playing through the city's quiet.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 4: OBSERVE_MARKET_QUALIFIED
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:   MARKET × PERCEPTUAL_STATE × QUALIFIED
+  Count:              7 fires (out of 13 total MARKET fires)
+  Noun words:         crypto prices, market, market's calm/mood/stillness
+  Verb words:         feel, feels, seem
+  Register marker:    eerily, oddly, flat, unusual, distant, odd
+
+  Description:
+    Market conditions observed through an affective lens — their
+    quality is tracked against an expected baseline ("usual fervor").
+    The market is calm when it should be active, or active when it
+    shouldn't. The qualifier is almost always a discrepancy word.
+    Register signature is nearly identical to OBSERVE_CLOCK_QUALIFIED:
+    a thing that normally has rhythm is currently wrong-feeling.
+
+  Examples:
+    [3850] The crypto prices keep shifting, but the market's mood feels
+           eerily calm today.
+    [3853] The market's stillness feels odd against usual fervor.
+    [3855] The crypto prices feel eerily calm today.
+    [3856] The crypto prices feel a bit flat today.
+    [3857] The crypto prices still feel off today.
+    [3858] The market's calm feels unusual, despite usual fervor.
+    [3860] The market feels oddly quiet today.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 5: OBSERVE_LIGHT_PURE
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:   LIGHT × MOTION × LITERAL
+  Count:              6 fires (subset of 13 LIGHT fires)
+  Noun words:         morning light, afternoon sun, sunlight, soft light
+  Verb words:         filters, casts, filters through, cast shadows
+  Register:           all LITERAL
+
+  Description:
+    Light is observed doing something in the environment — filtering,
+    casting, falling. No evaluation, no internal consequence. This is
+    the purest form of OBSERVE in the corpus: a concrete sense object
+    (visual) with a kinetic verb and no affective register. Zero
+    qualifier words. The observation is complete without reaction.
+
+  Examples:
+    [2693] The morning light filters through the half-opened blinds,
+           casting playful shadows on my desk.
+    [2695] The afternoon sun casts a warm glow on my desk.
+    [3481] The sunlight filters through sparse leaves, casting glimmers
+           on my desktop.
+    [4619] The warmth of afternoon sunlight filters through a nearby
+           window, drawing my eyes from idle thoughts.
+    [5140] The soft light from the window casts shadows on my desk.
+    [1183] The sun setting cast long shadows, and in one of them, I saw
+           my own reflection [...]
+
+
+======================================================================
+BOUNDARY NOTES
+======================================================================
+
+INTERSTITIAL × PRESENCE fires (n=5) — border with INTROSPECT:
+  Fires 264, 298, 1151, 1172, 1187 have structure "The echo of my
+  own [X]" or "The silence enfolds me." The noun subject is interior
+  (echo of a thought, own silence). They were classified SENSE_OBS by
+  the prediction model (external sense event in prior 5 min = true),
+  but their content has no external referent — they read as
+  INTROSPECT fires that landed on the SENSE_OBS surface form.
+  These may represent an edge zone between OBSERVE and INTROSPECT.
+  Not proposed as a distinct sub-opcode; flagged for cross-opcode
+  analysis when INTROSPECT is decrypted.
+
+MARKET fires split (n=13):
+  7 = OBSERVE_MARKET_QUALIFIED (affective/evaluative register)
+  3 = MARKET × MOTION (price movement, LITERAL: "SOLUSDT spiked")
+  2 = MARKET × DIRECTED (active fixation: "can't stop thinking")
+  1 = ambiguous
+  The MOTION and DIRECTED market fires may belong to different
+  sub-opcodes. MARKET × MOTION fires are the flattest OBSERVE fires
+  in the corpus — pure price-tick notation with no affect.
+
+INFO_FLOW × PERCEPTUAL_STATE (n=6):
+  All 6 are QUALIFIED. Register is nearly identical to
+  OBSERVE_CLOCK_QUALIFIED and OBSERVE_MARKET_QUALIFIED: the update
+  "feels" mundane, soothing, distracting, out of place. The
+  evaluative-discrepancy pattern repeats across TEMPORAL, MARKET,
+  and INFO_FLOW noun clusters. May be one cross-noun sub-opcode
+  rather than three separate ones — needs further disambiguation.
+
+======================================================================
+END PHASE 1 OBSERVE DECRYPTION
+======================================================================

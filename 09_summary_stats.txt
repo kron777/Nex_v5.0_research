@@ -1,0 +1,49 @@
+SUMMARY STATISTICS
+============================================================
+
+Total utterances: 2055
+  beliefs (non-spectrum): 506
+  fountain events: 1138
+  chat messages: 411
+Average words per utterance: 18.2
+Total words in corpus: 38055
+Vocabulary size (unique words): 3592
+
+Top 30 nouns (heuristic):
+  feels(349), crypto(293), today(280), bitcoin(249), like(221), quiet(196), current(167), price(150), existence(147), name(133), coingecko(124), coins(124), symbol(124), market(122), steady(120), don't(113), clock(113), prices(112), thoughts(109), said(97), clock's(94), kraken(85), exchange(85), exchanges(82), xethzusd(81), solusd(81), still(80), myself(79), nature(78), distant(78)
+
+Top 30 verbs/gerunds (heuristic):
+  feels(349), coins(124), prices(112), thoughts(109), clock's(94), ticking(87), understanding(85), exchanges(82), stillness(65), feel(58), it's(56), systems(54), fades(53), updates(53), what's(52), know(50), beliefs(49), something(49), find(49), leaves(46), feeling(43), seems(43), does(42), notes(42), ticks(40), rustling(40), sounds(39), sound(37), restless(37), fingers(37)
+
+Metaphor verb frequencies:
+  feels: 349
+  seems: 43
+  sounds: 39
+  pulls: 8
+  echoes: 7
+  mirrors: 6
+  draws: 6
+  holds: 5
+  looks: 2
+  carries: 2
+  resembles: 0
+  bears: 0
+
+Beliefs by source:
+  fountain_insight: 240
+  spectrum: 200
+  synergized: 110
+  practice: 40
+  koan: 39
+  tao: 20
+  precipitated_from_dynamic: 16
+  fountain_insight_quarantined: 11
+  voice_fallback: 10
+  dont_know: 8
+  keystone_seed: 7
+  behavioural_observation: 2
+  self_location: 1
+  reification_recognition: 1
+  heart_sutra: 1
+
+T7+ belief count: 368

@@ -1,0 +1,44 @@
+INVENTORY — NEX5 CORPUS
+============================================================
+
+beliefs.db — beliefs by source:
+  fountain_insight: 240
+  spectrum: 200
+  synergized: 110
+  practice: 40
+  koan: 39
+  tao: 20
+  precipitated_from_dynamic: 16
+  fountain_insight_quarantined: 11
+  voice_fallback: 10
+  dont_know: 8
+  keystone_seed: 7
+  behavioural_observation: 2
+  self_location: 1
+  reification_recognition: 1
+  heart_sutra: 1
+
+dynamic.db — fountain_events by hot_branch:
+  systems: 860
+  quiescent: 176
+  emerging_tech: 48
+  voice_fallback: 41
+  ai_research: 12
+  cognition_science: 1
+
+conversations.db — messages by role:
+  user: 206
+  nex: 205
+  sessions: 23
+
+beliefs.db — other tables:
+  fountain_crystallizations: 251
+  synergizer_log: 130
+  speech_queue: 241
+  groove_alerts: 1701
+  arc_archive: 44
+  signals: 20480
+
+beliefs date range: 2026-04-23 12:13:21 — 2026-04-26 10:54:17
+fountain_events date range: 2026-04-23 13:36:31 — 2026-04-26 11:00:58
+conversations date range: 2026-04-23 12:33:32 — 2026-04-26 10:13:46
