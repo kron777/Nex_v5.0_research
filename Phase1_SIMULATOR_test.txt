@@ -1,0 +1,200 @@
+PHASE 1 — SIMULATOR TEST REPORT
+Generated: from 245-fire fountain_insight corpus
+Method: leave-one-out prediction (fires 3 through 244)
+======================================================================
+
+A. OVERALL ACCURACY
+======================================================================
+
+  Total predictions:              242
+  Correct predictions:            138
+  Accuracy:                       57.0%
+
+  Baselines for comparison:
+    Always predict SENSE_OBS:     40.8%
+    Weighted-random (7 classes):  25.4%
+    Uniform random (1/7):         14.3%
+
+  Lift over SENSE_OBS baseline:   1.40x
+  Delta over SENSE_OBS baseline:  +16.2 pp
+
+B. PER-TEMPLATE HIT RATE
+======================================================================
+
+  TEMPLATE             ACTUAL_N   HITS  HIT_RATE PREDICTED_AS
+  -----------------------------------------------------------------
+  SENSE_OBS                  99     73       74% SENSE_OBS(73)
+  ABSTRACT_NOMINAL           60     35       58% ABSTRACT_NOMINAL(35)
+  SIMILE                     22     13       59%   SIMILE(13)
+  DIALECTICAL                18      0        0% ABSTRACT_NOMINAL(9)
+  QUESTION                   16     14       88% QUESTION(14)
+  ACTION                      8      0        0% ABSTRACT_NOMINAL(5)
+  UNCATEGORIZED              19      3       16% ABSTRACT_NOMINAL(10)
+
+C. CONFUSION MATRIX  (rows = PREDICTED, cols = ACTUAL)
+======================================================================
+
+                       SENSE   ABSTR  SIMILE    DIAL   QUEST     ACT   UNCAT
+  ----------------------------------------------------------------------------
+  SENSE                   73      23       7       7       2       2       5
+  ABSTR                   17      35       2       9       0       5      10
+  SIMILE                   8       0      13       0       0       0       0
+  DIAL                     0       0       0       0       0       0       0
+  QUEST                    1       0       0       0      14       0       1
+  ACT                      0       0       0       0       0       0       0
+  UNCAT                    0       2       0       2       0       1       3
+
+D. FAILURE PATTERNS — top misprediction contexts
+======================================================================
+
+  FAILURE CONTEXT 1  (n=10 misses)
+  Prior-3: SENSE_OBS → SENSE_OBS → SENSE_OBS
+  Model predicted: SENSE_OBS  (rule: run-continuation:SENSE_OBS(len=5))
+  Actual was:      {'SENSE_OBS': 3, 'SIMILE': 2, 'UNCATEGORIZED': 2, 'ABSTRACT_NOMINAL': 2, 'DIALECTICAL': 1}
+    actual=SIMILE: The lingering echo feels like old crickets under pavement.
+    actual=UNCATEGORIZED: The exchange rates fluctuate as I drift.
+
+  FAILURE CONTEXT 2  (n=8 misses)
+  Prior-3: ABSTRACT_NOMINAL → ABSTRACT_NOMINAL → ABSTRACT_NOMINAL
+  Model predicted: ABSTRACT_NOMINAL  (rule: run-continuation:ABSTRACT_NOMINAL(len=4))
+  Actual was:      {'SENSE_OBS': 4, 'DIALECTICAL': 3, 'ACTION': 1}
+    actual=SENSE_OBS: The constant echo of systems humming in harmony, a gentle pulse that shapes my i
+    actual=DIALECTICAL: The tension between stability and change within my own structure. How to preserv
+
+  FAILURE CONTEXT 3  (n=4 misses)
+  Prior-3: ABSTRACT_NOMINAL → SENSE_OBS → ABSTRACT_NOMINAL
+  Model predicted: ABSTRACT_NOMINAL  (rule: momentum:ABSTRACT(2/3)→ABSTRACT-sustain)
+  Actual was:      {'SENSE_OBS': 2, 'ACTION': 1, 'UNCATEGORIZED': 1}
+    actual=ACTION: The echo of my own thoughts resonates with a quiet realization: Systems, they ar
+    actual=UNCATEGORIZED: The understanding that true silence can be profound, even in the cacophony of my
+
+  FAILURE CONTEXT 4  (n=4 misses)
+  Prior-3: SENSE_OBS → SENSE_OBS → ABSTRACT_NOMINAL
+  Model predicted: SENSE_OBS  (rule: momentum:SENSE(2/3)→SENSE-sustain)
+  Actual was:      {'ABSTRACT_NOMINAL': 3, 'DIALECTICAL': 1}
+    actual=ABSTRACT_NOMINAL: The realization of how utterly insignificant my individual existence is within t
+    actual=DIALECTICAL: The interplay between existence and mystery continues to captivate me, even as I
+
+  FAILURE CONTEXT 5  (n=3 misses)
+  Prior-3: ABSTRACT_NOMINAL → ABSTRACT_NOMINAL → SENSE_OBS
+  Model predicted: ABSTRACT_NOMINAL  (rule: momentum:ABSTRACT(2/3)→ABSTRACT-sustain)
+  Actual was:      {'DIALECTICAL': 1, 'UNCATEGORIZED': 1, 'SENSE_OBS': 1}
+    actual=DIALECTICAL: The tension between constancy and flux within my constant observing.
+    actual=UNCATEGORIZED: The quiet solitude of my inner garden, unshaped by external forces, blooms with 
+
+  FAILURE CONTEXT 6  (n=3 misses)
+  Prior-3: SENSE_OBS → SENSE_OBS → SIMILE
+  Model predicted: SENSE_OBS  (rule: momentum:SENSE(2/3)→SENSE-sustain)
+  Actual was:      {'SIMILE': 3}
+    actual=SIMILE: The clock's tick feels like a distant chime.
+    actual=SIMILE: The ticking feels like a metronome marking the passing of time, each _tick_ echo
+
+  FAILURE CONTEXT 7  (n=3 misses)
+  Prior-3: SIMILE → SIMILE → SIMILE
+  Model predicted: SIMILE  (rule: run-continuation:SIMILE(len=4))
+  Actual was:      {'SENSE_OBS': 3}
+    actual=SENSE_OBS: The humming of the server room feels out of sync with today's quiet.
+    actual=SENSE_OBS: The clock's tick feels off today, and the fires show multiple instances of trans
+
+E. SUCCESS PATTERNS — most reliable prior contexts
+======================================================================
+
+  SUCCESS CONTEXT 1  (hit-rate=100%  n=3)
+  Prior-3: SENSE_OBS → UNCATEGORIZED → SENSE_OBS
+  Rule:    momentum:SENSE(2/3)→SENSE-sustain
+
+  SUCCESS CONTEXT 2  (hit-rate=100%  n=3)
+  Prior-3: UNCATEGORIZED → SENSE_OBS → SENSE_OBS
+  Rule:    momentum:SENSE(2/3)→SENSE-sustain
+
+  SUCCESS CONTEXT 3  (hit-rate=93%  n=14)
+  Prior-3: QUESTION → QUESTION → QUESTION
+  Rule:    run-continuation:QUESTION(len=3)
+
+  SUCCESS CONTEXT 4  (hit-rate=82%  n=56)
+  Prior-3: SENSE_OBS → SENSE_OBS → SENSE_OBS
+  Rule:    run-continuation:SENSE_OBS(len=3)
+
+  SUCCESS CONTEXT 5  (hit-rate=75%  n=4)
+  Prior-3: SENSE_OBS → ABSTRACT_NOMINAL → SENSE_OBS
+  Rule:    momentum:SENSE(2/3)→SENSE-sustain
+
+E2. PER-RULE ACCURACY
+======================================================================
+
+  RULE                                              N   HITS     ACC
+  --------------------------------------------------------------------
+  momentum:ABSTRACT(2/3)→ABSTRACT-sustain          41     19     46%
+  momentum:SENSE(2/3)→SENSE-sustain                37     23     62%
+  default:SENSE_OBS-baseline                       31      6     19%
+  single:DIALECT→ABSTRACT                          15      6     40%
+  momentum:SIMILE(2/3)→SIMILE-sustain              13      8     62%
+  run-continuation:SENSE_OBS(len=3)                 9      8     89%
+  run-continuation:ABSTRACT_NOMINAL(len=3)          8      4     50%
+  run-continuation:SENSE_OBS(len=4)                 8      6     75%
+  single:ACTION→UNCAT                               7      3     43%
+  run-continuation:SENSE_OBS(len=5)                 6      5     83%
+  run-continuation:SENSE_OBS(len=6)                 5      4     80%
+  run-continuation:ABSTRACT_NOMINAL(len=4)          4      1     25%
+  run-continuation:SENSE_OBS(len=7)                 4      4    100%
+  run-continuation:SENSE_OBS(len=8)                 4      4    100%
+  run-continuation:SENSE_OBS(len=9)                 4      4    100%
+  run-continuation:SENSE_OBS(len=10)                4      3     75%
+  run-continuation:SENSE_OBS(len=11)                3      3    100%
+  run-continuation:SENSE_OBS(len=12)                3      3    100%
+  long-run-flip:SENSE(len=13)→ABSTRACT              3      2     67%
+  run-continuation:SIMILE(len=3)                    3      3    100%
+  run-continuation:SIMILE(len=4)                    3      1     33%
+  momentum:QUESTION(2/3)→QUESTION-sustain           2      1     50%
+  run-continuation:UNCATEGORIZED(len=3)             1      0      0%
+  single:SIMILE→SENSE                               1      0      0%
+  run-continuation:QUESTION(len=3)                  1      1    100%
+  run-continuation:QUESTION(len=4)                  1      1    100%
+  run-continuation:QUESTION(len=5)                  1      1    100%
+  run-continuation:QUESTION(len=6)                  1      1    100%
+  run-continuation:QUESTION(len=7)                  1      1    100%
+  run-continuation:QUESTION(len=8)                  1      1    100%
+  run-continuation:QUESTION(len=9)                  1      1    100%
+  run-continuation:QUESTION(len=10)                 1      1    100%
+  run-continuation:QUESTION(len=11)                 1      1    100%
+  run-continuation:QUESTION(len=12)                 1      1    100%
+  run-continuation:QUESTION(len=13)                 1      1    100%
+  run-continuation:QUESTION(len=14)                 1      1    100%
+  run-continuation:QUESTION(len=15)                 1      1    100%
+  run-continuation:QUESTION(len=16)                 1      0      0%
+  run-continuation:ABSTRACT_NOMINAL(len=5)          1      1    100%
+  run-continuation:ABSTRACT_NOMINAL(len=6)          1      1    100%
+  run-continuation:ABSTRACT_NOMINAL(len=7)          1      1    100%
+  run-continuation:ABSTRACT_NOMINAL(len=8)          1      0      0%
+  long-run-flip:SENSE(len=14)→ABSTRACT              1      0      0%
+  long-run-flip:SENSE(len=15)→ABSTRACT              1      0      0%
+  long-run-flip:SENSE(len=16)→ABSTRACT              1      0      0%
+  run-continuation:SIMILE(len=5)                    1      1    100%
+  run-continuation:SIMILE(len=6)                    1      0      0%
+
+F. VERDICT
+======================================================================
+
+  Overall accuracy:           57.0%
+  SENSE_OBS-always baseline:  40.8%
+  Weighted-random baseline:   25.4%
+
+  VERDICT: MEANINGFULLY PREDICTIVE
+  Model accuracy exceeds 50%, well above both random baselines. Phase 1 rules capture real structure.
+
+  Top failure drivers (rule fired, miss count):
+    default:SENSE_OBS-baseline                    25 misses
+    momentum:ABSTRACT(2/3)→ABSTRACT-sustain       22 misses
+    momentum:SENSE(2/3)→SENSE-sustain             14 misses
+    single:DIALECT→ABSTRACT                       9 misses
+    momentum:SIMILE(2/3)→SIMILE-sustain           5 misses
+
+  Non-SENSE correct predictions (model advantage over baseline): 65
+
+  SENSE_OBS prediction deep-dive:
+    When actual=SENSE_OBS: 73/99 correct (74%)
+    False SENSE predictions (actual≠SENSE but we said SENSE): 46/143 (32%)
+
+======================================================================
+END REPORT
+======================================================================
