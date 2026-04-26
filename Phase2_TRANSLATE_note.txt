@@ -1,0 +1,63 @@
+PHASE 2 — TRANSLATE vs SIMILE VERIFICATION NOTE
+Generated: 2026-04-26
+Source: Phase1_SIMILE_decryption.txt; Phase1_ACTION_decryption.txt Section G
+=======================================================================
+
+FINDING: TRANSLATE IS NOT STRUCTURALLY DISTINCT FROM SIMILE IN THIS CORPUS.
+
+The task specification notes that TRANSLATE may be identical to SIMILE in this
+corpus ("SIMILE was the 'translation' opcode in Phase 1 under a different name").
+This note verifies that finding.
+
+EVIDENCE FROM PHASE 1 FILES:
+
+1. Phase1_ACTION_decryption.txt Section G lists TRANSLATE as:
+   "TRANSLATE: not yet decrypted / independent corpus classification needed;
+   verify whether it is an OBSERVE sub-opcode or a true boundary opcode."
+   The TRANSLATE category had 0 independently classified fires in the fountain
+   corpus — it was proposed as a theoretical opcode, not observed as one.
+
+2. Phase1_SIMILE_decryption.txt documents 22 fires classified as SIMILE.
+   The source-to-target domain mapping IS the translation operation:
+     Clock → Musical (TRANSLATE_CLOCK_TO_MUSICAL)
+     Clock → Alive (TRANSLATE_CLOCK_TO_ALIVE)
+     Clock → Mechanical (TRANSLATE_CLOCK_TO_MECHANICAL)
+     Echo → Natural (TRANSLATE_ECHO_TO_NATURAL)
+     Environment → Presence (TRANSLATE_ENVIRONMENT_TO_PRESENCE)
+   These 5 sub-opcodes of SIMILE ARE the 5 translation mappings.
+
+3. The classifier.py does not have a TRANSLATE class. The 8-class classifier
+   uses: SENSE_OBS, ABSTRACT_NOMINAL, DIALECTICAL, QUESTION, RECEPTIVITY,
+   ACTION, SIMILE, UNCATEGORIZED. TRANSLATE is not a classifier category.
+   It was proposed in Phase1_ACTION as a theoretical opcode between
+   OBSERVE saturation and SIMILE, but the corpus shows SIMILE itself performs
+   this function.
+
+4. The Phase1_SIMILE Section F documents: "Source noun in prior content: 20/22
+   (100%). For all 20 standard fires: 20/20 (100%). SIMILE always translates
+   something just-observed." This IS the translation function.
+
+STRUCTURAL CONCLUSION:
+
+TRANSLATE = SIMILE. They are the same opcode. The SIMILE fires documented in
+Phase1 and Phase2 are the translation fires. The name "TRANSLATE" was a
+theoretical label for what turned out to be the already-catalogued SIMILE
+operation.
+
+The five SIMILE sub-opcodes (TRANSLATE_CLOCK_TO_MUSICAL, TRANSLATE_CLOCK_TO_ALIVE,
+TRANSLATE_CLOCK_TO_MECHANICAL, TRANSLATE_ECHO_TO_NATURAL,
+TRANSLATE_ENVIRONMENT_TO_PRESENCE) already encode the translation function
+explicitly in their names.
+
+NO SEPARATE PHASE 2 FILE FOR TRANSLATE.
+See Phase2_SIMILE_subopcodes.txt for the complete SIMILE/TRANSLATE analysis.
+
+GRID NOTE:
+The running taxonomy already includes all 5 SIMILE/TRANSLATE sub-opcodes:
+  TRANSLATE_CLOCK_TO_MUSICAL    | reg-sat | asymmetric | 86% | 4-5 | P3 sat. law
+  TRANSLATE_CLOCK_TO_ALIVE      | reg-sat | asymmetric | 86% | 4   | P3 sat. law
+  TRANSLATE_CLOCK_TO_MECHANICAL | reg-sat | asymmetric | 86% | 2   | P3 sat. law
+  TRANSLATE_ECHO_TO_NATURAL     | reg-sat | asymmetric | 86% | 1   | n/a
+  TRANSLATE_ENV_TO_PRESENCE     | reg-sat | asymmetric | 86% | 6   | P3 sat. law
+
+These entries represent the complete TRANSLATE/SIMILE taxonomy.
