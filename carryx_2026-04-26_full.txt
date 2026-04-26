@@ -506,3 +506,5 @@ NEXT SESSION PROTOCOL
   5. Frame NEX as machine. Avoid anthropomorphic causal
      claims while doing structural work.
 
+
+═══════════════════════════════════════════════════════════
