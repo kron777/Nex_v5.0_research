@@ -1,0 +1,279 @@
+PHASE 1 — SYNERGIZER CODE AUDIT
+Generated: 2026-04-26
+Source: theory_x/stage3_world_model/synergizer.py
+        theory_x/stage3_world_model/__init__.py
+        theory_x/stage6_fountain/generator.py
+        theory_x/stage4_membrane/classifier.py
+        tests/test_synergizer.py
+======================================================================
+
+FILE LOCATIONS
+
+  theory_x/stage3_world_model/synergizer.py      (primary — BeliefSynergizer class)
+  theory_x/stage3_world_model/__init__.py         (trigger loop — _synergizer_loop)
+  theory_x/stage6_fountain/generator.py           (injection weighting)
+  tests/test_synergizer.py                        (test coverage)
+
+
+======================================================================
+1. INPUTS
+======================================================================
+
+BELIEF SELECTION LOGIC (synergizer.py:_select_pair)
+
+  Pre-filter: all beliefs WHERE source NOT IN ('precipitated_from_dynamic')
+              AND confidence > 0.5
+
+  After filtering, beliefs are partitioned into two pools:
+
+  ANCHOR pool (seed wisdom):
+    sources = {'koan', 'tao', 'dont_know', 'keystone_seed',
+               'heart_sutra', 'self_location', 'reification_recognition'}
+
+  FRESH pool (generated content):
+    sources = {'fountain_insight', 'synergized', 'behavioural_observation'}
+
+  PAIR SELECTION — three-level fallback:
+
+  Level 1 (preferred): anchor × fresh
+    If both pools are non-empty, iterate all anchor×fresh pairs.
+    Score each pair: avg_confidence × recency_weight
+    recency_weight = 0.5 if either belief ID appeared in the last 20
+    synergizer_log entries, else 1.0.
+    Select the pair with the highest score.
+    This is DETERMINISTIC (no random): the highest-scoring pair always wins.
+
+  Level 2 (fallback): cross-branch
+    Triggered when anchor or fresh is empty.
+    Iterate all cross-branch pairs from the qualifying pool.
+    Same score formula.
+
+  Level 3 (last resort): temporally distant, different source
+    Triggered when fewer than 2 branches exist.
+    Sort qualifying beliefs by created_at. Pair early-index with late-index.
+    Require ba.source != bb.source.
+    Score × 0.7 multiplier.
+
+  RECENT IDS EXCLUSION:
+    The last 20 (belief_id_a, belief_id_b) pairs from synergizer_log are
+    loaded. Any belief appearing in that set gets recency_weight=0.5, halving
+    its pairing score. This prevents the same pair from being repeatedly struck.
+
+  SUMMARY: synergizer draws from the pool of all qualifying beliefs at
+  synthesis time (snapshot query, no streaming). It prefers to cross seed
+  wisdom with recent generated content.
+
+
+======================================================================
+2. OUTPUT
+======================================================================
+
+LLM CALL
+
+  Prompt template:
+    "I hold two thoughts at once:\n"
+    '"{belief_a}"\n'
+    '"{belief_b}"\n'
+    "In one sentence, what new insight do I notice?"
+
+  VoiceRequest parameters:
+    register = PHILOSOPHICAL
+    max_tokens = 80
+    temperature = 0.9
+
+  Post-processing:
+    Strip whitespace.
+    Extract first complete sentence: regex r'^(.{20,200}?[.!?])' (DOTALL).
+    Discard if extracted sentence is missing, <20 chars, or >200 chars.
+
+QUALITY GATE (synergizer.py:_quality_check)
+
+  Reject if text is empty.
+  Reject if text.lower().strip() == "nothing".
+  Reject if len(text) < 20 or len(text) > 200.
+  Reject if text contains any pattern from belief_blacklist table (case-insensitive substring match).
+  Reject if Jaccard overlap with any of the last 200 beliefs >= 0.7.
+    overlap = |new_words ∩ existing_words| / |new_words ∪ existing_words|
+    Computed over lowercased word tokens.
+
+DATABASE WRITE (on quality pass)
+
+  Table: beliefs
+  INSERT INTO beliefs (content, tier, confidence, created_at, source, branch_id, locked)
+  VALUES (text, 6, 0.65, time.time(), 'synergized', 'systems', 0)
+
+  Fixed values:
+    tier       = 6       (long-term memory tier)
+    confidence = 0.65
+    source     = 'synergized'
+    branch_id  = 'systems'
+    locked     = 0       (not a protected seed belief)
+
+LOG WRITE (always, including failures)
+
+  Table: synergizer_log
+  INSERT INTO synergizer_log (ts, belief_id_a, belief_id_b, result_content, result_belief_id)
+  result_content and result_belief_id are NULL on quality-check failure.
+
+POST-WRITE DIVERSITY HOOKS (on success)
+
+  record_synergy(writer, result_id, belief_id_a, belief_id_b)
+    → writes to belief_lineage table
+
+  CrossbreedGrader.grade(result_id, belief_id_a, belief_id_b)
+    → grade = cosine distance or semantic novelty score
+    → if grade > BOOST_THRESHOLD:
+        apply_boost(writer, result_id, grade)
+        → writes to belief_boost table; boost_value raises the belief's
+          effective created_at score in fountain retrieval
+
+
+======================================================================
+3. TRIGGER CONDITION
+======================================================================
+
+LOOP STRUCTURE (__init__.py:_synergizer_loop, lines 154–204)
+
+  Background thread, launched at world model startup.
+  Polls: stop.wait(60.0) → checks every 60 seconds.
+
+  COOLDOWN GATE: (now - last_fire) >= 5 * 60  (300 seconds)
+    If not met, skip. Minimum 5 minutes between any two synergizations.
+
+  TWO FIRE CONDITIONS (fire=True if EITHER is met):
+
+  1. QUIET TRIGGER
+     Query: SELECT COUNT(*) FROM sense_events WHERE ts > (now - 900)
+     Fires if count < SYNERGIZER_QUIET_EVENTS (= 5)
+     Meaning: if fewer than 5 sense events arrived in the last 15 minutes,
+     the system is quiet → synthesize.
+
+  2. TIMER TRIGGER
+     Fires if (now - last_timer_fire) >= SYNERGIZER_INTERVAL (= 1500 seconds = 25 min)
+     last_timer_fire updates independently of last_fire.
+     Meaning: regardless of sense activity, synthesize at least once per 25 minutes.
+
+  CONSTANTS:
+    SYNERGIZER_INTERVAL       = 25 * 60  = 1500  seconds
+    SYNERGIZER_QUIET_THRESHOLD = 15 * 60  =  900  seconds
+    SYNERGIZER_QUIET_EVENTS    = 5
+    cooldown                   =  5 * 60  =  300  seconds
+
+  EFFECTIVE BEHAVIOR:
+    Under normal sense load (>5 events/15 min): fires every ~25 minutes.
+    Under quiet conditions (<5 events/15 min): fires as fast as every 5 minutes
+    (cooldown-limited), potentially much faster than the timer.
+
+    Observed in synergizer_log: first entries are ~150–400 seconds apart,
+    consistent with quiet-trigger firing soon after session start when
+    sense volume was low. Later entries spread out to ~1500s intervals.
+
+
+======================================================================
+4. SOURCE BELIEF LIFECYCLE AFTER SYNERGIZATION
+======================================================================
+
+  Source beliefs are NEVER removed, archived, suppressed, or modified.
+  The INSERT that creates the synergized belief has no associated DELETE
+  or UPDATE on the source beliefs.
+
+  Source beliefs remain:
+    - At their original source, confidence, tier, locked, branch_id
+    - Eligible for future synergizer runs (they reenter _select_pair)
+    - Eligible for fountain injection under their own source slot
+    - Subject to normal dormancy scanning (DormancyScanner) independently
+
+  The synergized belief is ADDITIVE to the pool. It coexists with its
+  source beliefs.
+
+  LINEAGE TRACKING:
+    belief_lineage table records (child_id, parent_a_id, parent_b_id).
+    collision_grades table records (grade, parent_a_id, parent_b_id, result_id).
+    belief_boost table records (belief_id, boost_value) for high-grade children.
+
+  No cascade deletion. No source belief suppression. No confidence reduction
+  on source beliefs after their content is synthesized.
+
+
+======================================================================
+5. INJECTION WEIGHTING: SYNERGIZED VS KOAN VS SPECTRUM VS PRACTICE
+======================================================================
+
+FOUNTAIN GENERATOR RETRIEVAL (_retrieve_context_beliefs, generator.py:~440–520)
+
+  Two retrieval slots per fire:
+
+  OWN-CONTENT SLOT (own_n beliefs, default=7, mind_mode=5):
+    Sources: {'fountain_insight', 'synergized', 'precipitated_from_dynamic',
+              'behavioural_observation'}
+    Query: ORDER BY (created_at * COALESCE(boost_value, 1.0)) DESC LIMIT own_n
+    Selection: most recent, weighted by boost. No randomization.
+    'synergized' competes directly with 'fountain_insight' for these slots.
+    As synergized beliefs accumulate, recently-created synergized beliefs
+    score above older fountain_insight beliefs and displace them.
+
+  SEED SLOT (seed_n beliefs, default=2, mind_mode=4):
+    Sources: {'koan', 'tao', 'dont_know', 'heart_sutra', 'keystone_seed',
+              'reification_recognition', 'self_location', 'alpha'}
+    Query: ORDER BY RANDOM() LIMIT seed_n
+    Selection: fully random across all qualifying seeds.
+    In the observed session (koan=39, tao=20, dont_know=8, keystone_seed=7,
+    heart_sutra=1 = 75 total qualifying seeds):
+      P(any koan selected in seed slot) = 1 - (36/75)*(35/74) ≈ 0.77 per fire
+      Expected koans in seed slot: 2 × (39/75) ≈ 1.04 per fire
+
+  KOAN ROTATION OVERRIDE (every 8th fire, line ~299):
+    Condition: total_fires % 8 == 7 AND readiness >= 0.8 AND belief_count >= 20
+    Action: _select_koan() → least-recently-read koan (koan_reads table)
+    → injected as a separate section at the top of the prompt
+    → writes to koan_reads table (tracks rotation)
+    This fires on fires 7, 15, 23... (every 8th), providing guaranteed koan exposure.
+
+  SPECTRUM FOUNDATION (separate injection, _build_prompt, line ~540):
+    Query: SELECT content FROM beliefs WHERE source='spectrum' ORDER BY RANDOM() LIMIT 8
+    This is NOT part of _retrieve_context_beliefs. It is a hardcoded additional
+    injection in _build_prompt.
+    Header: "Your foundation right now (these are standing-points from which you
+    witness, not propositions to repeat):"
+    8 random spectrum beliefs per fire, always present when spectrum exists.
+    NOTE: spectrum (200 beliefs) was NOT present during the corpus window
+    (created_at values all AFTER ts=1777201083, the last corpus fire).
+    Spectrum did not appear in any of the 252 corpus fires analyzed.
+
+  PRACTICE — NO INJECTION PATH:
+    'practice' is NOT in _OWN_CONTENT_SOURCES.
+    'practice' is NOT in _SEED_SOURCES.
+    'practice' is NOT queried in the spectrum block.
+    'practice' appears in no other injection path in generator.py.
+    'practice' is listed in _INSIDE_SOURCES in stage4 membrane classifier
+    (classifies it as INSIDE for phenomenal membrane tracking) but this
+    does not affect fountain prompt construction.
+    The 40 practice beliefs in the DB do not reach the fountain prompt.
+
+PROMPT STRUCTURE (assembled in _build_prompt):
+
+  [system prompt block — drift instructions]
+  [spectrum foundation block — 8 random spectrum beliefs]  ← ALWAYS (when spectrum present)
+  [arc context block — active/recent arcs, optional]
+  [own-content block — 7 most-recent own beliefs]           ← fountain_insight + synergized
+  [seeds block — 2 random seed beliefs]                     ← koan + tao + dont_know + ...
+  [disturbance block — world model disturbance, optional]
+  [recent sense sample — 3 non-internal, non-noise events]
+  [time / belief count]
+  [open problem block — optional]
+
+INJECTION SUMMARY TABLE
+
+  Source      Slot            Selection       Count/fire  Present in corpus?
+  ─────────────────────────────────────────────────────────────────────────
+  synergized  own-content     recency×boost     0–7         post-syn era only
+  fountain_i  own-content     recency×boost     0–7         throughout
+  koan        seed            random            ~1.0        throughout
+  tao         seed            random            ~0.5        throughout
+  dont_know   seed            random            ~0.2        throughout
+  keystone    seed            random            ~0.2        throughout
+  heart_sutra seed            random            ~0.03       throughout
+  koan-rot    override        LRU               1           every 8th fire
+  spectrum    separate        random            8           NOT in corpus era
+  practice    none            —                 0           never injected
+

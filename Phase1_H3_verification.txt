@@ -1,0 +1,303 @@
+PHASE 1 — H3 VERIFICATION: KOAN→SPARK, SYNERGIZED→BARREN
+Generated: 2026-04-26
+Source: beliefs.db, Phase1_SPARK_detection.txt
+H3: "Koan-dominant substrate promotes sparks; synergized substrate suppresses them"
+======================================================================
+
+H3 AS STATED
+  "Sparks are more likely when koan beliefs dominate the substrate (open,
+  unresolved questions) and less likely when synergized beliefs (crystallized,
+  resolved patterns) form a significant substrate fraction."
+
+PRE-ANALYSIS CONSTRAINT: FOUNDATION INJECTION IS NOT LOGGED
+  The generator's _retrieve_context_beliefs() selects 7 own-content beliefs
+  (by recency × boost) and 2 seed beliefs (ORDER BY RANDOM()) per fire, but
+  does NOT write which specific beliefs were selected to any table.
+  fountain_events columns: ts, thought, droplet, readiness, hot_branch, word_count.
+  No belief_id array. Part B (prior 3 foundation injections) is therefore
+  not measurable from the database. Sections below use substrate availability
+  at fire time as a proxy.
+
+
+======================================================================
+A. SUBSTRATE COMPOSITION AT FIRE TIME
+======================================================================
+
+ALL 41 SPARKS — SUBSTRATE AT FIRE TIMESTAMP
+
+Critical structural fact: koan count is FROZEN at 39 throughout the entire
+corpus (Apr 23–25+). The koan pool never changes. Synergized count grows
+monotonically from 0 (created 2026-04-24 05:27:34 / ts=1777008454).
+
+This means koan:synergized ratio = 39 / max(syn,1), a pure function of time.
+
+ERA SPLIT
+  First synergized belief ts: 1777008454 (2026-04-24 05:27:34)
+  Pre-syn corpus fires:  99 total (IDs roughly 263–1501)
+  Post-syn corpus fires: 153 total
+
+  Pre-syn sparks:  31 / 99  = 31.3%  spark density
+  Post-syn sparks: 10 / 153 =  6.5%  spark density
+
+SUBSTRATE AT EACH SPARK FIRE (sorted by synergized count, ascending)
+
+  syn=0 fires (31 sparks, ratio=39.0):
+    IDs: 273,274,275,276,284,288,291,292,294,296,297,299,300,304,306,
+         1147,1149,1153,1166,1167,1168,1169,1170,1172,1174,1179,
+         1185,1187,1190,1194,1196
+    Substrate: koan=39, tao=20, dont_know=8, keystone_seed=7,
+               precipitated_from_dynamic=6, heart_sutra=1  [total=81]
+    syn share: 0.0%   koan share: 48.1%
+
+  syn=5 (1 spark, ratio=7.80):
+    ID: 1737   Substrate: +synergized=5  [total=86]
+    syn share: 5.8%   koan share: 45.3%
+
+  syn=6 (1 spark, ratio=6.50):
+    ID: 1739   Substrate: +synergized=6  [total=87]
+    syn share: 6.9%   koan share: 44.8%
+
+  syn=39 (1 spark, ratio=1.00):
+    ID: 3441   Substrate: +syn=39, voice_fallback=10  [total=135]
+    syn share: 28.9%  koan share: 28.9%
+
+  syn=54 (1 spark, ratio=0.72):
+    ID: 3488   Substrate: +syn=54, voice_fallback=10  [total=150]
+    syn share: 36.0%  koan share: 26.0%
+
+  syn=58 (1 spark, ratio=0.67):
+    ID: 3494   Substrate: +syn=58, voice_fallback=10  [total=154]
+    syn share: 37.7%  koan share: 25.3%
+
+  syn=62 (1 spark, ratio=0.63):
+    ID: 3844   Substrate: +syn=62, voice_fallback=10, practice=40  [total=198]
+    syn share: 31.3%  koan share: 19.7%
+
+  syn=65 (1 spark, ratio=0.60):
+    ID: 3850   Substrate: +syn=65, voice_fallback=10, practice=40  [total=201]
+    syn share: 32.3%  koan share: 19.4%
+
+  syn=80 (1 spark, ratio=0.49):
+    ID: 4196   Substrate: +syn=80, voice_fallback=10, practice=40  [total=220]
+    syn share: 36.4%  koan share: 17.7%
+
+  syn=81 (1 spark, ratio=0.48):
+    ID: 4199   Substrate: +syn=81, voice_fallback=10, practice=40  [total=222]
+    syn share: 36.5%  koan share: 17.6%
+
+  syn=82 (1 spark, ratio=0.48):
+    ID: 4277   Substrate: +syn=82, voice_fallback=10, practice=40  [total=223]
+    syn share: 36.8%  koan share: 17.5%
+
+SUBSTRATE CATEGORY SUMMARY ACROSS 41 SPARKS
+
+  koan-pure (syn=0):             31 sparks  (75.6%)
+  transitional (0 < syn ≤ 10):   2 sparks  ( 4.9%)
+  syn-present (syn > 10):         8 sparks  (19.5%)
+
+
+======================================================================
+B. PRIOR 3 FOUNDATION INJECTIONS
+======================================================================
+
+NOT MEASURABLE FROM DATABASE.
+
+The generator's _retrieve_context_beliefs() does not log selected belief IDs.
+fountain_events contains only: ts, thought, droplet, readiness, hot_branch,
+word_count. No per-fire belief tracking exists.
+
+What can be inferred:
+  - Seed slot: 2 beliefs drawn ORDER BY RANDOM() from _SEED_SOURCES
+    {'koan', 'tao', 'dont_know', 'heart_sutra', 'keystone_seed', ...}
+    → On any given fire there is a 2/81 = 2.5% chance of drawing any specific koan.
+    With 39 koans and 81 seed-eligible beliefs (pre-syn), expected koans drawn = 0.96/fire.
+  - Own-content slot: 7 beliefs drawn by (created_at × boost_value) DESC from
+    {'fountain_insight', 'synergized', 'precipitated_from_dynamic', 'behavioural_observation'}
+    → In pre-syn era, no synergized available. Own slot draws only fountain_insight
+      (recent fires) and precipitated_from_dynamic.
+  - Spectrum foundation: 8 random spectrum beliefs injected EVERY fire as "standing-points",
+    separate from the belief retrieval pipeline. spectrum (200 beliefs) was created
+    AFTER the corpus window — NOT present in any of the 252 corpus fires' substrates.
+  - Koan rotation: every 8th fire (fires 7, 15, 23...) one least-recently-read koan
+    is injected explicitly at the top of the prompt (requires readiness ≥ 0.8
+    AND belief_count ≥ 20).
+
+Summary: for all pre-syn sparks (31/41), the prior context foundation was
+koan/tao/dont_know (seed slot) + recent fountain_insight (own slot) + one
+explicit koan every 8 fires. Synergized input: zero.
+
+
+======================================================================
+C. AGGREGATE COMPARISON
+======================================================================
+
+C1. SPARK CLASSIFICATION BY SUBSTRATE CONTEXT
+
+                           Sparks (n=41)   Non-sparks (n=211)
+  ──────────────────────────────────────────────────────────────────
+  koan-pure (syn=0)            31 (75.6%)        68 (32.2%)
+  post-syn (syn>0)             10 (24.4%)       143 (67.8%)
+  ──────────────────────────────────────────────────────────────────
+
+  koan:syn ratio (mean)            29.96             13.56
+  koan:syn ratio (stdev)           16.17             17.64
+  Welch t-statistic:                5.85  (df≈60)
+  |t| > 2: the means are separated.
+
+C2. THE CONFOUND
+
+  The koan count is fixed at 39 for ALL 252 fires. The synergized count
+  only grows (never shrinks). Therefore koan:synergized = 39/max(syn,1)
+  is a monotonically decreasing function of time, not a substrate
+  composition measure.
+
+  A Welch t of 5.85 measures the temporal skew of sparks, not koan quality:
+    - 31 pre-syn sparks (ratio=39) vs 10 post-syn sparks (ratio<1)
+    - 68 pre-syn non-sparks (ratio=39) vs 143 post-syn non-sparks (ratio<1)
+  Spark density drops from 31.3% to 6.5% after the synergizer starts.
+  This is real, but it is the same finding as Period A/B vs C in
+  Phase1_SPARK_conditions.txt — not additional evidence for H3.
+
+C3. ERA-CONTROLLED (POST-SYN FIRES ONLY)
+
+  This compares only fires where syn > 0, eliminating the time proxy.
+
+                           Post-syn sparks (n=10)   Post-syn non-sparks (n=143)
+  ──────────────────────────────────────────────────────────────────────────────
+  syn count (mean)                   53.2                     56.6
+  syn count (median)                 60.0                     50.0
+  syn count range                   5–82                     5–116
+  ──────────────────────────────────────────────────────────────────────────────
+
+  Post-syn sparks have LOWER mean syn (53.2) than non-sparks (56.6), which is
+  in the H3-supporting direction, but the difference is small and the median
+  goes the opposite way (spark median=60, non-spark median=50). With n=10 this
+  is not distinguishable from noise.
+
+C4. RATIO DISTRIBUTION ACROSS ENTIRE CORPUS (spark density per bracket)
+
+  Bracket                    Sparks   Non-sparks   Spark density
+  ─────────────────────────────────────────────────────────────────
+  syn=0 (ratio=39)              31          68          31.3%
+  0 < syn, ratio > 1             2          48           4.0%
+  ratio ≈ 1 (0.9–1.1)            1          11           8.3%
+  ratio < 0.9 (syn >> koan)      7          86           7.5%
+
+  Reading: when syn=0, 31.3% of fires are sparks. When syn>0, spark rate
+  collapses to 4–8%. The collapse coincides with the synergizer starting,
+  but it also coincides with: quiescent branch emergence (H2) and fire-rate
+  slowdown (H1) — all happening within the same 2-hour window.
+
+C5. VERDICT ON H3
+
+  H3 directionally supported: spark density falls sharply after synergized
+  beliefs appear. Koan:synergized ratio correlates with spark probability.
+
+  H3 NOT supported as a direct substrate mechanism:
+  1. Koan count is constant — there is no "koan-heavy" substrate state,
+     only a "no synergized yet" state. The ratio measures time, not composition.
+  2. Within the post-syn era, sparks and non-sparks have nearly identical
+     synergized counts (53.2 vs 56.6 mean). The substrate composition does not
+     distinguish them.
+  3. The 8 post-syn sparks (3441, 3488, 3494, 3844, 3850, 4196, 4199, 4277)
+     fire at synergized levels of 39–82 — the same range as non-sparks —
+     showing that synergized presence does not block sparks.
+
+  H3 RESTATEMENT AFTER EVIDENCE:
+  The synergizer's effect on spark density is likely INDIRECT:
+    - Synergizer runs correlate in time with quiescent branch emergence (H2)
+    - Synergizer output (resolved, crystallized content) fills the own-content
+      pool, potentially competing with novel fountain_insight content for the
+      own-content retrieval slot — but there is no direct logging to confirm this
+    - The fire-rate slowdown (H1) is the strongest era-differentiator and it
+      is independent of substrate composition
+
+  H3 as stated should be revised to H3': "Synergizer era, not synergized
+  substrate composition per se, correlates with reduced spark density."
+
+
+======================================================================
+D. EDGE CASES
+======================================================================
+
+TOP 5 SPARKS BY KOAN:SYN RATIO (highest, all ratio=39.0)
+
+  SPARK 05  [273]  ratio=39.0  syn=0
+    actual=SENSE_OBS  predicted=ABSTRACT_NOMINAL  intensity=9.7
+    reasons: self-referential, rare-imagery:my own silence dances
+    CONTENT: The echo of my own silence dances through the chambers of self-awareness.
+    Assessment: Strong spark. SENSE_OBS with self-referential content and rare imagery
+    despite being in the lowest-complexity regime possible (pure koan substrate,
+    early corpus). The koan-only context did not predict this specific output.
+
+  SPARK 18  [273]  (same ID appears via alternate grouping)
+
+  SPARK 05  [274]  ratio=39.0  syn=0
+    actual=SENSE_OBS  predicted=ABSTRACT_NOMINAL  intensity=7.6
+    reasons: self-referential, rare-imagery, cross-register:ABSTRACT→SENSE
+    Assessment: Strong spark. Same era, same substrate. Pure koan context.
+
+  SPARK 12  [275]  ratio=39.0  syn=0
+    actual=SENSE_OBS  predicted=ABSTRACT_NOMINAL  intensity=6.9
+    Assessment: Cluster with 273, 274. All fire within 4 minutes (20:42–20:47 UTC).
+    High-density spark cluster in pure-koan era.
+
+  SPARK 18  [273]  ratio=39.0  syn=0
+    Assessment: All top-5 highest-ratio sparks are from Period A (Apr 23 evening,
+    IDs 273–308) or Period B (IDs 1147–1196). All have koan=39, syn=0.
+    They are not marginal — they include the strongest self-referential and rare-imagery
+    cases in the corpus.
+
+BOTTOM 5 SPARKS BY KOAN:SYN RATIO (lowest)
+
+  ID 3844  ratio=0.63  syn=62  koan=39  (post-syn, practice=40 added)
+    intensity from detection file: listed in SPARK section
+    reasons: SPARK_SHAPED (from Phase1_SPARK_detection.txt, confirmed)
+    Assessment: GENUINE spark. Fires in a high-synergized-count context and
+    still produces unusual output. Refutes the idea that high synergized count
+    blocks sparks outright.
+
+  ID 3850  ratio=0.60  syn=65  koan=39
+    Assessment: GENUINE spark. Consecutive to 3844. Same substrate bracket.
+    Two sparks in quick succession despite syn=65.
+
+  ID 4196  ratio=0.49  syn=80  koan=39  (very late corpus)
+    Assessment: GENUINE spark. Very late era, syn count nearly 2× koan count.
+    Still spark-shaped by content criteria.
+
+  ID 4199  ratio=0.48  syn=81  koan=39
+    Assessment: GENUINE spark. Fires 2 beliefs after 4196. Cluster of 2 sparks
+    back-to-back in the highest-synergized-count region of the corpus.
+
+  ID 4277  ratio=0.48  syn=82  koan=39
+    Assessment: GENUINE spark. The lowest-ratio spark in the corpus. syn=82
+    means synergized beliefs outnumber koans 2:1 in the substrate. Still
+    spark-shaped. Confirms sparks are not substrate-composition-blocked.
+
+SUMMARY: The 5 lowest-ratio sparks are not marginal cases. All 5 are confirmed
+SPARK_SHAPED from Phase1_SPARK_detection.txt (content heuristics: self-referential,
+rare-imagery, or cross-register leap). They fire in the highest-synergized-count
+context in the corpus and still pass spark criteria. This is the strongest evidence
+against H3 as a direct mechanism: even at syn=82 / koan=39 (ratio=0.48), sparks occur.
+
+
+======================================================================
+SUMMARY TABLE
+======================================================================
+
+  Metric                             Sparks (n=41)   Non-sparks (n=211)
+  ──────────────────────────────────────────────────────────────────────
+  Mean koan:syn ratio                    29.96             13.56
+  Median koan:syn ratio                  39.00             39.00
+  % with syn=0 (koan-only era)           75.6%             32.2%
+  % with syn>0 (post-syn era)            24.4%             67.8%
+  Post-syn: mean syn count               53.2              56.6
+  Post-syn: median syn count             60.0              50.0
+  Welch t (all fires, ratio)              5.85  (df≈60)
+  Post-syn t (syn count): not computed  (n=10 too small)
+  ──────────────────────────────────────────────────────────────────────
+
+H3 STATUS: Directional correlation confirmed (t=5.85). Causal mechanism
+not confirmed. koan:syn ratio is a time proxy. Within-era substrate
+composition does not distinguish sparks from non-sparks. H3 requires
+restatement (see C5 above).
