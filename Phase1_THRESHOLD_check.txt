@@ -1,0 +1,299 @@
+PHASE 1 — READINESS THRESHOLD CHECK
+Generated: 2026-04-26
+Question: Did the fountain firing threshold change at the 05:11–05:13 restart on 2026-04-24?
+======================================================================
+
+
+======================================================================
+A. READINESS DISTRIBUTION ACROSS THE BIFURCATION
+======================================================================
+
+PRE-GAP WINDOW: 2026-04-24 03:00:00 → 05:10:00 UTC
+
+  Total fires: 64
+  Readiness distribution:
+    0.700 → 64 fires  (100%)
+  Mean:   0.700
+  Min:    0.700
+  Max:    0.700
+
+  Every single pre-gap fire has readiness=0.700 exactly.
+  No variance. The fountain was firing at the threshold floor throughout.
+
+POST-GAP WINDOW: 2026-04-24 06:51:00 → 09:00:00 UTC
+
+  Total fires: 56
+  Readiness distribution:
+    0.700 → 54 fires  (96.4%)
+    0.900 →  2 fires  ( 3.6%)  ← fev=211 and fev=212 only
+  Mean:   0.7071
+  Min:    0.700
+  Max:    0.900
+
+  54 of 56 post-gap fires are at the same 0.700 floor as all pre-gap fires.
+  The two anomalous 0.9 fires are explained below (elapsed term from restart).
+
+10 FIRES IMMEDIATELY BEFORE THE GAP:
+
+  id   ts_utc                readiness  hot_branch
+  ────────────────────────────────────────────────
+  210  2026-04-24 05:09:58   0.7        systems    ← last pre-gap fire
+  209  2026-04-24 05:07:56   0.7        systems
+  208  2026-04-24 05:05:53   0.7        systems
+  207  2026-04-24 05:03:51   0.7        systems
+  206  2026-04-24 05:01:47   0.7        systems
+  205  2026-04-24 04:59:45   0.7        emerging_tech
+  204  2026-04-24 04:57:40   0.7        systems
+  203  2026-04-24 04:55:36   0.7        systems
+  202  2026-04-24 04:53:32   0.7        systems
+  201  2026-04-24 04:51:25   0.7        systems
+
+10 FIRES IMMEDIATELY AFTER THE GAP:
+
+  id   ts_utc                readiness  hot_branch
+  ────────────────────────────────────────────────
+  211  2026-04-24 06:51:04   0.9        systems    ← first post-gap fire
+  212  2026-04-24 07:00:32   0.9        ai_research
+  213  2026-04-24 07:02:49   0.7        systems
+  214  2026-04-24 07:05:05   0.7        systems
+  215  2026-04-24 07:07:23   0.7        systems
+  216  2026-04-24 07:09:27   0.7        quiescent
+  217  2026-04-24 07:11:43   0.7        systems
+  218  2026-04-24 07:13:58   0.7        systems
+  219  2026-04-24 07:16:13   0.7        systems
+  220  2026-04-24 07:18:29   0.7        systems
+
+NEW READINESS VALUES POST-GAP:
+  0.9 appears post-gap, did not appear pre-gap.
+  This is NOT caused by a threshold change — it is caused by:
+    (1) fev=211: _last_fire_ts = 0.0 after restart → elapsed term = +0.2 always
+        2 hot branches (0.6) + beliefs>20 (0.1) + last_fire_ts==0.0 (0.2) = 0.9
+    (2) fev=212 (07:00:32, 568s after fev=211 — elapsed < 600s so elapsed term = 0):
+        0.9 = 0.6 (2 hot branches) + 0.2 (consolidation_active) + 0.1 (beliefs>20)
+        consolidation_active was True at 07:00:32.
+  At fev=213 (07:02:49), readiness returns to 0.700 and stays there.
+
+
+======================================================================
+B. THRESHOLD CONFIG IN CODE
+======================================================================
+
+READINESS.PY (theory_x/stage6_fountain/readiness.py) — FULL TEXT:
+
+  """Fountain readiness evaluator — Theory X Stage 6.
+
+  Computes a 0.0–1.0 readiness score from internal state.
+  The fountain fires when readiness >= FOUNTAIN_THRESHOLD.
+  """
+  FOUNTAIN_THRESHOLD = 0.7
+  FOUNTAIN_MIN_INTERVAL_SECONDS = 600   # 10 minutes
+  FOUNTAIN_CHECK_INTERVAL_SECONDS = 120  # 2 minutes
+
+  _HIGH_FOCUS = {"e", "f", "g"}
+
+  class ReadinessEvaluator:
+      def score(self, dynamic_state, beliefs_reader, last_fire_ts=0.0) -> float:
+          total = 0.0
+          hot = [b for b in branches if b.get("focus_increment") in _HIGH_FOCUS]
+          total += min(0.6, len(hot) * 0.3)
+          if status.get("consolidation_active"):
+              total += 0.2
+          if belief_count > 20:
+              total += 0.1
+          elapsed = time.time() - last_fire_ts
+          if last_fire_ts == 0.0 or elapsed >= FOUNTAIN_MIN_INTERVAL_SECONDS:
+              total += 0.2
+          return min(1.0, total)
+
+      def is_ready(self, score: float) -> bool:
+          return score >= FOUNTAIN_THRESHOLD  # 0.7
+
+FIRING DECISION IN GENERATOR.PY:
+
+  readiness = self._evaluator.score(dynamic_state, beliefs_reader,
+                                    last_fire_ts=self._last_fire_ts)
+  if not self._evaluator.is_ready(readiness):
+      return None   # ← fountain does not fire
+
+  Note: generator.py also checks `self._total_fires % 8 == 7 and readiness >= 0.8`
+  for koan rotation injection (a separate, non-firing threshold).
+
+GREP RESULTS — all readiness threshold references in theory_x/:
+
+  theory_x/stage6_fountain/readiness.py:4    The fountain fires when readiness >= FOUNTAIN_THRESHOLD.
+  theory_x/stage6_fountain/generator.py:220  if self._total_fires % 8 == 7 and readiness >= 0.8 ...
+
+  (generator.py line 220 controls koan rotation, not fountain firing.)
+  No other threshold references found in theory_x/.
+
+
+======================================================================
+C. CONFIG TABLE
+======================================================================
+
+BELIEFS.DB CONFIG TABLE (full contents):
+
+  key            value     updated_at         ts_utc
+  ────────────────────────────────────────────────────────────
+  current_voice  af_sarah  1777146162.0        2026-04-25 19:42:42
+  current_mode   mind      1777204177.0        2026-04-26 11:49:37
+
+  Two rows. Neither key is readiness-related.
+  Both entries were created/modified AFTER the bifurcation window (Apr 25–26).
+  No readiness threshold, firing threshold, or fountain-related value in config.
+
+DYNAMIC.DB — CONFIG-LIKE TABLES:
+
+  sqlite3 query for tables LIKE '%config%': zero results.
+  Full table list: accumulator, bonsai_branches, crystallization_events,
+  drive_proposals, dynamic_cursor, fountain_events, harmonizer_events,
+  pipeline_events, tree_snapshots.
+  No config table.
+
+ALL DATABASES — CONFIRMED: no readiness-related config entry exists anywhere.
+
+
+======================================================================
+D. ENVIRONMENT VARIABLES IN STARTUP
+======================================================================
+
+RUN.PY:
+  One import: `from theory_x.stage6_fountain.readiness import FOUNTAIN_CHECK_INTERVAL_SECONDS`
+  No readiness threshold override. No env var for FOUNTAIN_THRESHOLD.
+  No env vars for READINESS, THRESHOLD, MIN_FIRE, or FOUNTAIN_MIN found.
+
+.ENV FILES: no matches for READINESS/THRESHOLD/FOUNTAIN_MIN in any .env file.
+
+~/.BASHRC: no matches.
+
+SYSTEMD SERVICES: no NEX5-specific services (only dbus-org.bluez.obex.service found).
+
+/TMP/NEX_BRAIN.LOG: file exists at /tmp/nex_brain.log (and nex5_last_prompt.log,
+  nex_agency.log, nex_goal_research.log, nex_nex-api.log) but contains no
+  readiness/threshold configuration lines.
+
+~/.LOCAL/BIN/NEX: refers to NEX v4.0 (old launcher for /home/rr/Desktop/nex, not
+  nex5). Starts nex-brain.service + nex-llama.service via systemd. No readiness
+  env var injection.
+
+CONCLUSION: FOUNTAIN_THRESHOLD is not overridable via environment.
+  It is defined as a module-level constant in readiness.py and imported directly.
+  No runtime override path exists in the codebase.
+
+
+======================================================================
+E. GIT BLAME ON THRESHOLD-RELATED CODE
+======================================================================
+
+READINESS.PY — COMMIT HISTORY:
+
+  Commits: 1 (one commit only, ever)
+  416dd2c  2026-04-23  Phase 7: fountain ignition — spontaneous thought loop, loop closes
+
+  readiness.py was created on 2026-04-23 and has NEVER been modified since.
+  FOUNTAIN_THRESHOLD = 0.7 has been 0.7 since the file was first created.
+  The bifurcation window (2026-04-24 05:11–05:13) falls the day after creation.
+  No commit between file creation (Apr 23) and current HEAD touches readiness.py.
+
+GENERATOR.PY — COMMIT HISTORY (relevant):
+
+  a396dda  2026-04-26  NEX5 multi-system batch: decryption module, polymodal architecture
+  88768a1  2026-04-23  Synergizer + Fountain Crystallizer + don't-know beliefs
+  083d77a  2026-04-23  Beta beliefs complete: 59 stories — Zen + Taoist
+  f45db20  2026-04-23  Fountain: rotate 8 closing question sets
+  b029f5f  2026-04-23  Theory X + v4 gap closure: 201/201 tests
+  139bacb  2026-04-23  Fix attention magnitude + fountain self-direction + voice timeout
+  416dd2c  2026-04-23  Phase 7: fountain ignition — spontaneous thought loop, loop closes
+
+  The readiness call in generator.py was introduced on Apr 23 alongside readiness.py.
+  The Apr 26 commit (a396dda) added decryption/polymodal code — no readiness changes.
+  No commit on 2026-04-24 touched any fountain code.
+
+CONFIRMATION: The threshold value 0.7 has been constant through the entire corpus
+  window. No code change occurred on April 24 at or around the restart.
+
+
+======================================================================
+F. CROSS-REFERENCE WITH PIPELINE MAGNITUDE
+======================================================================
+
+Pipeline magnitude is the attention activation level of a sense event flowing
+through processing stages B→D→E→F. It is NOT a fountain firing criterion.
+The fountain fires on readiness (from branches/consolidation/elapsed), not on
+any pipeline magnitude value.
+
+PIPELINE STEP=D MAGNITUDE AT FIRE TIMES (pre-gap, last 5 fires before gap):
+
+  fev  ts_utc                branch_id          magnitude     offset_secs
+  ─────────────────────────────────────────────────────────────────────────
+  206  2026-04-24 05:01:47   systems             0.227–0.230    -9 to +9
+  206                        cognition_science   0.006          ~
+  206                        crypto              0.294          +8
+  207  2026-04-24 05:03:51   systems             0.234–0.234    -3 to +10
+  207                        cognition_science   0.006          ~
+  208  2026-04-24 05:05:53   systems             0.231–0.231    -4 to +8
+  208                        cognition_science   0.006          ~
+  209  2026-04-24 05:07:56   systems             0.237          -7 to +5
+  209                        cognition_science   0.006          ~
+  210  2026-04-24 05:09:58   systems             0.234          -10
+
+PIPELINE STEP=D MAGNITUDE AT FIRE TIMES (post-gap, first 5 fires after gap):
+
+  fev  ts_utc                branch_id          magnitude     offset_secs
+  ─────────────────────────────────────────────────────────────────────────
+  211  2026-04-24 06:51:04   crypto              0.272–0.335    -8 to +9
+  211                        systems             0.212          -1 to +9
+  211                        cognition_science   0.005          ~
+  212  2026-04-24 07:00:32   systems             0.220–0.255    -6 to +4
+  212                        cognition_science   0.006          ~
+  213  2026-04-24 07:02:49   systems             0.214–0.217    -10 to +8
+  213                        crypto              0.276          -5 to +8
+  213                        cognition_science   0.006          ~
+  214  2026-04-24 07:05:05   systems             0.224          -9 to +6
+  214                        crypto              0.288          -4
+  214                        cognition_science   0.006          ~
+
+ANALYSIS:
+  Pre-gap magnitudes: systems 0.227–0.238, cognition_science 0.006, crypto 0.294.
+  Post-gap magnitudes: systems 0.211–0.255, cognition_science 0.005–0.007, crypto 0.272–0.335.
+  Ranges overlap. No threshold jump observable in pipeline magnitude.
+  Notable: crypto magnitude appears at step D in both pre-gap and post-gap fire windows.
+  Crypto was active in the pipeline throughout — it was not a new branch post-gap.
+  Crypto was not at high focus_increment (e/f/g) during the gap. That changed at ~06:50.
+
+  No magnitude threshold controlling fountain fires was found. The fountain
+  does not inspect pipeline_events at fire time. The relationship between
+  pipeline magnitude and fountain firing is indirect: magnitude feeds into
+  the world model's branch focus_increment values, which then feed into readiness.
+
+
+======================================================================
+G. VERDICT
+======================================================================
+
+THRESHOLD_UNCHANGED
+
+EVIDENCE:
+
+1. CODE: FOUNTAIN_THRESHOLD = 0.7 in theory_x/stage6_fountain/readiness.py.
+   Hardcoded module constant. Only one commit ever (2026-04-23). Never modified.
+   No runtime override via env var, config table, or any other mechanism.
+
+2. DATA: 64 pre-gap fires — ALL at readiness=0.700.
+         56 post-gap fires — 54 at readiness=0.700. Two transient 0.9 fires
+         explained by restart artifact (last_fire_ts=0.0 → elapsed term active)
+         and consolidation_active state, not by any threshold change.
+
+3. POST-GAP 0.9 FIRES ARE NOT A THRESHOLD CHANGE: if the threshold had lowered,
+   fires would resume at a lower readiness value, not a higher one. The 0.9 fires
+   confirm the formula is working as coded — the elapsed bonus fires after restart.
+   After two fires the score returns to 0.7 and stays there, identical to pre-gap.
+
+4. THE 101-MINUTE SILENCE IS EXPLAINED WITHOUT ANY THRESHOLD CHANGE:
+   During the gap, only the systems branch had high focus_increment (one hot branch):
+     readiness = 0.3 (1 hot) + 0.1 (beliefs>20) + 0.2 (last_fire_ts=0.0) = 0.6
+   0.6 < 0.7 threshold → fountain blocked.
+   When crypto reached high focus at ~06:50, a second hot branch appeared:
+     readiness = 0.6 (2 hot) + 0.1 (beliefs>20) + 0.2 (last_fire_ts=0.0) = 0.9
+   0.9 >= 0.7 → fountain fires.
+   The silence was caused by insufficient hot branches, not by a raised threshold.
