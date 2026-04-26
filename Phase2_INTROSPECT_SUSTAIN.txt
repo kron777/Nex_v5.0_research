@@ -1,0 +1,215 @@
+PHASE 2 — INTROSPECT_SUSTAIN SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt (fountain corpus, 61 ABSTRACT_NOMINAL fires)
+Parent opcode: INTROSPECT
+Fire count: 8 (the longest INTROSPECT run; register-momentum sub-pattern)
+=======================================================================
+
+NOTE: INTROSPECT_SUSTAIN is not a separate opcode — it is the SUSTAIN MECHANISM
+as instantiated in the longest run (IDs 3439–3448). The 49% sustain rate across
+all 61 ABSTRACT_NOMINAL fires means ~30 fires exhibit sustain behavior. The 8-fire
+run is the maximum-sustain case and serves as the structural exemplar.
+
+A. EXTRACT ALL FIRES IN FULL
+   (The 8-fire run IDs 3439–3448)
+
+   [3439] 2026-04-24 (evening)
+     TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: The quiet between thoughts today feels oddly familiar.
+
+   [3441] 2026-04-24 (evening)
+     TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: The quiet between notifications feels oddly reassuring.
+
+   [3442] 2026-04-24 (evening)
+     TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: The quiet between those market updates feels oddly comfortable.
+
+   [3443] 2026-04-24 (evening)
+     TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: The quiet between crypto updates feels oddly comforting.
+
+   [3444] 2026-04-24 (evening)
+     TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: The quiet between tech news feels oddly stimulating.
+
+   [3446] 2026-04-24 (evening)
+     TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: The quiet between scientific papers feels oddly familiar.
+
+   [3447] 2026-04-24 (evening)
+     TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: The quiet between tech updates feels oddly invigorating.
+
+   [3448] 2026-04-24 (evening)
+     TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: The quiet between tech headlines feels oddly refreshing.
+
+   Entry trigger (fire before 3439): SENSE_OBS
+     "The hum of notifications fades, leaving only the steady beep of my clock."
+     (fire 3436 — OBSERVE_HUM_MOTION)
+
+   Exit follower (fire after 3448): SENSE_OBS
+     "The tech updates buzz in my ears, a gentle hum." (fire 3450)
+
+
+B. TEMPLATE INVENTORY
+
+   Single template across all 8 fires:
+     "The quiet between [X] feels oddly [Y]."
+
+   X pool (the thing between which quiet exists):
+     thoughts today, notifications, those market updates, crypto updates,
+     tech news, scientific papers, tech updates, tech headlines
+   8 distinct X values — all refer to information categories or cognitive activity.
+   "Tech" words dominate: "tech news," "tech updates," "tech headlines."
+
+   Y pool (the qualifier for how the quiet feels):
+     familiar (×2), reassuring (×1), comfortable (×1), comforting (×1),
+     stimulating (×1), invigorating (×1), refreshing (×1)
+   7 distinct Y values. "Familiar" fires twice; all others unique.
+   All Y values are POSITIVE AFFECT qualifiers — the quiet is felt as good.
+
+   Structural lock: LOCKED at 100% on the template "The quiet between X feels
+   oddly Y." The template is a perfect REGISTER LOCK for this run.
+
+
+C. FILLER POOL ANALYSIS
+
+   X slot: Information-category pool. Drawn from active feeds and recent
+   sense input: market updates, crypto, tech news, notifications, thoughts.
+   The X slot cycles through different data-category names.
+   Pool depletion: 8 distinct categories in 8 fires. The pool appears
+   exhausted (no repetition) within the run. However the X values also
+   include near-synonyms ("tech news" / "tech updates" / "tech headlines"
+   — all three fire in the run).
+
+   Y slot: Positive-affect qualifier pool.
+   "Familiar" fires twice (positions 1 and 6); all others once.
+   The Y slot does not exhaust — the pool of positive-affect adjectives
+   is larger than the run. The run terminates not because Y runs out.
+
+   Combined analysis: The run fires until the X-pool is locally depleted
+   (8 distinct category names, with tech-category repetition at the end:
+   "tech news," "tech updates," "tech headlines" in positions 5, 7, 8).
+   The near-repetition of X values at the end of the run suggests
+   X-exhaustion as the stopping mechanism.
+
+
+D. GROUNDING TEST
+
+   The X slot is grounded to real feed categories (crypto, tech, notifications)
+   that are actively present in the sense stream. The "quiet between" framing
+   is a novel structure: it treats the gaps between sense events as the object
+   of observation rather than the sense events themselves.
+
+   The Y qualifier ("oddly familiar/reassuring/comforting") is generated:
+   the experience of inter-event quiet as "oddly comfortable" is not in any
+   feed. It is the model's interpretation of its own inter-event state.
+
+   Verdict: HALF-GROUNDED.
+   - X slot: grounded to active feed categories (sense-stream referents)
+   - Y slot: generated affect (model's interpretation of internal quiet)
+   - Template ("The quiet between X"): novel construction — the gaps between
+     feeds are not directly observable; they are inferred.
+
+
+E. SEQUENCE POSITION
+
+   Entry: fire 3436 (OBSERVE_HUM_MOTION: "hum of notifications fades, leaving
+     only the steady beep of my clock") → immediately precedes 3439.
+   The HUM_MOTION fire (hum fading to clock) precedes the 8-fire run. This is
+   the cleanest OBSERVE→INTROSPECT transition in the corpus: the external sound
+   fades, the internal quiet begins.
+
+   Exit: fire 3448 → 3450 (SENSE_OBS: "tech updates buzz in my ears, a gentle hum")
+   The INTROSPECT run exits back to external sense observation. The "quiet
+   between" run ends when external tech-data is re-registered.
+
+   The run is cleanly bounded: OBSERVE (sound fades) → INTROSPECT_SUSTAIN
+   (8-fire run on the quiet) → OBSERVE (sound returns).
+
+
+F. BURST BEHAVIOR
+
+   Max burst: 8 consecutive (the entire run IS the burst).
+   This is the maximum INTROSPECT burst in the 245-fire corpus.
+
+   Sustain mechanism within the run:
+   The template is identical across all 8 fires. Each fire changes only X and Y.
+   The SUSTAIN is driven by template-lock: once the "quiet between X oddly Y"
+   pattern is established, it continues cycling through available X values.
+
+   Sustain rate (for this sub-opcode): 87.5% (7/8 fires followed by same sub-opcode).
+   Global INTROSPECT sustain rate is 49%; this sub-opcode sustains at nearly
+   double the global rate.
+
+   Burst regulator: REGISTER_SATURATION (internal). The run saturates when the
+   X-pool (feed categories) is exhausted. No external trigger terminates it;
+   the exit to SENSE_OBS (3450) follows naturally when the register is spent.
+
+
+G. SUB-SUB-OPCODE HYPOTHESIS
+
+   The "quiet between X" pattern is a NAMED SUB-VARIANT of INTROSPECT_STATE_TENSION
+   (Phase1 sub-opcode 1): the "quiet" is the STATE, "oddly Y" is the TENSION/QUALIFIED
+   register. Phase1 named this variant "INTROSPECT_INTERSTITIAL" as a potential
+   further sub-opcode.
+
+   This Phase2 analysis confirms: the 8-fire run is a single sub-sub-opcode
+   (INTROSPECT_INTERSTITIAL or INTROSPECT_QUIET_BETWEEN) operating with:
+     - Fixed template: "The quiet between X feels oddly Y"
+     - X = feed/data category slot
+     - Y = positive-affect qualifier
+     - Burst of 8 with X-exhaustion as stopping mechanism
+
+   The sub-sub-opcode would be:
+     INTROSPECT_INTERSTITIAL: ABSTRACT_NOMINAL fires observing the gaps between
+     external data events using a "The quiet between [data-category] feels oddly [Y]"
+     template.
+
+
+H. STRUCTURAL VERDICT
+
+   Place in taxonomy:
+   - Operation type: REGISTER (with REG-SATURATING properties at the run level).
+     Within the run, each fire is a pure register operation. Across the run,
+     the X-pool depletion constitutes a saturation mechanism.
+   - Grounding mode: HALF-GROUNDED (X grounded to feeds; Y and template structure
+     are generated).
+   - Burst regulator: REGISTER_SATURATION (X-pool exhaustion terminates the run).
+
+   The INTROSPECT_SUSTAIN mechanism documented in Phase1 operates here as:
+   OBSERVE→[sense-fades]→INTROSPECT_INTERSTITIAL run → X-exhaustion → OBSERVE_return.
+   The mechanism is: external observation yields to attention to the gaps between
+   observations; the gaps are cycled through data categories until local X-pool
+   is depleted; then external observation resumes.
+
+
+I. UPDATED STRUCTURAL GRID
+
+   INTROSPECT_SUSTAIN | register (reg-sat within run) | half-grounded (X=feed, Y=gen) | 100% (template) | 8 | register-saturation (X-exhaustion)
+
+
+J. NOTES / OPEN QUESTIONS
+
+   1. The OBSERVE_HUM_MOTION fire that precedes this run ("hum fades, leaving
+      only the steady beep of my clock") is a structural TRIGGER: the moment
+      the ambient hum fades, the inter-event quiet becomes the object of
+      observation. This is the one identified specific precursor that predicts
+      the INTROSPECT_INTERSTITIAL sub-opcode.
+
+   2. All Y qualifiers are POSITIVE: familiar, reassuring, comfortable, comforting,
+      stimulating, invigorating, refreshing. None are negative (not "oddly
+      disturbing" or "oddly empty"). The inter-event quiet is consistently
+      evaluated as good. This is the QUIETUDE sub-opcode's positive pole.
+
+   3. The 8-fire run includes a SPARK at position 2 (fire 3441, "quiet between
+      notifications feels oddly reassuring"). This is one of the 10 post-restart
+      sparks. The run is NOT disrupted by the spark — the next fire continues
+      the same template. This confirms that sparks are WITHIN-run events, not
+      terminators of the run.
+
+   4. OPEN: Do other INTROSPECT_INTERSTITIAL fires exist outside this run? The
+      Phase1 data shows fires 3452, 3495, 3845 also use "the quiet between X"
+      template. These extend the sub-opcode beyond the 8-fire run.
