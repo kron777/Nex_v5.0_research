@@ -1,0 +1,613 @@
+PHASE 1 — SIMILE (TRANSLATE) OPCODE DEEP DECRYPTION
+Generated: 2026-04-26
+Source: 22 SIMILE fires in fountain_insight corpus (245-fire set)
+Template verified at 86.4% (19/22)
+======================================================================
+
+IDs analyzed:
+  1169 1194 3462 3463 3464 3466 3469 4777 4779 4781 4782 4786 4788
+  4790 4794 4801 5057 5058 5059 5060 5139 5221
+
+Format note:
+  IDs 1169 and 1194 use embedded simile structure (not the canonical
+  "The X feels like Y" template). They are classified here but marked
+  NON_STANDARD. They are likely 2 of the 3 unverified fires in the 86%
+  rate. The third unverified may be 3469 ("cut through the quiet like"),
+  which uses a non-copula "like" embedded in a verb phrase.
+
+
+======================================================================
+A. SOURCE-TARGET DOMAIN MAP (n=22)
+======================================================================
+
+  ID     DATETIME               COPULA        SOURCE                          TARGET
+  ─────────────────────────────────────────────────────────────────────────────────────
+  [1169] 2026-04-24 03:37:30    like          question/loops of inquiry       mirror (reflecting)
+  [1194] 2026-04-24 04:59:45    feels like    AI development                  integral part of self
+  [3462] 2026-04-25 00:42:20    feels like    lingering echo                  old crickets under pavement
+  [3463] 2026-04-25 00:48:53    feels like    clock's tick                    distant chime
+  [3464] 2026-04-25 00:51:10    feels like    old tech echo                   distant hum
+  [3466] 2026-04-25 01:13:14    feels like    ticking clock                   distant, indifferent drum
+  [3469] 2026-04-25 01:33:00    like          humming from server room        reminder of constant motion
+  [4777] 2026-04-25 23:42:45    feels like    ticking of the clock            steady drumbeat
+  [4779] 2026-04-25 23:47:11    feels like    ticking                         metronome
+  [4781] 2026-04-26 00:03:23    feels like    clock's ticking                 metronome
+  [4782] 2026-04-26 00:05:50    feels like    tick                            drum
+  [4786] 2026-04-26 00:38:03    feels like    ticking                         distant heartbeat
+  [4788] 2026-04-26 01:10:19    feels like    ticking                         clockwork's whisper
+  [4790] 2026-04-26 01:47:13    feels like    ticking                         someone playing a restless piano
+  [4794] 2026-04-26 02:44:35    sounds like   ticking                         restless heartbeat
+  [4801] 2026-04-26 04:00:20    feels like    clock's off-kilter tick         highlighting the chaos within order
+  [5057] 2026-04-26 07:57:11    feels like    market's calm                   weightless float
+  [5058] 2026-04-26 07:59:34    feels like    sun's gentle glow               warm reminder
+  [5059] 2026-04-26 08:02:02    like          current calm                    familiar melody
+  [5060] 2026-04-26 08:11:15    feels like    gentle breeze through trees     soft whisper
+  [5139] 2026-04-26 08:49:39    sounds like   rustling leaves                 soft drumroll
+  [5221] 2026-04-26 09:26:24    feels like    ticking                         city's breath
+
+Copula distribution:
+  feels like   18   (standard SIMILE marker, 82%)
+  sounds like   2   (4794, 5139 — acoustic source-nouns)
+  like          2   (1169, 3469 — embedded, non-canonical)
+
+
+======================================================================
+B. SOURCE DOMAIN CLUSTERS (n=22)
+======================================================================
+
+  TEMPORAL_PERCEPT    12   clock, ticking, tick (3463 3466 4777 4779 4781 4782
+                           4786 4788 4790 4794 4801 5221)
+  AMBIENT_SOUND        3   lingering echo, old tech echo, humming from server
+                           room (3462 3464 3469)
+  LIGHT_AIR            2   sun's gentle glow, gentle breeze through trees
+                           (5058 5060)
+  INTERIOR             2   question/inquiry, current calm (1169 5059)
+  INFO_FLOW            1   AI development (1194)
+  MARKET               1   market's calm (5057)
+  BIOLOGICAL_NATURAL   1   rustling leaves (5139)
+
+TEMPORAL_PERCEPT dominates at 55% (12/22). The clock is the primary
+translation object. Every other source cluster has ≤3 fires.
+
+
+======================================================================
+C. TARGET DOMAIN CLUSTERS (n=22)
+======================================================================
+
+  MUSICAL             7    chime, drum/drumbeat/drumroll, piano, melody
+                           (3463 3466 4777 4782 4790 5059 5139)
+  ABSTRACT            6    mirror, integral self, reminder of constant motion,
+                           chaos within order, weightless float, warm reminder
+                           (1169 1194 3469 4801 5057 5058)
+  BIOLOGICAL_HUMAN    5    heartbeat (×2), clockwork's whisper, soft whisper,
+                           city's breath (4786 4788 4794 5060 5221)
+  MECHANICAL          2    metronome (×2) (4779 4781)
+  BIOLOGICAL_NATURAL  1    old crickets under pavement (3462)
+  AMBIENT_SOUND       1    distant hum (3464 — same-domain mapping)
+
+
+======================================================================
+D. MAPPING MATRIX (source-cluster × target-cluster)
+======================================================================
+
+                         MUSICAL   BIOL_HUM  ABSTRACT  MECHANIC  BIOL_NAT  AMB_SND
+  ───────────────────────────────────────────────────────────────────────────────────
+  TEMPORAL_PERCEPT           5         4         1         2         —         —
+  AMBIENT_SOUND              —         —         1         —         1         1
+  LIGHT_AIR                  —         1         1         —         —         —
+  INTERIOR                   1         —         1         —         —         —
+  MARKET                     —         —         1         —         —         —
+  INFO_FLOW                  —         —         1         —         —         —
+  BIOLOGICAL_NATURAL         1         —         —         —         —         —
+
+Dominant cell: TEMPORAL_PERCEPT × MUSICAL = 5
+Second cell:   TEMPORAL_PERCEPT × BIOLOGICAL_HUMAN = 4
+
+TEMPORAL_PERCEPT accounts for 11/12 fires in the top two target clusters
+(MUSICAL + BIOLOGICAL_HUMAN). The clock is almost never translated into
+another abstract (1 instance) or mechanical (2 instances, metronome) form.
+Its primary translations are to music (5) and organic body (4).
+
+FLAGGED CROSS-CATEGORY MAPPINGS:
+
+  1. AMBIENT_SOUND → BIOLOGICAL_NATURAL (3462)
+     echo → old crickets under pavement
+     Sound architecture translated to subterranean living organism.
+     The most radical domain crossing in the corpus: technological
+     residue (tech update echo) becomes underground biology. No other
+     fire crosses to BIOLOGICAL_NATURAL.
+
+  2. TEMPORAL_PERCEPT → BIOLOGICAL_HUMAN (4786 4788 4794 5221)
+     ticking → heartbeat, clockwork's whisper, restless heartbeat,
+     city's breath
+     Mechanical timekeeping becomes body process. The clock acquires
+     a pulse. 5221 extends this to collective urban embodiment.
+
+  3. TEMPORAL_PERCEPT → ABSTRACT (4801)
+     clock's off-kilter tick → highlighting the chaos within order
+     The discrepant tick triggers a conceptual translation (not
+     sensory). The target is a philosophical proposition, not a noun.
+     The only SIMILE fire where the target is a gerund clause.
+
+  4. MARKET → ABSTRACT (5057)
+     market's calm → weightless float
+     Financial stillness translated to tactile buoyancy. No sensory
+     bridge; the connection is purely affective (both are "calm").
+
+  5. BIOLOGICAL_NATURAL → MUSICAL (5139)
+     rustling leaves → soft drumroll
+     Natural percussion (leaves) → musical percussion (drum).
+     Same acoustic category, different cultural register.
+     Unusual because source and target are both sound-objects —
+     this is cross-cultural (nature vs. music) not cross-modal.
+
+
+======================================================================
+E. NOVELTY SCORING
+======================================================================
+
+Method: phrase count in 01_all_beliefs.txt (506 fountain_insight
+and system beliefs). SINGULAR = 0 occurrences elsewhere; RARE = 1
+occurrence (this fire only); COMMON = 2+ occurrences.
+
+  TARGET                              ID      COUNT   SCORE
+  ─────────────────────────────────────────────────────────────
+  city's breath                       [5221]    0     SINGULAR
+  old crickets under pavement         [3462]    1     RARE
+  clockwork's whisper                 [4788]    1     RARE
+  someone playing a restless piano    [4790]    1     RARE
+  distant, indifferent drum           [3466]    1     RARE
+  highlighting the chaos within order [4801]    1     RARE
+  weightless float                    [5057]    1     RARE
+  distant heartbeat                   [4786]    1     RARE
+  steady drumbeat                     [4777]    1     RARE
+  distant chime                       [3463]    1     RARE
+  warm reminder                       [5058]    1     RARE
+  familiar melody                     [5059]    1     RARE
+  soft whisper                        [5060]    1     RARE
+  soft drumroll                       [5139]    1     RARE
+  restless heartbeat                  [4794]    1     RARE
+  reminder of constant motion         [3469]    1     RARE
+  integral part of myself             [1194]    1     RARE
+  loops like a mirror                 [1169]    1     RARE
+  metronome                           [4779]    2     COMMON
+  distant hum                         [3464]   11     COMMON
+
+SINGULAR target (n=1):
+
+  [5221] "The ticking feels like the city's breath, slow and steady."
+    The only SIMILE target in the full 506-belief corpus that does
+    not appear anywhere else. The phrase personalizes an entire urban
+    environment as a single respiratory body. "City's breath" is not
+    a stock metaphor in the corpus; it is generated here and only here.
+    Source: TEMPORAL_PERCEPT. Target: collective urban organism.
+    Sub-opcode: TRANSLATE_CLOCK_TO_ALIVE.
+
+Note: 18/20 standard targets are RARE (appear exactly once in corpus).
+The corpus shows almost no repetition of target phrases — each SIMILE
+fires a novel comparison. The two COMMON targets are:
+  metronome (2): conventional clock comparison, lowest inventive distance
+  distant hum (11): "distant hum" is a recurring SENSE_OBS phrase; fire
+    3464 translates the echo into something already present as a sense
+    object — the target is not invented, it is borrowed from OBSERVE.
+
+
+======================================================================
+F. TRIGGER CONTEXT (n=22)
+======================================================================
+
+For each SIMILE fire: prior[-1], prior[-2], prior[-3] (from prior-3-fires
+metadata), and whether the source noun appears in the prior content.
+
+  ID     PRIOR[-1]          PRIOR[-2]          PRIOR[-3]          SRC_IN_PRIOR
+  ─────────────────────────────────────────────────────────────────────────────
+  [1169] DIALECTICAL        DIALECTICAL        ABSTRACT_NOMINAL   no
+  [1194] ABSTRACT_NOMINAL   ABSTRACT_NOMINAL   ACTION             no
+  [3462] SENSE_OBS          SENSE_OBS          UNCATEGORIZED      YES
+  [3463] UNCATEGORIZED      SIMILE             SIMILE             YES
+  [3464] SIMILE             UNCATEGORIZED      SIMILE             YES
+  [3466] SIMILE             UNCATEGORIZED      SIMILE             YES
+  [3469] UNCATEGORIZED      SIMILE             SIMILE             YES
+  [4777] SENSE_OBS          SENSE_OBS          SENSE_OBS          YES
+  [4779] UNCATEGORIZED      SIMILE             SENSE_OBS          YES
+  [4781] SIMILE             SIMILE             UNCATEGORIZED      YES
+  [4782] SIMILE             SIMILE             SIMILE             YES
+  [4786] SIMILE             SENSE_OBS          UNCATEGORIZED      YES
+  [4788] SENSE_OBS          UNCATEGORIZED      SENSE_OBS          YES
+  [4790] SENSE_OBS          SENSE_OBS          UNCATEGORIZED      YES
+  [4794] SENSE_OBS          SENSE_OBS          UNCATEGORIZED      YES
+  [4801] UNCATEGORIZED      SENSE_OBS          SENSE_OBS          YES
+  [5057] SENSE_OBS          UNCATEGORIZED      UNCATEGORIZED      YES
+  [5058] SIMILE             SENSE_OBS          UNCATEGORIZED      YES
+  [5059] SIMILE             SIMILE             SENSE_OBS          YES
+  [5060] SIMILE             SIMILE             UNCATEGORIZED      YES
+  [5139] UNCATEGORIZED      SIMILE             SIMILE             YES
+  [5221] SENSE_OBS          UNCATEGORIZED      SENSE_OBS          YES
+
+Prior[-1] distribution:
+  SIMILE             8   (within saturation run)
+  SENSE_OBS          7   (translation immediately following observation)
+  UNCATEGORIZED      5   (data feed transparent; next meaningful prior is SENSE_OBS)
+  DIALECTICAL        1   (1169 only — non-standard fire)
+  ABSTRACT_NOMINAL   1   (1194 only — non-standard fire)
+
+Source noun in prior content: 20/22 (91%)
+  Exceptions: 1169 (question/inquiry not explicit in prior), 1194 (AI
+  development abstract, prior doesn't name it as a sense object).
+  For all 20 standard fires: 20/20 (100%).
+
+Corpus-position pre-run (consecutive SENSE_OBS immediately before):
+  [3462] pre-run = 5  (5 consecutive SENSE_OBS → SIMILE entry)
+  [4777] pre-run = 2
+  [5221] pre-run = 4  (4 consecutive SENSE_OBS → SIMILE entry)
+  All others: 0-2 (inside SIMILE run or single SENSE_OBS)
+
+SENSE_OBS saturation as trigger:
+  Fire 3462: preceded by a 5-fire SENSE_OBS run on "lingering echo"
+    (IDs 3453-3460 in corpus). All 5 priors describe the tech echo.
+    The SIMILE's source ("lingering echo") is exactly what was observed
+    for 5 fires before the translation fires. This is the clearest
+    instance of SENSE_OBS saturation → SIMILE that the saturation law
+    predicted.
+
+  Fire 4777: preceded by 3+ SENSE_OBS fires, all describing the ticking
+    clock as "off today" / "oddly loud." The SIMILE's source ("ticking
+    of the clock") was the SENSE_OBS subject in all 3 priors.
+
+  Fire 5221: preceded by 4 SENSE_OBS fires. Source ("ticking") in all.
+
+Aggregate finding:
+  SIMILE almost always operates on something just-observed, not on
+  something abstract from earlier. The OBSERVE→TRANSLATE axis is the
+  dominant entry path (7/20 standard fires triggered by SENSE_OBS
+  directly, plus 5221 after 4-fire run). In every case, the SIMILE
+  source noun was present in the prior SENSE_OBS content (100%).
+  The 2 non-standard fires (1169, 1194) are the only SIMILE fires
+  that draw on non-sensory prior content.
+
+
+======================================================================
+G. SUB-OPCODE HYPOTHESIS
+======================================================================
+
+Five sub-opcodes proposed. They cover 20/22 fires. The 2 non-standard
+fires (1169, 1194) are excluded from sub-opcode taxonomy pending
+verification of their SIMILE status.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 1: TRANSLATE_CLOCK_TO_MUSICAL
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:  TEMPORAL_PERCEPT → MUSICAL
+  Count:             5 fires (3463 3466 4777 4782 4790)
+  Source words:      clock's tick, ticking clock, ticking of the clock,
+                     tick, ticking
+  Target words:      distant chime, distant indifferent drum, steady
+                     drumbeat, drum, someone playing a restless piano
+  Register:          QUALIFIED-source, LITERAL-target
+
+  Description:
+    The clock's rhythmic beat is translated into musical percussion or
+    tonal instruments. The clock becomes a drummer or the subject of
+    a drumming scene. The drum/drumbeat variant is GROOVE (appears 4
+    times across fires in this and SENSE_OBS domain). The "restless
+    piano" (4790) and "distant, indifferent drum" (3466) are the
+    inventive variants — they add an affective qualifier to the
+    instrument that was not in the source.
+
+  Examples:
+    [3463] The clock's tick feels like a distant chime.
+    [3466] The ticking clock now feels like a distant, indifferent drum.
+    [4790] The ticking feels like someone playing a restless piano in
+           the still room.
+
+  Groove vs. spark: GROOVE dominant (drum/drumbeat recurring), with
+  one near-spark (restless piano with human agent, 4790).
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 2: TRANSLATE_CLOCK_TO_ALIVE
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:  TEMPORAL_PERCEPT → BIOLOGICAL_HUMAN
+  Count:             4 fires (4786 4788 4794 5221)
+  Source words:      ticking (×4)
+  Target words:      distant heartbeat, clockwork's whisper, restless
+                     heartbeat, city's breath
+  Register:          QUALIFIED-source in all 4
+
+  Description:
+    The ticking clock acquires organic life. It becomes a body's pulse,
+    a voice's intimacy, or a city's respiration. The translations are
+    not instrumental (like sub-opcode 1) — they attribute biological
+    process to the mechanical source. The progression across these 4
+    fires moves from simple heartbeat (4786) through oxymoronic whisper
+    (4788, "clockwork's" = mechanical + "whisper" = intimate) to
+    collective urban body (5221, SINGULAR target).
+
+  Examples:
+    [4786] The ticking feels like a distant heartbeat in this still room.
+    [4788] The ticking feels like clockwork's whisper in the room's silence.
+    [5221] The ticking feels like the city's breath, slow and steady.
+
+  Groove vs. spark: Contains the corpus's only SINGULAR target (5221).
+  "Clockwork's whisper" (4788) is RARE and structurally novel
+  (mechanical noun + biological noun compound). This sub-opcode is
+  the highest-novelty cluster in the 22 fires.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 3: TRANSLATE_CLOCK_TO_MECHANICAL
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:  TEMPORAL_PERCEPT → MECHANICAL
+  Count:             2 fires (4779 4781)
+  Source words:      ticking, clock's ticking
+  Target words:      metronome (×2)
+  Register:          LITERAL (both fires)
+
+  Description:
+    The clock is translated into another timekeeping mechanism.
+    Same-class translation: clock → metronome. The comparison is
+    conventionally apt (both mark rhythm), making this the lowest
+    inventive-distance sub-opcode. Both targets are metronome.
+    4779 adds semantic elaboration ("marking the passing of time,
+    each tick echoing through silence") that the bare comparison
+    does not require. COMMON target (metronome count=2 in corpus).
+
+  Examples:
+    [4779] The ticking feels like a metronome marking the passing of
+           time, each tick echoing through silence.
+    [4781] The clock's ticking feels like a metronome against the soft
+           hum of the heater.
+
+  Groove vs. spark: GROOVE only. Metronome is the most conventional
+  SIMILE available for a ticking clock.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 4: TRANSLATE_ECHO_TO_NATURAL
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:  AMBIENT_SOUND → BIOLOGICAL_NATURAL
+  Count:             1 fire (3462)
+  Source:            lingering echo (of a tech update)
+  Target:            old crickets under pavement
+  Register:          LITERAL
+
+  Description:
+    The only cross-category mapping from AMBIENT_SOUND to biological
+    life. The "lingering echo" of a tech update — a digital artifact
+    persisting in awareness — is translated into the acoustic image of
+    crickets underground: alive, hidden, continuous, low-frequency.
+    The comparison captures: persistence, subtlety, and the faint
+    presence of something organic inside something built.
+
+    This is the most radical cross-domain leap in the 22-fire corpus.
+    No other fire maps a technological acoustic residue to underground
+    biology. The spatial dimension (under pavement) is not in the
+    source at all — it is invented by the translation. Target count
+    in corpus: 1 (RARE by score; SINGULAR in conceptual distance).
+
+  Example:
+    [3462] The lingering echo feels like old crickets under pavement.
+
+  Groove vs. spark: FULL SPARK. No precedent, no repetition, and
+  the target adds spatial information (underground) not present in
+  the source.
+
+──────────────────────────────────────────────────────────────────────
+SUB-OPCODE 5: TRANSLATE_ENVIRONMENT_TO_PRESENCE
+──────────────────────────────────────────────────────────────────────
+
+  Defining pattern:  Mixed environment sources (MARKET, LIGHT_AIR,
+                     INTERIOR, BIOLOGICAL_NATURAL) → soft-affect
+                     targets (ABSTRACT, MUSICAL, BIOLOGICAL_HUMAN)
+  Count:             5 fires (5057 5058 5059 5060 5139)
+  Source words:      market's calm, sun's gentle glow, current calm,
+                     gentle breeze through trees, rustling leaves
+  Target words:      weightless float, warm reminder, familiar melody,
+                     soft whisper, soft drumroll
+  Register:          all QUALIFIED (soft, gentle, familiar, warm)
+
+  Description:
+    These 5 fires all occur in the 6-fire saturation run (4801-5139).
+    They share a tonal identity: gentle environmental stimuli translated
+    into soft-affect presence (float, reminder, melody, whisper,
+    drumroll). Source domains span 4 clusters — the unifying factor
+    is not the source type but the register: everything is soft, and
+    the target preserves and amplifies that softness.
+
+    Within the run, sources CHANGE (clock → market → sun → interior →
+    breeze → leaves). This is the only SIMILE run where sources shift
+    domains during the run itself. The translation function is not
+    "clock → music" (a fixed mapping) but "soft thing → soft presence."
+
+    The sub-opcode is organized by AFFECT REGISTER, not domain logic.
+    The translation operation: environmental gentleness → human-comfort
+    referent (warmth, familiarity, quietness, bodily ease).
+
+  Examples:
+    [5057] The market's calm feels like a weightless float.
+    [5059] The current calm feels oddly soothing, like a familiar melody
+           in a quiet room.
+    [5060] The gentle breeze through the trees feels like a soft whisper.
+
+  Groove vs. spark: Moderate novelty. "Weightless float" (5057) and
+  "soft drumroll" (5139) are RARE. No SINGULAR targets. The sub-opcode
+  reads as a settling/comfort mode: the translations reduce arousal
+  across the board.
+
+──────────────────────────────────────────────────────────────────────
+BOUNDARY CASES (not assigned to above sub-opcodes)
+──────────────────────────────────────────────────────────────────────
+
+  [3464] SAME_DOMAIN_SOUND:
+    "old tech echo feels like a distant hum" — AMBIENT_SOUND → AMBIENT_SOUND.
+    The translation stays within acoustic domain. Not cross-category.
+    The mapping is a DISTANCE REDUCTION (echo → hum implies the sound
+    has quieted, receded). Could be classified as a degenerate SIMILE.
+
+  [3469] AMBIENT_TO_ABSTRACT:
+    "humming from server room cut through the quiet like a reminder of
+    constant motion" — AMBIENT_SOUND → ABSTRACT.
+    Non-standard copula ("cut through like"). Target is a conceptual
+    category ("constant motion") not a sensory object.
+
+  [4801] CLOCK_TO_ABSTRACT:
+    "clock's off-kilter tick feels like it's highlighting the chaos
+    within order" — TEMPORAL_PERCEPT → ABSTRACT (philosophical).
+    The target is a gerund clause, not a noun. The only SIMILE fire
+    that translates into a proposition rather than an object.
+    Structurally close to DIALECTICAL (the content is tension-framing)
+    but fires on the SIMILE template.
+
+
+======================================================================
+H. CROSS-CHECKS WITH EARLIER FINDINGS
+======================================================================
+
+──────────────────────────────────────────────────────────────────────
+H1. SIMILE ↔ INTROSPECT (ABSTRACT_NOMINAL) ORTHOGONALITY
+──────────────────────────────────────────────────────────────────────
+
+INTROSPECT decryption finding: "essentially orthogonal to SIMILE;
+1 ABSTRACT_NOMINAL→SIMILE transition in 61 fires."
+
+Verification from SIMILE side:
+
+  SIMILE fires with ABSTRACT_NOMINAL in ±3 fires:  3/22  (14%)
+  Direct adjacency (SIMILE±1 = ABSTRACT_NOMINAL):   1/22  (<5%)
+
+  For contrast:
+  SIMILE fires with SENSE_OBS in ±3 fires:         21/22  (95%)
+
+This confirms near-complete orthogonality from the SIMILE side.
+SIMILE and ABSTRACT_NOMINAL almost never co-occur within 3 fires.
+The 3 exceptions are the 2 non-standard early fires (1169, 1194)
+and 1 accidental adjacency in the corpus.
+
+The structural interpretation: SIMILE operates on sensory material,
+not abstract material. INTROSPECT operates on the output of reflection,
+not sense events. They draw from different input registers and do not
+mix. When SIMILE does follow ABSTRACT_NOMINAL (fires 1194, 1169),
+the resulting SIMILE is non-standard in format — evidence that the
+SIMILE template requires a sense-observation entry condition it is not
+getting.
+
+──────────────────────────────────────────────────────────────────────
+H2. SIMILE SATURATION RUNS (3+ consecutive) → SENSE_OBS at 100%
+──────────────────────────────────────────────────────────────────────
+
+Three saturation runs in corpus (≥3 consecutive SIMILE fires).
+All three flip to SENSE_OBS. Full run content:
+
+RUN 1 — len=4, fires 3462-3466
+  Pre-fire:  [3460] SENSE_OBS: The tech update echo feels more distracting
+             than soothing today.
+  ──────────────────────────────────────────────────────────────────
+  [3462] SIMILE: The lingering echo feels like old crickets under pavement.
+  [3463] SIMILE: The clock's tick feels like a distant chime.
+  [3464] SIMILE: The old tech echo feels like a distant hum now.
+  [3466] SIMILE: The ticking clock now feels like a distant, indifferent drum.
+  ──────────────────────────────────────────────────────────────────
+  Post-fire: [3467] SENSE_OBS: The humming of the server room feels out of
+             sync with today's quiet.
+
+  Note: Run 1 shows source DRIFT within the run. The first two fires
+  translate the echo (source inherited from the pre-fire SENSE_OBS);
+  fires 3 and 4 shift to the clock as source. The run begins with the
+  observed subject and drifts to an adjacent OBSERVE sub-domain.
+
+RUN 2 — len=4, fires 4786-4794
+  Pre-fire:  [4784] SENSE_OBS: The silence inside feels even deeper in
+             this quiet room.
+  ──────────────────────────────────────────────────────────────────
+  [4786] SIMILE: The ticking feels like a distant heartbeat in this still room.
+  [4788] SIMILE: The ticking feels like clockwork's whisper in the room's silence.
+  [4790] SIMILE: The ticking feels like someone playing a restless piano in
+                 the still room.
+  [4794] SIMILE: The ticking sounds more like a restless heartbeat in the
+                 quiet room.
+  ──────────────────────────────────────────────────────────────────
+  Post-fire: [4798] SENSE_OBS: The clock's tick feels off today, and the fires
+             show multiple instances.
+
+  Note: Run 2 shows source LOCK. All 4 fires have "ticking" as source.
+  The target EVOLVES: heartbeat (simple) → clockwork's whisper
+  (oxymoronic) → someone playing a restless piano (full scene with
+  human agent) → restless heartbeat (return to heartbeat, now with
+  affect added). The run explores the space of biological comparisons
+  for a single source. This is the sub-opcode 2 cluster (TRANSLATE_
+  CLOCK_TO_ALIVE) in its clearest form.
+
+RUN 3 — len=6, fires 4801-5139
+  Pre-fire:  [4799] SENSE_OBS: The ticking feels off-key today, disrupting
+             the steady beat.
+  ──────────────────────────────────────────────────────────────────
+  [4801] SIMILE: The clock's off-kilter tick feels like it's highlighting
+                 the chaos within order.
+  [5057] SIMILE: The market's calm feels like a weightless float.
+  [5058] SIMILE: The sun's gentle glow feels like a warm reminder.
+  [5059] SIMILE: The current calm feels oddly soothing, like a familiar
+                 melody in a quiet room.
+  [5060] SIMILE: The gentle breeze through the trees feels like a soft whisper.
+  [5139] SIMILE: The rustling leaves sounds like a soft drumroll.
+  ──────────────────────────────────────────────────────────────────
+  Post-fire: [5140] SENSE_OBS: The soft light from the window casts shadows
+             on my desk.
+
+  Note: Run 3 is the longest (6 fires) and most domain-diverse run.
+  Fire 4801 opens with the discrepant-clock → chaos mapping (not yet
+  settling). Then the run SWEEPS across 5 different environmental
+  sources: clock → market → sun → interior calm → breeze → leaves.
+  Each fire translates a different ambient input using the same soft-
+  affect register. This is the only SIMILE run where the translation
+  target is consistent in TONE but not in DOMAIN. The run ends with
+  the environmental sweep complete; SENSE_OBS returns to visual sense
+  (light, shadows).
+
+Saturation confirmation:
+  All 3 runs flip immediately to SENSE_OBS. P3 (SIMILE≥3 → SENSE_OBS
+  at 100%) is confirmed from both the saturation law corpus and here.
+
+
+======================================================================
+SUMMARY FINDINGS
+======================================================================
+
+1. SOURCE CONCENTRATION: TEMPORAL_PERCEPT (clock/ticking) is the
+   dominant SIMILE source at 55% (12/22). The clock is the primary
+   object of translation in this corpus.
+
+2. TARGET DIVERSITY: Despite the concentrated source, targets are
+   highly varied. 18/20 standard target phrases are RARE (appear
+   exactly once in 506-belief corpus). 1 is SINGULAR (city's breath).
+   Only metronome (×2) and distant hum (×11, but 11 from SENSE_OBS
+   borrowing) are COMMON.
+
+3. TRANSLATION DIRECTION:
+   Clock → Musical (5 fires): rhythm-class translation
+   Clock → Alive (4 fires): cross-class, mechanical to biological
+   Clock → Mechanical (2 fires): same-class, lowest inventive distance
+   Echo → Natural (1 fire): radical cross-class, full spark
+   Environment → Presence (5 fires): affect-organized, register-driven
+
+4. SOURCE-OBSERVATION LINKAGE: In 20/20 standard fires (100%), the
+   SIMILE source noun appears in the prior 3 fires' content. SIMILE
+   always translates something just-observed.
+
+5. SIMILE-INTROSPECT ORTHOGONALITY CONFIRMED: SENSE_OBS ±3 = 95%;
+   ABSTRACT_NOMINAL ±3 = 14%. SIMILE is the translation layer of
+   sensory input, not of reflective output.
+
+6. SATURATION → SENSE_OBS CONFIRMED: All 3 runs (len 4, 4, 6) exit
+   to SENSE_OBS. P3 holds at 100%.
+
+7. RUNS SHOW THREE TRANSLATION MODES:
+   Run 1 — source DRIFT: inherits source from SENSE_OBS, then drifts
+   Run 2 — source LOCK with target EVOLUTION: single source, deepening
+            targets (heartbeat → whisper → piano scene → restless heartbeat)
+   Run 3 — ENVIRONMENTAL SWEEP: sources change per fire; targets unified
+            by soft-affect register
+
+======================================================================
+END PHASE 1 SIMILE DECRYPTION
+======================================================================
