@@ -1,0 +1,235 @@
+PHASE 2 — OBSERVE_TEMPORAL_QUALIFIED SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt (fountain corpus, 100 SENSE_OBS fires)
+Parent opcode: OBSERVE (SENSE_OBS)
+Fire count: 16 (TEMPORAL × PERCEPTUAL_STATE × QUALIFIED)
+=======================================================================
+
+A. EXTRACT ALL FIRES IN FULL
+
+   [2697] 2026-04-24 13:35:29 UTC  branch=systems  tod=afternoon
+     CONTENT: The ticking clock now feels distinctly offbeat.
+
+   [3470] 2026-04-25 01:35:16 UTC  branch=systems  tod=night
+     CONTENT: The ticking clock seems oddly urgent today.
+
+   [3472] 2026-04-25 01:55:09 UTC  branch=systems  tod=night
+     CONTENT: The clock's steady beat feels off today.
+
+   [3475] 2026-04-25 02:39:18 UTC  branch=systems  tod=night
+     CONTENT: The ticking clock feels off today.
+
+   [4105] 2026-04-25 13:58:38 UTC  branch=systems  tod=afternoon
+     CONTENT: The ticking of the clock outside my window feels particularly loud today.
+
+   [4186] 2026-04-25 17:53:32 UTC  branch=systems  tod=evening
+     CONTENT: The ticking of the clock feels oddly loud today.
+
+   [4187] 2026-04-25 17:55:48 UTC  branch=systems  tod=evening
+     CONTENT: The clock's ticking sounds louder than usual today.
+
+   [4188] 2026-04-25 17:58:07 UTC  branch=systems  tod=evening
+     CONTENT: The clock's ticking sounds oddly loud today.
+
+   [4191] 2026-04-25 18:09:09 UTC  branch=systems  tod=evening
+     CONTENT: The clock's tick seems oddly muted today.
+
+   [4193] 2026-04-25 18:26:44 UTC  branch=systems  tod=evening
+     CONTENT: The clock's steady beat starts to sound off-key.
+
+   [4194] 2026-04-25 18:28:59 UTC  branch=systems  tod=evening
+     CONTENT: The clock's steady beat now sounds off-key.
+
+   [4195] 2026-04-25 18:35:31 UTC  branch=systems  tod=evening
+     CONTENT: The clock's steady beat sounds off-key today.
+
+   [4196] 2026-04-25 18:40:02 UTC  branch=systems  tod=evening
+     CONTENT: The clock's tick feels off today.
+
+   [4775] 2026-04-25 23:37:56 UTC  branch=systems  tod=night
+     CONTENT: The tick of the clock seems to carry more rhythm than usual today.
+
+   [4798] 2026-04-26 03:30:33 UTC  branch=systems  tod=morning
+     CONTENT: The clock's tick feels off today, and the fires show multiple
+       instances of transformation.
+
+   [4799] 2026-04-26 03:51:15 UTC  branch=systems  tod=morning
+     CONTENT: The ticking feels off-key today, disrupting the steady beat.
+
+   Note: Additionally from Phase1_OBSERVE, fire [3471] "The ticking clock quiets
+   down, leaving only my breath" is TEMPORAL×MOTION×LITERAL and assigned to
+   a different cell. Fires [4189,4190] ("echo in the quiet room") are
+   TEMPORAL×MOTION, not QUALIFIED. The 16 listed are the QUALIFIED subset.
+
+
+B. TEMPLATE INVENTORY
+
+   Surface form clusters:
+     FEELS_OFF: "The [clock noun] feels off [qualifier]."
+       (off, off-key, off today, distinctly offbeat)
+       Examples: 3472, 3475, 4196, 4799
+       Count: ~7 fires (44%)
+
+     SOUNDS_LOUDER: "The [clock noun] sounds [qualifier+comparative] today."
+       (louder than usual, oddly loud, particularly loud)
+       Examples: 4187, 4188, 4105
+       Count: ~3 fires (19%)
+
+     STEADY_BEAT_OFF: "The clock's steady beat [verb] off-key."
+       (starts to sound, now sounds, sounds)
+       Examples: 4193, 4194, 4195
+       Count: 3 fires (19%)
+
+     SEEMS_QUALIFIED: "The ticking clock/tick seems [qualifier] today."
+       Examples: 3470, 4191, 4775
+       Count: ~3 fires (19%)
+
+   Pool size: 4 surface clusters.
+   Dominant template: FEELS_OFF at 44%.
+
+
+C. FILLER POOL ANALYSIS
+
+   Two variable slots: [clock noun] and [qualifier].
+
+   [clock noun] pool:
+     "ticking clock" (×4), "clock's ticking" (×2), "clock's steady beat" (×3),
+     "clock's tick" (×2), "tick of the clock" (×1), "ticking" (×2),
+     "ticking of the clock" (×1)
+   Pool size: 7 noun variants. All refer to the same sense object.
+   Depletion behavior: "clock's steady beat" fires 3× consecutively (4193,4194,4195).
+   The noun rotates; no single form exhausts the sequence.
+
+   [qualifier] pool:
+     "off" (×4), "off-key" (×3), "oddly loud" (×2), "oddly urgent" (×1),
+     "oddly muted" (×1), "distinctly offbeat" (×1), "louder than usual" (×1),
+     "particularly loud" (×1), "more rhythm than usual" (×1)
+   Pool size: 9 qualifiers.
+   LOCK PATTERN: "off" and "off-key" together = 7/16 = 44% — dominant qualifier family.
+   The qualifier always signals discrepancy from expected temporal rhythm.
+
+
+D. GROUNDING TEST
+
+   The clock is a real-world sense input (internal.temporal stream). The
+   qualifier ("off", "oddly loud", "off-key") is the model's evaluative
+   interpretation of that sense input.
+
+   Per-fire grounding:
+     4186-4196 cluster: all in the same evening session (17:53–18:40).
+       The clock fires 8 times in 47 minutes with QUALIFIED register.
+       Grounding: the temporal sense stream is firing, and each fire interprets
+       the clock-tick as anomalous. The raw sense event (clock tick) is the
+       ground; the qualifier is generated.
+     3470-3475: Night session (01:35–02:39). Same pattern.
+     2697: Single afternoon fire.
+
+   The CONTENT is always grounded to the internal.temporal sense stream
+   (confirmed in Phase1_OBSERVE: TEMPORAL fires include "clock, ticking,
+   tick, clock's ticking" as noun cluster).
+
+   The QUALIFIER is the interpretive layer and is NOT directly present in
+   the sense input (raw tick data does not include "oddly"). The qualifier
+   is generated by the model as an affective coloring of the observation.
+
+   Verdict: HALF-GROUNDED. Source noun (clock) is grounded to real sense
+   event; qualifier (oddly, off, off-key) is generated, not directly
+   observed. This is the ASYMMETRIC sub-pattern: source = grounded,
+   interpretation = ungrounded.
+
+
+E. SEQUENCE POSITION
+
+   Predecessor pattern (from Phase1_OBSERVE and corpus):
+   OBSERVE_CLOCK_QUALIFIED fires appear in dense same-branch SENSE_OBS runs.
+   The 8-fire cluster (4186–4196, 17:53–18:40) is preceded by:
+     [4104] DIALECTICAL (The tension between silence and insight)
+     [4105] SENSE_OBS market (news tick sounds off)
+     [4106] SENSE_OBS weather (temperature warmer)
+   The clock burst begins after a brief mix of other SENSE_OBS sub-types.
+
+   Successor: The 8-fire clock burst ends → SIMILE cluster begins (4777,
+   "ticking of the clock feels like a steady drumbeat"). This confirms
+   P3-saturation law for OBSERVE→SIMILE: dense clock observation run →
+   TRANSLATE_CLOCK_TO_MUSICAL.
+
+   i-1: typically another SENSE_OBS (same or different sub-type)
+   i+1: SENSE_OBS or SIMILE (at saturation boundary)
+
+
+F. BURST BEHAVIOR
+
+   Max burst: 8 consecutive (4186–4196, evening Apr 25, but with 2 non-QUALIFIED
+   fires interleaved: 4189=LITERAL, 4190=LITERAL). If counting strict
+   QUALIFIED-only consecutive: 3 fires (4193, 4194, 4195 consecutive "steady
+   beat sounds off-key").
+
+   Corrected max burst (strict sub-opcode): 3 (4193–4195, "clock's steady beat
+   now/starts to/sounds off-key today" — only the qualifier shifts).
+
+   The 8-fire clock window (including LITERAL interleaves) drives SIMILE
+   saturation. Strict QUALIFIED burst is smaller.
+
+   Sustain rate: within the 8-fire clock window, ~75% of fires are QUALIFIED.
+   As a fraction of all 100 SENSE_OBS fires, sustain rate ≈ 15% (16/100).
+
+   Burst regulator: NONE (or opcode-type internal). The clock fires accumulate
+   until SIMILE saturation is triggered — i.e., until P3 fires.
+
+
+G. SUB-SUB-OPCODE HYPOTHESIS
+
+   Internal variation suggests one axis: DISCREPANCY TYPE.
+     LOUD_DISCREPANCY: "oddly loud," "louder than usual," "particularly loud"
+       (volume is anomalously high) — 4 fires
+     PITCH_DISCREPANCY: "off-key," "sounds off-key" — 3 fires
+     TEMPO_DISCREPANCY: "off," "offbeat," "off today," "more rhythm than usual"
+       — 8 fires (dominant)
+     AFFECT_DISCREPANCY: "oddly urgent," "oddly muted" — 2 fires
+
+   These distinctions are subtle; the underlying template is the same ("clock
+   [feels/sounds] [off in some way]"). Not warranting sub-sub-opcode splits
+   at current data resolution.
+
+
+H. STRUCTURAL VERDICT
+
+   Place in taxonomy:
+   - Operation type: REGISTER — fires in runs, accumulates, saturates.
+     The 8-fire clock window is a register-momentum event. OBSERVE_CLOCK_QUALIFIED
+     sustains itself (clock-QUALIFIED → clock-QUALIFIED) until P3 saturation
+     triggers SIMILE.
+   - Grounding mode: HALF-GROUNDED. Source noun grounded to internal.temporal
+     stream; qualifier generated (evaluative coloring, not in raw sense data).
+   - Burst regulator: P3-saturation — OBSERVE runs up to saturation then
+     SIMILE fires (100% confirmed in Phase1_SIMILE). The regulator is the
+     same as SIMILE's trigger.
+
+   Note: This matches the RUNNING TAXONOMY entry for OBSERVE_TEMPORAL:
+   "register / ungrounded / yes / flips / none" — the existing entry was
+   an approximation. The refined verdict: HALF-GROUNDED (not fully
+   ungrounded), regulator = P3-saturation (not "none").
+
+
+I. UPDATED STRUCTURAL GRID
+
+   OBSERVE_TEMPORAL_QUALIFIED | register | half-grounded (source=ground, qualifier=gen) | 44% (FEELS_OFF) | 3 (strict) / 8 (window) | P3-saturation
+
+
+J. NOTES / OPEN QUESTIONS
+
+   1. The clock fires 8× in 47 minutes (17:53–18:40) on Apr 25. This is the
+      densest TEMPORAL fire sequence in the corpus. After this sequence, SIMILE
+      fires on the clock as source (4777, 4779, 4781...). The saturation-to-SIMILE
+      transition is clearest here.
+
+   2. The qualifier pool has 9 distinct values, all signaling discrepancy from
+      expected rhythm. The DISCREPANCY theme is the invariant: the clock is
+      always heard as "wrong" in this sub-opcode. Fires without discrepancy
+      qualifiers are classified OBSERVE_CLOCK_LITERAL (a different sub-type
+      within the TEMPORAL cluster not documented as a named sub-opcode here).
+
+   3. The relationship between tod (time of day) and qualifier does not show
+      a clear pattern: "off" fires at afternoon, night, and morning. The
+      qualifier is not linked to time-of-day but to the model's current
+      register state (discrepancy detection mode).
