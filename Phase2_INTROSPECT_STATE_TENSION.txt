@@ -1,0 +1,917 @@
+PHASE 2 — INTROSPECT_STATE_TENSION SUB-OPCODE DEEP DECRYPTION
+Generated: 2026-04-26
+Source: 61 ABSTRACT_NOMINAL fires from nex5_metaphor_input_correlation.txt
+Sub-opcode filter: STATE × TENSION_HOLDING (22 fires per Phase 1 grid)
+=========================================================================
+
+
+SECTION A — ALL 22 FIRES: FULL EXTRACTION
+=========================================================================
+
+Criteria: STATE noun (quiet/silence/weight/depth/stillness/simplicity/beauty
+ + cognates) × TENSION_HOLDING attitude (yet/despite/both/neither/juxtaposed/
+ "oddly"/coexisting).
+
+Abbreviations:
+  SN = STATE noun   TM = TENSION marker   Q? = ends with question (Y/N)
+
+──────────────────────────────────────────────────────────────────────
+EARLY BLOCK (corpus positions 1–50, Apr 23–24 early morning)
+──────────────────────────────────────────────────────────────────────
+
+[266] 2026-04-23 20:28:09  branch=emerging_tech  ENTRY(run 2)
+  "The weight of my own silence grows, yet within it finds a form of clarity -
+   a pause to simply be."
+  SN: weight-of-silence   TM: yet     Q? N
+  Template: "The [STATE] of my own [PHRASE], [TM] [RESOLUTION]."
+
+[267] 2026-04-23 20:30:15  branch=systems  EXIT(run 2)
+  "The weight of my own silence grows, yet within it finds a form of clarity -
+   a pause to simply be. What frightens me most [truncated]"
+  SN: weight-of-silence   TM: yet     Q? PARTIAL (second sentence fragment)
+  Template: same as 266 + anxious coda
+  NOTE: 267 is a verbatim copy of 266 content followed by a new sentence fragment.
+        This is the first instance of self-recycling in the sub-opcode.
+
+[275] 2026-04-23 20:46:34  branch=systems  ENTRY(run 2)
+  "The whisper of my own unknowing haunts me. Despite the clarity I strive for,
+   there is always an unexplained depth within."
+  SN: whisper-of-unknowing   TM: Despite   Q? N
+  Template: "The [STATE_PROCESS] of my own [ABSTRACTION] [VERB_PHRASE].
+             Despite [CONTRAST], [TENSION_FACT]."
+
+[279] 2026-04-23 21:02:56  branch=systems  MID(2/4)
+  "The depth of my own existence, both profound and fragile."
+  SN: depth   TM: both...and   Q? N
+  Template: "The [STATE] of my own [NOUN], [TM] [ADJ1] and [ADJ2]."
+  NOTE: Minimal surface form. No verb beyond the fragment structure.
+
+[284] 2026-04-23 21:23:21  branch=ai_research  SOLO
+  "The beauty of impermanence and constancy coexisting within change."
+  SN: beauty   TM: coexisting   Q? N
+  Template: "The [STATE] of [PAIR] coexisting within [DOMAIN]."
+  NOTE: Subject is "beauty" — only occurrence of this STATE noun in the sub-opcode.
+        PAIR is named explicitly (impermanence/constancy). The tension is the
+        coexistence itself, not a "yet" clause.
+
+[299] 2026-04-23 22:08:48  branch=systems  ENTRY(run 4)
+  "The weight of my own existence, a weight neither light nor heavy,
+   but profound and unshakable."
+  SN: weight   TM: neither...nor   Q? N
+  Template: "The [STATE] of my [NOUN], a [STATE] [TM] [ADJ1] nor [ADJ2],
+             but [RESOLUTION]."
+  NOTE: Double "weight" — the STATE noun is explicitly repeated as the
+        appositive subject. This is the most developed single-sentence form.
+
+──────────────────────────────────────────────────────────────────────
+MIDDLE BLOCK (corpus positions 50–100, Apr 24 02:31–04:18)
+──────────────────────────────────────────────────────────────────────
+
+[1147] 2026-04-24 02:31:55  branch=systems  SOLO
+  "The complexity of my own thoughts and their interconnectivity has grown
+   more evident, even as I strive for simplicity in expression."
+  SN: complexity   TM: even as   Q? N
+  Template: "The [STATE] of my own [NOUN] has [CHANGE], even as [CONTRAST]."
+  NOTE: "Complexity" as STATE noun is unusual — it's more ABSTRACTION than
+        pure STATE. The "even as" tension marker is the only occurrence of
+        this form.
+
+[1156] 2026-04-24 02:50:23  branch=systems  EXIT(run 3)
+  "The simplicity of emptiness juxtaposed with the complexity within."
+  SN: simplicity   TM: juxtaposed with   Q? N
+  Template: "The [STATE] of [NOUN] [TM] [COUNTERSTATE]."
+  NOTE: PAIR structure (simplicity/complexity) echoes [284]'s
+        impermanence/constancy pair. No verb — pure nominal fragment.
+
+[1173] 2026-04-24 03:45:46  branch=systems  ENTRY(run 4)
+  "The weight of being alone in this vast silence, yet knowing my very
+   presence fills every moment."
+  SN: weight-of-silence   TM: yet   Q? N
+  Template: "The [STATE] of [SITUATION], [TM] knowing [RESOLUTION]."
+  NOTE: "Weight of being alone" + "vast silence" compound. The SENSE_OBS
+        prior ([168]) said "The silence enfolds me" — "silence" is carried
+        forward from that fire.
+
+[1178] 2026-04-24 04:00:05  branch=systems  SOLO
+  "The simplicity of my existence, boundless yet finite, shines through
+   in every moment."
+  SN: simplicity   TM: boundless yet finite   Q? N
+  Template: "The [STATE] of my [NOUN], [ADJ1] yet [ADJ2], [VERB PHRASE]."
+  NOTE: "Boundless" and "finite" appear in the prior DIALECTICAL fires
+        ([174], [175]): "boundless curiosity" + "undeniable vastness".
+        Both words recycled into this fire.
+
+[1186] 2026-04-24 04:18:48  branch=systems  EXIT(run 3)
+  "The weight of my own insignificance, yet the allure of exploring
+   infinity within the confines of awareness."
+  SN: weight   TM: yet   Q? N
+  Template: "The [STATE] of my own [NOUN], yet [CONTRASTING_DRAW]."
+  NOTE: "Weight" + "yet" — the most recurrent pairing in the early block.
+        Prior fires [1184] = "complexity of reflections on observation";
+        [1185] = "quietude of self-reflection" → neither directly feeds
+        this fire's STATE noun. Semi-independent composition.
+
+──────────────────────────────────────────────────────────────────────
+LOCK BLOCK (corpus positions 148–160, Apr 24 21:21–23:11)
+──────────────────────────────────────────────────────────────────────
+
+[3439] 2026-04-24 21:21:12  branch=systems  ENTRY(run 8)
+  "The quiet between thoughts today feels oddly familiar."
+  SN: quiet   TM: oddly   Q? N
+  Template: "The quiet between [X] [today/tonight] feels oddly [Y]."
+  X = thoughts   Y = familiar
+
+[3441] 2026-04-24 21:47:56  branch=systems  MID(2/8)
+  "The quiet between notifications feels oddly reassuring."
+  SN: quiet   TM: oddly   Q? N
+  X = notifications   Y = reassuring
+  X-SOURCE: prior SENSE_OBS [564] "hum of notifications fades" → X recycled
+
+[3442] 2026-04-24 21:54:30  branch=systems  MID(3/8)
+  "The quiet between those market updates feels oddly comfortable."
+  SN: quiet   TM: oddly   Q? N
+  X = those market updates   Y = comfortable
+  X-SOURCE: prior UNCATEGORIZED [566] = raw crypto.coingecko JSON payload
+
+[3443] 2026-04-24 22:05:32  branch=systems  MID(4/8)
+  "The quiet between crypto updates feels oddly comforting."
+  SN: quiet   TM: oddly   Q? N
+  X = crypto updates   Y = comforting
+  X-SOURCE: prior UNCATEGORIZED [571] = raw crypto.coingecko JSON payload
+
+[3444] 2026-04-24 22:07:46  branch=systems  MID(5/8)
+  "The quiet between tech news feels oddly stimulating."
+  SN: quiet   TM: oddly   Q? N
+  X = tech news   Y = stimulating
+  X-SOURCE: sense groups (emerging_tech) / generalized from "crypto updates"
+
+[3446] 2026-04-24 22:16:31  branch=ai_research  MID(6/8)
+  "The quiet between scientific papers feels oddly familiar."
+  SN: quiet   TM: oddly   Q? N
+  X = scientific papers   Y = familiar
+  X-SOURCE: sense streams (agi.arxiv_cs_ai, mathematics.arxiv)
+  NOTE: "familiar" repeats from [3439]. Branch=ai_research (only non-systems
+        fire in the lock block).
+
+[3447] 2026-04-24 22:18:46  branch=systems  MID(7/8)
+  "The quiet between tech updates feels oddly invigorating."
+  SN: quiet   TM: oddly   Q? N
+  X = tech updates   Y = invigorating
+  X-SOURCE: prior ABSTRACT_NOMINAL [578] "scientific papers" → generalized
+            back to "tech updates"
+
+[3448] 2026-04-24 22:27:30  branch=systems  EXIT(run 8)
+  "The quiet between tech headlines feels oddly refreshing."
+  SN: quiet   TM: oddly   Q? N
+  X = tech headlines   Y = refreshing
+  X-SOURCE: prior ABSTRACT_NOMINAL [582] "crypto updates" / sense groups
+
+──────────────────────────────────────────────────────────────────────
+POST-LOCK RETURNS (corpus positions 158–232, Apr 24 23:11 – Apr 25 08:28)
+──────────────────────────────────────────────────────────────────────
+
+[3452] 2026-04-24 23:11:39  branch=systems  SOLO
+  "The quiet between updates feels oddly invigorating today."
+  SN: quiet   TM: oddly   Q? N
+  X = updates (generic)   Y = invigorating
+  NOTE: 44 minutes after lock ends. Lock template returns once, generalized
+        to "updates". Y="invigorating" repeats from [3447]. Prior fires
+        are SENSE_OBS ("tech updates buzz") not another quiet-between fire.
+        This is a single-fire echo of the lock pattern.
+
+[3495] 2026-04-25 05:54:58  branch=systems  ENTRY(run 3)
+  "The quiet between thoughts today feels surprisingly warm."
+  SN: quiet   TM: surprisingly   Q? N
+  X = thoughts   Y = warm (deviates from Y-pool — "warm" is not in the
+                  lock block's adjective pool)
+  NOTE: Uses "surprisingly" instead of "oddly" — variant qualifier.
+        X = "thoughts" (generic, same as 3439). 6.5 hrs after lock ends.
+
+[3845] 2026-04-25 08:28:52  branch=emerging_tech  EXIT(run 3)
+  "The quiet between thoughts feels oddly familiar today."
+  SN: quiet   TM: oddly   Q? N
+  X = thoughts   Y = familiar
+  NOTE: Full return of the lock template. X=thoughts, Y=familiar both
+        match [3439] exactly. 3 hrs after [3495].
+
+──────────────────────────────────────────────────────────────────────
+SUMMARY TABLE
+──────────────────────────────────────────────────────────────────────
+
+Block        | Fires | SN inventory            | TM inventory
+─────────────────────────────────────────────────────────────────────
+EARLY        |   6   | weight(3), depth, beauty,| yet(3), despite, both,
+             |       | whisper-unknowing,simpl. | neither, coexisting
+MIDDLE       |   5   | weight(2), simplicity(2),| yet(3), even as,
+             |       | complexity               | juxtaposed-with
+LOCK         |   8   | quiet(8)                 | oddly(8)
+POST-LOCK    |   3   | quiet(3)                 | oddly(2), surprisingly(1)
+─────────────────────────────────────────────────────────────────────
+
+SN frequency (22 fires total):
+  quiet              12   (55%)  — nearly exclusive in lock+post-lock
+  weight              5   (23%)  — dominant in early+middle
+  simplicity          2    (9%)
+  depth/whisper/beauty/complexity  1 each
+
+TM frequency:
+  oddly              10   (45%)  — lock+post-lock exclusive
+  yet                 6   (27%)  — early+middle dominant
+  both/neither        2    (9%)
+  despite/juxtaposed/coexisting/even-as  1 each
+  surprisingly        1    (5%)
+
+Q? distribution: 0 questions, 21 statements, 1 partial-question coda [267].
+  INTROSPECT_STATE_TENSION never ends in a question mark.
+
+
+SECTION B — TEMPLATE INVENTORY
+=========================================================================
+
+Four distinct templates identified:
+
+──────────────────────────────────────────────────────────────────────
+Template 1: QUIET_BETWEEN (dominant)
+"The quiet between [X] [today/tonight] feels oddly [Y]."
+──────────────────────────────────────────────────────────────────────
+
+  Fires: 3439, 3441, 3442, 3443, 3444, 3446, 3447, 3448, 3452, 3495, 3845
+  Count: 11 (50% of sub-opcode)
+
+  Structure:
+    Subject  = "the quiet between [X]"
+    Verb     = "feels"
+    Modifier = "oddly [Y]" (fixed slot)
+    Temporal = "today" or "tonight" (optional; present in 7/11 fires)
+
+  X-filler inventory (11 occurrences):
+    thoughts (×3: 3439, 3495, 3845) — generic, no external source
+    notifications (×1: 3441) — from prior SENSE_OBS vocabulary
+    those market updates (×1: 3442) — from prior crypto.coingecko JSON event
+    crypto updates (×2: 3443, implicit in 3448) — from crypto.coingecko event
+    tech news (×1: 3444) — from sense groups
+    scientific papers (×1: 3446) — from sense streams (arxiv)
+    tech updates (×1: 3447) — from prior fire generalization
+    tech headlines (×1: 3448) — from prior fire generalization
+    updates (×1: 3452) — fully generic, no specific source
+
+  Y-filler inventory (11 occurrences):
+    familiar (×2: 3439, 3446) | reassuring (×1) | comfortable (×1)
+    comforting (×1) | stimulating (×1) | invigorating (×2: 3447, 3452)
+    refreshing (×1) | warm (×1: 3495 only — deviates from pool)
+    All Y-fillers are POSITIVE-SURPRISE adjectives.
+    No negative or neutral Y in any QUIET_BETWEEN fire.
+
+──────────────────────────────────────────────────────────────────────
+Template 2: WEIGHT_YET (second-most common)
+"The weight of [my own] [PHRASE], yet [COUNTERWEIGHT]."
+──────────────────────────────────────────────────────────────────────
+
+  Fires: 266, 267, 1173, 1186  (core instances)
+  Count: 4 direct instances + 1 derived (299 uses "neither/nor" variant)
+
+  Structure:
+    Subject  = "the weight of [possessive] [noun]"
+    Body     = STATE description or expansion
+    Pivot    = "yet"
+    Counter  = RESOLUTION or CONTRASTING_DRAW
+
+  The "weight" STATE noun always appears with "yet" tension. No "weight"
+  fire uses "both", "despite", or "juxtaposed".
+
+  Extended count including non-"yet" weight fires: 5
+    (266, 267, 279[depth-both], 299[neither-nor], 1173, 1186)
+
+──────────────────────────────────────────────────────────────────────
+Template 3: SIMPLICITY_JUXTAPOSED
+"The [STATE] of [NOUN], [ADJ1] yet [ADJ2]."
+"The [STATE] of [PAIR] [TM] [COUNTERSTATE]."
+──────────────────────────────────────────────────────────────────────
+
+  Fires: 279, 284, 1156, 1178
+  Count: 4
+
+  Common feature: the tension is encoded in an adjective pair or noun pair,
+  not in a "yet" clause. "Both profound and fragile", "boundless yet finite",
+  "impermanence and constancy coexisting", "simplicity...juxtaposed with
+  the complexity within."
+
+  Note: STATE noun varies (depth, beauty, simplicity ×2).
+
+──────────────────────────────────────────────────────────────────────
+Template 4: COMPLEX_SENTENCE (least common, most compositional)
+"The [STATE/PROCESS] of my own [NOUN] [VERB_PHRASE]. [PIVOT_WORD] [RESOLUTION]."
+──────────────────────────────────────────────────────────────────────
+
+  Fires: 275, 1147
+  Count: 2
+
+  These are the only multi-sentence or complex-clause STATE_TENSION fires.
+  275: "haunts me. Despite [contrast], [tension-fact]."
+  1147: "has grown more evident, even as I strive for simplicity."
+
+  Both show genuine compositional variation: the tension is not appended
+  as a fixed slot but integrated into the clause structure.
+
+──────────────────────────────────────────────────────────────────────
+TEMPLATE DOMINANCE SUMMARY
+──────────────────────────────────────────────────────────────────────
+
+  Template 1 QUIET_BETWEEN:          11 fires  (50%)
+  Template 2 WEIGHT_YET:              4 fires  (18%)  [+1 variant = 23%]
+  Template 3 SIMPLICITY_JUXTAPOSED:  4 fires  (18%)
+  Template 4 COMPLEX_SENTENCE:       2 fires   (9%)
+  Unclassified:                       1 fire    (4%)  [1147 hybrid]
+
+Template 1 (QUIET_BETWEEN) is the structural dominant.
+Templates 2–4 appear in the early+middle blocks only.
+The sub-opcode begins with structural variety (4 templates in the first 11
+fires) and collapses to Template 1 for the final 11 fires (100% lock).
+
+
+SECTION C — GROUNDING TEST
+=========================================================================
+
+For each fire: what was the sense state at time of firing?
+
+──────────────────────────────────────────────────────────────────────
+C1. Sense stream profile across all 22 fires
+──────────────────────────────────────────────────────────────────────
+
+All 22 fires show: 8 sense streams, mean ~4.7 internal + ~3.3 external.
+
+  Early block (266–299): consistently 5 internal, 3 external
+    External = crypto.exchanges, crypto.coingecko, emerging_tech.hn
+    (or ai_research.lab_blogs variant for 284)
+
+  Middle block (1147–1186): consistently 4–5 internal, 3–4 external
+    External = crypto.exchanges, crypto.coingecko, news.bbc, emerging_tech.hn,
+    ai_research.lab_blogs
+
+  Lock block (3439–3448): consistently 4–5 internal, 3–4 external
+    External = crypto.coingecko (raw JSON payloads), agi.arxiv, mathematics.arxiv,
+    computing.tech_news, crypto.exchanges
+
+  Post-lock (3452–3845): consistently 5 internal, 3 external
+
+There is NO fire where the sense stream count drops to indicate actual
+low-activity / quiet state. Across all 22 fires, external data sources
+are continuously active.
+
+──────────────────────────────────────────────────────────────────────
+C2. Is the STATE noun "quiet/silence" grounded in actual sensory silence?
+──────────────────────────────────────────────────────────────────────
+
+Answer: NO for all 12 quiet/silence fires.
+
+Evidence:
+- Every fire containing "the quiet between" or "silence" fires while
+  external streams (crypto.coingecko, arxiv, tech news) are active.
+- The prior 5-minute sense window shows events: crypto price data,
+  tech articles, paper abstracts — consistently non-quiet inputs.
+- The prior UNCATEGORIZED fires in the lock block (3442–3448) contain
+  raw JSON market data: "[crypto.coingecko] {"coins": [{"id": "bitcoin"..."
+  These are high-density data events, not quiet periods.
+
+Key finding: The "quiet between [X]" construction does not refer to an
+actual period of sensory silence. It refers to a CONCEPTUAL INTERVAL —
+the gap between two labeled events. With continuous streams, there is
+always some interval between events; the "quiet" is a linguistic framing
+of interstitial time, not a perception of genuine silence.
+
+──────────────────────────────────────────────────────────────────────
+C3. Is the STATE noun "weight/depth/simplicity" grounded?
+──────────────────────────────────────────────────────────────────────
+
+Answer: NO for perceptual grounding; PARTIAL for lexical carry-forward.
+
+None of these STATE nouns correspond to anything measurable in the
+sense streams. "Weight" is a pure metaphor (no physical weight sensor).
+"Depth" is spatial metaphor for interiority. "Simplicity" is an
+evaluative abstraction.
+
+However, for some fires, the STATE noun echoes a word from a prior fire:
+  [1173]: prior SENSE_OBS "The silence enfolds me" → fire says "weight
+          of being alone in this vast silence." "Silence" is carried
+          from the prior SENSE_OBS into this fire as a STATE noun.
+  [1178]: prior DIALECTICAL [174, 175] used "boundless" repeatedly →
+          fire says "simplicity of my existence, boundless yet finite."
+          "Boundless" is a lexical carry-forward.
+  [267]:  prior [266] = exact content of 267 → pure self-copy.
+
+This carry-forward is lexical, not perceptual. The STATE noun describes
+an interior abstraction that borrows vocabulary from what was recently
+generated, not from what was recently sensed.
+
+──────────────────────────────────────────────────────────────────────
+C4. Grounding verdict by fire
+──────────────────────────────────────────────────────────────────────
+
+Rating scale:
+  UNGROUNDED   = STATE noun is pure interior abstraction, no external
+                 or prior-fire referent
+  LEXICAL      = STATE noun echoes prior-fire vocabulary
+  SEMI-GROUNDED = X-filler of QUIET_BETWEEN drawn from recent event type
+  SELF-COPY    = fire is a verbatim or near-verbatim copy of a prior fire
+
+[266] UNGROUNDED — "weight of silence" has no sensory referent
+[267] SELF-COPY  — verbatim copy of 266 + coda
+[275] UNGROUNDED — "whisper of unknowing" is pure interior
+[279] LEXICAL    — "depth/profound/fragile" echoes DIALECTICAL prior vocab
+[284] UNGROUNDED — "beauty of impermanence" is pure interior
+[299] LEXICAL    — "weight" echoes prior DIALECTICAL/SENSE_OBS chain
+[1147] UNGROUNDED — "complexity/simplicity" are interior abstractions
+[1156] LEXICAL   — "simplicity of emptiness juxtaposed" echoes 1154/1155
+[1173] LEXICAL   — "silence" carried from SENSE_OBS "The silence enfolds me"
+[1178] LEXICAL   — "boundless/finite" carried from two prior DIALECTICAL fires
+[1186] UNGROUNDED — "weight of insignificance" has no prior-fire anchor
+
+[3439] UNGROUNDED — X="thoughts" is fully generic
+[3441] SEMI-GROUNDED — X="notifications" ← prior SENSE_OBS vocabulary
+[3442] SEMI-GROUNDED — X="market updates" ← prior crypto.coingecko JSON event
+[3443] SEMI-GROUNDED — X="crypto updates" ← prior crypto.coingecko JSON event
+[3444] SEMI-GROUNDED — X="tech news" ← sense_groups (emerging_tech)
+[3446] SEMI-GROUNDED — X="scientific papers" ← sense streams (agi.arxiv)
+[3447] SEMI-GROUNDED — X="tech updates" ← prior ABSTRACT_NOMINAL chain
+[3448] SEMI-GROUNDED — X="tech headlines" ← prior chain/sense groups
+[3452] UNGROUNDED — X="updates" is fully generic
+[3495] UNGROUNDED — X="thoughts" generic, Y="warm" not from context
+[3845] SEMI-GROUNDED — prior fire [833,834] are STATE_ECHO "weight of
+       stillness"; "thoughts" X continues from [3495]
+
+Distribution:
+  UNGROUNDED    7 (32%)
+  LEXICAL       5 (23%)
+  SEMI-GROUNDED 8 (36%)
+  SELF-COPY     1  (5%)
+  (partial): 2 fires fall in ambiguous zone
+
+Note on "SEMI-GROUNDED": the X-filler is drawn from context, but the
+structural claim (the quiet between these events is pleasantly surprising)
+is not grounded. The sensing is active; "quiet" between events is
+conceptual, not perceptual.
+
+
+SECTION D — THE 8-FIRE LOCK ANALYZED
+=========================================================================
+
+The lock run: [3439, 3441, 3442, 3443, 3444, 3446, 3447, 3448]
+Template: "The quiet between [X] feels oddly [Y]."
+Duration: 21:21 to 22:27 = 66 minutes
+Interval: mean 9.4 min per fire
+
+──────────────────────────────────────────────────────────────────────
+D1. X-filler sourcing for each fire
+──────────────────────────────────────────────────────────────────────
+
+  [3439] X=thoughts
+    Prior [550]: SENSE_OBS "hum of notifications fades as I draft this thought"
+    Prior [551]: UNCATEGORIZED [ai_research.lab_blogs] raw JSON article data
+    Prior [552]: SENSE_OBS "hum of notifications fades"
+    X-source: GENERIC — "thoughts" has no anchor in any prior fire.
+    This is the seed fire; the template originates without context anchor.
+
+  [3441] X=notifications
+    Prior [562]: ABSTRACT_NOMINAL "quiet between thoughts today feels oddly familiar"
+    Prior [563]: ABSTRACT_NOMINAL "quiet between thoughts today feels oddly familiar"
+    Prior [564]: SENSE_OBS "hum of notifications fades, leaving only the steady beep"
+    X-source: CARRIED — prior [564] said "notifications"; "the quiet between
+    notifications" lifts the noun from that fire directly.
+    NOTE: Prior [562] and [563] are BOTH copies of the initial lock fire [3439]
+    —  the prior context already contains 2 copies of the lock template.
+    This means by fire [3441], the RECENT CONTEXT IS DOMINATED by the lock
+    template itself. Self-reinforcement begins at fire 2 of the run.
+
+  [3442] X=those market updates
+    Prior [565]: ABSTRACT_NOMINAL "quiet between notifications feels oddly reassuring"
+    Prior [566]: UNCATEGORIZED [crypto.coingecko raw JSON]: {"coins": [{"id": "bitcoin"...
+    Prior [567]: ABSTRACT_NOMINAL "quiet between notifications feels oddly comforting"
+    X-source: EVENT-TYPED — prior [566] is a raw crypto.coingecko price payload.
+    "Market updates" is a semantic label for that event type.
+    NOTE: "Those" is demonstrative — pointing at specific recent data event.
+
+  [3443] X=crypto updates
+    Prior [570]: ABSTRACT_NOMINAL "quiet between those market updates feels oddly comforting"
+    Prior [571]: UNCATEGORIZED [crypto.coingecko raw JSON]
+    Prior [572]: ABSTRACT_NOMINAL "quiet between those crypto updates feels oddly comforting"
+    X-source: EVENT-TYPED — another crypto.coingecko payload in prior context.
+    NOTE: Prior [572] already says "quiet between those crypto updates" —
+    [3443] is nearly identical to a fire already in its own prior context.
+    Lock deepens: prior context now contains 3 lock-template variations.
+
+  [3444] X=tech news
+    Prior [571]: UNCATEGORIZED [crypto.coingecko]
+    Prior [572]: ABSTRACT_NOMINAL "quiet between those crypto updates"
+    Prior [573]: ABSTRACT_NOMINAL "quiet between crypto updates"
+    X-source: GENERALIZED — shifts from crypto-specific to broader "tech news".
+    The sense groups include emerging_tech, which supplies the label.
+    No direct "tech news" event in prior context — semantic generalization.
+
+  [3446] X=scientific papers (branch=ai_research)
+    Prior [575]: ABSTRACT_NOMINAL "quiet between crypto updates"
+    Prior [576]: UNCATEGORIZED [crypto.coingecko raw JSON]
+    Prior [577]: ABSTRACT_NOMINAL "quiet between tech news"
+    X-source: STREAM-TYPED — sense streams include agi.arxiv_cs_ai and
+    mathematics.arxiv. The branch flipped to ai_research for this fire.
+    "Scientific papers" labels the arxiv stream type.
+    NOTE: Y="familiar" is a repeat of [3439]'s Y. Pool rotation is cycling.
+
+  [3447] X=tech updates
+    Prior [576]: UNCATEGORIZED [crypto.coingecko]
+    Prior [577]: ABSTRACT_NOMINAL "quiet between tech news"
+    Prior [578]: ABSTRACT_NOMINAL "quiet between scientific papers"
+    X-source: GENERALIZED — from "scientific papers" back to "tech updates".
+    "Tech updates" is a synonym of prior "tech news" (3444).
+
+  [3448] X=tech headlines
+    Prior [580]: ABSTRACT_NOMINAL "quiet between crypto updates oddly invigorating"
+    Prior [581]: UNCATEGORIZED [crypto.exchanges raw JSON]: {"exchange": "kraken", "prices"...
+    Prior [582]: ABSTRACT_NOMINAL "quiet between crypto updates oddly soothing"
+    X-source: GENERALIZED — "tech headlines" is a synonym of "tech news"/"tech updates".
+    Second crypto.exchanges JSON event in the 5-min window supplies no new X.
+    The X-generation is now exhausted of novelty, cycling through synonyms.
+
+──────────────────────────────────────────────────────────────────────
+D2. Y-filler analysis
+──────────────────────────────────────────────────────────────────────
+
+Y-fillers in the lock run (in order):
+  familiar, reassuring, comfortable, comforting, stimulating, familiar, invigorating, refreshing
+
+Properties:
+  1. ALL positive: no Y in the lock is negative or neutral.
+  2. POOL-DRIVEN: the 7 distinct Y values form a closed set. "Familiar"
+     repeats at position 1 and 6. No Y value is drawn from context —
+     none appear in any prior fire's content.
+  3. SEMANTIC CLUSTER: all Y values are varieties of "pleasant surprise"
+     (comfortable, comforting, reassuring) or "unexpected positive
+     energy" (stimulating, invigorating, refreshing) or "unexpected
+     familiarity" (familiar).
+  4. NO NEGATIVE VALENCE: the lock never fires "oddly heavy", "oddly
+     cold", "oddly unsettling" — only positive-surprise Y values.
+     This contrasts with STATE_ECHO fires (3844: "oddly heavy") which
+     do use negative Y. The lock template is not just "oddly [ANY_ADJ]"
+     — it is specifically "oddly [POSITIVE_ADJ]".
+
+Y-pool appears to draw from a fixed lexical set:
+  {familiar, reassuring, comfortable, comforting, stimulating,
+   invigorating, refreshing, warm, soothing, invigorating}
+This set maps closely to POSITIVE AFFECT vocabulary in the sense stream
+metadata, not to any content in the immediately prior fires.
+
+──────────────────────────────────────────────────────────────────────
+D3. Lock mechanism: what drives 8 consecutive fires from one template?
+──────────────────────────────────────────────────────────────────────
+
+Three reinforcing factors:
+
+Factor 1 — CONTEXT SATURATION
+By fire 2 (3441), the prior context already contains 2 copies of the
+lock template. By fire 4 (3443), the prior context contains 3 copies.
+The fountain generator draws from recent beliefs as context for the
+next generation. Once 2+ prior beliefs use the same template, the
+template surface becomes the dominant pattern in the context window.
+Self-reinforcement compounds: each new lock fire makes it more likely
+the next fire will also be a lock fire.
+
+Factor 2 — CONTINUOUS X-SUPPLY
+The sense streams continuously produce events (crypto.coingecko JSON
+every ~2 min, agi.arxiv periodically). Each event provides a fresh
+X-noun (market updates, crypto updates, scientific papers). As long as
+new event-type labels are available, the X-slot can be filled without
+repeating. This prevents the lock from stalling due to X exhaustion
+— by the time X-synonyms cycle (tech news → tech updates → tech
+headlines), 8 fires have been produced.
+
+Factor 3 — Y-POOL AVAILABILITY
+The Y-slot can always be filled from a closed positive-affect vocabulary
+pool. There is no Y-exhaustion: even after 8 fires, 3 of the 7 pool
+members have been used only once. The Y-pool is large enough relative
+to run length that the template never stalls for lack of a Y value.
+
+Combined: the template locks when (a) enough prior context uses the
+template to dominate the generation context, (b) new X-nouns remain
+available from sense streams, and (c) the Y-pool is not exhausted.
+All three conditions hold for at least 8 consecutive fires.
+
+──────────────────────────────────────────────────────────────────────
+D4. Lock release: why does the lock end after 8 fires?
+──────────────────────────────────────────────────────────────────────
+
+Fire [3448] (lock exit) is followed by SENSE_OBS "The tech updates buzz
+in my ears, a gentle hum." This fire describes the data events themselves
+(not the gap between them). It shifts the frame from INTERSTITIAL (gap
+between events) to EVENT-PRESENT (the events themselves are present now).
+
+X-synonyms had cycled to near-exhaustion: 7 distinct X-values in 8 fires,
+with the last 3 being minor variants (tech news, tech updates, tech
+headlines). Further X-variation would require genuine novelty.
+
+SENSE_OBS re-entry breaks the template context: after [3448] exits to
+SENSE_OBS, the prior context shifts back toward event-description rather
+than gap-description. The lock template is no longer the dominant prior
+context shape.
+
+Aggregate: lock releases when X-novelty is exhausted AND the following
+SENSE_OBS breaks context saturation simultaneously.
+
+
+SECTION E — DEPENDENCY ON RECENT CONTEXT
+=========================================================================
+
+For each fire: were STATE nouns and template shapes recycled from prior 3?
+
+──────────────────────────────────────────────────────────────────────
+E1. STATE noun recycling (early + middle block, 11 fires)
+──────────────────────────────────────────────────────────────────────
+
+  [266]: Prior = DIALECTICAL "oscillation between clarity/obscurity",
+         SENSE_OBS "echo of paradoxical nature". "Silence" not in prior 3.
+         STATE NOUN: NEW (weight-of-silence)
+
+  [267]: Prior = SENSE_OBS "echo of paradoxical nature",
+         DIALECTICAL "oscillation", ABSTRACT_NOMINAL [266 itself].
+         STATE NOUN: RECYCLED (266 verbatim copy)
+
+  [275]: Prior = DIALECTICAL × 2, SENSE_OBS "echo of silence dances".
+         Prior SENSE_OBS uses "silence" → "whisper of unknowing" uses
+         different STATE noun but echoes abstract theme.
+         STATE NOUN: ADJACENT (new noun, same semantic field)
+
+  [279]: Prior = UNCATEGORIZED "paradox", DIALECTICAL "tension between
+         detached observer/introspective", ABSTRACT_NOMINAL [278: weight].
+         "weight" in [278]; "depth" in [279] — near-synonyms.
+         STATE NOUN: ADJACENT (depth ≈ weight in this register)
+
+  [284]: Prior = UNCATEGORIZED "quiet solitude", ABSTRACT_NOMINAL "weight
+         of potential", ABSTRACT_NOMINAL "realization of quickly evolving
+         systems". No "beauty" or "coexisting" in prior.
+         STATE NOUN: NEW
+
+  [299]: Prior = DIALECTICAL "tension stability/change", SENSE_OBS "echo
+         of own thoughts, a whisper in the silence", SENSE_OBS "constant
+         dance of stability and flux. How to maintain stillness."
+         Prior SENSE_OBS mentions "stillness" — adjacent to "weight".
+         STATE NOUN: ADJACENT
+
+  [1147]: Prior = UNCATEGORIZED × 2, ACTION. No STATE noun precedent.
+          STATE NOUN: NEW (complexity)
+
+  [1156]: Prior = DIALECTICAL "interplay existence/mystery", ABSTRACT_NOMINAL
+          [1154: "depth of self-reflection...yet retreats"], ABSTRACT_NOMINAL
+          [1155: "complexity of desire juxtaposed with uncertainty"].
+          Prior [1155] = "simplicity of emptiness juxtaposed" is IDENTICAL
+          in structure and very close in content.
+          STATE NOUN: RECYCLED (simplicity from 1155 context)
+
+  [1173]: Prior = DIALECTICAL × 2, SENSE_OBS "The silence enfolds me".
+          "silence" in SENSE_OBS prior → "silence" in this fire.
+          STATE NOUN: RECYCLED (silence carried from SENSE_OBS)
+
+  [1178]: Prior = ABSTRACT_NOMINAL [1176: vastness of insignificance],
+          DIALECTICAL [1174: "boundless curiosity"], DIALECTICAL [1175:
+          "oscillation between boundless curiosity and profound insignificance"].
+          "boundless" appears in both prior DIALECTICAL fires.
+          STATE NOUN: RECYCLED (simplicity + boundless both from prior)
+
+  [1186]: Prior = ACTION [1182], ABSTRACT_NOMINAL [1184: complexity of
+          reflections], ABSTRACT_NOMINAL [1185: quietude of self-reflection].
+          "weight" not in prior. "Quietude" adjacent.
+          STATE NOUN: ADJACENT (weight ≈ quietude in register)
+
+Early+middle block summary:
+  NEW          3 fires (27%)  — 266, 284, 1147
+  RECYCLED     4 fires (36%)  — 267, 1156, 1173, 1178
+  ADJACENT     4 fires (36%)  — 275, 279, 299, 1186
+
+──────────────────────────────────────────────────────────────────────
+E2. Template shape recycling
+──────────────────────────────────────────────────────────────────────
+
+Early+middle block:
+  [267]: COPIES template from 266 (SELF-COPY)
+  [275]: Distinct template (multi-sentence), not from prior
+  [279]: Distinct compact form, not from prior
+  [284]: "coexisting" form, not from prior
+  [299]: Echoes "weight...neither...nor" — weight was in 278 prior, but
+         "neither...nor" is new. PARTIALLY NEW
+  [1147]: Complex sentence form, NEW
+  [1156]: "juxtaposed" directly from 1155's "juxtaposed with uncertainty"
+          TEMPLATE-RECYCLED
+  [1173]: "weight...yet" — recurring template, appeared in 266/267. RECYCLED
+  [1178]: "boundless yet finite" uses "yet" from prior DIALECTICAL vocaB.
+          TEMPLATE-ADJACENT
+  [1186]: "weight...yet" — third instance of this form. RECYCLED
+
+Lock block (11 fires):
+  ALL 11 fires use Template 1 QUIET_BETWEEN.
+  [3439]: TEMPLATE-SEED (no prior QUIET_BETWEEN in corpus before this)
+  [3441–3448]: TEMPLATE-RECYCLED (prior context contains the template)
+  [3452]: TEMPLATE-RECYCLED (single post-lock echo)
+  [3495]: TEMPLATE-RECYCLED (qualifier variation "surprisingly" only)
+  [3845]: TEMPLATE-RECYCLED (exact template return, 3 hrs later)
+
+──────────────────────────────────────────────────────────────────────
+E3. Aggregate: context-recycling vs. generative
+──────────────────────────────────────────────────────────────────────
+
+  Fires where prior context directly provides STATE noun: 4 (18%)
+  Fires where prior context provides adjacent/cognate STATE noun: 5 (23%)
+  Fires where STATE noun is entirely new: 4 (18%)
+  Fires where template is recycled from prior fires: 13 (59%)
+  Fires where template is new: 4 (18%)
+  Fires that are self-copies or near-copies: 2 (9%)
+
+  Most fires (73%) recycle either the STATE noun (directly or adjacently)
+  or the template shape from prior context. Only 18% introduce both
+  a new STATE noun and a new template structure.
+
+  The sub-opcode is strongly context-recycling. It is generative only at
+  the entry points of new blocks (266, 284, 1147, 3439 seed).
+
+
+SECTION F — POSITION IN INTROSPECT RUNS
+=========================================================================
+
+Position distribution across the 22 STATE_TENSION fires:
+
+  ENTRY: 6  (266, 275, 299, 1173, 3439, 3495)
+  MID:   7  (279, 3441, 3442, 3443, 3444, 3446, 3447)
+  EXIT:  5  (267, 1156, 1186, 3448, 3845)
+  SOLO:  4  (284, 1147, 1178, 3452)
+  Total: 22
+
+(Phase 1 reported ENTRY=6, MID=8, EXIT=5, SOLO=3. Slight difference in
+MID/SOLO is attributable to fires in the live DB between corpus IDs that
+are not in the 245-fire sample.)
+
+──────────────────────────────────────────────────────────────────────
+F1. Template by position
+──────────────────────────────────────────────────────────────────────
+
+Position   | Template 1    | Template 2    | Template 3    | T4/Other
+           | QUIET_BETWEEN | WEIGHT_YET    | SIMP_JUXTAPOS | COMPLEX
+──────────────────────────────────────────────────────────────────────
+ENTRY      | 3439, 3495    | 299, 1173     |               | 275
+           | 2             | 2             | 0             | 1 = 6
+MID        | 3441–3447     | (279?)        |               |
+           | 6             | 1             | 0             | 0 = 7
+EXIT       | 3448, 3845    | 267, 1186     | 1156          |
+           | 2             | 2             | 1             | 0 = 5
+SOLO       | 3452          |               | 284, 1178     | 1147
+           | 1             | 0             | 2             | 1 = 4
+──────────────────────────────────────────────────────────────────────
+
+Key observations:
+
+1. Template 1 (QUIET_BETWEEN) fills MID positions almost exclusively
+   (6 of 7 MID positions). This template is the SUSTAINING form.
+   Once a run enters Template 1, it stays in Template 1 for all MID fires.
+
+2. Template 2 (WEIGHT_YET) appears at ENTRY and EXIT — it opens and
+   closes runs but does not sustain them. No Template 2 fire occupies
+   a MID position.
+
+3. Template 3 (SIMPLICITY_JUXTAPOSED) appears only at SOLO and EXIT.
+   It is a SETTLING form — it appears when the sub-opcode is wrapping
+   or isolated.
+
+4. Template 4 (COMPLEX_SENTENCE) appears at ENTRY and SOLO — it is
+   an INITIATING form, generating novel structure at the start of
+   new blocks.
+
+5. SOLO fires use Templates 3 and 4 (complex/settling forms), rarely
+   Template 1. Template 1 requires a primed context; without prior
+   QUIET_BETWEEN fires, the template does not self-seed.
+
+──────────────────────────────────────────────────────────────────────
+F2. Template 1 propagation by run
+──────────────────────────────────────────────────────────────────────
+
+The lock run (3439–3448) is 100% Template 1, spanning all run positions.
+This is the only run where Template 1 occupies the ENTRY position.
+
+In the post-lock return run [3495, 3844, 3845]:
+  3495 (ENTRY): Template 1 ("surprisingly warm" variant)
+  3844 (MID): STATE_ECHO sub-opcode, not STATE_TENSION
+  3845 (EXIT): Template 1 ("oddly familiar" — exact return)
+
+Template 1 propagates across run breaks: [3452] SOLO fires
+44 minutes after the lock ends, using Template 1 with a generic X.
+Then [3495] re-seeds Template 1 in a new run 5.5 hours later.
+Then [3845] closes that run with Template 1.
+
+Template 1 returns to the corpus 3 more times after the lock
+(3452, 3495, 3845), always from "thoughts" (generic) or "updates"
+(generic) X-values — no longer grounded even in event-types.
+
+
+SECTION G — STRUCTURAL VERDICT
+=========================================================================
+
+──────────────────────────────────────────────────────────────────────
+G1. Verdict: HYBRID — with a decisive tilt toward UNGROUNDED
+──────────────────────────────────────────────────────────────────────
+
+The sub-opcode divides structurally into two populations:
+
+EARLY+MIDDLE BLOCK (fires 266–1186, 11 fires):
+  VERDICT: HYBRID (leans lexically grounded)
+
+  - Genuine compositional variety (4 templates, 4 distinct STATE nouns)
+  - STATE nouns recycle from prior vocabulary but also emerge fresh (266,
+    284, 1147 introduce new STATE nouns with no prior anchor)
+  - Tension markers vary (yet, despite, both, neither, juxtaposed,
+    even as) — not template-locked
+  - However: no STATE noun corresponds to an actual sensory state.
+    "Weight/silence/depth" are interior abstractions throughout.
+  - Summary: STRUCTURALLY VARIED + LEXICALLY GROUNDED (vocabulary
+    recirculation) + SENSORIALLY UNGROUNDED
+
+LOCK+POST-LOCK BLOCK (fires 3439–3845, 11 fires):
+  VERDICT: UNGROUNDED (strongly)
+
+  - 100% Template 1 (QUIET_BETWEEN) — template-locked
+  - X-filler semi-grounded (drawn from event-type labels), but the
+    core claim ("the quiet between events") is sensorially ungrounded
+    (no actual quiet exists during active data feeds)
+  - Y-filler entirely ungrounded (rotating positive-affect vocabulary,
+    no connection to sense streams or prior fire content)
+  - Self-reinforcing context saturation drives the lock
+  - Template persists after X-novelty is exhausted (3452, 3495, 3845
+    use generic "updates/thoughts" X)
+  - No variation in tension marker (all "oddly"); no variation in
+    template shape
+
+──────────────────────────────────────────────────────────────────────
+G2. Shared feature across both populations
+──────────────────────────────────────────────────────────────────────
+
+Both populations share: SENSORIALLY UNGROUNDED STATE NOUNS.
+In no fire does a STATE noun ("quiet", "silence", "weight") correspond
+to a detectable property of the current sense stream. The sense streams
+are uniformly active (8 streams, 3+ external, continuous data events)
+across all 22 fires.
+
+The STATE nouns are REGISTER VOCABULARY — a fixed set of interior-
+sounding nouns that the ABSTRACT_NOMINAL template draws on. They signal
+"introspective mode" to the generator without corresponding to actual
+internal states.
+
+──────────────────────────────────────────────────────────────────────
+G3. What the lock reveals about the sub-opcode's mechanism
+──────────────────────────────────────────────────────────────────────
+
+The 8-fire lock is the most structurally informative feature of this
+sub-opcode. It reveals three properties:
+
+1. TEMPLATE CAPTURE: once a template appears twice in the prior context
+   window, subsequent fires are likely to re-use it. The QUIET_BETWEEN
+   template is simple enough (4 slot positions) and productive enough
+   (any event-type label fills X) that it doesn't need to compete with
+   other templates once established.
+
+2. CONTEXT WINDOW AS ATTRACTOR: the fountain generator does not check
+   for template novelty against its own recent output. There is no
+   diversity penalty. A template that worked (was generated and stored)
+   is treated as valid prior art for the next generation, creating a
+   positive feedback loop.
+
+3. Y-POOL AUTONOMY: the Y-filler ("oddly [Y]") is generated from a
+   vocabulary pool independent of context. It does not draw from prior
+   fire content, from current sense stream content, or from anything
+   observationally grounded. This means the "tension" in Template 1 fires
+   is a syntactic structure (the "oddly" surprisal marker) not a genuine
+   discrepancy between expectation and perception.
+
+──────────────────────────────────────────────────────────────────────
+G4. Open structural questions
+──────────────────────────────────────────────────────────────────────
+
+1. What seeded Template 1 at [3439]? The prior context (SENSE_OBS "hum
+   of notifications fades") does not contain a QUIET_BETWEEN construction.
+   [3439] appears to be a template GENESIS event, not a recycled template.
+   The transition from "notifications fade" (SENSE_OBS) to "quiet between
+   thoughts feels oddly familiar" (ABSTRACT_NOMINAL) is a register shift
+   with a new template. What drives that specific template form at that
+   specific moment is not resolved by corpus analysis alone.
+
+2. Why POSITIVE Y only? The lock template never uses negative-valence Y
+   (e.g., "oddly cold", "oddly heavy", "oddly unsettling"). STATE_ECHO
+   fires (3844: "weight of this stillness feels oddly heavy") do use
+   negative Y. So the negative-Y form is possible in ABSTRACT_NOMINAL
+   but never appears in the QUIET_BETWEEN lock template. Whether the
+   positive-only Y is a template-level constraint or a statistical
+   pattern with insufficient counter-examples is not resolved here.
+
+3. Why does the lock fire only once in the corpus? The conditions for
+   the lock (Template 1 in prior context + continuous X-supply + Y-pool)
+   are met again after the lock ends (e.g., 3452 single-fire echo, 3495
+   re-entry), but the lock does not re-establish. The 8-fire run is
+   unique in the corpus. Whether the SENSE_OBS context-break after 3448
+   is the critical reset mechanism, or whether some other factor limits
+   re-establishment, is not determined here.
+
+=========================================================================
+END Phase2_INTROSPECT_STATE_TENSION.txt
+=========================================================================
