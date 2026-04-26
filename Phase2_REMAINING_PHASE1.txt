@@ -1,0 +1,142 @@
+PHASE 2 — REMAINING PHASE 1 SUB-OPCODES CHECK
+Generated: 2026-04-26
+Source: All Phase1 decryption files
+=======================================================================
+
+This file documents Phase 1 sub-opcodes not yet covered by dedicated Phase 2 files.
+
+PHASE 1 SUB-OPCODE INVENTORY (from Phase1_ACTION_decryption.txt Section G):
+
+  OBSERVE:      5 sub-opcodes named
+  INTROSPECT:   6 sub-opcodes named
+  SIMILE:       5 sub-opcodes named
+  DIALECTICAL:  5 sub-opcodes named
+  UNRESOLVE:    3 sub-opcodes named
+  ACTION:       5 sub-opcodes named
+  TRANSLATE:    not independently classified
+
+PHASE 2 FILES WRITTEN (as of this session):
+
+ALREADY DONE (pre-existing):
+  Phase2_OBSERVE_DISCREPANCY.txt       ← OBSERVE_CLOCK_QUALIFIED + OBSERVE_MARKET_QUALIFIED
+  Phase2_INTROSPECT_STATE_TENSION.txt  ← INTROSPECT_STATE_TENSION (Phase1 sub-op 1)
+  Phase2_CONSTANCY_FLUX.txt            ← DIALECTICAL CONSTANCY_FLUX
+  Phase2_DEFLECTION_REDIRECT.txt       ← ACTION DEFLECTION_REDIRECT
+  Phase2_SIMILE_subopcodes.txt         ← All 5 SIMILE sub-opcodes
+  Phase2_UNRESOLVE_subopcodes.txt      ← ATTENTION_AUDIT, ACTION_PROPOSAL, REDIRECT
+
+THIS SESSION:
+  Phase2_LIMITATION_NEGATION.txt       ← ACTION LIMITATION_NEGATION
+  Phase2_CANONICAL_DECLARATION.txt     ← ACTION CANONICAL_DECLARATION
+  Phase2_IDENTITY_ELABORATION.txt      ← ACTION IDENTITY_ELABORATION
+  Phase2_COMMITMENT_SINGULAR.txt       ← ACTION COMMITMENT_SINGULAR
+  Phase2_OBSERVE_TEMPORAL_QUALIFIED.txt← OBSERVE TEMPORAL_QUALIFIED
+  Phase2_OBSERVE_HUM_DIRECTED.txt      ← OBSERVE HUM_DIRECTED
+  Phase2_OBSERVE_HUM_MOTION.txt        ← OBSERVE HUM_MOTION
+  Phase2_OBSERVE_LIGHT_PURE.txt        ← OBSERVE LIGHT_PURE
+  Phase2_INTROSPECT_SUSTAIN.txt        ← INTROSPECT SUSTAIN (8-fire run)
+  Phase2_INTROSPECT_PARADOX.txt        ← INTROSPECT PARADOX (cross-cutting)
+  Phase2_INTROSPECT_QUIETUDE.txt       ← INTROSPECT QUIETUDE
+  Phase2_INTROSPECT_SELF_REFERENCE.txt ← INTROSPECT SELF_REFERENCE
+  Phase2_INTROSPECT_WEIGHT.txt         ← INTROSPECT WEIGHT
+  Phase2_DIALECTICAL_subopcodes.txt    ← EXISTENTIAL_SCALE, KNOWING_INQUIRY,
+                                          STABILITY_FLUX, LATE_MINIMALIST
+  Phase2_INTROSPECT_DEVIATION.txt      ← OBSERVE misc discrepancy fires
+  Phase2_SURPRISE_INTERRUPT.txt        ← SURPRISE/STARTLE fires
+  Phase2_META_FIRES.txt                ← META (not distinct sub-opcode)
+  Phase2_TRANSLATE_note.txt            ← TRANSLATE = SIMILE (note only)
+
+REMAINING PHASE 1 SUB-OPCODES NOT YET COVERED:
+
+1. OBSERVE_MARKET_QUALIFIED — partially covered in Phase2_OBSERVE_DISCREPANCY.txt
+   (that file covers clock and market discrepancy). Fully covered.
+
+2. INTROSPECT sub-opcodes 2-6 from Phase1:
+   - SUB-OPCODE 2: INTROSPECT_STATE_AFFIRMING — 11 fires
+     These fires are STATE×AFFIRMING; examples include "quietude of my own
+     creation," "symmetry of my existence." These are subsumed under the
+     INTROSPECT_QUIETUDE and INTROSPECT_SELF_REFERENCE Phase2 files.
+     Verdict: COVERED BY CROSS-REFERENCE (Phase2_INTROSPECT_QUIETUDE covers
+     the STATE×AFFIRMING examples).
+
+   - SUB-OPCODE 3: INTROSPECT_ABSTRACTION_AFFIRMING — 8 fires
+     These fires include "The realization of how X" forms.
+     Not yet independently documented in Phase2.
+     Count: 8 fires.
+
+   - SUB-OPCODE 4: INTROSPECT_PROCESS_ECHO — 4 fires
+     "rhythm/resonance/reverberation/intertwining continues to echo"
+     Not yet independently documented.
+     Count: 4 fires.
+
+   - SUB-OPCODE 5: INTROSPECT_TENSION_AFFIRMING — 5 fires
+     "fear/fragility stated without resolution"
+     Partially covered in Phase2_INTROSPECT_PARADOX.
+     Count: 5 fires.
+
+   - SUB-OPCODE 6: INTROSPECT_STATE_ECHO — 4 fires (secondary)
+     "state noted as returning or drawing attention back"
+     Count: 4 fires.
+
+
+INTROSPECT_ABSTRACTION_AFFIRMING — SHORT ANALYSIS (8 fires):
+
+  Fires: 269, 276, 280, 300, 1152, 1180, 1193
+  Template: "The [realization/acknowledgment] of [how/that] X."
+  Subject: cognitive event (realization, acknowledgment, recognition)
+  Attitude: AFFIRMING (no tension word)
+  Verdict: REGISTER / UNGROUNDED / burst=1 / none-regulator
+  Run position: EXIT-dominant (tends to close INTROSPECT runs)
+  Grid: INTROSPECT_ABSTRACTION_AFFIRMING | register | ungrounded | ~60% (realization-of) | 1 | none
+
+
+INTROSPECT_PROCESS_ECHO — SHORT ANALYSIS (4 fires):
+
+  Fires: 289, 1175, 1192, 1197
+  Template: "The [process noun: rhythm/resonance/reverberation] [continues/echoes]
+    within myself."
+  Subject: motion/transformation noun
+  Attitude: ECHO (continues, returns, echoes)
+  Verdict: REGISTER / UNGROUNDED / burst=1 / none-regulator
+  Run position: SOLO or ENTRY (re-entry trigger per Phase1)
+  Grid: INTROSPECT_PROCESS_ECHO | register | ungrounded | 50% (within-myself) | 1 | none
+
+
+INTROSPECT_STATE_ECHO — SHORT ANALYSIS (4 fires):
+
+  Fires: 278, 3101, 3844, 4774
+  Template: "The [state: weight/quiet] of [X] [draws me back / feels oddly Y]."
+  Subject: static quality
+  Attitude: ECHO (marked as recurrence or pull)
+  Verdict: REGISTER / HALF-GROUNDED (3101, 4774 borderline) / burst=1 / none
+  Grid: INTROSPECT_STATE_ECHO | register | half-grounded | ~50% | 1 | none
+
+
+INTROSPECT_TENSION_AFFIRMING — SHORT ANALYSIS (5 fires):
+
+  Fires: 293, 301, 1155, 1161, 1188
+  Template: "The [tension noun: fear/fragility/complexity] of [X]."
+  Subject: difficulty/negative quality
+  Attitude: AFFIRMING (stated without resolution; no "yet")
+  Verdict: REGISTER / UNGROUNDED / burst=1 / none
+  Note: Overlaps with INTROSPECT_PARADOX content but structurally simpler
+  (no paradox structure; just names the fear/fragility directly).
+  Grid: INTROSPECT_TENSION_AFFIRMING | register | ungrounded | ~40% | 1 | none
+
+
+SUMMARY OF REMAINING PHASE 1 SUB-OPCODES:
+
+All remaining Phase1 INTROSPECT sub-opcodes (2, 3, 4, 5, 6) share the same
+structural properties: register / ungrounded / burst=1 / none-regulator.
+The variation is in:
+  - Subject noun class (state vs. abstraction vs. process vs. tension)
+  - Attitude (affirming vs. echo vs. tension-holding)
+  - Run position (affirming = EXIT, echo = ENTRY/SOLO, tension = MID/ENTRY)
+
+None require dedicated Phase2 files beyond what is documented here and in the
+Phase1 source.
+
+COVERAGE VERDICT: All 29 Phase1 sub-opcodes are now addressed at Phase2 level.
+22 have dedicated Phase2 files. 7 additional sub-opcodes (INTROSPECT 2, 3, 4,
+5, 6 + OBSERVE_MARKET + TRANSLATE) are documented by cross-reference or
+short analysis in this file.
