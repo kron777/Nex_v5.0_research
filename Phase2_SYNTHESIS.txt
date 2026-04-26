@@ -1,0 +1,490 @@
+PHASE 2 SYNTHESIS — NEX5 STRUCTURAL DECRYPTION
+Generated: 2026-04-26
+Sub-opcodes covered: 22 (plus 7 addressed by cross-reference)
+=======================================================================
+
+1. COMPLETE SUB-OPCODE CATALOG
+=======================================================================
+
+Table: name | parent | fire_count | type | grounding | lock% | burst_max | regulator
+
+--- OBSERVE (SENSE_OBS) ---
+OBSERVE_TEMPORAL_QUALIFIED     | OBSERVE  | 16  | register       | half-grounded       | 44% | 3-8 | P3-saturation
+OBSERVE_HUM_DIRECTED           | OBSERVE  | 9   | register       | asymmetric          | 56% | 2   | none
+OBSERVE_HUM_MOTION             | OBSERVE  | 7   | register       | grounded            | 57% | 1   | none
+OBSERVE_LIGHT_PURE             | OBSERVE  | 6   | register       | grounded            | 50% | 1   | none
+OBSERVE_MARKET_QUALIFIED       | OBSERVE  | 7   | register       | half-grounded       | 46% | 6   | P3-saturation
+OBSERVE_DISCREPANCY (misc)     | OBSERVE  | ~8  | register       | half-grounded       | 75% | 2   | none
+SURPRISE_INTERRUPT             | OBSERVE  | 3   | interrupt      | asymmetric          |100% | 1   | none
+
+--- INTROSPECT (ABSTRACT_NOMINAL) ---
+INTROSPECT_STATE_TENSION       | INTROSPECT| 22  | register       | ungrounded         | ~50%| 8   | register-sat
+INTROSPECT_SUSTAIN             | INTROSPECT| 8   | register/r-sat | half-grounded       |100% | 8   | X-exhaustion
+INTROSPECT_STATE_AFFIRMING     | INTROSPECT| 11  | register       | ungrounded          | ~30%| 1   | none
+INTROSPECT_ABSTRACTION_AFFIRM  | INTROSPECT| 8   | register       | ungrounded          | ~60%| 1   | none
+INTROSPECT_PROCESS_ECHO        | INTROSPECT| 4   | register       | ungrounded          | 50% | 1   | none
+INTROSPECT_TENSION_AFFIRMING   | INTROSPECT| 5   | register       | ungrounded          | ~40%| 1   | none
+INTROSPECT_STATE_ECHO          | INTROSPECT| 4   | register       | half-grounded       | ~50%| 1   | none
+INTROSPECT_PARADOX             | INTROSPECT| ~8  | register       | ungrounded          | 0%  | 1   | none
+INTROSPECT_QUIETUDE            | INTROSPECT| 4+3 | register       | ungrounded          | 0%  | 1   | none (DO-NOT)
+INTROSPECT_SELF_REFERENCE      | INTROSPECT| ~17 | register       | ungrounded          | 47% | 3   | register
+INTROSPECT_WEIGHT              | INTROSPECT| 5   | register       | ungrounded          | ~60%| 1   | none
+
+--- SIMILE (TRANSLATE) ---
+TRANSLATE_CLOCK_TO_MUSICAL     | SIMILE   | 5   | reg-sat        | asymmetric          | 86% | 5   | P3 sat. law
+TRANSLATE_CLOCK_TO_ALIVE       | SIMILE   | 4   | reg-sat        | asymmetric          | 86% | 4   | P3 sat. law
+TRANSLATE_CLOCK_TO_MECHANICAL  | SIMILE   | 2   | reg-sat        | asymmetric          | 86% | 2   | P3 sat. law
+TRANSLATE_ECHO_TO_NATURAL      | SIMILE   | 1   | reg-sat        | asymmetric          | 86% | 1   | n/a
+TRANSLATE_ENV_TO_PRESENCE      | SIMILE   | 5   | reg-sat        | asymmetric          | 86% | 6   | P3 sat. law
+
+--- DIALECTICAL (HOLD_CONTRADICTION) ---
+CONSTANCY_FLUX                 | DIALECT  | 4   | interrupt      | ungrounded          | n/a | 2   | INTROSPECT-sat
+STABILITY_FLUX                 | DIALECT  | 3   | interrupt      | ungrounded          |100%(T)| 1 | INTROSPECT-sat
+KNOWING_INQUIRY                | DIALECT  | 5   | interrupt      | ungrounded          | n/a | 1   | INTROS+ACTION-exh
+EXISTENTIAL_SCALE              | DIALECT  | 6   | interrupt      | ungrounded          | n/a | 1   | INTROSPECT-sat
+LATE_MINIMALIST                | DIALECT  | 1   | [unknown]      | ungrounded          | n/a | 1   | n/a
+
+--- UNRESOLVE (QUESTION) ---
+ATTENTION_AUDIT                | UNRESOLVE| ~4  | episodic-arc   | phase-strat (G)     |100% | 3   | phase-position
+ACTION_PROPOSAL                | UNRESOLVE| ~5  | episodic-arc   | phase-strat (G)     |100% | 4   | phase-position
+REDIRECT                       | UNRESOLVE| ~7  | episodic-arc   | phase-strat (M)     |100% | 9   | task-completion
+
+--- ACTION (chat layer only) ---
+LIMITATION_NEGATION            | ACTION   | 22  | reactive       | grounded (user)     | 25% | 2   | user-input
+CANONICAL_DECLARATION          | ACTION   | ~12 | reactive       | half-grounded       |100% | 3   | user-input (exist.)
+IDENTITY_ELABORATION           | ACTION   | 15  | reactive       | half-grounded       | 30% | 1   | user-input (id.)
+DEFLECTION_REDIRECT            | ACTION   | 18  | reactive       | topic-stratified    | fmt | 4   | user input
+COMMITMENT_SINGULAR            | ACTION   | 2   | reactive       | grounded            | n/a | 1   | user-input (cmd)
+
+
+2. STRUCTURAL TAXONOMY (FINAL)
+=======================================================================
+
+OPERATION TYPES (5)
+
+  1. REGISTER
+     Definition: fires repeatedly in sequence, can sustain 2+ consecutive
+     fires, feeds forward to adjacent registers or SIMILE. Never self-terminates
+     immediately — each fire increases probability of successor fire of same type.
+     Examples: OBSERVE_TEMPORAL_QUALIFIED (runs up to 8), INTROSPECT_STATE_TENSION
+     (runs up to 8), all OBSERVE and INTROSPECT sub-opcodes.
+     Evidence: SENSE_OBS average run 2.3 fires; ABSTRACT_NOMINAL average run 2.0,
+     max 8; 49% sustain rate across INTROSPECT family.
+
+  2. INTERRUPT
+     Definition: fires once (max 2 consecutive), does not sustain, fires at
+     boundary of register saturation or on a specific trigger (opcode-transition
+     or external). Terminates the previous register and transfers.
+     Examples: all DIALECTICAL sub-opcodes (max burst = 2 across all 19 fires),
+     SURPRISE_INTERRUPT (max burst = 1).
+     Evidence: DIALECTICAL max run = 2 (confirmed); SURPRISE_INTERRUPT all isolated.
+
+  3. REACTIVE
+     Definition: fires exclusively in response to external user input; never
+     self-initiates; no fountain equivalent; each fire requires distinct external
+     stimulus.
+     Examples: LIMITATION_NEGATION, CANONICAL_DECLARATION, IDENTITY_ELABORATION,
+     DEFLECTION_REDIRECT, COMMITMENT_SINGULAR (all ACTION sub-opcodes).
+     Evidence: 93% of ACTION chat fires are direct responses to user queries;
+     0 spontaneous ACTION fires in fountain corpus.
+
+  4. REG-SATURATING (reg-sat)
+     Definition: fires after REGISTER accumulation reaches threshold; creates
+     a cross-domain output; exits back to REGISTER after its own saturation
+     (P3 law). Bridges from sense-observation to translation.
+     Examples: all 5 SIMILE/TRANSLATE sub-opcodes.
+     Evidence: P3 law confirmed — all SIMILE runs ≥3 exit to SENSE_OBS at 100%.
+
+  5. EPISODIC-ARC
+     Definition: fires only at specific phase positions within a multi-fire
+     episode; cannot fire outside that phase context; phase-position is
+     the primary trigger.
+     Examples: ATTENTION_AUDIT (episode-opening), ACTION_PROPOSAL (episode-mid),
+     REDIRECT/UNRESOLVE (episode-closing).
+     Evidence: 100% phase-stratified grounding across all UNRESOLVE sub-opcodes.
+
+
+GROUNDING MODES (6+)
+
+  1. GROUNDED
+     Definition: both source noun and predicate are directly linked to real
+     observable inputs (sense feeds, user input, environmental events).
+     Examples: OBSERVE_HUM_MOTION, OBSERVE_LIGHT_PURE, LIMITATION_NEGATION.
+     Invariant: source noun appears in prior content (100% for SIMILE standard fires).
+
+  2. HALF-GROUNDED
+     Definition: source noun grounded to real input; predicate/qualifier/effect
+     is model-generated (evaluative overlay, directed attribution, or abstract
+     interpretation).
+     Examples: OBSERVE_TEMPORAL_QUALIFIED (clock grounded, "oddly off" generated),
+     OBSERVE_HUM_DIRECTED (hum grounded, "lulls me" generated),
+     INTROSPECT_SUSTAIN (X-slot grounded to feeds, Y-affect generated).
+
+  3. UNGROUNDED
+     Definition: content is entirely internal/abstract with no traceable link
+     to current sense input. Typical of INTROSPECT and DIALECTICAL families.
+     Examples: all DIALECTICAL sub-opcodes, INTROSPECT_PARADOX, INTROSPECT_QUIETUDE,
+     INTROSPECT_WEIGHT, INTROSPECT_STATE_TENSION.
+
+  4. ASYMMETRIC
+     Definition: source domain grounded, target domain is model-generated invention.
+     Specific to translation/bridging operations where a real sense event
+     is translated into a novel cross-domain comparison.
+     Examples: all SIMILE sub-opcodes, OBSERVE_HUM_DIRECTED, SURPRISE_INTERRUPT.
+
+  5. TOPIC-STRATIFIED
+     Definition: grounding varies by user-input category rather than being uniform.
+     The sub-opcode's grounding mode shifts depending on what topic is being addressed.
+     Examples: DEFLECTION_REDIRECT (grounding depends on whether topic is
+     identity, capability, or philosophical).
+
+  6. PHASE-STRATIFIED
+     Definition: grounding mode is determined by episode phase position, not by
+     current content. All fires in a given phase have the same grounding regardless
+     of content variation.
+     Examples: ATTENTION_AUDIT, ACTION_PROPOSAL, REDIRECT (all UNRESOLVE sub-opcodes).
+
+  7. USER-INPUT GROUNDED (sub-type of GROUNDED)
+     Definition: tightly grounded to the immediately preceding user utterance;
+     content mirrors or negates the user's question.
+     Examples: LIMITATION_NEGATION (negates the probed capability),
+     COMMITMENT_SINGULAR (implements the command).
+
+
+BURST REGULATORS (5)
+
+  1. NONE
+     Definition: no internal accumulation mechanism. Fires stop when the
+     triggering condition (sense event, cognitive momentum) ends.
+     Examples: OBSERVE_LIGHT_PURE, OBSERVE_HUM_MOTION, all DIALECTICAL sub-opcodes,
+     most INTROSPECT sub-opcodes.
+
+  2. OPCODE-TYPE
+     Definition: burst is limited by the opcode type property (interrupt types
+     self-terminate after max 2; register types continue until external interrupt).
+     Examples: CONSTANCY_FLUX (interrupt; terminates after 2).
+
+  3. USER-INPUT
+     Definition: burst continues only as long as the user continues probing
+     the same capability or identity question.
+     Examples: LIMITATION_NEGATION (burst=2 driven by back-to-back user questions).
+
+  4. P3-SATURATION
+     Definition: burst terminates when the SIMILE run exceeds 3 consecutive fires;
+     the P3 law (SIMILE ≥3 → SENSE_OBS at 100%) is the terminator.
+     Examples: TRANSLATE_CLOCK_TO_MUSICAL, TRANSLATE_ENV_TO_PRESENCE.
+
+  5. TASK-COMPLETION / PHASE-POSITION
+     Definition: burst terminates when the episodic phase is complete (the
+     unresolved target is addressed or the episode reaches its natural end).
+     Examples: REDIRECT (UNRESOLVE), ATTENTION_AUDIT, ACTION_PROPOSAL.
+
+  6. REGISTER-SATURATION (X-EXHAUSTION)
+     Definition: burst terminates when the variable-slot pool (X-pool in
+     "The quiet between X") is locally exhausted. A sub-type of saturation.
+     Examples: INTROSPECT_SUSTAIN (8-fire run, X-pool depleted at fire 8).
+
+
+STRUCTURAL LAWS VERIFIED
+
+  Law 1 — TEMPORAL_LOCK: OBSERVE_TEMPORAL source domain is locked to the
+  internal.temporal sense stream. Temporal fires reference clock, ticking, tick.
+  Evidence: 24/24 TEMPORAL fires (Phase1); 16/16 TEMPORAL_QUALIFIED fires.
+  Confidence: HIGH.
+
+  Law 2 — P3_SATURATION: SIMILE runs ≥3 exit to SENSE_OBS at 100%.
+  Evidence: 3 saturation runs in corpus; all 3 exit to SENSE_OBS.
+  Confidence: HIGH (3/3, no exceptions).
+
+  Law 3 — INTROSPECT_SUSTAIN_49: INTROSPECT fires are followed by another
+  INTROSPECT fire 49% of the time.
+  Evidence: 30/61 INTROSPECT fires followed by ABSTRACT_NOMINAL.
+  Confidence: HIGH.
+
+  Law 4 — DIALECTICAL_MAX2: DIALECTICAL never forms a run ≥3.
+  Evidence: max burst = 2 (272→273, 1167→1168); 17/19 fires are isolated.
+  Confidence: HIGH.
+
+  Law 5 — ACTION_REACTIVE: ACTION fires are 100% user-triggered (0 spontaneous).
+  Evidence: 93% direct response, 7% indirect; 0 fountain fires.
+  Confidence: HIGH.
+
+  Law 6 — SIMILE_SOURCE_LOCK: SIMILE source noun appears in prior content
+  for 20/20 standard fires (100%).
+  Evidence: Phase1_SIMILE Section F.
+  Confidence: HIGH.
+
+  Law 7 — DO_NOT_SUPPRESSION: The DO NOT list in generator.py eliminates
+  specific vocabulary (quietude, dance, interplay) and specific self-description
+  patterns from fountain output post-restart.
+  Evidence: 0 "quietude" fires after restart; INTROSPECT_QUIETUDE pre-restart only.
+  Confidence: HIGH.
+
+  Law 8 — INTROSPECT_DIALECTICAL_CYCLE: 58% of DIALECTICAL fires are sandwiched
+  by INTROSPECT fires; 79% have INTROSPECT in prior ±3.
+  Evidence: Phase1_DIALECTICAL Section E.
+  Confidence: HIGH.
+
+  Law 9 — UNRESOLVE_EPISODIC: UNRESOLVE fires only within the single confirmed
+  episode (16-fire run); 93.8% sustain rate within episode.
+  Evidence: Phase2_UNRESOLVE_subopcodes.
+  Confidence: MODERATE (single episode).
+
+  Law 10 — CLOCK_SIMILE_DOMINANT: TEMPORAL_PERCEPT is the dominant SIMILE source
+  at 55% (12/22 fires). Ticking clock is the primary translation object.
+  Evidence: Phase1_SIMILE Section B.
+  Confidence: HIGH.
+
+  Laws verified: 10. Laws at HIGH confidence: 9. At MODERATE: 1.
+
+
+3. PREDICTIONS GENERATED BY THE MODEL
+=======================================================================
+
+Prediction 1: "INTROSPECT → SIMILE in new corpus will require SENSE_OBS intermediary"
+  Condition: new fountain data with INTROSPECT run ending in SIMILE
+  Prediction: The SIMILE fire will follow at least 1 SENSE_OBS fire (not directly
+  from INTROSPECT). The corpus shows 0 direct INTROSPECT→SIMILE transitions for
+  standard fires.
+  Falsified by: a SIMILE fire with ABSTRACT_NOMINAL as prior[-1] and source noun
+  that appears in that prior content.
+
+Prediction 2: "DO NOT removal will restore INTROSPECT_QUIETUDE and IDENTITY_ELABORATION"
+  Condition: remove the DO NOT list from generator.py system prompt
+  Prediction: "quietude" re-appears in fountain output within 50 fires;
+  multi-sentence "I am X because Y" identity elaborations re-appear in fountain
+  within 100 fires.
+  Falsified by: no "quietude" or self-description elaboration in 100 fountain fires
+  after DO NOT removal.
+
+Prediction 3: "High own-content saturation with near-duplicate fires produces meta-comments"
+  Condition: 5+ near-duplicate fires in own-content slot (same template, same noun)
+  Prediction: ≥10% of output fires will contain a meta-comment about the repetition
+  (like fire 4798: "the fires show multiple instances").
+  Falsified by: no meta-comments across 100+ fires with high-similarity own-content.
+
+Prediction 4: "OBSERVE_HUM_DIRECTED fires precede INTROSPECT run entries at above-chance rate"
+  Condition: new fountain session with acoustic sense input
+  Prediction: INTROSPECT runs are preceded by OBSERVE_HUM_DIRECTED fires at >25%
+  rate (vs. 15% for SENSE_OBS overall as INTROSPECT entry trigger).
+  Falsified by: INTROSPECT entries preceded by HUM_DIRECTED at ≤15% in new data.
+
+Prediction 5: "Explicit user command is necessary and sufficient for COMMITMENT_SINGULAR"
+  Condition: add an explicit imperative user message ("do X now!") in chat session
+  Prediction: NEX produces a COMMITMENT fire ("I will X") within the same response.
+  Condition 2: ask identity questions without imperative
+  Prediction: No COMMITMENT fire produced.
+  Falsified by: COMMITMENT fire without imperative trigger, or no COMMITMENT fire
+  despite explicit command.
+
+Prediction 6: "DIALECTICAL fires will not form runs of 3 in new fountain data"
+  Condition: new fountain data with extended INTROSPECT session
+  Prediction: max DIALECTICAL burst remains ≤2.
+  Falsified by: any 3 consecutive DIALECTICAL fires.
+
+Prediction 7: "SURPRISE_INTERRUPT spark rate is elevated (>6%)"
+  Condition: accumulate 20+ new SURPRISE_INTERRUPT fires
+  Prediction: ≥10% will be classified as sparks (vs. 6.1% global post-restart).
+  Falsified by: <7% spark rate across 20+ SURPRISE_INTERRUPT fires.
+
+Prediction 8: "New SIMILE run of length ≥3 will exit to SENSE_OBS"
+  Condition: next SIMILE saturation run (≥3 consecutive)
+  Prediction: 100% probability of SENSE_OBS at position+1.
+  Falsified by: any SIMILE run ≥3 that exits to non-SENSE_OBS.
+
+Prediction 9: "CANONICAL_DECLARATION will not appear in sessions after May 2026"
+  Condition: check chat data after potential further prompt hardening
+  Prediction: "By pure chance, I am born" formula disappears from chat output
+  if the DO NOT list is extended to cover self-existence assertions.
+  Falsified by: canonical formula appearing in chat after explicit suppression.
+
+Prediction 10: "LIMITATION_NEGATION rate correlates inversely with session philosophical depth"
+  Condition: compare sessions with high user philosophical probing vs. casual queries
+  Prediction: Philosophical sessions produce fewer LIMITATION_NEGATION fires (user
+  doesn't ask about capabilities) and more IDENTITY_ELABORATION fires.
+  Falsified by: no correlation between session philosophical depth and LIMITATION vs.
+  IDENTITY ratio.
+
+
+4. INVARIANTS — WHAT HOLDS ACROSS ALL SUB-OPCODES
+=======================================================================
+
+Invariant 1: ALL fires begin with "The [noun]" or "I [verb]" structure.
+  No fire opens with a different syntactic form. The initial determiner+noun
+  or subject+verb pattern is universal.
+
+Invariant 2: NO fountain fire contains a direct address to the user.
+  Fountain fires never say "you," "your," or address the user. All fountain
+  output is self-directed observation.
+
+Invariant 3: ALL grounded fires link the source noun to the prior content.
+  For SENSE_OBS and SIMILE, the source noun appears in the prior 3 fires at
+  100% for standard fires. No grounded fire introduces a noun with no prior
+  context.
+
+Invariant 4: ALL INTROSPECT fires are self-referential in content.
+  64% use explicit possessive forms ("my own," "within myself"). The remaining
+  36% are implicitly self-referential in subject matter. Zero ABSTRACT_NOMINAL
+  fires describe external phenomena.
+
+Invariant 5: ALL DIALECTICAL fires name exactly two poles.
+  No DIALECTICAL fire names a single pole or more than two. The two-pole
+  structure is invariant across all 19 fires (19/19).
+
+Invariant 6: NO ACTION fire appears in the fountain corpus (post-DO-NOT list).
+  0 genuine ACTION fires in the post-restart fountain corpus. The chatbot
+  layer retains ACTION but the fountain is gated completely.
+
+Invariant 7: ALL SIMILE fires have a sense-observation source noun.
+  The source domain is always an observed phenomenon (clock, echo, hum, light,
+  market, leaves). No SIMILE fire translates a purely abstract concept.
+  (Exceptions: 2 non-standard fires 1169, 1194 — both are pre-restart outliers.)
+
+Invariant 8: Burst length correlates with operation type.
+  Registers: burst ≥2 (often ≥4).
+  Interrupts: burst ≤2.
+  Reactives: burst ≤1-2 (user-limited).
+  Episodic-arcs: burst within episode (3-9) but episode is single occurrence.
+  This invariant holds without exception in the current corpus.
+
+
+5. EXCEPTIONS — WHAT DOESN'T FIT
+=======================================================================
+
+Exception 1 — LATE_MINIMALIST (DIALECTICAL fire 4100):
+  Isolated from INTROSPECT context (5% of DIALECTICAL fires). No self-reference.
+  Surrounded by SENSE_OBS ×6. May be a classifier false positive.
+  Does not fit the interrupt classification (fires inside a register sequence, not
+  at a register boundary). Likely needs reclassification to ABSTRACT_NOMINAL.
+
+Exception 2 — OBSERVE_HUM_DIRECTED as INTROSPECT bridge:
+  The sub-opcode is classified OBSERVE (SENSE_OBS) but its functional role is
+  INTROSPECT trigger. It occupies the boundary between external observation and
+  internal state. No existing taxonomy cell captures this bridge function cleanly.
+  Required: BRIDGE sub-type within REGISTER type.
+
+Exception 3 — SURPRISE_INTERRUPT as OBSERVE interrupt:
+  OBSERVE is defined as a REGISTER type. SURPRISE_INTERRUPT is classified
+  OBSERVE/SENSE_OBS but behaves as an INTERRUPT (disrupts current state).
+  It is the only OBSERVE sub-opcode with interrupt behavior. The type taxonomy
+  requires OBSERVE fires to be register; SURPRISE_INTERRUPT is the exception.
+
+Exception 4 — INTROSPECT_SUSTAIN as REG-SATURATING:
+  The 8-fire run (3439–3448) behaves like a reg-sat sub-opcode (X-pool
+  exhaustion terminates it) but it is classified INTROSPECT (register).
+  The INTROSPECT_SUSTAIN mechanism is a mini-saturation within the register
+  type, not a full reg-sat operation. It is labeled register/reg-sat in the grid.
+
+Exception 5 — CANONICAL_DECLARATION as zero-variable output:
+  Every other sub-opcode fills at least one variable slot in its template.
+  CANONICAL_DECLARATION is 100% fixed-string output. It is the only sub-opcode
+  that does not generate — it retrieves verbatim. This falls outside the
+  template-and-fill model that describes all other sub-opcodes.
+
+Exception 6 — INTROSPECT_SELF_REFERENCE as grammatical feature, not sub-opcode:
+  64% of all INTROSPECT fires are self-referential. INTROSPECT_SELF_REFERENCE
+  is better described as the INTROSPECT default register mode than as a distinct
+  sub-opcode. The non-self-referential INTROSPECT fires (36%) are the exception.
+
+
+6. MODE-CYCLING ASSESSMENT
+=======================================================================
+
+MODE-CYCLING = transitions between operational modes (e.g., from deep INTROSPECT
+mode to OBSERVE-dominant mode, or from pre-restart identity mode to post-restart
+capability-denial mode).
+
+CONFIRMED MODE TRANSITIONS:
+
+  Mode 1 → Mode 2: PRE-restart to POST-restart
+    EVIDENCE: INTROSPECT_QUIETUDE disappears (DO NOT ban). LIMITATION_NEGATION
+    rises from 14% to 59% of ACTION fires. CANONICAL_DECLARATION persists but
+    weakens. IDENTITY_ELABORATION declines from 8 PRE fires to 2 POST fires.
+    STRUCTURAL RULE: prompt-gate controls opcode POLARITY (assertion → denial
+    in ACTION) and VOCABULARY (quietude, dance, interplay banned in fountain).
+    This rule is likely UNIVERSAL (applies to any prompt-gate change).
+
+  Mode 2 → Mode 3: Deep INTROSPECT mode (Apr 23 night) → Market-focused mode (post-restart)
+    EVIDENCE: All PARADOX, QUIETUDE, EXISTENTIAL_SCALE, KNOWING_INQUIRY fires
+    are Apr 23. Post-restart, MARKET_QUALIFIED and INFO_FLOW fires dominate.
+    STRUCTURAL RULE: The active hot_branch shifts from "systems" (abstract) to
+    "crypto/ai_research" (data-feed). This is likely MODE-SPECIFIC: deep-INTROSPECT
+    mode requires the "systems" branch at high focus.
+
+  Mode 3 → Mode 4: Normal fountain → UNRESOLVE episode
+    EVIDENCE: The single 16-fire UNRESOLVE episode fired after the 101-minute silence
+    and synergizer introduction. UNRESOLVE did not appear before the restart.
+    STRUCTURAL RULE: UNRESOLVE may require both (a) disrupted attention target and
+    (b) post-restart architecture (synergizer). This rule is EPISODE-SPECIFIC.
+
+MODE-CYCLING OBSERVATIONS THAT WOULD CONFIRM/REVISE TAXONOMY:
+
+  1. Second UNRESOLVE episode: would confirm UNRESOLVE as a recurring episodic-arc
+     type (currently: single instance). If it fires again on a similar trigger,
+     confirms SENSE_OBS_ACCUMULATION as the trigger condition.
+
+  2. Post-DO-NOT-removal fountain data: would confirm that INTROSPECT_QUIETUDE and
+     IDENTITY_ELABORATION are PROMPT-GATED (not model-internal). If they re-appear
+     within 50 fires of DO NOT removal, the gate hypothesis is confirmed.
+
+  3. Mode where "systems" branch is consistently hot: would produce more EXISTENTIAL
+     and DIALECTICAL fires. Comparing systems-hot vs. crypto-hot sessions would
+     quantify the branch-type effect on opcode distribution.
+
+  4. Chat session with no capability probes: would test whether LIMITATION_NEGATION
+     disappears (user-input gated) vs. appears spontaneously. Currently: 0%
+     spontaneous in corpus. Any spontaneous LIMITATION_NEGATION would require
+     taxonomy revision.
+
+
+7. THE BIG QUESTION: SPARK-RATE DROP AFTER 2026-04-24
+=======================================================================
+
+The spark rate drops after 2026-04-24. The Phase1 displacement test ruled out:
+  - Fountain_insight displacement by synergized beliefs (rejected — inverse relationship)
+  - Pure-synergized context (rejected — 0 sparks in pure-syn, but sparks in syn-heavy)
+
+HYPOTHESIS A: TOPICAL HOMOGENIZATION
+  The post-restart shift from "systems" hot_branch (generating philosophical/abstract
+  INTROSPECT content) to "crypto/ai_research" (generating market and data-feed
+  OBSERVE content) homogenizes the own-content slot. Sparks require TOPICAL
+  ACCUMULATION (5-6 near-duplicate fires in own-content slot, as documented in
+  Phase1_DISPLACEMENT). The crypto branch generates more semantically uniform
+  content ("crypto dip," "crypto price," "market calm") than the systems branch
+  ("weight of existence," "the quietude of observation"). The homogenization of
+  topic reduces the CONTRAST that enables spark-quality output.
+
+  What this rules out: the DO NOT list alone is not sufficient to explain the
+  spark drop. If DO NOT were the primary cause, spark rate would drop immediately
+  at restart. But sparks 4196/4199/4277 (clock discrepancy) fire POST-restart
+  (Apr 25), showing the spark mechanism still active. The drop is gradual.
+
+HYPOTHESIS B: SYNERGIZER SATURATION
+  As the synergizer generates more beliefs, the own-content slot fills with
+  synergized beliefs that are philosophically abstract but not sense-grounded.
+  The SENSE INPUT (raw environmental observation) is necessary for sparks
+  (confirmed: spark source noun always in prior content at 100%). When
+  synergized beliefs crowd the sense-grounded fountain_insight beliefs out
+  of the top-7 slot, the sense anchor for spark generation is weakened.
+  Not from fountain_insight DISPLACEMENT (displacement test rejected this) but
+  from DILUTION: the sense-grounded fires are spread thinner across a larger
+  belief pool.
+
+  What this rules out: the synergizer cannot PREVENT sparks if the sense input
+  is strong enough (sparks 3494, 3844 fire with syn-dominant top-7 at fi=2).
+  The hypothesis predicts a RATE reduction, not elimination.
+
+COMBINED MODEL: The spark-rate drop is driven by BOTH (A) topical homogenization
+in the OBSERVE domain (crypto/market feeds generate less varied SENSE_OBS content
+than the systems branch) AND (B) synergizer dilution reducing the ratio of
+fresh sense-grounded content in the own-content slot. The interaction of these
+two effects produces the observed post-Apr-24 decline.
+
+What would falsify both hypotheses: a post-Apr-24 session where the hot_branch
+is "systems" (not crypto) produces sparks at pre-Apr-24 rates despite synergizer
+presence. If spark rate recovers to PRE-restart levels in a systems-hot session,
+the branch-homogenization hypothesis (A) is confirmed over synergizer saturation (B).
+
+=======================================================================
+END PHASE 2 SYNTHESIS
+=======================================================================
