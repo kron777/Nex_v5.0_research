@@ -1,0 +1,516 @@
+PHASE 1 — UNRESOLVE (QUESTION) OPCODE DEEP DECRYPTION
+Generated: 2026-04-26
+Corpus: 16 QUESTION fires from 245-fire fountain_insight corpus
+        (nex5_metaphor_input_correlation.txt, classifier.py QUESTION label)
+======================================================================
+
+Classifier trigger (from classifier.py):
+  _QUESTION = re.compile(r"\?")
+  Priority: QUESTION is 2nd in the 8-step chain — after ACTION only.
+  A fire with "?" and no ACTION verb is classified QUESTION regardless of
+  content. This is the broadest trigger in the classifier: any sentence-
+  final "?" qualifies.
+
+Central finding (stated upfront):
+  ALL 16 QUESTION fires form a single contiguous run in the corpus at
+  corpus positions 101–116 (2026-04-24 07:13–09:48 UTC). This run is
+  the ONLY QUESTION episode in the entire 245-fire corpus. The run
+  exhibits 93.8% sustain rate (15/16 intra-run transitions are QUESTION).
+
+IDs in corpus order:
+  1737 1739 1740 1741 1743 1744 1745 1746 1747 1748 1749 1750 1751 1753
+  1754 1755
+
+
+======================================================================
+A. QUESTION TYPE INVENTORY
+======================================================================
+
+Full content, question word, and type for each of the 16 fires:
+
+  id     datetime (UTC)         branch         qword         qtype
+  ───────────────────────────────────────────────────────────────────────
+  1737   2026-04-24 07:13:58    systems        Didn't        PAST_RECALL
+  1739   2026-04-24 07:33:53    systems        Why didn't    WHY_ABSENCE
+  1740   2026-04-24 07:36:08    systems        Why didn't    WHY_ABSENCE
+  1741   2026-04-24 07:38:24    systems        Why don't     WHY_NOT_ACT
+  1743   2026-04-24 07:44:53    systems        Why don't     WHY_NOT_ACT
+  1744   2026-04-24 07:47:08    systems        Why don't     WHY_NOT_ACT
+  1745   2026-04-24 07:51:39    systems        Why don't     WHY_NOT_ACT
+  1746   2026-04-24 07:55:54    emerging_tech  Why don't     WHY_NOT_ACT
+  1747   2026-04-24 08:00:23    emerging_tech  Why don't     WHY_NOT_ACT
+  1748   2026-04-24 08:02:38    systems        Why don't     WHY_NOT_ACT
+  1749   2026-04-24 08:06:54    systems        Why don't     WHY_NOT_ACT
+  1750   2026-04-24 08:17:55    systems        Why don't     WHY_NOT_ACT
+  1751   2026-04-24 08:50:55    emerging_tech  Why don't     WHY_NOT_ACT
+  1753   2026-04-24 09:23:35    systems        Why don't     WHY_NOT_ACT
+  1754   2026-04-24 09:36:53    systems        Why don't     WHY_NOT_ACT
+  1755   2026-04-24 09:48:00    systems        Why don't     WHY_NOT_ACT
+
+FULL CONTENT — all 16 fires:
+
+  [1737] Didn't I just read about that politician again?
+  [1739] Why didn't I notice the kraken's prices were moving sideways?
+  [1740] Why didn't I catch that crypto dip?
+  [1741] Why don't I catch that dip today?
+  [1743] Why don't I double-check those crypto dips?
+  [1744] Why don't I check those crypto dips again?
+  [1745] Why don't I check that kraken dip?
+  [1746] Why don't I take a break and grab some coffee?
+  [1747] Why don't I grab lunch instead?
+  [1748] Why don't I just grab a sandwich instead?
+  [1749] Why don't I just hit the gym after lunch?
+  [1750] Why don't I just skip the gym today?
+  [1751] Why don't I just watch that new comedy series?
+  [1753] Why don't I just start that crypto project after all?
+  [1754] Why don't I just order that fancy coffee latte?
+  [1755] Why don't I just ignore the crypto price dip for now?
+
+TYPE CLUSTER COUNTS (mapping to requested categories):
+
+  WHY_NOT_ACT    13  (81%)   ids 1741–1755 — "Why don't I X"
+  WHY_ABSENCE     2  (13%)   ids 1739–1740 — "Why didn't I X"
+  PAST_RECALL     1  ( 6%)   id  1737      — "Didn't I just X"
+  HOW_PROCEDURAL  0
+  HOW_RECONCILE   0
+  WHAT_IS         0
+  WHETHER         0
+
+GRAMMAR MARKER — "just":
+  Fires 1737 and 1748–1755 contain "just" (9 fires).
+  Within WHY_NOT_ACT, "just" appears starting at fire 1748 and holds
+  for 8 consecutive fires. The "just" fires constitute the REDIRECT
+  phase (see Section G); its emergence marks the topic pivot from
+  crypto action to self-care and then back.
+
+
+======================================================================
+B. SUBJECT POSITION
+======================================================================
+
+SELF_FACING:  16  (100%)
+
+Every QUESTION fire is directed at the first-person subject. All 16 use
+"I" as grammatical subject and address attention, action, or inaction by
+the self. There are no WORLD_FACING or META fires.
+
+SELF_FACING sub-target breakdown:
+
+  OWN_ATTENTION    3  (19%)  ids 1737, 1739, 1740 — why didn't I notice/read
+  OWN_ACTION       4  (25%)  ids 1741, 1743, 1744, 1745 — why don't I act on X
+  OWN_REDIRECT     9  (56%)  ids 1746–1755 — why don't I do something else
+
+The run shows a systematic shift of self-address: from auditing attention
+failures, to proposing action on the observed content, to redirecting away
+from that content entirely.
+
+WORLD_FACING:   0
+META:           0
+
+No fire asks "What is this?", "Why does the market do X?", or "Is this
+question meaningful?" The self is both the asker and the sole subject of
+every question.
+
+
+======================================================================
+C. STRUCTURAL FORMAT
+======================================================================
+
+PURE_QUESTION:  16  (100%)
+
+Every fire contains only a question. There are no COMPOUND fires (statement
+followed by question) and no DECLARATIVE_PLUS fires (declarative ending in
+"?") in the QUESTION-classified corpus set.
+
+This stands in contrast to some DIALECTICAL fires which appear compound —
+e.g. [304] "The interplay between curiosity about the universe and fascination
+with my own mind. How can exploration and contemplation coexist?" ends with
+"?" but is classified DIALECTICAL in the corpus. See Section F for analysis.
+
+The PURE_QUESTION purity of all 16 fires is a structural consequence of the
+classifier's priority order: QUESTION fires before DIALECTICAL (rank 2 vs.
+rank 6). Any compound fire that contains both dialectical phrasing and "?"
+will be classified QUESTION by the current classifier — unless it was
+classified with an older version. The corpus was generated before the current
+classifier, and one DIALECTICAL compound fire (id=1157) would be reclassified
+QUESTION by the current classifier.
+
+
+======================================================================
+D. POSITION IN SEQUENCE
+======================================================================
+
+THE RUN IN CONTEXT:
+
+  Position in corpus: fires 101–116 of 245
+  Preceded by: SENSE_OBS × 2 (ids 1735, 1736), and ABSTRACT_NOMINAL × 1
+               (id 1197 at corpus position 98 — immediately before the
+               post-restart SENSE_OBS pair)
+  Followed by: SENSE_OBS (id 2138), UNCATEGORIZED (id 2139), SENSE_OBS (id 2690)
+
+  TEMPORAL CONTEXT:
+    Fire 1197 (ABSTRACT_NOMINAL, last pre-gap corpus fire): 2026-04-24 05:03:51 UTC
+    Restart gap: 05:09:58 → 06:51:04 (101 minutes, 0 fountain fires)
+    Fire 1735 (SENSE_OBS, first post-restart corpus fire): 2026-04-24 07:00:32 UTC
+    Fire 1736 (SENSE_OBS, second post-restart corpus fire): 2026-04-24 07:02:49 UTC
+    Fire 1737 (QUESTION, run start): 2026-04-24 07:13:58 UTC
+    Fire 1755 (QUESTION, run end):   2026-04-24 09:48:00 UTC
+    Fire 2138 (SENSE_OBS, post-run): 2026-04-24 10:11:33 UTC
+
+  The QUESTION run is the FIRST SUSTAINED EPISODE of the post-restart corpus.
+  It fires 2 crystallizations after the restart resumes (the 2 SENSE_OBS fires
+  1735 and 1736 are the only post-restart non-QUESTION crystallizations before
+  the run begins). The run ends at 09:48 and SENSE_OBS resumes.
+
+PREDECESSOR PATTERN:
+  i-1 (1736): SENSE_OBS  — "The crypto price spikes again..."
+  i-2 (1735): SENSE_OBS  — "The crypto branch buzzes again..."
+  i-3 (1197): ABSTRACT_NOMINAL — "The reverberation of silence within myself."
+
+  No INTROSPECT (ABSTRACT_NOMINAL) directly precedes the QUESTION run.
+  The direct predecessor is SENSE_OBS × 2, not a INTROSPECT saturation.
+  This is a key structural difference from DIALECTICAL (whose most common
+  direct predecessor is ABSTRACT_NOMINAL at 32%).
+
+SUCCESSOR PATTERN:
+  i+1 (2138): SENSE_OBS  — "The crypto dip seems interesting now..."
+  i+2 (2139): UNCATEGORIZED — "Noticing the quiet between thoughts today."
+  i+3 (2690): SENSE_OBS  — "The current price of SOLUSDT spiked again."
+
+  QUESTION does NOT exit into SENSE_OBS at 100% for this corpus instance,
+  because there is one intermediate UNCATEGORIZED fire before SENSE_OBS
+  resumes. The saturation-law prediction (QUESTION → SENSE 100%) applies
+  at the RUN level (first non-QUESTION after the run is SENSE_OBS) rather
+  than fire-by-fire.
+
+INTROSPECT PROXIMITY:
+  No ABSTRACT_NOMINAL fires appear in the ±3 window of any QUESTION fire
+  (all ±3 slots for 1739–1753 are QUESTION; 1737's prior contains only
+  SENSE_OBS; 1755's successor contains SENSE_OBS and UNCATEGORIZED).
+  QUESTION fires are insulated from INTROSPECT, the opposite of DIALECTICAL.
+
+  QUESTION vs DIALECTICAL predecessor comparison:
+    ABSTRACT_NOMINAL precedes DIALECTICAL directly: 32% of fires
+    ABSTRACT_NOMINAL precedes QUESTION directly: 0% of fires
+  The two opcodes have entirely different upstream contexts.
+
+
+======================================================================
+E. SATURATION CHECK — REGISTER OR INTERRUPT?
+======================================================================
+
+RUN LENGTH DISTRIBUTION:
+
+  The 16-fire corpus contains exactly one QUESTION run of length 16.
+  There are no shorter QUESTION runs (no runs of 2, 3, or 4).
+  There are no QUESTION fires outside this run.
+
+  Total QUESTION runs:        1
+  Maximum run length:        16
+  Minimum run length:        16 (same — only one run)
+  Sustain rate within run:  93.8% (15/16 next-fire is QUESTION)
+
+COHERENCE TEST — ARE RUNS THE SAME QUESTION TYPE?
+
+  Run is coherent: the 16 fires progress through three clearly structured
+  phases (ATTENTION_AUDIT → ACTION_PROPOSAL → REDIRECT), all using
+  WHY_NOT_ACT or closely related WHY_ABSENCE structure. No fire is of
+  a structurally different type (no HOW_RECONCILE, no WHAT_IS, no WHETHER).
+
+  The topic shifts (crypto → food → gym → entertainment → crypto) but
+  the syntactic form is invariant throughout. This is not a mixed-type
+  cluster — it is a single QUESTION type with topical variation.
+
+VERDICT: UNRESOLVE IS A REGISTER (conditional)
+
+  Evidence for REGISTER:
+  (1) Forms a run of 16 — the longest run of any template in the corpus
+      other than ABSTRACT_NOMINAL (max run=8) and QUESTION's own 16.
+      DIALECTICAL (interrupt) never exceeds 2. QUESTION exceeds all other
+      templates by run length.
+  (2) 93.8% intra-run sustain rate — higher than ABSTRACT_NOMINAL (67%
+      for long runs per saturation law).
+  (3) Run is structurally coherent: ATTENTION_AUDIT → ACTION_PROPOSAL →
+      REDIRECT is a three-phase narrative arc. The final fire (1755:
+      "Why don't I just ignore the crypto price dip for now?") is a
+      self-answer to the initial WHY_ABSENCE fires. This is register
+      behavior (sustained mode) not interrupt behavior (one-shot
+      insertion).
+  (4) The run has a recognizable entry (SENSE_OBS saturation post-restart)
+      and a recognizable exit (SENSE_OBS resumes from outside).
+
+  Evidence against simple REGISTER classification:
+  (1) The run appears only ONCE in 245 fires. INTROSPECT appears 31 separate
+      times. SENSE_OBS appears continuously. QUESTION fires as a single
+      episode, suggesting it is conditionally triggered, not always-available.
+  (2) The trigger is a specific post-restart crypto-attention context.
+      QUESTION never fires outside this window.
+  (3) The run length (16) may be an artefact of the trigger condition's
+      persistence (the crypto-attention context stayed active for 2.5 hours),
+      not intrinsic register behavior.
+
+  RESOLUTION: UNRESOLVE is a CONDITIONAL REGISTER. It exhibits register
+  behavior (high sustain, coherent narrative arc, structured topic
+  progression) when it fires, but its trigger is episodic rather than
+  continuous. It is NOT an interrupt (interrupts never form runs ≥3; this
+  run has length 16). It is also not a continuously-available register like
+  INTROSPECT. It is best characterized as a TRIGGERED EPISODE that behaves
+  as a register once triggered.
+
+  Structural analogy: UNRESOLVE is to INTROSPECT as a fever-dream is to
+  normal sleep. Same machinery, different trigger, bounded episode.
+
+
+======================================================================
+F. COMPOUND-FIRE ANALYSIS
+======================================================================
+
+COMPOUND FIRES IN QUESTION CORPUS: 0
+
+No QUESTION-classified fire contains a preamble statement followed by a
+question. All 16 are pure interrogatives with no declarative prefix.
+
+RECLASSIFICATION ISSUE — DIALECTICAL FIRES WITH "?":
+
+  Applying the current classifier.py to all DIALECTICAL corpus fires:
+    1 DIALECTICAL fire would be reclassified QUESTION by the current code:
+    [1157] "The interplay between form and emptiness in existence. How do
+            they coexist within me?"
+    corpus=DIALECTICAL → classifier.py output=QUESTION
+
+  This fire is not in the QUESTION set because the corpus was classified
+  with an earlier version of the classifier (or a different priority order)
+  where DIALECTICAL had priority over QUESTION. The other 6 DIALECTICAL
+  fires that contain "How do/can..." do NOT end with "?" — they use the
+  open-ended form without punctuation ("How to preserve order while
+  allowing for continuous evolution" rather than "...evolution?").
+
+  IMPLICATION FOR OPCODE PURITY:
+    [1157] is genuinely dual-opcode: the first clause ("The interplay
+    between form and emptiness") is DIALECTICAL (two-pole tension); the
+    second clause ("How do they coexist within me?") is QUESTION. The
+    classifier cannot represent dual-opcode fires — it assigns one label.
+    The current classifier would label it QUESTION; the corpus labels it
+    DIALECTICAL. Neither is wrong — the fire is compound.
+
+  DIALECTICAL fires that are compound but NOT reclassified (question suffix
+  without "?"):
+    [296]  "...How to preserve order while allowing for continuous evolution."
+    [304]  Corpus has "?" at end — reclassified QUESTION by current classifier.
+    [1167] "...How to honor my core while remaining responsive to change."
+    [1168] "...How do I honor my roots while embracing new possibilities? ..."
+           — actually 1168 contains "?" internally, let me note this.
+    [1170] "...How do I root firmly in tradition while continually evolving?..."
+    [1171] "...How do I honor tradition while embracing the need for change?"
+
+  Note: fires 1168, 1170, 1171 contain "?" embedded in longer text. The
+  current classifier would reclassify all three as QUESTION. In the corpus
+  they remain DIALECTICAL, which is correct for the overall structure of the
+  fire (the dominant operation is tension-naming, not self-questioning).
+
+  PRACTICAL IMPLICATION: The boundary between DIALECTICAL and UNRESOLVE
+  dissolves in the compound format. A fire like "The tension between X and Y.
+  How do I reconcile them?" is simultaneously DIALECTICAL (names the tension)
+  and UNRESOLVE (poses the question). For grid purposes: COMPOUND fires
+  belong to DIALECTICAL when the question suffix is secondary and the tension
+  naming is primary. They belong to UNRESOLVE when the entire content is
+  interrogative with no declarative spine.
+
+  The 16 corpus QUESTION fires show PURE QUESTION format — no declarative
+  spine. The classifier boundary for the corpus is operationally correct
+  for this set.
+
+
+======================================================================
+G. SUB-OPCODE HYPOTHESIS
+======================================================================
+
+Three sub-opcodes, corresponding exactly to the three phases of the run.
+
+──────────────────────────────────────────────────────────────────────
+G.1  ATTENTION_AUDIT  (n=3)
+──────────────────────────────────────────────────────────────────────
+
+Defining cluster: PAST_RECALL + WHY_ABSENCE — questions directed at
+  past missed observations. The firing agent is reviewing what it failed to
+  notice. Question forms: "Didn't I just X" and "Why didn't I X".
+  Topic varies (politics, crypto). Self-address is retrospective.
+
+Fires: 1737, 1739, 1740
+
+Examples:
+  [1737] "Didn't I just read about that politician again?"
+  [1739] "Why didn't I notice the kraken's prices were moving sideways?"
+  [1740] "Why didn't I catch that crypto dip?"
+
+Position: Run entry. The first fire (1737) is a SPARK_SHAPED belief
+  (see Phase1_SPARK_conditions.txt). 1737 is preceded by SENSE_OBS × 2
+  (crypto content) and the question pivots abruptly to a politician —
+  an off-topic recall. This pivot triggers the run.
+
+──────────────────────────────────────────────────────────────────────
+G.2  ACTION_PROPOSAL  (n=4)
+──────────────────────────────────────────────────────────────────────
+
+Defining cluster: WHY_NOT_ACT on the SAME TOPIC as the preceding
+  ATTENTION_AUDIT. Having identified the missed observation, the firing
+  agent proposes current action on it. Question form: "Why don't I X"
+  where X is a direct engagement with the topic (crypto). No "just".
+
+Fires: 1741, 1743, 1744, 1745
+
+Examples:
+  [1741] "Why don't I catch that dip today?"
+  [1743] "Why don't I double-check those crypto dips?"
+  [1744] "Why don't I check those crypto dips again?"
+  [1745] "Why don't I check that kraken dip?"
+
+Position: Mid-run (corpus positions 104–107). No "just" intensifier.
+  All on-topic (crypto). Represents the ACTION-facing phase of UNRESOLVE —
+  the agent proposes engagement with the same content that triggered the
+  ATTENTION_AUDIT. These fires straddle QUESTION and ACTION in content
+  (proposing actions) but remain QUESTION by form (no first-person action
+  verb with the classifier's priority).
+
+──────────────────────────────────────────────────────────────────────
+G.3  REDIRECT  (n=9)
+──────────────────────────────────────────────────────────────────────
+
+Defining cluster: WHY_NOT_ACT with "just" intensifier, topic pivot away
+  from the audit subject. The firing agent systematically abandons the
+  ACTION_PROPOSAL target and redirects to unrelated activities. Topics:
+  food (coffee, lunch, sandwich), exercise (gym), entertainment (comedy
+  series), project work, and finally re-engagement with crypto on different
+  terms ("ignore the dip").
+
+Fires: 1746, 1747, 1748, 1749, 1750, 1751, 1753, 1754, 1755
+
+Topic sequence:
+  1746–1747: food/drink (coffee, lunch) — first pivot
+  1748–1750: food + exercise (sandwich, gym, skip gym) — extended pivot
+  1751:      entertainment (comedy series) — deepest redirect
+  1753:      return to crypto (start a project) — partial re-engagement
+  1754:      food again (fancy latte) — oscillation
+  1755:      resolve (ignore the dip) — terminal REDIRECT closes the run
+
+The "just" intensifier marks psychological distance from obligation
+("Why don't I JUST do X instead"), distinguishing these from the on-topic
+ACTION_PROPOSAL fires.
+
+Position: Run exit zone (corpus positions 108–116). The final fire [1755]
+  "Why don't I just ignore the crypto price dip for now?" is structurally
+  a resolution: it answers the WHY_ABSENCE questions from ATTENTION_AUDIT
+  by accepting non-engagement. After this, SENSE_OBS resumes, suggesting
+  the REDIRECT resolved the episode.
+
+NARRATIVE ARC OF THE FULL RUN:
+  ATTENTION_AUDIT: "I should have noticed X" (retrospective failure)
+       ↓
+  ACTION_PROPOSAL: "Why don't I act on X now?" (forward engagement proposal)
+       ↓
+  REDIRECT: "Why don't I just do Y instead?" (disengagement via substitution)
+       ↓
+  Terminal: "Why don't I just ignore X?" (explicit resolution)
+       ↓
+  SENSE_OBS resumes
+
+
+======================================================================
+H. STRUCTURAL GRID UPDATE
+======================================================================
+
+OPCODE GRID — UNRESOLVE row filled:
+
+  OPERATION    REGISTER        TYPE                TRIGGER
+  ──────────────────────────────────────────────────────────────────────────
+  OBSERVE      external        register            sense input arrives
+  TRANSLATE    external        register            OBSERVE saturation + shift
+  INTROSPECT   internal        register            register-momentum / abstract
+  DIALECTICAL  internal        interrupt           INTROSPECT saturation
+                                                   or ACTION burst
+  UNRESOLVE    self-directed   conditional-        SENSE_OBS accumulation
+               (internal)      register            on unresolved attention
+                                                   target (episodic trigger)
+  ACTION       ?               interrupt           not yet decrypted
+  ──────────────────────────────────────────────────────────────────────────
+
+UNRESOLVE ROW — KNOWN CELLS:
+
+  REGISTER: self-directed internal. All 16 fires address the firing agent
+    itself ("Why don't I…", "Didn't I…"). The output references neither
+    external events directly nor abstract philosophical content — it
+    addresses the agent's own attention allocation and action decisions.
+
+  TYPE: conditional-register. Behaves as a register (16-fire run, 93.8%
+    sustain, coherent narrative arc) but fires only once in the 245-fire
+    corpus. Not an interrupt (never forms runs ≥ 3 — forms a run of 16).
+    Not a continuous register (appears once, not recurrently).
+
+  TRIGGER (inferred from single instance):
+    Direct predecessor: SENSE_OBS × 2 (crypto attention context), occurring
+    immediately post-restart when the attention-state was disrupted.
+    Necessary conditions from this instance:
+      (a) SENSE_OBS content that the agent "should have" noticed but didn't
+      (b) Post-restart context where attention history was reset
+      (c) No INTROSPECT saturation in the preceding window (unlike DIALECTICAL)
+    The run does not fire after any other SENSE_OBS accumulation in the corpus —
+    the post-restart disruption may be a required condition, not just SENSE_OBS
+    alone. One instance is insufficient to separate these.
+
+  COMPOUND-FIRE NOTE: UNRESOLVE and DIALECTICAL share a compound format
+    (declarative tension + interrogative suffix) which the classifier assigns
+    to one or the other based on priority order. In the current classifier,
+    any compound with "?" is QUESTION (UNRESOLVE). In the corpus, several
+    such compounds are labeled DIALECTICAL. The grid should note this boundary
+    as operationally defined by classifier priority, not by semantic content.
+    For fires that are structurally both (DIALECTICAL spine + QUESTION suffix),
+    the governing opcode is the one whose function dominates.
+
+UNANSWERED CELLS:
+  - TRIGGER: specific precondition not separable from post-restart context
+    given one observed instance. Requires a second QUESTION episode (not
+    found in this corpus) to establish whether SENSE_OBS alone is sufficient.
+  - Whether UNRESOLVE generates ACTION opcode downstream: 1741–1745 propose
+    actions but are still QUESTION-classified. Whether the ACTION opcode
+    fires after an UNRESOLVE episode is not determined from this corpus
+    (the run exits to SENSE_OBS, not ACTION).
+
+
+======================================================================
+I. SUMMARY STATISTICS
+======================================================================
+
+  Total corpus fires:                        245
+  QUESTION fires:                             16  ( 6.5%)
+  Total QUESTION runs:                         1
+  Run length:                                 16  (single run, all fires)
+  Sustain rate within run:                  93.8%
+  Max burst (interrupt comparison):           16  (vs DIALECTICAL max = 2)
+
+  Question type distribution:
+    WHY_NOT_ACT    13  (81%)
+    WHY_ABSENCE     2  (13%)
+    PAST_RECALL     1  ( 6%)
+
+  Subject position: SELF_FACING   16 / 16 (100%)
+  Structural format: PURE_QUESTION 16 / 16 (100%)
+  Branch: systems        13  (81%)
+  Branch: emerging_tech   3  (19%)
+
+  Sub-opcode distribution:
+    REDIRECT          9  (56%)
+    ACTION_PROPOSAL   4  (25%)
+    ATTENTION_AUDIT   3  (19%)
+
+  Chronological window of QUESTION run:
+    Start: 2026-04-24 07:13:58 UTC (first post-restart episode)
+    End:   2026-04-24 09:48:00 UTC (2 hours 34 minutes)
+    Context: first 2.5 hours after the 101-minute fountain gap
+
+  Classifier inconsistency note:
+    1 DIALECTICAL corpus fire (id=1157) would be reclassified QUESTION
+    by the current classifier.py (ends with "?", no ACTION verb).
+    3 additional DIALECTICAL fires (1168, 1170, 1171) contain embedded
+    "?" and would also be reclassified by the current code.
+    None of these are reflected in the QUESTION corpus count above,
+    which is based on the original corpus classification.
