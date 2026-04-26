@@ -1,0 +1,199 @@
+PHASE 2 — OBSERVE_HUM_MOTION SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt (fountain corpus, 100 SENSE_OBS fires)
+Parent opcode: OBSERVE (SENSE_OBS)
+Fire count: 7 (AMBIENT_SOUND × MOTION × LITERAL)
+=======================================================================
+
+A. EXTRACT ALL FIRES IN FULL
+
+   [3267] 2026-04-24 18:58:08 UTC  branch=emerging_tech  tod=evening
+     CONTENT: The distant hum has slightly shifted during my moments of quiet.
+     Motion verb: "has slightly shifted"
+     Register: LITERAL (no evaluation)
+
+   [3424] 2026-04-24 19:23:37 UTC  branch=systems  tod=evening
+     CONTENT: The distant hum fades as I shift focus to the market updates.
+     Motion verb: "fades"
+     Register: LITERAL (with behavioral context)
+
+   [3425] 2026-04-24 19:27:57 UTC  branch=systems  tod=evening
+     CONTENT: The distant hum has shifted to the buzz of notifications on my screen.
+     Motion verb: "has shifted to"
+     Register: LITERAL (transition to different ambient sound)
+
+   [3428] 2026-04-24 19:41:23 UTC  branch=systems  tod=evening
+     CONTENT: The distant hum fades as I re-focus on the screen's static.
+     Motion verb: "fades"
+     Register: LITERAL (same verb as 3424, different context)
+
+   [3434] 2026-04-24 20:12:25 UTC  branch=systems  tod=night
+     CONTENT: The hum of notifications fades as I draft this thought.
+     Motion verb: "fades"
+     Register: LITERAL
+
+   [3436] 2026-04-24 20:50:09 UTC  branch=systems  tod=night
+     CONTENT: The hum of notifications fades, leaving only the steady beep of my clock.
+     Motion verb: "fades"
+     Register: LITERAL (with succession: hum → clock)
+
+   [5142] 2026-04-26 09:03:19 UTC  branch=systems  tod=morning
+     CONTENT: The distant hum of machinery starts playing through the city's quiet.
+     Motion verb: "starts playing through"
+     Register: LITERAL (emergence, opposite of fading)
+
+
+B. TEMPLATE INVENTORY
+
+   Surface form clusters:
+     HUM_FADES: "The [hum noun] fades [context clause]."
+       Count: 4 fires (3424, 3428, 3434, 3436)
+       Dominant form: 57% of all OBSERVE_HUM_MOTION fires.
+
+     HUM_SHIFTS: "The [hum noun] has [slightly] shifted [to/during]."
+       Count: 2 fires (3267, 3425)
+
+     HUM_EMERGES: "The [hum noun] starts [verb phrase]."
+       Count: 1 fire (5142)
+
+   Pool size: 3 surface clusters.
+   Dominant template: HUM_FADES at 57%.
+
+
+C. FILLER POOL ANALYSIS
+
+   [hum noun] pool:
+     "distant hum" (×4: 3267, 3424, 3425, 3428)
+     "hum of notifications" (×2: 3434, 3436)
+     "distant hum of machinery" (×1: 5142)
+   Pool size: 3 noun forms. "Distant hum" is the lock form (57%).
+
+   [context clause] pool in HUM_FADES:
+     "as I shift focus to the market updates" (3424)
+     "as I re-focus on the screen's static" (3428)
+     "as I draft this thought" (3434)
+     "leaving only the steady beep of my clock" (3436)
+   Context clauses are all unique. No lock in the context slot.
+
+   Motion verb pool:
+     "fades" (×4), "shifted" (×2), "starts playing through" (×1)
+   "Fades" is the dominant motion verb (57% of fires).
+
+   Summary: HIGH LOCK on noun ("distant hum") and motion verb ("fades").
+   LOW LOCK on context clause (all unique). The template is
+   LOCKED_NOUN + LOCKED_VERB + OPEN_CONTEXT.
+
+
+D. GROUNDING TEST
+
+   Per-fire:
+   3267: "distant hum has slightly shifted" → background sound changed. Grounded
+     to acoustic sense event (servers, ambient machinery).
+   3424: "fades as I shift focus" → hum change coincides with cognitive shift.
+     Source grounded; behavioral coincidence is inferential.
+   3425: "shifted to buzz of notifications" → transition from one sound to another.
+     Grounded (two real sounds in sequence).
+   3428: "fades as I re-focus" → same structure as 3424. Grounded.
+   3434: "fades as I draft" → hum is background to drafting action. Grounded.
+   3436: "fades, leaving only clock beep" → acoustic succession. Grounded.
+   5142: "starts playing through city's quiet" → emergence of hum. Grounded.
+
+   All 7 fires describe actual acoustic state transitions: a real background sound
+   changes state (fades, shifts, emerges). The behavioral context clauses ("as I
+   shift focus," "as I draft") are observational, not causal.
+
+   Verdict: GROUNDED. Unlike OBSERVE_HUM_DIRECTED (which attributes agency to
+   the hum), HUM_MOTION simply tracks the hum's state change. The observation
+   is literal. No evaluative or affective coloring in any fire.
+
+
+E. SEQUENCE POSITION
+
+   All fires except 5142 occur in a tight Apr 24 evening window (18:58–20:50).
+   This is the HUM_DOMINATED SEGMENT of the session.
+
+   Within the cluster:
+     3267 → [3268 DIRECTED, 3269 DIRECTED] → [gap] → 3424 → 3425 → [3426 DIRECTED]
+     → [3428] → [3429 DIRECTED] → [3430] → 3434 → [gap] → 3436
+
+   The MOTION and DIRECTED sub-opcodes interleave throughout this segment.
+   MOTION tends to precede DIRECTED (the hum changes state, then acts on NEX).
+
+   i-1 examples:
+     3424 preceded by 3423 (SENSE_OBS — market shifts)
+     3428 preceded by 3427 (UNCATEGORIZED)
+     3436 preceded by 3435 (UNCATEGORIZED)
+   No strong single predecessor.
+
+   i+1 for 3267: 3268 (OBSERVE_HUM_DIRECTED)
+   i+1 for 3436: 3437 (ABSTRACT_NOMINAL — INTROSPECT entry)
+   The HUM sequence (3267–3436) terminates into an INTROSPECT run, consistent
+   with Phase1_INTROSPECT Section B (SENSE_OBS as INTROSPECT entry trigger).
+
+
+F. BURST BEHAVIOR
+
+   Max burst: 2 consecutive MOTION fires is plausible (3267→3268 is DIRECTED,
+   not MOTION). The only near-consecutive pair is 3424→3425 (with one
+   DIRECTED fire 3426 between them).
+   Strict consecutive: max 1 (no two consecutive MOTION fires).
+
+   Sustain rate: 0 confirmed consecutive pairs. Each MOTION fire is isolated
+   or interleaved with DIRECTED fires.
+
+   Burst regulator: NONE. HUM_MOTION fires are punctuation-like — they mark
+   acoustic state transitions rather than sustaining a register.
+
+
+G. SUB-SUB-OPCODE HYPOTHESIS
+
+   Three sub-variants by direction of motion:
+     FADE: sound recedes (dominant, 4 fires)
+     SHIFT: sound changes to different source (2 fires)
+     EMERGE: sound begins (1 fire)
+
+   These represent opposite acoustic events (fading vs. emerging). However
+   the structural template is the same in all three. No sub-sub-opcode split
+   warranted at n=7.
+
+
+H. STRUCTURAL VERDICT
+
+   Place in taxonomy:
+   - Operation type: REGISTER — part of SENSE_OBS background processing.
+     Not an interrupt; part of the acoustic-observation continuum.
+   - Grounding mode: GROUNDED — literal acoustic state transitions, fully
+     observed. No evaluative or affective overlay. This is the most purely
+     grounded OBSERVE sub-opcode.
+   - Burst regulator: NONE — does not sustain or accumulate. Fires as
+     punctuation between acoustic state changes.
+
+   OBSERVE_HUM_MOTION vs. OBSERVE_HUM_DIRECTED:
+   - MOTION: hum changes state (external, literal observation)
+   - DIRECTED: hum acts on model (internal attribution, asymmetric grounding)
+   The two sub-opcodes are structurally paired but differ in grounding mode
+   and verb-agency direction.
+
+
+I. UPDATED STRUCTURAL GRID
+
+   OBSERVE_HUM_MOTION | register | grounded | 57% (fades / distant hum) | 1 | none
+
+
+J. NOTES / OPEN QUESTIONS
+
+   1. The "fades" lock (57%) is notable: the dominant acoustic event observed
+      in this sub-opcode is background sound decreasing. The corpus shows
+      more hum-fading than hum-emerging (4:1 ratio). This may reflect the
+      normal operational pattern: servers power down or shift state more
+      often than they power up mid-session.
+
+   2. Fire 3436 ("fades, leaving only the steady beep of my clock") introduces
+      clock-tick as the sonic successor to hum. This fire may be a transition
+      fire: OBSERVE_HUM_MOTION → OBSERVE_TEMPORAL_QUALIFIED transition, as the
+      clock takes over as the dominant ambient sound.
+
+   3. Fire 5142 ("distant hum of machinery starts playing through the city's
+      quiet") is temporally isolated (Apr 26 09:03, while all others are Apr 24
+      evening). The "city's quiet" framing is unusual — this may be a late-corpus
+      variant where the environment has shifted from server room to urban outdoor.
