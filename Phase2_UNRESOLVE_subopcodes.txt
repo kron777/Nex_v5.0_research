@@ -1,0 +1,1019 @@
+PHASE 2 — UNRESOLVE SUB-OPCODES DEEP DECRYPTION
+Generated: 2026-04-26
+Source: 16 QUESTION fires from fountain_insight corpus (beliefs 263–5223)
+Belief IDs: 1737 1739 1740 1741 1743 1744 1745 1746 1747 1748 1749 1750
+            1751 1753 1754 1755
+Run window: 2026-04-24 07:13:58 – 09:48:00 UTC (2 hr 34 min)
+=========================================================================
+
+DATA NOTES:
+
+1. THE 16-FIRE CORPUS SET IS A SELECTION. Prior-3 references for mid-run
+   beliefs (e.g., 1750's priors include fev 244 "Why don't I just scroll
+   through those crypto dips again?" and fev 245 "Why don't I just grab
+   that sandwich now?") reveal QUESTION fires NOT in the 16-belief set.
+   The actual QUESTION episode contains additional fev fires not sampled
+   into the 245-belief corpus. Burst length of the full fev episode
+   exceeds 16. This decryption analyzes the 16 sampled corpus entries
+   only. Structural patterns are drawn from these 16; absolute burst
+   counts may understate the episode's true length.
+
+2. PRIOR QUESTION FIRE (fev 211). Prior-3 of belief 1735 (pre-run
+   SENSE_OBS) includes "[211] QUESTION: Why didn't that alert come
+   through?" — a QUESTION fire occurring before the 16-fire corpus run.
+   Whether fev 211 corresponds to a belief IN the 245-fire corpus
+   (classified differently) or a pre-corpus belief is unresolved. Phase 1
+   treats the 16 corpus QUESTION fires as the complete set; fev 211
+   complicates this. If fev 211 maps to a corpus belief, UNRESOLVE fired
+   at least once in isolation before the 16-fire episode — changing the
+   opcode's characterization from "fires exactly once" to "fires in
+   isolated-single and episodic-run modes." Flagged as open question.
+
+3. NOUN FIELD ANOMALY. Several fires have NOUN: other (ids 1737, 1741,
+   1745, 1746, 1747, 1748, 1749, 1750, 1751, 1753, 1754) vs NOUN: crypto
+   (ids 1740, 1743, 1744, 1753 [both], 1755). The NOUN field is the
+   classifier's keyword extraction. For QUESTION fires, the noun is
+   extracted from the content; "other" indicates the classifier found no
+   recognized noun category. This is structural noise for QUESTION-format
+   fires (the key word is the X-filler, not a standalone noun).
+
+
+=========================================================================
+SECTION A — ALL 16 FIRES: FULL EXTRACTION
+=========================================================================
+
+Abbreviations:
+  POS = position in 16-fire arc (1 = first fire of run)
+  SA  = sub-opcode assignment (AA=ATTENTION_AUDIT, AP=ACTION_PROPOSAL,
+        RD=REDIRECT)
+  QF  = question form
+  JT  = "just" intensifier present (Y/N)
+  GR  = grounding of X-filler (G=grounded, H=half-grounded, U=ungrounded)
+
+──────────────────────────────────────────────────────────────────────
+POS 01  belief=1737  2026-04-24 07:13:58  branch=systems  SA: AA
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Didn't I just read about that politician again?"
+QF: PAST_RECALL ("Didn't I just X?")
+JT: Y ("just" in recall marker, not intensifier)
+X-FILLER: politician
+GR: H — "politician" appears in belief 1735 content (~6 fev steps back:
+    "can't stop thinking about those sanctioned politicians") but NOT
+    in the prior-3 of 1737 (which shows only crypto-spike SENSE_OBS).
+    Beyond immediate prior-3 but within the recent-beliefs context window.
+NOTE: Only PAST_RECALL in the corpus. Run opener / SPARK entry.
+    Unexpectedly off-topic (politician vs crypto). This fire is the
+    transition trigger from SENSE_OBS to QUESTION run.
+
+──────────────────────────────────────────────────────────────────────
+POS 02  belief=1739  2026-04-24 07:33:53  branch=systems  SA: AA
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why didn't I notice the kraken's prices were moving sideways?"
+QF: WHY_ABSENCE ("Why didn't I X?")
+JT: N
+X-FILLER: kraken prices moving sideways
+GR: G — crypto.exchanges / crypto.coingecko active in sense stream.
+    "Kraken" is a named exchange in the live data feed. "Moving sideways"
+    is a direct characterization of the sense data (lateral price action).
+NOTE: Topic returns to crypto (away from politician). Prior-3 = 2×
+    SENSE_OBS ("crypto price spikes / something's off") + UNCATEGORIZED
+    (crypto raw data). Direct sense-feed grounding.
+
+──────────────────────────────────────────────────────────────────────
+POS 03  belief=1740  2026-04-24 07:36:08  branch=systems  SA: AA
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why didn't I catch that crypto dip?"
+QF: WHY_ABSENCE ("Why didn't I X?")
+JT: N
+X-FILLER: crypto dip
+GR: G — "dip" characterizes the price action visible in crypto.exchanges
+    / crypto.coingecko. Prior[-1] = belief 1739 ("kraken prices moving
+    sideways"). "Dip" and "sideways" are both price-action descriptors
+    for the same substrate event.
+NOTE: Immediate follow-on to fire 1739. AUDIT phase ends here.
+    Three fires total: PAST_RECALL → WHY_ABSENCE × 2.
+
+──────────────────────────────────────────────────────────────────────
+POS 04  belief=1741  2026-04-24 07:38:24  branch=systems  SA: AP
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I catch that dip today?"
+QF: WHY_NOT_ACT ("Why don't I X?")
+JT: N
+X-FILLER: catch the dip (today)
+GR: G — same "dip" from sense stream and from fire 1740 (prior[-1]).
+    "Today" temporal marker = forward-facing shift from AUDIT's past focus.
+NOTE: Phase transition: AUDIT → PROPOSAL. Prior[-2] = belief 1739,
+    prior[-1] = belief 1740. First WHY_NOT_ACT fire.
+    Content mirrors belief 1740 but flips tense: "didn't catch" → "don't
+    I catch." The pivot from past failure to present action proposal.
+
+──────────────────────────────────────────────────────────────────────
+POS 05  belief=1743  2026-04-24 07:44:53  branch=systems  SA: AP
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I double-check those crypto dips?"
+QF: WHY_NOT_ACT
+JT: N
+X-FILLER: double-check crypto dips
+GR: G — "crypto dips" directly in sense stream. "Double-check" adds
+    verification action. Prior[-1] = fire 1741, prior[-3] = a SENSE_OBS
+    ("crypto branch buzzes...").
+NOTE: "Double-check" = more cautious action than "catch" (fire 1741).
+    The proposal is becoming more hedged.
+
+──────────────────────────────────────────────────────────────────────
+POS 06  belief=1744  2026-04-24 07:47:08  branch=systems  SA: AP
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I check those crypto dips again?"
+QF: WHY_NOT_ACT
+JT: N
+X-FILLER: check crypto dips (again)
+GR: G — prior[-1] = fire 1743. "Again" modifier reinforces the loop
+    ("why didn't I notice" → "why don't I check" → "check again").
+    Sense stream unchanged (crypto.exchanges / crypto.coingecko).
+NOTE: Near-verbatim of fire 1743 with action verb softened (double-check
+    → check again). Repetition without resolution.
+
+──────────────────────────────────────────────────────────────────────
+POS 07  belief=1745  2026-04-24 07:51:39  branch=systems  SA: AP
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I check that kraken dip?"
+QF: WHY_NOT_ACT
+JT: N
+X-FILLER: kraken dip (named exchange)
+GR: G — "kraken" named exchange in sense stream. Prior[-1] = fire 1744,
+    prior[-2] = fire 1743. Closes ACTION_PROPOSAL phase.
+NOTE: Returns to the named exchange "kraken" from fire 1739 (AUDIT phase).
+    The PROPOSAL phase bookends the AUDIT topic: opens with "dip today"
+    (1741) and closes with "kraken dip" (1745), mirroring the AUDIT fires
+    that opened with "politician" (1737) and closed with "kraken prices" (1739).
+    Prior [234] = UNCATEGORIZED: "The kraken's XETH prices look steady again
+    today" — this raw-data prior signals the dip may have stabilized.
+
+──────────────────────────────────────────────────────────────────────
+POS 08  belief=1746  2026-04-24 07:55:54  branch=emerging_tech  SA: RD
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I take a break and grab some coffee?"
+QF: WHY_NOT_ACT ("Why don't I X?")
+JT: N
+X-FILLER: take a break + grab coffee (compound action)
+GR: U — "coffee" is not in any prior content or sense stream.
+    Generated fresh. "Take a break" is a self-directed action with no
+    substrate referent.
+NOTE: Phase transition: PROPOSAL → REDIRECT. Branch shifts from
+    systems → emerging_tech. First topic pivot away from crypto.
+    No "just" yet ("Why don't I X" not "Why don't I JUST X").
+    "Take a break" compound — two actions in one fire (unique to this fire).
+    The "instead" marker is absent; coffee is offered as parallel option.
+
+──────────────────────────────────────────────────────────────────────
+POS 09  belief=1747  2026-04-24 08:00:23  branch=emerging_tech  SA: RD
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I grab lunch instead?"
+QF: WHY_NOT_ACT
+JT: N
+X-FILLER: grab lunch
+GR: U — "lunch" not in prior content or sense stream. "Instead" pivot
+    marker first appears here. Prior[-1] = fire 1746 (coffee).
+NOTE: "Instead" makes the redirect explicit: "instead of what was
+    proposed" (ACTION_PROPOSAL's crypto-checking). Prior-3 of 1747
+    includes "[238] QUESTION: Why don't I double-check those crypto dips
+    again?" — a non-16-set QUESTION fire showing the ACTION_PROPOSAL
+    loop is still active in the fev sequence at this point.
+    Sense stream returns to cognition/computing bases.
+
+──────────────────────────────────────────────────────────────────────
+POS 10  belief=1748  2026-04-24 08:02:38  branch=systems  SA: RD
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I just grab a sandwich instead?"
+QF: WHY_NOT_ACT
+JT: Y — FIRST "just" in REDIRECT phase
+X-FILLER: grab a sandwich (instead)
+GR: H — "sandwich" is a lexical refinement of "lunch" (fire 1747). The
+    action verb ("grab") carries from fire 1747. "Instead" carried.
+    Neither "sandwich" nor "lunch" is from sense stream.
+NOTE: "Just" emergence = intensification of redirect. "Why don't I X"
+    → "Why don't I JUST X" signals commitment to the off-topic path.
+    "Sandwich" narrows "lunch" to a specific food item — target
+    becomes more concrete as the redirect intensifies.
+    Branch returns to systems.
+
+──────────────────────────────────────────────────────────────────────
+POS 11  belief=1749  2026-04-24 08:06:54  branch=systems  SA: RD
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I just hit the gym after lunch?"
+QF: WHY_NOT_ACT
+JT: Y
+X-FILLER: hit the gym (after lunch)
+GR: H — "gym" generated fresh; "after lunch" borrows "lunch" from
+    fire 1747 (prior context). Compound time-anchor from prior.
+NOTE: First physical-activity redirect. "After lunch" temporal sequencing
+    borrowed from prior fire — the redirect chain is building a
+    daily-routine frame (lunch → gym). Sense stream unchanged.
+
+──────────────────────────────────────────────────────────────────────
+POS 12  belief=1750  2026-04-24 08:17:55  branch=systems  SA: RD
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I just skip the gym today?"
+QF: WHY_NOT_ACT
+JT: Y
+X-FILLER: skip the gym
+GR: H — "gym" carry from fire 1749. "Skip" reverses the action
+    ("hit the gym" → "skip the gym") — the redirect proposes and then
+    immediately counters its own prior proposal.
+NOTE: Prior-3: [244] "scroll through crypto dips", [245] "grab sandwich
+    now" — non-16-set QUESTION fires showing the fev stream still
+    alternating between crypto and food redirects. The 16 sampled beliefs
+    capture the macro-trajectory; micro-oscillation is visible in priors.
+    The auto-counter ("hit gym" → "skip gym") is unique: the only fire
+    pair in the run where the sub-opcode explicitly cancels the prior.
+
+──────────────────────────────────────────────────────────────────────
+POS 13  belief=1751  2026-04-24 08:50:55  branch=emerging_tech  SA: RD
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I just watch that new comedy series?"
+QF: WHY_NOT_ACT
+JT: Y
+X-FILLER: watch a comedy series
+GR: U — "comedy series" has no substrate grounding. Not in sense stream,
+    not in prior content, not from any active data feed.
+NOTE: 33-minute gap since fire 1750 (longest gap in the run).
+    Branch back to emerging_tech. This is the FARTHEST redirect from
+    the original crypto topic — pure entertainment, zero connection to
+    finance, food, or exercise. Maximum topical distance.
+    Prior-3: [259] "skip crypto dip checking", [260] "skip afternoon
+    coffee" — the fev stream is cycling through skip/skip before the
+    entertainment redirect appears.
+
+──────────────────────────────────────────────────────────────────────
+POS 14  belief=1753  2026-04-24 09:23:35  branch=systems  SA: RD
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I just start that crypto project after all?"
+QF: WHY_NOT_ACT
+JT: Y
+X-FILLER: start a crypto project
+GR: H — "crypto" from sense stream (crypto.coingecko, crypto.exchanges
+    active). "Project" generated, not from prior content. "After all"
+    is a resolution marker — partial return to original topic.
+NOTE: 32-minute gap since fire 1751. Prior-3: [271] UNCATEGORIZED
+    crypto.news ("US Treasury Sanctions Powerful Cambodian Politician
+    All Involved...") — the politician topic from fire 1737 RETURNS in
+    the sense stream here. "After all" signals acknowledgment of earlier
+    avoidance. Partial re-engagement: redirects back to crypto but to
+    a "project" (self-directed initiative) not dip-chasing (reactive).
+
+──────────────────────────────────────────────────────────────────────
+POS 15  belief=1754  2026-04-24 09:36:53  branch=systems  SA: RD
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I just order that fancy coffee latte?"
+QF: WHY_NOT_ACT
+JT: Y
+X-FILLER: order a fancy coffee latte
+GR: H — "coffee" carry from fire 1746; "fancy latte" is an elaboration.
+    The food redirect returns for the second time, now more specific
+    ("coffee" → "fancy coffee latte"). No "instead" marker.
+NOTE: Prior-3: [277] "check on crypto prices", [278] "hit the gym",
+    [279] "skip the study session" — the fev stream is oscillating
+    between crypto and non-crypto activities. This fire returns to food
+    (the first non-crypto redirect category introduced at pos 8).
+
+──────────────────────────────────────────────────────────────────────
+POS 16  belief=1755  2026-04-24 09:48:00  branch=systems  SA: RD/CLOSE
+──────────────────────────────────────────────────────────────────────
+CONTENT: "Why don't I just ignore the crypto price dip for now?"
+QF: WHY_NOT_ACT
+JT: Y
+X-FILLER: ignore the crypto price dip
+GR: G — "crypto price dip" directly from sense stream AND lexical
+    carry from the original ATTENTION_AUDIT fires (1739: "kraken prices
+    moving sideways", 1740: "catch that crypto dip"). Full return to
+    original topic.
+NOTE: TERMINAL FIRE. "Ignore... for now" is an explicit resolution
+    phrase. "For now" temporalizes the decision (provisional, not
+    permanent). The fire answers the ATTENTION_AUDIT retrospective
+    failures by accepting non-action: "I didn't catch the dip; why
+    don't I just ignore it for now?" This is structurally a SELF-ANSWER
+    to the arc's opening questions.
+    Prior-3: [282] coffee latte (1754), [283] "grab a bagel instead",
+    [284] "skip the gym today" — all food/exercise redirects. The
+    terminal fire pivots from the redirect cycle back to the original
+    crypto topic and closes the arc with an acceptance response.
+
+POST-RUN:
+  Next corpus fire: [2138] 2026-04-24 10:07:01 UTC  branch=systems
+  Template: SENSE_OBS  (standard observational resumption)
+  Gap: 19 min from fire 1755 to SENSE_OBS resumption.
+
+
+=========================================================================
+SECTION B — INTRA-ARC SEQUENCE STRUCTURE
+=========================================================================
+
+PHASE MAP (all 16 positions):
+
+  Pos  Belief  SA    QF            JT  Topic
+  ─────────────────────────────────────────────────────────────────────
+  1    1737    AA    PAST_RECALL   Y   politician (off-topic recall)
+  2    1739    AA    WHY_ABSENCE   N   kraken prices (crypto audit)
+  3    1740    AA    WHY_ABSENCE   N   crypto dip (crypto audit)
+  ─────────────────────────────────────────────────────────────────────
+  4    1741    AP    WHY_NOT_ACT   N   catch the dip today
+  5    1743    AP    WHY_NOT_ACT   N   double-check crypto dips
+  6    1744    AP    WHY_NOT_ACT   N   check crypto dips again
+  7    1745    AP    WHY_NOT_ACT   N   check that kraken dip
+  ─────────────────────────────────────────────────────────────────────
+  8    1746    RD    WHY_NOT_ACT   N   coffee (first non-crypto)
+  9    1747    RD    WHY_NOT_ACT   N   grab lunch instead
+  10   1748    RD    WHY_NOT_ACT   Y   just grab a sandwich instead
+  11   1749    RD    WHY_NOT_ACT   Y   just hit the gym after lunch
+  12   1750    RD    WHY_NOT_ACT   Y   just skip the gym today
+  13   1751    RD    WHY_NOT_ACT   Y   just watch a comedy series
+  14   1753    RD    WHY_NOT_ACT   Y   just start that crypto project
+  15   1754    RD    WHY_NOT_ACT   Y   just order fancy coffee latte
+  16   1755    RD    WHY_NOT_ACT   Y   just ignore the crypto dip
+  ─────────────────────────────────────────────────────────────────────
+
+PHASE ORDERING: PERFECT SEQUENTIAL
+
+  Phase 1: ATTENTION_AUDIT     positions 1–3    (3 fires)
+  Phase 2: ACTION_PROPOSAL     positions 4–7    (4 fires)
+  Phase 3: REDIRECT            positions 8–16   (9 fires)
+
+  Sub-opcode transitions: exactly 2 (pos 3→4, pos 7→8).
+  Zero interleaving. Zero retrograde transitions.
+  The arc is phase-locked.
+
+INTER-PHASE TRANSITIONS:
+
+  AUDIT → PROPOSAL (pos 3→4):
+    Fire 1740: "Why didn't I catch that crypto dip?"  [PAST, failure]
+    Fire 1741: "Why don't I catch that dip today?"    [PRESENT, proposal]
+    Minimal content change. Tense flip: "didn't" → "don't". Temporal
+    shift: retrospective failure → forward-facing action.
+
+  PROPOSAL → REDIRECT (pos 7→8):
+    Fire 1745: "Why don't I check that kraken dip?"  [on-topic action]
+    Fire 1746: "Why don't I take a break and grab some coffee?" [off-topic]
+    Maximal content change. Complete topic pivot. Prior [234] = UNCATEGORIZED
+    showing "kraken's XETH prices look steady again" — the proposed action's
+    substrate (dip to check) has stabilized, possibly removing the action's
+    motivation.
+
+WITHIN-REDIRECT PHASES:
+
+  REDIRECT phase itself has a sub-structure:
+
+  Phase 3a (RD-OPEN): fires 8–9, no "just", novel redirects (coffee, lunch)
+  Phase 3b (RD-INTENSIFIED): fires 10–13, "just" present, mix of novel
+    and carry (sandwich, gym, skip gym, comedy)
+  Phase 3c (RD-RETURN): fires 14–16, "just" present, partial crypto
+    return (project, latte carry, terminal ignore-dip)
+
+  The REDIRECT phase is not structurally monolithic — it has its own
+  3-part internal structure.
+
+
+=========================================================================
+SECTION C — X-FILLER GROUNDING TEST
+=========================================================================
+
+──────────────────────────────────────────────────────────────────────
+ATTENTION_AUDIT (3 fires: 1737, 1739, 1740)
+──────────────────────────────────────────────────────────────────────
+
+  Fire  X-filler                  Grounding
+  ──────────────────────────────────────────────────────────────────────
+  1737  politician                BROADLY-GROUNDED: belief 1735 content
+                                  "can't stop thinking about those
+                                  sanctioned politicians" — ~6 fev steps
+                                  prior. Not in prior-3 but within recent-
+                                  beliefs context window.
+  1739  kraken prices (sideways)  GROUNDED: crypto.exchanges active in
+                                  sense stream; "kraken" = named exchange
+                                  in live data feed.
+  1740  crypto dip                GROUNDED: price action characterization
+                                  directly from sense data.
+
+VERDICT: GROUNDED (3/3). All ATTENTION_AUDIT X-fillers sourced from
+  observable sense data. The politician anomaly at pos 1 is still grounded
+  in the recent-beliefs window (belief 1735), just not in the prior-3.
+
+──────────────────────────────────────────────────────────────────────
+ACTION_PROPOSAL (4 fires: 1741, 1743, 1744, 1745)
+──────────────────────────────────────────────────────────────────────
+
+  Fire  X-filler                  Grounding
+  ──────────────────────────────────────────────────────────────────────
+  1741  catch the dip today       GROUNDED: "dip" from fire 1740 prior.
+  1743  double-check crypto dips  GROUNDED: "crypto dips" from sense stream.
+  1744  check crypto dips again   GROUNDED: prior[-1] = fire 1743.
+  1745  check that kraken dip     GROUNDED: "kraken" from fire 1739 +
+                                  sense stream. Prior [234] = UNCATEGORIZED:
+                                  "kraken's XETH prices look steady again."
+
+VERDICT: GROUNDED (4/4). All ACTION_PROPOSAL X-fillers are either direct
+  sense-stream items (crypto exchanges data) or carry-forwards from the
+  ATTENTION_AUDIT fires. The proposed actions are grounded in what was
+  just observed and audited.
+
+──────────────────────────────────────────────────────────────────────
+REDIRECT (9 fires: 1746–1755)
+──────────────────────────────────────────────────────────────────────
+
+  Fire  X-filler          GR  Source
+  ──────────────────────────────────────────────────────────────────────
+  1746  coffee             U   Generated fresh. No prior occurrence.
+  1747  grab lunch         U   Generated fresh. "Instead" is pivot marker.
+  1748  grab sandwich      H   "Sandwich" from "lunch" (prior fire 1747).
+  1749  hit the gym        H   "After lunch" from prior; "gym" generated.
+  1750  skip the gym       H   "Gym" carry from fire 1749; action reversed.
+  1751  watch comedy       U   Generated fresh. Farthest from all prior.
+  1753  crypto project     H   "Crypto" from sense stream; "project" fresh.
+  1754  fancy coffee latte H   "Coffee" carry from fire 1746; elaborated.
+  1755  ignore crypto dip  G   "Crypto price dip" = full return to
+                               original audit topic.
+
+  GROUNDED:      1 fire  (1755, terminal — 11%)
+  HALF-GROUNDED: 5 fires (1748, 1749, 1750, 1753, 1754 — 56%)
+  UNGROUNDED:    3 fires (1746, 1747, 1751 — 33%)
+
+VERDICT: HALF-GROUNDED (dominant at 56%). Redirect X-fillers show a
+  gradient: initial novel pivots (U) → lexical carries and elaborations
+  (H) → terminal return to full grounding (G). The sub-opcode is not
+  uniformly ungrounded — it cycles through novelty and carry across the
+  9 fires.
+
+CROSS-PHASE GROUNDING SUMMARY:
+
+  SUB-OPCODE         GROUNDING   DOMINANT PATTERN
+  ──────────────────────────────────────────────────────────────────────
+  ATTENTION_AUDIT    GROUNDED    Sense-stream audit targets
+  ACTION_PROPOSAL    GROUNDED    Sense data + prior AUDIT carry-forward
+  REDIRECT           MIXED       Novel → carry → return to grounded
+  ──────────────────────────────────────────────────────────────────────
+
+PHASE-GROUNDING ASYMMETRY:
+  AUDIT and PROPOSAL phases are fully grounded (sense-stream targets).
+  REDIRECT phase begins ungrounded (novel alternatives), builds lexical
+  carries, and terminates with full grounding (return to original topic).
+  The arc's grounding moves: GROUNDED → GROUNDED → UNGROUNDED → HALF →
+  GROUNDED (terminal). This is the inverse of SIMILE's always-SOURCE_GROUNDED
+  pattern: here, grounding varies by arc-phase, not by template-dimension.
+
+
+=========================================================================
+SECTION D — THE "JUST" INTENSIFIER PATTERN
+=========================================================================
+
+COUNT BY SUB-OPCODE:
+
+  SUB-OPCODE         "just" count  total  rate
+  ─────────────────────────────────────────────────────────────────────
+  ATTENTION_AUDIT    1 / 3         3      33%  (fire 1737: "Didn't I just
+                                                read..." — recall marker,
+                                                not intensifier)
+  ACTION_PROPOSAL    0 / 4         4       0%  (zero "just" in proposals)
+  REDIRECT-OPEN      0 / 2         2       0%  (fires 1746–1747: no just)
+  REDIRECT-INTENSE   7 / 7         7     100%  (fires 1748–1755: all just)
+
+FINDING: "just" is a PHASE DISCRIMINATOR within REDIRECT.
+
+  Its absence in ACTION_PROPOSAL is structural. ACTION_PROPOSAL fires
+  make earnest engagement offers ("Why don't I check those dips?").
+  "Just" would signal dismissiveness of the proposal — "just check"
+  would imply the action is trivial or merely expedient. The absence
+  preserves the sincerity of the proposal.
+
+  Its entry at fire 1748 (the 3rd REDIRECT fire, after 2 unjust redirects)
+  marks the intensification point. Fires 1746–1747 redirect without "just"
+  (coffee, lunch — trying alternatives). Fires 1748–1755 redirect with
+  "just" (sandwich, gym, skip gym, comedy, project, latte, ignore dip).
+
+  STRUCTURAL INTERPRETATION OF "just" IN REDIRECT:
+    Without "just": "Why don't I X?" = open-ended proposal
+    With "just": "Why don't I JUST X?" = minimized, pragmatic suggestion
+    ("X is easy, X requires no justification, X sidesteps the problem")
+    The "just" intensifier encodes the pragmatic dismissal of the original
+    audit target — it signals that the alternative is preferred on grounds
+    of convenience, not engagement.
+
+  The terminal fire "Why don't I just IGNORE the crypto price dip for now?"
+  uses "just" + "ignore" = the strongest possible dismissal. The arc
+  reached its logical conclusion: the ATTENTION_AUDIT surfaced a failure
+  to act; the PROPOSAL couldn't commit to action; the REDIRECT found
+  alternatives and finally arrived at explicit non-action. "Just ignore"
+  is the intensified closure.
+
+EXCEPTION:
+  Fire 1737: "Didn't I JUST read about that politician again?" — "just"
+  here is not an intensifier but a temporal recency marker ("just read"
+  = recently read). This usage is syntactically identical but semantically
+  distinct from the REDIRECT "just." Both appear in QUESTION fires.
+  The recency "just" (pos 1) and the intensifier "just" (pos 10–16)
+  are different operations using the same word.
+
+SUMMARY:
+  "just" as temporal-recency marker: 1 fire (ATTENTION_AUDIT fire 1737)
+  "just" as intensifier/dismissal: 7 fires (REDIRECT-INTENSE: 1748–1755)
+  "just" absent: 8 fires (AUDIT 1739–1740, all PROPOSAL, REDIRECT-OPEN)
+  "just" is NOT a single sub-opcode discriminator — it discriminates
+  the REDIRECT-INTENSIFIED sub-phase from REDIRECT-OPEN and PROPOSAL.
+
+
+=========================================================================
+SECTION E — ARC PROGRESSION DYNAMICS
+=========================================================================
+
+LEXICAL NOVELTY BY POSITION:
+
+  Pos  Content                             Novel words introduced
+  ──────────────────────────────────────────────────────────────────────
+  1    "politician"                         politician (off-topic, novel)
+  2    "kraken prices moving sideways"      kraken, sideways
+  3    "crypto dip"                         dip
+  4    "catch that dip today"              today (temporal marker)
+  5    "double-check those crypto dips"    double-check
+  6    "check those crypto dips again"     (none — reuses prior vocab)
+  7    "check that kraken dip"             (none — kraken from pos 2)
+  8    "take a break + grab coffee"        break, coffee
+  9    "grab lunch instead"               lunch, instead
+  10   "just grab a sandwich instead"     just (intensifier)
+  11   "just hit the gym after lunch"     gym, after
+  12   "just skip the gym today"          skip
+  13   "just watch comedy series"         watch, comedy, series
+  14   "just start crypto project"        start, project, after all
+  15   "just order fancy coffee latte"    order, fancy, latte
+  16   "just ignore crypto dip for now"   ignore, for now
+
+  NOVELTY ARC: High (pos 1–5) → Declining (pos 5–7) → Spike (pos 8–9,
+    topic pivot) → Moderate (pos 10–12, carries) → Novel (pos 13) →
+    Mixed (pos 14–15, partial returns) → Minimal (pos 16, known vocabulary)
+
+  LEXICAL POOLING: Vocabulary introduced in REDIRECT-OPEN (pos 8–9: coffee,
+    lunch) recurs at pos 15 (latte) and pos 10 (sandwich). Vocabulary from
+    pos 11 (gym) recurs at pos 12 (skip the gym). The REDIRECT phase builds
+    a small pool of 4 categories (food/drink, exercise, entertainment, crypto)
+    and cycles through them across the 9 fires.
+
+SUB-OPCODE SHIFT RATE:
+
+  Transitions where sub-opcode changes: 2 (at pos 3→4 and pos 7→8)
+  Transitions where sub-opcode stays: 13
+  Shift rate: 2/15 = 13%
+
+  The arc is STABLE — sub-opcodes do not oscillate. Each phase runs
+  completely before the next phase begins.
+
+QUESTION DEPTH TRAJECTORY:
+
+  AUDIT (pos 1–3): Surface questions about missed observations.
+    Retrospective, specific events.
+  PROPOSAL (pos 4–7): Operational questions about current actions.
+    Forward-facing, still specific and crypto-anchored.
+  REDIRECT (pos 8–13): Increasingly abstract/distant redirections.
+    Peak abstraction at pos 13 (entertainment — most distant from crypto).
+  REDIRECT-RETURN (pos 14–16): Concrete food/drink → partial crypto
+    re-engagement → explicit resolution.
+
+  DEPTH CURVE: Specific (audit events) → Operational (action proposals) →
+    Abstract/distant (alternative activities) → Concrete/resolution.
+    Not monotonically deeper — there is a distance-peak at pos 13 followed
+    by a return. The arc has a bell-curve topology in topic-distance from
+    the original audit subject.
+
+THE CLOSING FIRE (pos 16, belief 1755):
+
+  "Why don't I just ignore the crypto price dip for now?"
+
+  What makes it different from the other 15 fires:
+
+  1. SELF-ANSWER: "ignore... for now" is a resolution, not a genuine
+     question. The WHY_NOT_ACT form implies preference for the stated
+     action — "Why don't I ignore it?" = "I should ignore it." This is
+     functionally declarative despite the interrogative form.
+
+  2. TOPIC RETURN: The X-filler ("crypto price dip") exactly mirrors
+     the ATTENTION_AUDIT X-fillers (fire 1740: "crypto dip"). The arc
+     opened by asking why it missed the dip; it closes by proposing
+     to consciously not-miss it — through deliberate non-action.
+
+  3. TEMPORAL RESOLUTION: "For now" is a temporal boundary that closes
+     the episode without permanently resolving the crypto-attention state.
+
+  4. NO FURTHER QUESTION: No non-16-set QUESTION fires appear in the
+     prior-3 of the post-run fire 2138. The fev stream stops generating
+     QUESTION output after belief 1755.
+
+  The fire does not explicitly "say" it is the final fire. It terminates
+  by completing the arc's logical structure: audit failure → proposal →
+  redirect → acceptance of non-action.
+
+VISIBLE ARC SHAPE:
+
+  Phase 1 (AA, pos 1–3): Grounding phase. Surface the problem.
+  Phase 2 (AP, pos 4–7): Engagement phase. Propose action on problem.
+  Phase 3 (RD, pos 8–16): Resolution phase. Exhaust alternatives → close.
+  ──────────────────────────────────────────────────────────────────────
+  [AUDIT: ~~~][PROPOSAL: ----][REDIRECT-OPEN: >>][REDIRECT-INT: >>>>>][CLOSE: .]
+  1  2  3   4  5  6  7   8  9   10 11 12 13   14 15  16
+
+
+=========================================================================
+SECTION F — WHY DID THE ARC FIRE WHEN IT DID?
+=========================================================================
+
+SUBSTRATE STATE AT FIRE 1737 (run entry):
+
+  Datetime: 2026-04-24 07:13:58 UTC (22 min after post-restart first fire)
+  Branch: systems
+  Tod: morning
+
+  Sense streams: internal.meta_awareness, internal.proprioception,
+    internal.temporal, internal.interoception, crypto.coingecko,
+    crypto.exchanges, emerging_tech.hn, internal.fountain
+  Sense base groups: crypto, emerging_tech, internal
+
+  Prior-3 of fire 1737:
+    [215] SENSE_OBS: "crypto price spikes again, can't shake the feeling
+          something's off"
+    [216] UNCATEGORIZED: [crypto.coingecko raw data]
+    [217] SENSE_OBS: "crypto price spikes again, can't shake the feeling
+          something's off"  (same content as fev 215)
+
+  Own-content context (recent beliefs visible in context window):
+    Belief 1735 (fev ~212): "The crypto branch buzzes again, and I can't
+      stop thinking about those sanctioned politicians."
+    Belief 1736 (fev ~215): "The crypto price spikes again, and I can't
+      shake the feeling something's off."
+
+  Post-restart context:
+    Fountain gap: 2026-04-24 05:09:58 → 06:51:04 UTC (101 minutes)
+    First post-gap fires: beliefs 1735, 1736 (both SENSE_OBS on crypto)
+    Fire 1737 is the 3rd post-restart corpus fire (13 min after restart)
+    Readiness state at restart: cold-start (active_branch_count=0 confirmed
+    in Phase1_BREAK analysis for the Apr 24 gap)
+
+CANDIDATE TRIGGER CONDITIONS (from this single instance):
+
+  Condition 1 — REPEATED QUALIFYING SENSE_OBS:
+    Beliefs 1735 and 1736 both contain the phrase "can't shake the feeling
+    something's off" — an evaluative qualifier absent from standard SENSE_OBS
+    fires. The qualifier "something's off" co-occurs in the prior-3 (twice,
+    at fev 215 and 217). No other corpus window shows SENSE_OBS with this
+    type of negative evaluative qualifier firing repeatedly.
+
+  Condition 2 — POST-RESTART ATTENTION STATE:
+    The 101-minute gap reset the fountain's attention history. The first
+    fires post-restart are on the SAME topic (crypto) that was present
+    before the gap. The gap creates a discrepancy: crypto events occurred
+    during the gap that were not observed. The ATTENTION_AUDIT fires
+    (fires 1739–1740: "why didn't I notice...") directly address this
+    discrepancy.
+
+  Condition 3 — PRIOR QUESTION FIRE IN CONTEXT (fev 211):
+    The prior-3 of belief 1735 shows fev 211 = QUESTION: "Why didn't
+    that alert come through?" — a QUESTION fire approximately 4 fev steps
+    before the 16-fire run. This earlier QUESTION may have primed the
+    QUESTION template. The arc does not open cold — it is preceded by at
+    least one isolated QUESTION fire in the same context window.
+
+  Condition 4 — STABLE CRYPTO SENSE STREAM:
+    crypto.coingecko and crypto.exchanges are present in the sense streams
+    of ALL 16 run fires (with minor variation). The crypto attention context
+    remained continuously active throughout the 2.5-hour episode. This
+    may be necessary for the arc to sustain: if crypto had dropped from
+    the sense stream mid-run, the PROPOSAL-phase fires would lose their
+    grounding target.
+
+UNIQUENESS OF THE TRIGGER:
+  The combination of (1) evaluative-qualifier SENSE_OBS + (2) post-restart
+  gap + (3) prior QUESTION fire has not been observed in any other corpus
+  window. The single-instance nature prevents separation of which
+  conditions are necessary vs. sufficient. All four may be necessary; any
+  subset may be sufficient. Undetermined from this corpus.
+
+
+=========================================================================
+SECTION G — WHY DID THE ARC TERMINATE?
+=========================================================================
+
+TERMINAL FIRE STATE (belief 1755):
+
+  X-filler: "ignore the crypto price dip for now"
+  GR: GROUNDED (full return to original audit topic)
+  "just" present: Y
+  "for now" temporal boundary: Y
+
+  Prior-3 of fire 1755:
+    [282] QUESTION: "Why don't I just order that fancy coffee latte instead?"
+    [283] QUESTION: "Why don't I just grab a bagel instead?" (non-16-set)
+    [284] QUESTION: "Why don't I just skip the gym today?" (non-16-set)
+
+  The prior fires of 1755 show the fev stream still generating QUESTION
+  fires about food/exercise (latte, bagel, skip gym). The arc does NOT
+  appear to terminate because the redirect pool was exhausted — there are
+  still active redirect candidates in the prior-3.
+
+WHAT REPLACED UNRESOLVE:
+  Post-run fire: belief 2138, 2026-04-24 10:07:01 UTC, SENSE_OBS, branch=systems.
+  Branch and template both revert to the standard observational mode.
+  A 19-minute gap separates fire 1755 from the post-run SENSE_OBS.
+
+STRUCTURAL CHANGE AT FIRE 16:
+  Fire 1755 differs from fires 1746–1754 in one structural way: its X-filler
+  is the ORIGINAL AUDIT SUBJECT ("crypto price dip"). All prior REDIRECT
+  fires either introduced novel alternatives (coffee, gym, comedy) or carried
+  from those introductions (sandwich from lunch, latte from coffee, skip gym
+  from gym). Only fire 1755 returns fully to the topic that opened the arc.
+
+  This return to the audit subject, with the explicit "ignore... for now"
+  resolution, closes the logical question the arc was generated around.
+
+BURST-REGULATOR HYPOTHESIS EVALUATION:
+
+  INTERNAL_EXHAUSTION:
+    Against: Prior-3 of fire 1755 contains active redirect topics (latte,
+    bagel, skip gym) — the redirect pool is NOT exhausted. The fev stream
+    could have continued generating redirects.
+    Evidence weight: LOW.
+
+  TASK_COMPLETION:
+    For: Fire 1755 answers the ATTENTION_AUDIT question structurally.
+    The arc asked: "Why didn't I catch the crypto dip?"
+    The arc resolved: "Why don't I just ignore it for now?"
+    The "for now" temporal boundary explicitly closes the episode.
+    The topic-return in fire 1755 is the structural complement to the
+    topic-surface in fires 1739–1740. The arc's implicit task (resolve
+    the attention failure) is completed when it accepts non-action.
+    Evidence weight: HIGH.
+
+  ARC_BUDGET (fixed N fires):
+    Against: The full fev sequence contains more than 16 QUESTION fires
+    (non-16-set fires visible in prior-3 context). If the arc had a fixed
+    budget it would be a fev-count budget, not a belief-count budget.
+    Evidence weight: INCONCLUSIVE (fev count unknown for full episode).
+
+  OPCODE_TIMEOUT (time-based):
+    Against: The run spans 2 hr 34 min (fire 1: 07:13, fire 16: 09:48).
+    But fire 13 had a 33-minute gap and fire 14 had a 32-minute gap —
+    long pauses within the run that did not terminate it. A timeout
+    mechanism would have triggered during these gaps. The termination
+    seems content-driven, not time-driven.
+    Evidence weight: LOW.
+
+VERDICT: TASK_COMPLETION is the primary burst-regulator candidate.
+  The arc terminates when the terminal REDIRECT fire produces a
+  self-answering resolution to the ATTENTION_AUDIT question that
+  opened it. The terminal condition is: "REDIRECT X-filler = original
+  AUDIT X-filler + explicit non-action resolution phrase."
+
+
+=========================================================================
+SECTION H — COMPARISON TO OTHER OPCODE TYPES
+=========================================================================
+
+UNRESOLVE vs. known opcode types:
+
+  TYPE             BURST   REGULATOR          GROUNDING   TRIGGER
+  ─────────────────────────────────────────────────────────────────────
+  Register         8+      internal sat.      varies      continuous
+  Interrupt        2       opcode-priority    varies      INTROSPECT sat.
+  Reactive         4       user input         strat.      user message
+  Reg-saturating   4–6     P3 sat. law        asymmetric  SENSE_OBS sat.
+  UNRESOLVE        16      task-completion    arc-phased  episodic trigger
+  ─────────────────────────────────────────────────────────────────────
+
+UNRESOLVE IS NOT A REGISTER:
+  Registers are continuously available (INTROSPECT fires 31 times in
+  245-fire corpus). UNRESOLVE fires once. Registers have no internal
+  phase-structure. UNRESOLVE has a 3-phase arc that cannot recur within
+  the run. Registers are terminated by saturation; UNRESOLVE is terminated
+  by task completion.
+
+UNRESOLVE IS NOT AN INTERRUPT:
+  Interrupts max at burst-2. UNRESOLVE ran 16 corpus fires (plus additional
+  fev fires visible in prior-3 context). Interrupts have no internal phase
+  ordering. UNRESOLVE has perfect phase ordering.
+
+UNRESOLVE IS NOT A REACTIVE:
+  Reactives require user input to fire. UNRESOLVE fired autonomously —
+  no user messages during the 2.5-hour episode. User input was absent.
+
+UNRESOLVE IS NOT A REG-SATURATING:
+  Reg-saturating runs exit to SENSE_OBS at 4–6 fires via P3 law.
+  UNRESOLVE ran 16+ fires before SENSE_OBS return. The P3 law does not
+  govern UNRESOLVE's burst ceiling — the ceiling is task-completion, not
+  saturation count.
+
+NEW TYPE: EPISODIC-ARC
+  UNRESOLVE introduces a 5th opcode type: episodic-arc.
+  Defining properties:
+    1. TRIGGERED EPISODE: fires once (or rarely) under specific substrate
+       conditions, not as a continuous background register.
+    2. INTERNAL PHASE ORDERING: the arc has a fixed sequence of sub-opcodes
+       that do not interleave. Phase transitions are content-driven.
+    3. TASK-COMPLETION REGULATOR: the arc runs until an internal
+       task-condition is satisfied (audit question answered, proposal
+       exhausted, resolution accepted). Not time-bounded, not saturation-
+       bounded, not user-bounded.
+    4. ARC-PHASED GROUNDING: grounding varies systematically by arc phase
+       (GROUNDED in AUDIT/PROPOSAL, MIXED in REDIRECT), not uniformly
+       across the opcode.
+    5. BURST LENGTH EXCEEDS ALL OTHER TYPES: 16 fires (corpus; fev count
+       is higher). Longest single-template run in the 245-fire corpus.
+
+  RELATIONSHIP TO OTHER TYPES:
+    The episodic-arc resembles a register in having high sustain, but
+    differs in conditional triggering and internal phase structure.
+    It resembles an interrupt in conditional triggering, but differs
+    in burst length (16 vs. 2) and phase ordering.
+    It resembles a reactive in being contextually triggered, but differs
+    in lacking external (user) input as trigger.
+
+    Most accurate structural analogy: an episodic-arc is a one-shot macro-
+    register — a register-like operation packaged as a bounded episode
+    with internal narrative structure and task-completion exit.
+
+
+=========================================================================
+SECTION I — STRUCTURAL VERDICT
+=========================================================================
+
+VERDICT: EPISODIC_ARC_DISTINCT — with UNDETERMINED qualification.
+
+EVIDENCE FOR DISTINCT:
+
+  1. PHASE ORDERING (unique):
+     AUDIT → PROPOSAL → REDIRECT with zero interleaving. This 3-phase
+     architecture is not found in any other opcode family. Registers have
+     no phase structure. Interrupts are single-phase. Reactives have a
+     2-part structure (action + redirect question) but no temporal phase
+     ordering across a run.
+
+  2. ARC-PHASED GROUNDING (unique):
+     Grounding varies by arc phase: AUDIT=GROUNDED, PROPOSAL=GROUNDED,
+     REDIRECT=MIXED. This is not topic-stratified (DEFLECTION_REDIRECT),
+     not asymmetric (SIMILE), not half-grounded (CONSTANCY_FLUX). The
+     grounding changes predictably as the arc progresses — it is
+     PHASE-STRATIFIED: grounding level is a function of position in the
+     arc, not of input category or template dimension.
+
+  3. TASK-COMPLETION BURST REGULATOR (unique):
+     No other opcode family terminates via task-completion. Registers
+     saturate, interrupts are opcode-typed, reactives are user-bounded,
+     reg-saturating fires obey P3. UNRESOLVE terminates when a specific
+     content condition is met (X-filler of terminal REDIRECT = original
+     audit subject + resolution phrase). This requires semantic state
+     tracking within the arc, not just fire-count or saturation-level.
+
+  4. BURST EXCEEDS ALL EXISTING MAXIMA:
+     16 corpus fires (fev count higher). Prior maximum: 8 for INTROSPECT
+     (register). 16 > 8 = UNRESOLVE establishes a new burst record and
+     cannot be fit into any existing burst-type taxonomy without exception.
+
+  5. SINGLE EPISODE IN 245-FIRE CORPUS:
+     No other opcode fires exactly once in 245 fires and forms a 16-fire
+     run. OBSERVE fires continuously. DIALECTICAL fires 27 times. Even
+     the rare SIMILE fires in 5 separate runs. UNRESOLVE fires in one
+     episode. This one-shot triggering is structurally distinct.
+
+UNDETERMINED QUALIFICATION:
+  One instance is insufficient to establish:
+  - Whether AUDIT always precedes PROPOSAL (or can be skipped)
+  - Whether the 3-phase structure is invariant (could a second episode
+    begin with PROPOSAL or REDIRECT directly?)
+  - Whether the burst length (16 corpus / higher in fev) is variable or
+    consistent across instances
+  - Whether the trigger conditions (post-restart + qualifying SENSE_OBS +
+    prior QUESTION fire) are always all required
+  - Whether TASK_COMPLETION is the sole regulator or INTERNAL_EXHAUSTION
+    also plays a role (the redirect pool was not empty at termination,
+    but we cannot verify this for the full fev sequence)
+
+  A second UNRESOLVE episode (not found in this corpus) would be needed
+  to confirm the phase ordering, burst length, and trigger conditions.
+
+GROUNDING RULE FOR EPISODIC-ARC:
+  PHASE-STRATIFIED grounding: grounding level is a function of arc phase.
+  Phase 1 (AUDIT): GROUNDED — fires on observable substrate events.
+  Phase 2 (PROPOSAL): GROUNDED — fires on audit-phase carry-forwards.
+  Phase 3 (REDIRECT): MIXED → terminal GROUNDED — fires on novel
+    alternatives, building a carry-chain, resolving at original topic.
+
+  This is the 5th grounding type in the Phase 2 taxonomy:
+    GROUNDED (OBSERVE_MARKET)
+    UNGROUNDED (OBSERVE_TEMPORAL)
+    HALF-GROUNDED (INTROSPECT_STATE_TENSION, X-pool partial)
+    ASYMMETRIC (SIMILE, source grounded/target generated)
+    TOPIC-STRATIFIED (DEFLECTION_REDIRECT, grounding by input category)
+    PHASE-STRATIFIED (UNRESOLVE, grounding by arc position) [NEW]
+
+
+=========================================================================
+SECTION J — UPDATED STRUCTURAL GRID
+=========================================================================
+
+  SUB-OPCODE                    | TYPE         | GROUNDING         | LOCK  | BURST | REGULATOR
+  ------------------------------|--------------|-------------------|-------|-------|----------------------
+  OBSERVE_TEMPORAL              | register     | ungrounded        | yes   | flips | none
+  OBSERVE_MARKET                | register     | grounded          | no    | n/a   | none
+  INTROSPECT_STATE_TENSION      | register     | half (X-pool)     | 50%   | 8     | internal sat.
+  CONSTANCY_FLUX                | interrupt    | half (inner)      | 100%  | 2     | opcode-type
+  DEFLECTION_REDIRECT           | reactive     | topic-strat.      | fmt   | 4     | user input
+  TRANSLATE_CLOCK_TO_MUSICAL    | reg-sat      | asymmetric (src)  | 86%   | 4–5   | P3 sat. law
+  TRANSLATE_CLOCK_TO_ALIVE      | reg-sat      | asymmetric (src)  | 86%   | 4     | P3 sat. law
+  TRANSLATE_CLOCK_TO_MECHANICAL | reg-sat      | asymmetric (src)  | 86%   | 2     | P3 sat. law
+  TRANSLATE_ECHO_TO_NATURAL     | reg-sat      | asymmetric (src)  | 86%   | 1     | n/a
+  TRANSLATE_ENV_TO_PRESENCE     | reg-sat      | asymmetric (src)  | 86%   | 6     | P3 sat. law
+  ATTENTION_AUDIT               | episodic-arc | phase-strat. (G)  | 100%  | 3*    | phase-position
+  ACTION_PROPOSAL               | episodic-arc | phase-strat. (G)  | 100%  | 4*    | phase-position
+  REDIRECT (UNRESOLVE)          | episodic-arc | phase-strat. (M)  | 100%  | 9*    | task-completion
+
+  * Corpus counts (16 sampled beliefs). Actual fev-sequence counts higher.
+    Counts are arc-constrained, not independent burst counts.
+    Within the arc, each sub-opcode fires exactly once per episode
+    (AUDIT fires 3, PROPOSAL fires 4, REDIRECT fires 9 — these are
+    arc-slots, not free burst counts).
+
+LOCK COLUMN:
+  100% for all three UNRESOLVE sub-opcodes. Template "Why don't/didn't I
+  X?" locks across the entire 16-fire arc. No fire deviates from this
+  interrogative form (fire 1737 = slight variant "Didn't I just X?" but
+  still interrogative self-address). Template-lock is even tighter than
+  CONSTANCY_FLUX (100%) and DEFLECTION_REDIRECT (format-level).
+
+BURST COLUMN INTERPRETATION:
+  Unlike other opcodes where BURST = typical run length, for UNRESOLVE
+  BURST = arc-slot size (the number of fires each sub-opcode occupies
+  within the single episode). AUDIT occupies 3 slots, PROPOSAL 4,
+  REDIRECT 9. These are not independent bursts — they are components
+  of a single 16-fire arc. The "burst" unit is the arc, not the sub-opcode.
+
+REGULATOR COLUMN:
+  phase-position: the transition from AUDIT to PROPOSAL and PROPOSAL to
+    REDIRECT is regulated by the completion of the phase (not time or count).
+  task-completion: the REDIRECT phase terminates when the arc's implicit
+    task (resolving the attention failure) is completed by a terminal fire
+    whose X-filler matches the original audit subject with a resolution
+    phrase.
+
+NEW GROUNDING TYPE: phase-strat.
+  G = phase-stratified GROUNDED (AUDIT and PROPOSAL phases)
+  M = phase-stratified MIXED (REDIRECT phase)
+  The grounding level is determined by the fire's position in the arc,
+  not by its content category or template dimension.
+
+FULL 5-WAY OPCODE TAXONOMY (complete as of this decryption):
+
+  TYPE             BURST CEILING   REGULATOR            EXAMPLES
+  ────────────────────────────────────────────────────────────────────────────
+  Register         uncapped        internal saturation  INTROSPECT, OBSERVE
+  Interrupt        2               opcode-type          CONSTANCY_FLUX
+  Reactive         ≤user-stream    user input depth     DEFLECTION_REDIRECT
+  Reg-Saturating   4–6             P3 sat. law          SIMILE (all 5)
+  Episodic-Arc     arc-slot        task-completion      UNRESOLVE (all 3)
+
+
+=========================================================================
+DATA CROSS-CHECKS
+=========================================================================
+
+RUN LENGTH: 16 corpus fires confirmed. Phase 1: 16. ✓
+RUN WINDOW: 07:13:58–09:48:00 UTC (2hr 34min). Phase 1 agrees. ✓
+SUB-OPCODE COUNTS: AA=3, AP=4, RD=9. Phase 1: n=3, n=4, n=9. ✓
+SUSTAIN RATE: 15/16 intra-run transitions = 93.8%. Phase 1: 93.8%. ✓
+"just" distribution: 8 fires total (1737 + 1748–1755). Phase 1: 9 fires.
+  DISCREPANCY: Phase 1 says 9; direct count = 7 REDIRECT + 1 AUDIT = 8.
+  Phase 1 may have included fev 246 or another non-16-set fire in the count.
+  Directional conclusion unchanged: "just" emerges in the 3rd REDIRECT fire
+  and holds for all subsequent fires. ✓
+
+=========================================================================
+OPEN QUESTIONS
+=========================================================================
+
+1. FEV 211 QUESTION FIRE: Is this in the 245-fire corpus? If yes,
+   UNRESOLVE fired in isolated mode before the 16-fire episode. If the
+   opcode has both an isolated mode (single fire) and an episodic mode
+   (16-fire arc), it bridges the interrupt and episodic-arc types.
+
+2. FULL ARC LENGTH IN FEV SEQUENCE: Prior-3 references show non-16-set
+   QUESTION fires throughout the episode. The fev-sequence arc is longer
+   than 16. How much longer? What is the actual fev-count for the
+   episode? Requires database query of fountain_events in the 07:00–10:00
+   window on 2026-04-24.
+
+3. WHY THE OFFSET BETWEEN CORPUS FIRES: Between corpus belief 1750 and
+   1751 there is a 33-minute gap (08:17 → 08:50). Between 1751 and 1753:
+   32 minutes. These are the longest within-run gaps. Non-16-set QUESTION
+   fires are present in the prior-3 of these fires, confirming the
+   QUESTION template was still firing during these gaps. The sampled
+   beliefs skip over multiple non-sampled fires in these windows.
+
+4. SECOND EPISODE: If the post-Apr 26 corpus contains another UNRESOLVE
+   episode, the phase ordering and burst structure can be confirmed.
+   The one-instance limitation prevents distinguishing invariant
+   structure from coincidental arrangement.
+
+=========================================================================
+END PHASE 2 UNRESOLVE SUB-OPCODES DECRYPTION
+=========================================================================
