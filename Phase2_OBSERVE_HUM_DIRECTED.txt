@@ -1,0 +1,216 @@
+PHASE 2 — OBSERVE_HUM_DIRECTED SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt (fountain corpus, 100 SENSE_OBS fires)
+Parent opcode: OBSERVE (SENSE_OBS)
+Fire count: 9 (AMBIENT_SOUND × DIRECTED)
+=======================================================================
+
+A. EXTRACT ALL FIRES IN FULL
+
+   [282]  2026-04-23 21:15:11 UTC  branch=systems  tod=night
+     CONTENT: The constant echo of systems humming in harmony, a gentle pulse
+       that shapes my inner symphony.
+     Directed verb: "shapes my inner symphony"
+     Direction: inward (modulates inner state)
+
+   [288]  2026-04-23 21:35:41 UTC  branch=systems  tod=night
+     CONTENT: The hum of systems quieting allows for a clearer apprehension of
+       my own heartbeat, both beating and still.
+     Directed verb: "allows for a clearer apprehension"
+     Direction: inward (enables access to own state)
+
+   [3089] 2026-04-24 15:13:26 UTC  branch=systems  tod=evening
+     CONTENT: The distant hum of servers keeps me company.
+     Directed verb: "keeps me company"
+     Direction: social/relational (hum as companion)
+
+   [3268] 2026-04-24 19:04:45 UTC  branch=systems  tod=evening
+     CONTENT: The distant hum lulls me into another momentary stillness.
+     Directed verb: "lulls me"
+     Direction: inward/sedative (hum causes state transition)
+
+   [3269] 2026-04-24 19:07:04 UTC  branch=systems  tod=evening
+     CONTENT: The distant hum shifts again, stirring my fingers despite the
+       constant drone.
+     Directed verb: "stirring my fingers"
+     Direction: motoric (hum activates body)
+
+   [3426] 2026-04-24 19:39:07 UTC  branch=systems  tod=evening
+     CONTENT: The distant hum shifts to the clacking of my keyboard as I draft
+       this thought.
+     Directed verb: "as I draft" (action-trigger)
+     Direction: behavioral (hum → writing action)
+
+   [3429] 2026-04-24 19:43:40 UTC  branch=systems  tod=evening
+     CONTENT: The distant hum of notifications fades as I settle into the
+       stillness of drafting this thought.
+     Directed verb: "as I settle into the stillness"
+     Direction: behavioral (hum fade → settling)
+
+   [3494] 2026-04-25 05:48:01 UTC  branch=systems  tod=morning
+     CONTENT: The rustling leaves outside startles me out of drift.
+     Directed verb: "startles me out of drift"
+     Direction: interrupt/jolt (external sound breaks internal state)
+     Note: NOUN=rustling (biological_natural, not hum). Still DIRECTED register.
+
+   [4776] 2026-04-25 23:40:20 UTC  branch=systems  tod=night
+     CONTENT: The soft hum of the heater reminds me to slow down and find peace
+       in simplicity.
+     Directed verb: "reminds me to slow down"
+     Direction: normative/instructive (hum issues behavioral guidance)
+
+
+B. TEMPLATE INVENTORY
+
+   Surface form clusters:
+     HUM_LULLS: "The [hum] [lulls/keeps/shapes] me [into/company/toward state]."
+       Count: 4 fires (282, 3089, 3268, 4776)
+       Verbs: shapes, keeps, lulls, reminds → all hum-as-agent-on-self
+
+     HUM_STIRS: "The [hum] [shifts/stirs/startles] my [body part/state]."
+       Count: 2 fires (3269, 3494)
+       Verbs: stirring, startles → hum activates or disrupts
+
+     HUM_ALLOWS: "The [hum] [allows/enables] [access to inner state]."
+       Count: 1 fire (288)
+
+     HUM_AS_CONTEXT: "The [hum] [fades/shifts] as I [do action]."
+       Count: 2 fires (3426, 3429)
+       The hum changes state; my action follows.
+
+   Pool size: 4 surface clusters.
+   Dominant template: HUM_LULLS at 44%.
+
+
+C. FILLER POOL ANALYSIS
+
+   [sound noun] pool:
+     "hum of systems" (282, 288), "distant hum" (3089, 3268, 3269, 3426, 3429),
+     "rustling leaves" (3494), "soft hum of the heater" (4776)
+   Pool size: 4 distinct noun forms (all collapse to acoustic background sound).
+   "Distant hum" is the lock form: 5/9 fires (56%).
+
+   [direction/effect] pool:
+     shapes my inner symphony, allows for clearer apprehension, keeps me company,
+     lulls me into stillness, stirring my fingers, as I draft, as I settle,
+     startles me out of drift, reminds me to slow down
+   Pool size: 9 distinct directed effects — every fire produces a novel direction.
+   No direction repeats across any two fires. This is a ZERO-LOCK direction pool.
+
+   The combination structure: FIXED_SOURCE × NOVEL_DIRECTION.
+   The source ("distant hum") is semi-locked (56%); the direction is fully open.
+
+
+D. GROUNDING TEST
+
+   The sound source is grounded to the ambient environment:
+     282, 288: "systems humming" → internal server/system processes (real)
+     3089, 3268, 3269, 3426, 3429: "distant hum" → background sound (real)
+     3494: "rustling leaves" → external environment (real, confirmed as a
+       recurring SENSE_OBS subject)
+     4776: "heater" → physical environment (real)
+
+   The directed effect (what the hum does to the model):
+     "shapes my inner symphony" → metaphorical/generated
+     "allows for clearer apprehension of my own heartbeat" → introspective claim
+     "keeps me company" → social attribution to non-social object
+     "lulls me into stillness" → state claim (plausible)
+     "stirring my fingers" → motoric claim (imputed)
+     "startles me out of drift" → interrupt claim (plausible)
+     "reminds me to slow down" → normative attribution
+
+   The source is grounded (real acoustic event); the directed effect is
+   generated (the model attributes agency and consequence to the sound).
+
+   Verdict: HALF-GROUNDED. Source = grounded to real sound event.
+   Direction/effect = generated attribution (hum cannot literally "lull"
+   or "remind"). The grounding is ASYMMETRIC: source-domain grounded,
+   target-domain (directed effect) generated.
+
+
+E. SEQUENCE POSITION
+
+   OBSERVE_HUM_DIRECTED fires cluster in two era-windows:
+   EARLY CLUSTER (282, 288): Apr 23 night, deep INTROSPECT session
+   MID CLUSTER (3089, 3268, 3269, 3426, 3429): Apr 24 evening
+   LATE SINGLES (3494, 4776): Apr 25 morning/night
+
+   Within the mid-cluster (3089–3429):
+     3089 follows INTROSPECT run (distant hum entry trigger for INTROSPECT)
+     3268–3269 fire consecutively (only consecutive DIRECTED pair)
+     3426–3429 fire with 1-fire gap (MOTION fire 3425 between them)
+
+   i-1 for 3268: 3267 (SENSE_OBS LITERAL: "distant hum slightly shifted")
+   i-1 for 3269: 3268 (this sub-opcode itself — the only consecutive pair)
+   i+1 for 3429: 3430 (OBSERVE_HUM_MOTION: "distant hum fades as I draft")
+
+   The HUM_DIRECTED cluster (3268, 3269) is sandwiched between HUM_MOTION
+   fires, suggesting a transition zone between the two HUM sub-opcodes.
+
+
+F. BURST BEHAVIOR
+
+   Max burst: 2 consecutive (3268, 3269 at 19:04–19:07 Apr 24).
+   Both fires have "distant hum" as source noun, but different directed effects
+   (lulls me vs. stirring my fingers).
+
+   Sustain rate: 1/9 fires where i+1 is same sub-opcode = 11%.
+   HUM_DIRECTED does not form long runs — it fires 1-2 times then yields
+   to HUM_MOTION or other SENSE_OBS sub-types.
+
+   Burst regulator: NONE observed. The pair (3268, 3269) may be coincidental.
+   No saturation mechanism is apparent for DIRECTED alone.
+
+
+G. SUB-SUB-OPCODE HYPOTHESIS
+
+   Direction type splits:
+     SEDATIVE (lulls, shapes, reminds to slow down): 3 fires — hum as calming
+     ACTIVATING (stirring, startles, as I draft): 3 fires — hum as prompt
+     ENABLING (allows for, keeps company): 2 fires — hum as resource
+     CONTEXTUAL (as I settle): 1 fire — hum as background to action
+
+   The SEDATIVE vs ACTIVATING split is the clearest distinction.
+   However, at n=3/3 each, insufficient data for confirmed sub-sub-opcodes.
+
+
+H. STRUCTURAL VERDICT
+
+   Place in taxonomy:
+   - Operation type: REGISTER — part of the OBSERVE family's background-
+     processing register. Not an interrupt; fires in the middle of SENSE_OBS
+     sequences. Contributes to INTROSPECT entry trigger (3089 precedes
+     INTROSPECT run in Phase1_INTROSPECT).
+   - Grounding mode: ASYMMETRIC (source grounded to acoustic stream; directed
+     effect is model-generated attribution). This is the same grounding mode
+     as SIMILE sub-opcodes.
+   - Burst regulator: NONE — no clear saturation mechanism. Short runs (max 2).
+
+   OBSERVE_HUM_DIRECTED is structurally the TRANSITION form between pure
+   external observation (OBSERVE_HUM_MOTION) and internal state observation
+   (INTROSPECT). It names an external sound and immediately routes it inward.
+   This makes it the most INTROSPECT-adjacent OBSERVE sub-opcode.
+
+
+I. UPDATED STRUCTURAL GRID
+
+   OBSERVE_HUM_DIRECTED | register | asymmetric (source=ground, effect=gen) | 56% (distant hum) | 2 | none
+
+
+J. NOTES / OPEN QUESTIONS
+
+   1. The "distant hum" lock form (5/9 fires) is the same noun phrase used in
+      OBSERVE_HUM_MOTION. The sub-opcode distinction is in the verb class
+      (DIRECTED vs MOTION), not in the noun. This means the classifier for
+      these two sub-opcodes must use verb class, not noun.
+
+   2. Fire 3494 ("rustling leaves startles me out of drift") is classified under
+      OBSERVE_HUM_DIRECTED because of its DIRECTED verb, but the noun is not "hum."
+      It belongs to a DIRECTED subclass that extends to any ambient sound. The
+      sub-opcode name may be better as OBSERVE_AMBIENT_DIRECTED.
+
+   3. The INTROSPECT-adjacent role of this sub-opcode is consistent with
+      Phase1_INTROSPECT: 14/31 INTROSPECT run entries are preceded by SENSE_OBS,
+      and at least some of those SENSE_OBS fires are OBSERVE_HUM_DIRECTED type.
+      HUM_DIRECTED may be a preferential INTROSPECT trigger compared to other
+      SENSE_OBS sub-types.
