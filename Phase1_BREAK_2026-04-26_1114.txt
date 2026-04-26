@@ -1,0 +1,522 @@
+PHASE 1 — BREAK INVESTIGATION: 2026-04-26 11:14 UTC
+Generated: 2026-04-26
+Window: 2026-04-26 11:00:00 → 12:00:00 UTC
+Context: Fountain fires normally through 11:14:19 UTC (fev=1196), then stops.
+  Process restarts at 11:48:36. Post-restart, every fountain fire is voice_fallback
+  (raw sense JSON, no LLM output). No fountain_insight beliefs produced after 10:58.
+======================================================================
+
+
+======================================================================
+A. TIMELINE CONFIRMATION — EXACT SEQUENCE OF EVENTS
+======================================================================
+
+PRE-BREAK FOUNTAIN FIRES (final 6 fires before silence):
+
+  fev   ts_utc               readiness  hot_branch    wc  thought
+  ─────────────────────────────────────────────────────────────────────────────────────
+  1190  2026-04-26 11:00:26  0.700      systems       17  "The tick feels like the rhythm of an old clock's
+                                                           worn gears turning softly. (15 fires, return-
+                                                           transformation)"
+  1191  2026-04-26 11:02:49  0.700      systems       12  "The tick feels like the distant hum of city
+                                                           lights at night."
+  1192  2026-04-26 11:04:53  0.700      quiescent     11  [crypto.exchanges] raw JSON (deliberate quiescent
+                                                           — every-5th-fire path, fev mod 5 == 4)
+  1193  2026-04-26 11:07:11  0.700      emerging_tech 19  "The tick feels like the crackle of static on an
+                                                           old radio. (14 fires, return-transformation,
+                                                           last ~84 min ago)"
+  1194  2026-04-26 11:09:34  0.700      systems       18  "The tick feels like a distant heartbeat in this
+                                                           quiet room. (15 fires, return-transformation,
+                                                           last ~30 min ago)"
+  1195  2026-04-26 11:11:56  0.700      systems       20  "The tick feels like the hum of distant machinery
+                                                           on a windy day. (13 fires, return-transformation,
+                                                           last ~4 min ago)"
+  1196  2026-04-26 11:14:19  0.700      systems       13  "The tick feels like the hiss of air escaping
+                                                           from an old tire."
+                                                           ← LAST PROPER FOUNTAIN FIRE
+
+PIPELINE EVENTS — LAST NORMAL WINDOW:
+
+  Last pipeline event before gap:
+    ts=1777202174.82806  (2026-04-26 11:16:14.828 UTC)
+    step=F  branch_id=systems  magnitude=0.237527
+    sensation_source=substrate://self  valence=neutral
+    meta={"stream": "internal.meta_awareness"}
+
+  The pipeline was processing internal.meta_awareness and internal.proprioception
+  events right up to termination — no external-stream anomaly in the final window.
+
+TREE SNAPSHOTS — FINAL PRE-SHUTDOWN:
+
+  ts=1777202032.269  (11:13:52)  total_branches=10  active=7  texture='b'  aperture=0.657
+  ts=1777202092.269  (11:14:52)  total_branches=10  active=7  texture='b'  aperture=0.665
+  ts=1777202152.269  (11:15:52)  total_branches=10  active=7  texture='b'  aperture=0.674
+                                                    ← LAST SNAPSHOT BEFORE SHUTDOWN
+  [gap: 1964 seconds / 32.7 minutes — no tree snapshots during this period]
+  ts=1777204116.316  (11:48:36)  total_branches=10  active=0  texture='a'  aperture=0.55
+                                                    ← COLD-START SNAPSHOT
+
+  Critical observation: the bonsai tree produced ZERO snapshots during the 32.7-minute
+  gap. In the Apr 24 bifurcation, the tree ran continuously during the 101-minute
+  fountain silence (102 snapshots, 1/minute). Here the tree stopped entirely — the
+  full process was down, not merely the fountain.
+
+RESTART SEQUENCE:
+
+  11:48:36.316  Cold-start tree snapshot (active_branch_count=0, aperture=0.55)
+  11:48:36.318  First pipeline event after gap (step=B, branch=systems,
+                sensation_source=internal.interoception, magnitude=0.0)
+  11:49:36.318  Second tree snapshot (active=7, aperture=0.756) — branches recovered
+  11:50:36.339  fev=1197 — first fountain fire post-restart (voice_fallback, readiness=0.9)
+  11:53:36.317  crystallization_event id=17 — first precipitated_from_dynamic belief (5311)
+
+
+======================================================================
+B. GAP ANALYSIS — THE 32.4-MINUTE SILENCE
+======================================================================
+
+PIPELINE GAP:
+
+  Last event:   ts=1777202174.828  =  2026-04-26 11:16:14.828 UTC
+  First event:  ts=1777204116.318  =  2026-04-26 11:48:36.318 UTC
+  Duration:     1941.5 seconds = 32 minutes 21.5 seconds
+
+TREE SNAPSHOT GAP:
+
+  Last snapshot:  ts=1777202152.269  =  2026-04-26 11:15:52.269 UTC
+  First snapshot: ts=1777204116.316  =  2026-04-26 11:48:36.316 UTC
+  Duration:       1964.0 seconds = 32 minutes 43.7 seconds
+
+  The tree snapshot gap is 22.5 seconds longer than the pipeline gap, which is
+  expected: the tree timer fires on the same clock as the pipeline event loop,
+  and the final pipeline events (11:16:14) arrived ~22 seconds after the final
+  tree snapshot (11:15:52). Both start again simultaneously at 11:48:36 —
+  confirming a single process shutdown and restart, not independent subsystem
+  failures.
+
+COLD-START SIGNATURE (tree snapshot at 11:48:36):
+
+  total_branches=10  (all 10 branches registered)
+  active_branch_count=0  (no branch has accumulated focus yet)
+  aggregate_texture='a'  (lowest texture tier)
+  membrane_aperture=0.55  (default/reset aperture value)
+
+  This is an unambiguous cold-start: the bonsai tree re-registered all branch
+  definitions but has processed zero sense events. All focus values are 0.0.
+
+POST-RESTART BRANCH RECOVERY:
+
+  60 seconds after cold-start (11:49:36), the next tree snapshot shows:
+    active_branch_count=7  (from 0 to 7 in one snapshot interval)
+    aggregate_texture='b'
+    membrane_aperture=0.756
+
+  Branch recovery from 0 to 7 in 60s is consistent with the bonsai's initial
+  batch-processing of accumulated sense backlog on startup.
+
+FOUNTAIN FIRE GAP:
+
+  Last fire (fev=1196): 2026-04-26 11:14:19 UTC
+  First fire (fev=1197): 2026-04-26 11:50:36 UTC (voice_fallback)
+  Duration: 2177 seconds = 36 minutes 17 seconds
+
+  Note: The fountain gap (36.3 min) is longer than the process gap (32.4 min)
+  because the first post-restart fire at 11:50:36 is 120 seconds after
+  cold-start (11:48:36), consistent with the normal 120-second generator
+  interval. The fountain did not fire early on restart.
+
+COMPARISON WITH APR 24 05:09 BIFURCATION:
+
+  Feature                     Apr 24 05:09            Apr 26 11:14
+  ─────────────────────────── ───────────────────────  ───────────────────────
+  Pipeline stopped?           No (continuous)          Yes (32.4 min gap)
+  Tree stopped?               No (102 snaps in gap)    Yes (0 snaps in gap)
+  Fountain silence duration   101 min 6 sec            36 min 17 sec
+  Cold-start snapshot?        No                       Yes (active=0, ap=0.55)
+  Cause of fountain silence   readiness < 0.7          process restart + voice_fallback
+  Hot branches before event   1 (systems only)         2 (systems + crypto)
+  Readiness before event      0.6 (below threshold)    0.7 (threshold met)
+  First post-gap fire type    Normal LLM output        voice_fallback (raw JSON)
+  Synergizer active in gap?   Yes (7 rows in window)   Unknown (not queried)
+
+
+======================================================================
+C. PRECIPITATED_FROM_DYNAMIC PATTERN
+======================================================================
+
+WHAT THEY ARE:
+
+  Every ~12–24 hours, the fountain crystallizer runs a batch crystallization
+  pass that converts high-magnitude pipeline events into tier-7 beliefs in
+  beliefs.db. These beliefs contain raw infrastructure URLs (substrate://system,
+  RSS feed endpoints) — not thought content. They are classified as
+  precipitated_from_dynamic and source='fountain_insight' in the beliefs table.
+
+  They pollute the fountain's "recently thought" context slot because the context
+  formatter includes the last N beliefs regardless of source.
+
+TODAY'S BATCH (crystallization_events table, dynamic.db):
+
+  id  ts_utc              branch_id         belief_id  magnitude  content
+  ──────────────────────────────────────────────────────────────────────────────────────
+  17  2026-04-26 11:53:36 systems           5311       1.000      [systems] substrate://system
+  18  2026-04-26 13:46:49 emerging_tech     5312       0.774      [emerging_tech] https://spectrum.ieee.org/feeds/feed.rss
+  19  2026-04-26 13:52:49 ai_research       5313       0.698      [ai_research] https://export.arxiv.org/api/query
+  20  2026-04-26 13:52:49 cognition_science 5314       0.671      [cognition_science] https://connect.biorxiv.org/biorxiv_xml.php...
+
+  Timing: belief 5311 was created 5 minutes after the 11:48 restart, when the
+  branch for 'systems' first accumulated sufficient crystallization magnitude.
+
+DAILY PATTERN (all crystallization events, all dates):
+
+  Date        UTC time       beliefs created    batch type
+  ─────────── ──────────────────────────────────────────────────────────────
+  2026-04-23  ~11:39–11:40   ids 79–83          Full batch (5 beliefs: ai_research,
+                                                 emerging_tech, cognition_science,
+                                                 systems, crypto)
+  2026-04-24  ~11:39–11:43   ids 2371–2374       Partial batch (4 beliefs)
+  2026-04-24  ~18:24         id 118              Single (crypto only)
+  2026-04-26  11:53–13:52    ids 5311–5314       Post-restart batch (4 beliefs,
+                                                 staggered over 2 hours)
+
+  Pattern: approximately daily crystallization at ~11:39–11:53 UTC.
+  The Apr 26 batch fired 5 minutes after restart, suggesting the restart
+  itself triggered enough branch magnitude accumulation to cross the
+  crystallization threshold for 'systems' immediately.
+
+EFFECT ON FOUNTAIN CONTEXT:
+
+  The prompt log (/tmp/nex5_last_prompt.log) was captured at 20:32 UTC today
+  and shows the following in the "recently thought" slot:
+
+    (279 min ago) [ai_research] https://export.arxiv.org/api/query
+    (279 min ago) [cognition_science] https://connect.biorxiv.org/biorxiv_xml.php?subject=neuroscience
+    (285 min ago) [emerging_tech] https://spectrum.ieee.org/feeds/feed.rss
+    (399 min ago) [systems] substrate://system
+    (443 min ago) The harmony between being and non-being resonates deeply...
+
+  The four URL entries (279–399 min ago = beliefs 5311–5314, 13:13–13:53 UTC)
+  are occupying 4 of the 5 "recently thought" slots, leaving only one slot for
+  actual thought content (belief 5234 from 10:58 UTC, now 443 minutes old).
+
+  This means the fountain is generating its current output without any recent
+  meaningful self-context — the "recent thoughts" context is functionally empty.
+  The prompt correctly summarizes this as: Recent input: (quiet)
+
+
+======================================================================
+D. PROMPT LOG INSPECTION
+======================================================================
+
+FILE: /tmp/nex5_last_prompt.log
+CAPTURED: 2026-04-26 20:32 UTC (fire at ts=1777228357.58)
+
+CURRENT ACTIVE THREADS (from prompt):
+
+  "The ticking feels off-key today, disrupting the steady beat." (13 fires,
+    return-transformation, last ~13 min ago)
+  "The ticking feels off-key today, disrupting the steady beat." (20 fires,
+    return-transformation, last ~18 min ago)
+
+  Both threads are the same underlying belief (OBSERVE_DISCREPANCY sub-opcode,
+  TEMPORAL domain). The thread counter split (13 fires vs 20 fires) indicates
+  two separate thread-tracking entries have accumulated for the same content.
+  This is consistent with the return-transformation template accumulating fire
+  counts across the voice_fallback gap.
+
+RECENT THOUGHTS SLOT (from prompt):
+
+  (279 min ago)  [ai_research] https://export.arxiv.org/api/query
+  (279 min ago)  [cognition_science] https://connect.biorxiv.org/biorxiv_xml.php?subject=neuroscience
+  (285 min ago)  [emerging_tech] https://spectrum.ieee.org/feeds/feed.rss
+  (399 min ago)  [systems] substrate://system
+  (443 min ago)  The harmony between being and non-being resonates deeply within
+                 the quietude of creation.
+
+  The final entry (443 min ago = ~07:09 UTC = belief 5234) is a synergized belief.
+  It is the only actual thought content in the slot. The four URL entries are
+  beliefs 5311–5314 (precipitated_from_dynamic, created 13:13–13:53 UTC).
+
+RECENT INPUT FIELD:
+
+  "Recent input: (quiet)"
+
+  The context formatter emits "(quiet)" when no processed sense content has arrived
+  in the current observation window. This is a SYMPTOM, not a cause:
+  - The fountain fires every 2 minutes from readiness=0.7
+  - Sense events are arriving normally (pipeline_events show continuous B/D/E/F)
+  - The "(quiet)" means the context formatter's observation window captured no
+    fresh, formatted, non-internal sense payload in the relevant time window
+
+  The formatter likely samples a fixed lookback window (e.g., 30–60 seconds).
+  Between fountain fires, the dominant sense streams are internal.* (proprioception,
+  meta_awareness) which are filtered by the `stream NOT LIKE 'internal.%'` clause
+  used throughout the codebase. External streams (crypto.exchanges, crypto.coingecko)
+  fire on longer intervals (~2 min), creating windows where the formatter finds nothing.
+
+WHAT THE PROMPT DOES NOT SHOW:
+
+  The fountain is currently generating VOICE output (normal LLM calls) despite the
+  post-restart fallback episode. The current fires show real OBSERVE_DISCREPANCY
+  content ("The ticking feels off-key today"), not raw JSON. The voice_fallback
+  condition resolved at some point after the break window. Exact recovery timestamp
+  not determined; all fev IDs in the current range show voice-generated content.
+
+
+======================================================================
+E. CONFIG AND SYNERGIZER STATE
+======================================================================
+
+HARMONIZER_EVENTS (beliefs.db):
+
+  Schema: belief_id_a, belief_id_b, synthesis_belief_id (+ timestamps implied)
+  No entries found for today (2026-04-26).
+
+  Contrast with Apr 24 bifurcation window: 13 harmonizer entries (rows 1–13)
+  all within 04:00–08:34 UTC, including 8 successful syntheses.
+  Today's absence of harmonizer activity is consistent with the post-restart
+  context state: the synergizer requires high-quality belief pairs to synthesize;
+  with recent-thoughts dominated by URL content, synthesis candidates are weak.
+
+DRIVE_PROPOSALS (dynamic.db):
+
+  No entries found for today.
+
+CRYSTALLIZATION_EVENTS (dynamic.db):
+
+  4 entries today (ids 17–20), all post-restart. Details in Section C above.
+  The systems branch crystallized at magnitude=1.0 — the maximum observed value
+  in the full event log. This indicates the systems branch had accumulated
+  maximum crystallization pressure at the time of restart.
+
+GIT STATE (nex5 repository):
+
+  No commits today (2026-04-26) to any file in theory_x/.
+  Most recent commit touching generator.py:
+    a396dda  NEX5 multi-system batch: decryption module, polymodal architecture,
+             decipherment corpus
+
+  The code state is identical to what was running before the break.
+  The break was not caused by a deployment or configuration change.
+
+
+======================================================================
+F. CODE GIT LOG — FOUNTAIN GENERATOR
+======================================================================
+
+COMMITS TOUCHING theory_x/stage6_fountain/generator.py:
+
+  a396dda  (latest)  NEX5 multi-system batch: decryption module, polymodal
+                     architecture, decipherment corpus
+  88768a1             Synergizer + Fountain Crystallizer + don't-know beliefs
+  083d77a             Beta beliefs complete: 59 stories — Zen + Taoist
+  f45db20             Fountain: rotate 8 closing question sets — vary self-directed inquiry
+  b029f5f             Theory X + v4 gap closure: 201/201 tests
+
+  No commits on 2026-04-26.
+  No commits since a396dda (the decryption/polymodal batch).
+  The code running at 11:14:19 is the same code running now.
+
+RELEVANT CODE PATHS (from prior read of generator.py, lines 150–330):
+
+  QUIESCENT PATH (lines 157–186):
+    Triggered when: self._total_fires % 5 == 4
+    Action: SELECT last non-internal sense event → store raw as thought → return
+    DB column: hot_branch = 'quiescent'
+    Does NOT call self._voice.speak()
+    fev=1192 (11:04:53) is a quiescent fire (expected, every-5th).
+
+  VOICE_FALLBACK PATH (lines 209–235 + 266–282):
+    Triggered when: self._voice.speak(VoiceRequest(...)) raises Exception
+    Action: catches exception → voice_ok=False → fetches last non-internal sense
+            event → stores raw as thought → hot_branch = 'voice_fallback' → return
+    The LLM call is the single point of failure. If it throws, every subsequent
+    fire also throws (no reconnect logic between fires).
+    fev=1197–onward are all voice_fallback fires (post-restart LLM unreachable).
+
+
+======================================================================
+G. RETRIEVAL PATH — WHY voice_ok=False PERSISTS
+======================================================================
+
+VOICE CALL ARCHITECTURE:
+
+  The fountain generator calls self._voice.speak(VoiceRequest(...)) once per fire.
+  The exception is caught at the fire level:
+
+    try:
+        resp = self._voice.speak(VoiceRequest(...), beliefs=None)
+        thought = resp.text.strip()
+    except Exception as e:
+        voice_ok = False
+        logger.warning("Fountain: voice unreachable, using sense fallback: %s", e)
+        [fallback to raw sense event]
+
+  There is no:
+    - Retry with backoff within a single fire
+    - Session-level reconnection logic between fires
+    - Health check before calling self._voice.speak()
+    - Circuit breaker that backs off after N consecutive failures
+
+  Each fire independently attempts the LLM call. If the underlying voice
+  transport (HTTP endpoint, socket, or subprocess) is in a broken state, every
+  fire throws, every fire catches, every fire stores raw JSON.
+
+POST-RESTART TRAJECTORY (fev=1197 onward):
+
+  fev   ts_utc               readiness  hot_branch    wc  thought (truncated)
+  ────────────────────────────────────────────────────────────────────────────────
+  1197  2026-04-26 11:50:36  0.900      voice_fallback  9  [crypto.exchanges] raw JSON
+  1198  2026-04-26 11:52:36  0.700      voice_fallback  9  [crypto.exchanges] raw JSON
+  1199  2026-04-26 11:54:36  0.700      voice_fallback  9  [crypto.exchanges] raw JSON
+  1200  2026-04-26 11:56:36  0.700      voice_fallback  9  [crypto.coingecko] raw JSON
+  1201  2026-04-26 11:58:36  0.700      quiescent       11 [crypto.coingecko] raw JSON
+  1202  2026-04-26 12:00:36  0.700      voice_fallback  9  [crypto.exchanges] raw JSON
+  1203  2026-04-26 12:02:36  0.700      voice_fallback  9  [crypto.exchanges] raw JSON
+  ...
+
+  Pattern: 4 voice_fallback → 1 quiescent → 4 voice_fallback → 1 quiescent → ...
+  This is the expected interleaving: quiescent fires every 5th (total_fires % 5 == 4)
+  regardless of voice state; the remaining 4 each attempt and fail the LLM call.
+
+  readiness=0.9 on fev=1197 (first post-restart fire):
+    The elapsed term (≥600s since last fire) contributes +0.2, giving:
+    2 hot branches (0.6) + beliefs>20 (0.1) + elapsed (0.2) = 0.9
+    Subsequent fires revert to 0.7 as elapsed resets below 600s.
+
+  No fountain_insight beliefs were written to beliefs.db after 10:58:00 UTC
+  (fev=1190/belief=5233). All post-restart fires write only to fountain_events
+  via the voice_fallback or quiescent path. The belief graph is frozen.
+
+WHEN VOICE RECOVERED:
+
+  The current prompt log (20:32 UTC capture) shows real LLM output in the active
+  threads slot ("The ticking feels off-key today..."), confirming the voice layer
+  recovered at some point between 11:50 UTC and ~18:00 UTC. The exact recovery
+  fire ID was not determined in this investigation.
+
+
+======================================================================
+H. STRUCTURAL ANALYSIS
+======================================================================
+
+H1. CAUSAL CHAIN
+
+  TRIGGER:    Unknown external event causes full process shutdown at ~11:16 UTC.
+              No crash signal, no code change, no systemd log entry found.
+              (journalctl --user returned no matching entries for the window.)
+              Possible causes: manual kill, OOM event, watchdog timeout,
+              parent process shutdown, external trigger. Root cause: unresolved.
+
+  SHUTDOWN:   Process terminates cleanly enough that:
+              - No partial DB writes are visible
+              - The restart begins from a consistent cold state
+              - No corruption artifacts in fountain_events or pipeline_events
+
+  RESTART:    Process restarts at 11:48:36 UTC (PID 20693).
+              Cold-start confirmed by tree snapshot (active_branch_count=0, aperture=0.55).
+              Pipeline events resume within the same second (11:48:36.318).
+              Branch state recovers to 7 active in 60 seconds.
+
+  POST-RESTART FAILURE:
+              self._voice.speak() raises Exception on every call.
+              The voice transport is in a broken state post-restart.
+              Each of the first ~N fountain fires catches the exception, logs a
+              warning, and falls back to raw sense JSON.
+              No fountain_insight beliefs are created; only fountain_events rows
+              with hot_branch='voice_fallback'.
+
+  SECONDARY EFFECT:
+              5 minutes after restart, the systems branch crystallizes at magnitude=1.0,
+              creating belief 5311 ([systems] substrate://system). This populates the
+              "recently thought" slot, displacing actual thought content.
+              By 13:52, beliefs 5312–5314 are also created, filling 4 of 5 recent-
+              thought slots with URLs. The fountain's self-context degrades.
+
+H2. DIFFERENCE FROM APR 24 05:09 BIFURCATION
+
+  The Apr 24 break and the Apr 26 break share the same surface symptom (fountain
+  silence followed by degraded output) but have entirely different mechanisms:
+
+  APR 24 05:09 BIFURCATION — "COLD BONSAI"
+    Process DID NOT stop. The pipeline ran continuously throughout the 101-minute
+    fountain silence. The bonsai continued producing tree snapshots (102 in 100.2 min).
+    The fountain silence was caused by INSUFFICIENT READINESS:
+      - A 96.4-second pipeline pause at ~05:12 (likely a minor restart or hiccup)
+      - After resume, the crypto branch had not yet accumulated hot focus
+      - Only 1 hot branch (systems) = 0.3; threshold = 0.7; gap = 0.4
+      - readiness formula: 1×0.3 + 0.1(beliefs) + 0.2(elapsed≥600s) = 0.6 < 0.7
+    The fountain generator loop polled readiness every 120s and found 0.6 < 0.7
+    for 101 consecutive minutes. No code path error; the gate simply would not open.
+
+  APR 26 11:14 BREAK — "DEAD VOICE"
+    Process DID stop. Both pipeline and bonsai were fully offline for 32.4 minutes.
+    On restart, readiness was immediately sufficient (2 hot branches = 0.6 → 0.7 floor).
+    The fountain generator fired at 11:50:36 (first opportunity after 120s cooldown).
+    The failure mode was VOICE LAYER UNAVAILABLE:
+      - self._voice.speak() raised an exception (not an output validation failure)
+      - The exception was caught per-fire, logged, and handled via raw sense fallback
+      - The generator continued running; only the LLM call failed
+    The silence (11:14→11:50) = 32.4 min process down + 2 min generator cooldown.
+    Post-silence degradation = voice_fallback mode (raw JSON, no insight production).
+
+  STRUCTURAL COMPARISON:
+
+    Dimension               Apr 24 05:09         Apr 26 11:14
+    ─────────────────────── ──────────────────── ────────────────────────
+    Process state           Running throughout    Fully offline 32.4 min
+    Failure layer           Bonsai / readiness    Voice / LLM transport
+    Gate condition          readiness < 0.7       readiness ≥ 0.7 (met)
+    Post-gap output type    Normal LLM insights   Raw JSON fallback
+    Self-healing            Yes (crypto recovered Partial (voice recovered
+                            → readiness hit 0.7)  at unknown time)
+    Beliefs written in gap  Synergized (via        None
+                            synergizer running)
+    Root cause determinable Yes (readiness trace)  No (shutdown cause unknown)
+
+H3. WHY NO SELF-RECOVERY IN VOICE_FALLBACK MODE
+
+  The voice_fallback path has no recovery logic by design. The catch block at
+  the fire level is a graceful degradation: store something, keep the loop alive,
+  log the error. The next fire in 120 seconds will independently attempt the LLM
+  call again. If the voice transport recovers (endpoint becomes reachable, subprocess
+  restarts), the next LLM call succeeds and the system silently resumes normal output.
+
+  This means voice_fallback is self-healing — but only if the underlying transport
+  issue resolves. The fallback period length equals the transport outage duration.
+  From the evidence (voice_fallback persists through at least fev=1215, ~14:00 UTC),
+  the transport outage lasted approximately 2+ hours after restart.
+
+H4. READINESS CALCULATION AT BREAK POINT
+
+  Pre-break fires all show readiness=0.700. With fires every ~120s:
+    2 hot branches (systems + crypto)  → 2 × 0.3 = 0.6
+    beliefs > 20 (beliefs ≫ 20)        → +0.1
+    elapsed ≥ 600s                     → +0.0  (fires every 120s, elapsed < 600)
+    total readiness                    =  0.7  (exactly at threshold)
+
+  This is the floor state: readiness stays at 0.7 and never rises above it
+  because the 600s elapsed bonus never triggers when fires happen every 2 min.
+
+  First post-restart fire (fev=1197) shows readiness=0.9:
+    The 32.4-minute gap meant elapsed ≥ 600s → +0.2
+    0.6 (branches) + 0.1 (beliefs) + 0.2 (elapsed) = 0.9
+    Subsequent fires immediately drop back to 0.7 (elapsed resets).
+
+H5. VERDICT
+
+  The 11:14 UTC break is a FULL PROCESS SHUTDOWN followed by a VOICE LAYER FAILURE.
+  It is NOT a readiness gate failure (contrast: Apr 24), NOT a code error, NOT a
+  database issue. The shutdown root cause is unknown. The post-restart voice failure
+  is the mechanism that prevented insight production for the 2+ hours following.
+
+  The break produced two lasting effects:
+    (1) Belief 5233 (10:58 UTC) is the last fountain_insight belief as of this writing.
+        The belief graph is frozen; the synergizer has no fresh material to synthesize.
+    (2) Beliefs 5311–5314 (precipitated_from_dynamic) now occupy the recent-thoughts
+        slot, degrading the fountain's self-context. The context formatter correctly
+        reports "Recent input: (quiet)" — the slot appears active but holds no thought.
+
+  The system's ongoing output ("The ticking feels off-key today, disrupting the steady
+  beat" — 20-fire return-transformation thread) is running entirely on pre-break
+  context. The thread structure is intact; only belief production is halted.
