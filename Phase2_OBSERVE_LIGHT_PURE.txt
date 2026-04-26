@@ -1,0 +1,205 @@
+PHASE 2 — OBSERVE_LIGHT_PURE SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt (fountain corpus, 100 SENSE_OBS fires)
+Parent opcode: OBSERVE (SENSE_OBS)
+Fire count: 6 (LIGHT × MOTION × LITERAL — "bare light observation fires")
+=======================================================================
+
+A. EXTRACT ALL FIRES IN FULL
+
+   [2693] 2026-04-24 13:13:17 UTC  branch=systems  tod=afternoon
+     CONTENT: The morning light filters through the half-opened blinds, casting
+       playful shadows on my desk.
+     Light noun: morning light
+     Motion verb: filters, casting
+     Register: LITERAL
+
+   [2695] 2026-04-24 13:17:49 UTC  branch=systems  tod=afternoon
+     (Note: Phase1 lists 2695 as "The afternoon sun casts a warm glow on my desk."
+     Confirmed from Section 3 corpus output above: yes.)
+     CONTENT: The afternoon sun casts a warm glow on my desk.
+     Light noun: afternoon sun
+     Motion verb: casts
+     Register: LITERAL
+
+   [3481] 2026-04-25 03:19:17 UTC  branch=ai_research  tod=morning
+     CONTENT: The sunlight filters through sparse leaves, casting glimmers on my desktop.
+     Light noun: sunlight
+     Motion verb: filters through, casting
+     Register: LITERAL
+
+   [4619] 2026-04-25 23:10:25 UTC  branch=systems  tod=night
+     CONTENT: The warmth of afternoon sunlight filters through a nearby window,
+       drawing my eyes from idle thoughts.
+     Light noun: afternoon sunlight
+     Motion verb: filters through
+     Register: LITERAL (with small directed component: "drawing my eyes")
+     Note: Phase1 lists 4619 under LIGHT_PURE despite "drawing my eyes."
+     The directed component is subordinate; primary verb is "filters through."
+
+   [5140] 2026-04-26 08:54:17 UTC  branch=systems  tod=morning
+     CONTENT: The soft light from the window casts shadows on my desk.
+     Light noun: soft light
+     Motion verb: casts
+     Register: LITERAL
+
+   [1183] 2026-04-24 04:10:30 UTC  branch=systems  tod=morning
+     (From Phase1_OBSERVE: "The sun setting cast long shadows, and in one of them,
+     I saw my own reflection, not as a static image but as a dynamic f[...]")
+     Light noun: sun setting
+     Motion verb: cast
+     Register: LITERAL (with self-reflection element — borderline)
+     Note: Phase1 places this in OBSERVE_LIGHT_PURE but content includes
+     self-reflection. May be a boundary case; included here per Phase1 assignment.
+
+
+B. TEMPLATE INVENTORY
+
+   Surface form clusters:
+     LIGHT_FILTERS: "The [light noun] filters through [aperture], casting [effect]."
+       Count: 3 fires (2693, 3481, 4619)
+       "Filters through" is the primary motion verb.
+
+     LIGHT_CASTS: "The [light noun] casts [effect] on [surface]."
+       Count: 2 fires (2695, 5140)
+
+     SUN_CASTS: "The sun [setting/rising] cast[s] [effect]."
+       Count: 1 fire (1183)
+
+   Pool size: 2 primary templates (FILTERS, CASTS).
+   Dominant template: LIGHT_FILTERS at 50%.
+
+
+C. FILLER POOL ANALYSIS
+
+   [light noun] pool:
+     morning light (×1), afternoon sun (×1), sunlight (×1), afternoon sunlight (×1),
+     soft light (×1), sun setting (×1)
+   Pool size: 6 distinct noun forms. Each fire uses a different noun. ZERO LOCK.
+   The light source varies with tod (time of day): morning light, afternoon sun,
+   sunlight (generic), soft light (generic, evening context).
+
+   [effect] pool:
+     playful shadows on my desk (2693), warm glow on my desk (2695),
+     glimmers on my desktop (3481), drawing my eyes from idle thoughts (4619),
+     shadows on my desk (5140), long shadows (1183)
+   Effects: 3 of 6 involve "shadows" (desk shadows, glimmers, long shadows).
+   "On my desk" is a location lock: 3/6 fires locate the effect on a desk.
+
+   Summary: HIGH VARIATION in light noun (zero lock); MODERATE LOCK on "desk"
+   as effect location and "shadows" as effect type.
+
+
+D. GROUNDING TEST
+
+   All 6 fires describe actual visible light events: sunlight filtering through
+   a window or blinds and casting shadows/glow on a surface. These are
+   straightforward perceptual observations — no affective coloring, no
+   discrepancy qualifier, no directed attribution.
+
+   Per-fire grounding:
+     2693: morning light + blinds + shadows on desk — concrete, visually anchored
+     2695: afternoon sun + warm glow + desk — concrete
+     3481: sunlight + sparse leaves + glimmers + desktop — concrete, specific
+     4619: afternoon sunlight + nearby window — concrete, small directed tail
+     5140: soft light + window + shadows on desk — concrete
+     1183: sun setting + long shadows + own reflection — concrete, with self-ref
+
+   All fires are grounded to real visual sense events. The light described
+   matches the expected sense input for the time-of-day (tod field matches:
+   afternoon fires describe afternoon sun; morning fires describe morning light
+   or sunlight through leaves).
+
+   Verdict: GROUNDED. This is the purest grounding mode in the OBSERVE corpus.
+   No generated qualifiers, no attributed agency, no affective overlay.
+   The observation is complete and literal.
+
+
+E. SEQUENCE POSITION
+
+   OBSERVE_LIGHT_PURE fires are temporally spread:
+     2693, 2695: Apr 24 afternoon (consecutive with 1 gap fire between them)
+     3481: Apr 25 morning (single, in ai_research branch)
+     4619: Apr 25 night (single)
+     5140: Apr 26 morning (single)
+     1183: Apr 24 morning (single)
+
+   Near-consecutive pair: 2693 and 2695 fire within the same afternoon session
+   (13:13 and 13:17 UTC). Fire 2694 ("The clock ticks louder in my quiet room")
+   falls between them — both light fires are within the same temporal window
+   but not strictly consecutive.
+
+   No strong clustering. OBSERVE_LIGHT_PURE appears to fire as a single-shot
+   observation when visual sense input is available.
+
+   i-1 for 2693: 2692 (SENSE_OBS market — SOL price slipped)
+   i+1 for 2695: 2696 (SENSE_OBS sun — afternoon sun bathes desk, adjacent light fire)
+
+   The 2693→2695 pair shows light-observation micro-cluster but at n=2, no pattern.
+
+
+F. BURST BEHAVIOR
+
+   Max burst: 2 (2693, 2694-bridge, 2695 — effectively 2 light fires with 1 gap)
+   Strict consecutive: max 1.
+
+   Sustain rate: 0 confirmed consecutive pairs.
+   OBSERVE_LIGHT_PURE does not sustain. It is a single-shot observation.
+
+   Burst regulator: NONE. Light fires are independent observations dependent
+   on current visual sense input availability. No accumulation mechanism.
+
+
+G. SUB-SUB-OPCODE HYPOTHESIS
+
+   Three variants visible but at n=1 each:
+     FILTERED (through aperture): filters through blinds/leaves/window
+     CAST (surface effect): casts glow/shadows on surface
+     SETTING (temporal): sun setting cast long shadows
+
+   No sub-sub-opcode split warranted at this count.
+
+   The only structural distinction of note: 4619 has a small directed tail
+   ("drawing my eyes from idle thoughts"). This approaches OBSERVE_HUM_DIRECTED
+   territory. But since the directed component is subordinate, 4619 remains
+   in LIGHT_PURE.
+
+
+H. STRUCTURAL VERDICT
+
+   Place in taxonomy:
+   - Operation type: REGISTER — part of SENSE_OBS background processing.
+     Single-shot observations that do not accumulate into long runs.
+   - Grounding mode: GROUNDED — all fires grounded to real visible light events.
+     This is the PUREST GROUNDING MODE in the corpus: no generated qualifiers,
+     no attribution, no affective overlay. The gold standard of grounded OBSERVE.
+   - Burst regulator: NONE — fires when visual input is available, stops when
+     visual input changes. No internal saturation or accumulation.
+
+   OBSERVE_LIGHT_PURE occupies the opposite extreme from OBSERVE_TEMPORAL_QUALIFIED:
+   - TEMPORAL_QUALIFIED: clock (temporal sense) + discrepancy qualifier (generated)
+   - LIGHT_PURE: visual sense + no qualifier (literal only)
+   Both are OBSERVE sub-opcodes but differ maximally in grounding mode.
+
+
+I. UPDATED STRUCTURAL GRID
+
+   OBSERVE_LIGHT_PURE | register | grounded | 50% (filters through) | 1 | none
+
+
+J. NOTES / OPEN QUESTIONS
+
+   1. The "on my desk" location lock (3/6 fires) is notable. The desk appears
+      to be the default observation surface for light effects — it is where the
+      light lands and casts shadows. This is a consistent environmental grounding.
+
+   2. The 6 LIGHT_PURE fires span the full corpus timespan (Apr 24 early morning
+      to Apr 26 morning). Light observation appears throughout the session with
+      no era concentration, unlike TEMPORAL (afternoon-heavy) or HUM (evening-heavy).
+
+   3. OPEN: Does visual sense input (camera, environment monitoring) generate
+      "morning light" and "afternoon sun" descriptions, or are these time-of-day
+      templates from the fountain generator? The tod field matches the light
+      descriptions (afternoon fires → "afternoon sun") suggesting temporal
+      templating rather than actual visual input. If so, grounding mode should
+      be revised to HALF-GROUNDED (time-of-day grounded, not visually grounded).
