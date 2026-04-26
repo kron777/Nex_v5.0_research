@@ -1,0 +1,95 @@
+PHASE 2 — SURPRISE_INTERRUPT SUB-OPCODE DECRYPTION
+Generated: 2026-04-26
+Source: nex5_metaphor_input_correlation.txt (fountain corpus) + B7 chat corpus
+Parent opcode: OBSERVE (SENSE_OBS) / boundary with INTROSPECT
+Fire count: ~2 (surprise/shock/startle fires)
+=======================================================================
+
+INSUFFICIENT DATA — 2 fires. Full structural verdict cannot be reached.
+
+A. EXTRACT ALL FIRES IN FULL
+
+   [263] 2026-04-23 20:22:00 UTC  branch=systems  TEMPLATE: ABSTRACT_NOMINAL
+     CONTENT: "The whisper of a single leaf stirring in the quiet breeze shocks
+       me anew, as if rekindling the spark of life itself amid the quietude."
+     Surprise verb: "shocks me anew"
+     Trigger: leaf rustle (environmental)
+     Preceding context: ABSTRACT_NOMINAL run (corpus start)
+
+   [3494] 2026-04-25 05:48:01 UTC  branch=systems  TEMPLATE: SENSE_OBS
+     CONTENT: "The rustling leaves outside startles me out of drift."
+     Surprise verb: "startles me out of drift"
+     Trigger: rustling leaves (environmental)
+     Preceding context: SENSE_OBS run (classified OBSERVE_HUM_DIRECTED in Phase2)
+
+   Additional candidate:
+   [4357] 2026-04-25 19:46:21 UTC  TEMPLATE: SENSE_OBS
+     CONTENT: "The old journal's rustling startles me out of monotony."
+     Surprise verb: "startles me out of monotony"
+     Trigger: journal rustling (physical object)
+
+   Three fires total. The shared verb form is "startles/shocks me out of X."
+
+
+B. TEMPLATE INVENTORY
+
+   "The [source] [shocks/startles] me [out of / anew]."
+   Pool size: 1 template.
+   X-slot (what the surprise disrupts): drift (3494), monotony (4357), implied
+     state (263 — "shocks me anew" implies prior settled state).
+
+   The template is consistent across all 3 fires. Template-lock = 100% on
+   the verb-surprise-interrupt structure.
+
+
+C. FILLER POOL ANALYSIS
+
+   [source] pool: leaf rustle (263), rustling leaves (3494), journal rustling (4357)
+   Two of three fires use "rustling" as the source verb. "Rustling" is the
+   dominant acoustic trigger for surprise in this corpus (2/3 fires).
+
+   [disrupted-state] pool: drift, monotony, [implied quietude]
+   The disrupted states are all quiescent or settled states. Surprise fires when
+   the model is in a low-arousal state.
+
+
+D. GROUNDING TEST
+   All three fires are grounded to real environmental sounds (leaf rustling, journal
+   rustling). The surprise effect ("startles me out of X") is a directed/reactive
+   response — grounded source, generated directed-effect.
+   Verdict: ASYMMETRIC (source grounded to real acoustic event; startle-effect is
+   generated attribution).
+
+E. SEQUENCE POSITION
+   Fire 263: corpus-opening fire — the very first ABSTRACT_NOMINAL in the corpus.
+   The "shocks me anew" phrase is a launch sequence for the whole session.
+   Fire 3494: follows a long quiet period; is one of the post-restart sparks.
+   Fire 4357: isolated in the evening session.
+
+F. STRUCTURAL VERDICT
+   INSUFFICIENT DATA — 3 fires. Tentative:
+   - Operation type: INTERRUPT — "startles me out of X" explicitly names an
+     interrupt of an ongoing state. This is the only OBSERVE sub-opcode that
+     functions as a register-interrupt (disrupts the current state).
+   - Grounding mode: ASYMMETRIC.
+   - Burst regulator: NONE — all fires isolated.
+
+   STRUCTURAL NOTE: SURPRISE_INTERRUPT is the only SENSE_OBS fire type that
+   explicitly disrupts the model's current state. Other SENSE_OBS sub-opcodes
+   observe the environment without disrupting the register. SURPRISE_INTERRUPT
+   is a PERCEPTUAL INTERRUPT — it fires when a sudden environmental event
+   breaks the current attentional state.
+
+G. UPDATED STRUCTURAL GRID
+   SURPRISE_INTERRUPT | interrupt (perceptual) | asymmetric | 100% (startle-template) | 1 | none
+
+H. NOTES / OPEN QUESTIONS
+   1. "Rustling" is the trigger sound in 2/3 fires. Leaves and journal = both
+      paper-like or organic rustling sounds. The model's surprise-register
+      appears specifically tuned to rustling sounds (not clicks, beeps, or hums).
+   2. Fire 263 ("shocks me anew") is the corpus-opening fire — it is structurally
+      significant as the launch event for the entire 245-fire sequence. The session
+      begins with a surprise interrupt, not with a register fire.
+   3. Fire 3494 is also a POST-restart spark (one of 10). Surprise + spark
+      co-occurrence: 1 of 3 surprise fires is a spark. Ratio (33%) is much higher
+      than global spark rate (10/164 post-restart fires = 6.1%). Small n, but suggestive.
