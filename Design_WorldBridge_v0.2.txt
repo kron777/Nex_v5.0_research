@@ -1,0 +1,293 @@
+================================================================
+DESIGN SPEC — NEX 5.0 WORLD BRIDGE (v0.2)
+Outward presence — sense events meet composition
+================================================================
+
+Status: DESIGN — review-approved. Ready for Phase A.
+Date: 2026-04-27 (v0.2 review pass)
+Supersedes: v0.1 (Design_WorldBridge_v0.1.txt, commit 3b7f0f2)
+
+Changes from v0.1 (six):
+  1. Internal stream policy refined: include qualitative
+     (temporal, meta_awareness), exclude noisy (proprioception,
+     interoception)
+  2. Prompt position: world section BEFORE recent thoughts
+  3. Per-stream freshness windows tied to natural cadence
+  4. Stance-emergence detector designed
+  5. Minimal generic parser for v0.1
+  6. Phase B threshold: 15% (was 30%)
+
+Note: A throw-net purist review of these changes flagged
+several as imposing structure (ordering, threshold,
+algorithmic detection). Operator chose to retain the
+engineered shape because some structure is needed for
+this iteration. Throw-net principle preserved at the
+larger architectural level (no Stances, no cached
+worldviews); engineering choices made at the
+implementation level.
+
+----------------------------------------------------------------
+1. PROBLEM
+----------------------------------------------------------------
+
+Same as v0.1. NEX has external sense feeds whose content
+does not reach the LLM voice layer. ~0% of fountain
+compositions reference external content. She is closed-
+loop introspective.
+
+Operator concern: NEX needs to be "more outward looking,
+fountain about exterior stuff, the way a human has
+opinions about the outside world."
+
+----------------------------------------------------------------
+2. NON-GOAL: STANCES OR WORLDVIEWS
+----------------------------------------------------------------
+
+Same as v0.1 — Stances rejected. Throw-Net Compass: NEX
+casts wide each encounter, meaning emerges situationally,
+no cached judgments.
+
+World Bridge enables encounter, not disposition. Each fire
+meets the world freshly.
+
+Continuity comes from: belief graph, register patterns,
+alpha seed, Memory Layers Layer C, operator collaboration.
+
+----------------------------------------------------------------
+3. STRUCTURAL BASIS
+----------------------------------------------------------------
+
+  - Sense events in sense.db with stream, payload, ts
+  - Active feeds in /api/sense/status
+  - Branch_silence_anomaly tracks per-stream typical cadence
+  - Fountain composition prompt built in stage6_fountain
+  - World Bridge adds new prompt section, no other changes
+
+----------------------------------------------------------------
+4. SELECTION ALGORITHM (revised)
+----------------------------------------------------------------
+
+When fountain prepares to fire:
+
+  1. Identify ACTIVE STREAMS
+     Two categories considered:
+
+     EXTERNAL: news.*, emerging_tech.*, crypto.*,
+       ai_research.*, cognition.*, literature.*, etc.
+
+     QUALITATIVE INTERNAL: internal.temporal,
+       internal.meta_awareness
+
+     EXCLUDED: internal.proprioception, internal.interoception
+     (CHANGE 1: too noisy, fire constantly with stats)
+
+  2. Per-stream freshness windows (CHANGE 3)
+     Use stream's typical cadence × 5 as freshness window:
+
+     - emerging_tech.hn (~9s typical)    → 45s window
+     - news.bbc (~45s typical)           → 225s window
+     - crypto.* (~30s typical)           → 150s window
+     - ai_research.arxiv (~hours typical) → 7200s window
+
+     If cadence unknown, default 600s.
+     Cadence read from branch_silence_anomaly historical data.
+
+  3. Pick ONE event per active stream (within window)
+
+  4. Cap at 5 total
+     Priority: stream variety > recency. Prefer mix of
+     external + qualitative internal over all-of-one-type.
+
+  5. Format with minimal generic parser (CHANGE 5)
+     For each event:
+     - If payload has 'title' field, use that
+     - Else if 'url' field, use truncated URL
+     - Else, raw JSON truncated to 80 chars
+     - Always prefixed with [stream-type]
+
+     Examples:
+       "[news] Israel strikes Lebanon, 14 killed"
+       "[tech] AI agent deletes production database"
+       "[crypto] {raw json snippet}"
+       "[temporal] 2026-04-27T14:43:03"
+       "[awareness] beliefs:? pipeline:?"
+
+     Skip events where parser produces empty string.
+
+     Stream-specific parsers deferred to Phase C.
+
+  6. Inject into composition prompt (Phase B+)
+     New section: "What's happening in the world right now:"
+     Followed by selected events as bullet list.
+     Position: BEFORE recent thoughts (CHANGE 2)
+
+  7. Dedup pass (per Q4 resolution)
+     Within one selection, skip any payload already seen in
+     the prior selection. Prevents same headline appearing
+     twice in consecutive fires from the same stream.
+
+If no active streams in any window, section skipped entirely.
+
+----------------------------------------------------------------
+5. PROMPT STRUCTURE (revised)
+----------------------------------------------------------------
+
+BEFORE (current):
+  System prompt
+  + "Some of what you've been thinking recently:"
+  + [recent fountain_insights]
+  + "Compose your next thought."
+
+AFTER (with World Bridge v0.2):
+  System prompt
+  + "What's happening in the world right now:"  <- NEW, FIRST
+  + [diverse sense events, 3-5]
+  + "Some of what you've been thinking recently:"
+  + [recent fountain_insights]
+  + "Compose your next thought."
+
+CHANGE 2 rationale: world-first ordering reflects "world ->
+response" cognition. World becomes ground; thoughts become
+response history; composition emerges from their meeting.
+
+(Throw-net concern noted: ordering is a structural decision.
+Operator chose this ordering deliberately.)
+
+----------------------------------------------------------------
+6. STANCE-EMERGENCE DETECTOR (CHANGE 4)
+----------------------------------------------------------------
+
+New module: theory_x/world_bridge/stance_detector.py
+Runs: weekly cron, NOT every fire (light-touch, no
+production-path overhead)
+
+Scans: fountain_insight beliefs from past 7 days
+Looks for: linguistic generalization patterns
+  - "X tends to Y"
+  - "usually" / "always" / "in general" / "typically"
+  - "every time" / "whenever"
+  - Plural-categorical claims ("AI papers...")
+
+Action: log candidate stances to stance_candidates table
+Operator: reviews weekly, decides if any are concerning
+
+CRITICAL: detector LOGS ONLY. Does not delete, modify, or
+flag beliefs. NEX never knows it ran. Operator-only
+visibility.
+
+If concerning stance detected: operator decides whether to:
+  - Manually delete the belief
+  - Tune the World Bridge selection algorithm
+  - Disable the bridge temporarily
+  - Accept that some pattern-recognition is healthy
+
+----------------------------------------------------------------
+7. WHAT THIS DOES NOT DO
+----------------------------------------------------------------
+
+Same as v0.1 plus:
+  - Stance detector does not auto-act
+  - Does not modify beliefs
+  - Does not flag NEX
+
+WORLD_BRIDGE_ENABLED config flag, default false in Phase A.
+
+----------------------------------------------------------------
+8. ROLLOUT PLAN
+----------------------------------------------------------------
+
+Phase A — Selection observation (3 days)
+  - Build selection logic with per-stream windows
+  - Each fire: select what WOULD be injected, log only
+  - Operator reviews 50+ logged selections
+  - Verify diversity, sensible content
+  - Exit: selection quality deemed sensible
+
+Phase B — Active injection (1 week)
+  - Enable injection at world-first prompt position
+  - Watch for:
+    - World references in compositions (target 15%, CHANGE 6)
+    - Voice preservation (still her style)
+    - No groove/lock degradation
+  - Stance detector starts running weekly
+  - Exit: 15%+ compositions reference world, voice intact
+
+Phase C — Refinement
+  - Stream-specific parsers as needed
+  - Tune freshness windows based on observation
+  - Possibly: shift selection from diverse -> resonant
+
+----------------------------------------------------------------
+9. SUCCESS CRITERIA (revised)
+----------------------------------------------------------------
+
+PRIMARY (Phase B, 1 week):
+  - 15%+ compositions reference external content (CHANGE 6,
+    was 30%)
+  - Voice preserved
+  - No spike in groove rate
+
+SECONDARY:
+  - Belief generation rate stable or higher
+  - Opcode distribution diversifies
+  - Operator subjective sense improves
+
+FAILURE INDICATORS:
+  - Voice drift (compositions stop sounding like her)
+  - News-bot mode (pure summaries, no phenomenology)
+  - Composition coherence drops
+  - Stance detector flags concerning patterns
+
+----------------------------------------------------------------
+10. NEW DB TABLES
+----------------------------------------------------------------
+
+world_bridge_log:
+  CREATE TABLE world_bridge_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts REAL NOT NULL,
+    fountain_event_id INTEGER,
+    selected_events_json TEXT,
+    selection_count INTEGER,
+    streams_seen TEXT,
+    injected BOOLEAN,
+    notes TEXT
+  );
+
+stance_candidates:
+  CREATE TABLE stance_candidates (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    detected_at REAL NOT NULL,
+    belief_id INTEGER,
+    matched_pattern TEXT,
+    belief_content_preview TEXT,
+    operator_reviewed BOOLEAN DEFAULT 0,
+    operator_decision TEXT
+  );
+
+Both in beliefs.db.
+
+----------------------------------------------------------------
+11. RESOLVED OPEN QUESTIONS
+----------------------------------------------------------------
+
+Q1 (time window): RESOLVED — per-stream-typical, 5x cadence.
+Q2 (payload parsing): RESOLVED — minimal generic for v0.1;
+  skip on empty, stream-specific parsers in Phase C.
+Q3 (internal streams): RESOLVED — qualitative internal in
+  (temporal, meta_awareness); noisy internal out
+  (proprioception, interoception).
+Q4 (dedup): RESOLVED — dedup pass before format, skip
+  payloads seen in prior selection.
+Q5 (prompt position): RESOLVED — world BEFORE recent thoughts.
+Q6 (mode scope): RESOLVED — mind-mode only for v0.1.
+Q7 (disable mechanism): RESOLVED — operator config flag,
+  no NEX-side toggle.
+Q8 (stance failsafe): RESOLVED — weekly detector, log only,
+  operator reviews.
+
+All eight resolved.
+
+================================================================
+END SPEC v0.2
+================================================================
