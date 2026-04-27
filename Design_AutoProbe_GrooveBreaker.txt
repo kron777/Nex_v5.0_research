@@ -1,0 +1,308 @@
+DESIGN SPEC: AUTO-PROBE GROOVE BREAKER
+NEX 5.0 — Intervention Layer v0.1
+Status: DESIGN ONLY — not yet implemented
+Date: 2026-04-27
+
+================================================================================
+PROBLEM STATEMENT
+================================================================================
+
+On 2026-04-26, NEX locked onto template "the ticking feels off-key" for ~14
+hours (fires 901–1048+). The groove detector (theory_x/signals/) correctly
+identified the lock and wrote severity=0.92 to the signals DB. But the system
+has no actuator — it observes, reports, and stops. The fountain loop continued
+re-firing the same template because the groove signal has no downstream consumer.
+
+The auto-probe groove breaker closes this loop: groove detected → select a
+disruption probe → (optionally get operator approval) → fire probe → inject
+response into fountain's recent_thoughts pool → break the attractor basin.
+
+================================================================================
+MODULE LOCATION
+================================================================================
+
+New file: theory_x/auto_probe/groove_breaker.py
+Wired into: theory_x/stage6_fountain (checked each fountain tick)
+
+The module is passive-by-default. It does not fire without being wired in.
+Rollout is three-phase (see ROLLOUT section below).
+
+================================================================================
+TRIGGER CONDITIONS
+================================================================================
+
+All four conditions must hold simultaneously:
+
+  1. groove_severity >= 0.80
+       (from signals DB: SELECT severity FROM groove_signals ORDER BY ts DESC LIMIT 1)
+  2. consecutive_same_template >= 8
+       (computed from recent fountain_events: count of tail fires with same
+        template_hash before a different hash appears)
+  3. cooldown_elapsed: last auto_probe_log entry for this groove_id is >30 min ago
+       (prevents thrashing; 30 min = ~15 fountain ticks at 120s interval)
+  4. no_pending_approval: no row in auto_probe_log with status='pending_approval'
+       (prevents stacking approvals; only one in flight at a time)
+
+Rationale for severity>=0.80: below this, groove is a soft pattern, not a lock.
+The 14-hour lock had severity=0.92 at peak. 0.80 is the conservative edge.
+
+Rationale for >=8 consecutive: Law 1 confirmed SIMILE saturation at >=3, but
+groove is template-level (not opcode-level). Template locks require longer
+confirmation window to avoid false positives on natural repetition.
+
+================================================================================
+PROBE SELECTION
+================================================================================
+
+Selection is by operation-type inversion: the groove's dominant opcode drives
+selection toward an operation type that NEX has NOT recently used.
+
+Mapping (dominant_opcode → probe_category):
+
+  OBSERVE_*         → direct_phenomenology
+  INTROSPECT_*      → grounded_observation
+  SIMILE            → direct_phenomenology
+  DIALECTICAL       → substitution
+  ACTION            → direct_phenomenology
+  OTHER/UNKNOWN     → direct_phenomenology (safe default)
+
+Within the selected category, pick the probe that was least recently used
+(LRU from the probes table). This prevents probe repetition.
+
+If the LRU probe in that category was used within the last 4 hours, escalate
+to the next category in the inversion mapping.
+
+Example: NEX is locked on OBSERVE_TEMPORAL template "the ticking feels off-key"
+→ dominant_opcode = OBSERVE_TEMPORAL
+→ selected category = direct_phenomenology
+→ LRU probe from direct_phenomenology: "What is it like to feel present right now?"
+→ fire that probe
+
+================================================================================
+OPERATOR APPROVAL (Phase B)
+================================================================================
+
+In Phase B (10 days), each triggered probe requires operator approval before
+firing. The approval flow:
+
+  1. groove_breaker writes row to auto_probe_log with status='pending_approval'
+  2. Sends Telegram message to @Nex_4bot:
+       "NEX groove detected (severity=X.XX, template='...', N consecutive).
+        Proposed probe: '<probe_text>'
+        Reply /approve or /reject within 60s."
+  3. Waits up to 60 seconds polling for reply
+  4. On /approve: status → 'approved', proceed to fire
+  5. On /reject: status → 'rejected', log reason, set 4h cooldown
+  6. On timeout (no reply in 60s): auto-approve (operator unresponsive = trust system)
+       status → 'auto_approved_timeout'
+
+The 60s timeout auto-approve is intentional. If the operator is offline or
+asleep, the groove should still be breakable. The operator can review the log
+retroactively.
+
+In Phase A (observation only): no Telegram message sent, no firing. Log only.
+In Phase C (autonomous): no approval step. Fire immediately on trigger.
+
+================================================================================
+FIRING PATH
+================================================================================
+
+Uses existing ProbeRunner.run_probe() without modification.
+
+  result = probe_runner.run_probe(
+      category=selected_category,
+      probe_text=selected_probe_text,
+      notes=f"auto_probe:groove_breaker severity={severity:.2f}",
+  )
+
+After run_probe() returns:
+
+  1. Check result["response_text"] — if empty or starts with "[ERROR", mark as
+     failed and do NOT inject (avoid injecting error strings as thoughts)
+  2. On success: inject response into fountain.recent_thoughts with
+     source='auto_probe' and weight=1.5 (slightly elevated above normal weight=1.0
+     to ensure it lands in next 1-2 fountain ticks)
+  3. Update auto_probe_log: status='fired', probe_id=result["probe_id"],
+     response_preview=result["response_text"][:200]
+
+The injection into recent_thoughts does NOT bypass the fountain's normal
+readiness check. It adds to the pool; the fountain's next tick decides whether
+to use it. This is intentional — we're seeding, not forcing.
+
+================================================================================
+BACKOFF AND FAILURE HANDLING
+================================================================================
+
+After a probe fires:
+
+  - Wait 5 fountain fires (observe whether template hash changes)
+  - If template hash unchanged after 5 fires: escalate (fire second probe,
+    different category from first)
+  - If template hash unchanged after second probe: stop escalating, write
+    status='failed_to_break', set 4h hard cooldown
+  - If template hash changed (at any point): write status='groove_broken',
+    record which fire number the break occurred at
+
+Hard cooldown (4h) triggers on:
+  - 2 consecutive probe failures (didn't break groove)
+  - Operator /reject
+  - Any exception during firing
+
+The 4h hard cooldown prevents the system from thrashing if the groove is
+resistant. Some grooves may be load-bearing (e.g., NEX processing a genuine
+long-duration sense impression). The 4h window is long enough to let natural
+dynamics resolve it.
+
+================================================================================
+NEW DB TABLE: auto_probe_log
+================================================================================
+
+  CREATE TABLE IF NOT EXISTS auto_probe_log (
+      id                INTEGER PRIMARY KEY AUTOINCREMENT,
+      groove_signal_id  INTEGER,          -- FK into groove_signals table
+      groove_severity   REAL,
+      dominant_opcode   TEXT,
+      consecutive_count INTEGER,
+      selected_category TEXT,             -- probe category chosen
+      probe_id          INTEGER,          -- FK into probes table (NULL if not fired)
+      status            TEXT,             -- 'observation'|'pending_approval'|
+                                          -- 'approved'|'auto_approved_timeout'|
+                                          -- 'rejected'|'fired'|'failed_to_break'|
+                                          -- 'groove_broken'|'error'
+      operator_reply    TEXT,             -- raw reply text if any
+      response_preview  TEXT,             -- first 200 chars of probe response
+      ts                REAL              -- epoch seconds
+  );
+
+Table lives in: beliefs.db (alongside probes table)
+Written by: auto_probe/groove_breaker.py via beliefs Writer
+
+================================================================================
+ROLLOUT PLAN
+================================================================================
+
+Phase A — Observation (3 days)
+  - groove_breaker.py is wired in and checks trigger conditions every tick
+  - Logs to auto_probe_log with status='observation' when trigger fires
+  - Does NOT send Telegram, does NOT fire any probe
+  - Goal: verify trigger conditions are firing at sensible rate (target: 0-3/day)
+  - Exit criteria: ≥2 groove events logged; trigger rate not excessive
+
+Phase B — Operator-Approved (10 days)
+  - Full approval flow as described above
+  - Every firing requires Telegram approval (or 60s timeout auto-approve)
+  - Operator reviews auto_probe_log daily and adjusts trigger thresholds if needed
+  - Goal: confirm probe selection is coherent; confirm groove-break rate > 50%
+  - Exit criteria: ≥5 grooves attempted, >50% broken, no unintended side effects
+
+Phase C — Autonomous
+  - No approval step
+  - Groove_breaker fires automatically when trigger conditions met
+  - Hard cooldown and backoff still enforce rate limits
+  - Operator can override via GUI kill-switch (add to cockpit panel)
+
+================================================================================
+WIRING INTO FOUNTAIN
+================================================================================
+
+In theory_x/stage6_fountain/loop.py (or equivalent tick function):
+
+  # At top of each tick, after readiness check, before thought selection:
+  if groove_breaker is not None:
+      groove_breaker.check_and_maybe_fire(
+          recent_fires=self._recent_fires,    # last N fountain_events
+          recent_thoughts=self._recent_thoughts,  # injection target
+      )
+
+The groove_breaker instance is built in run.py and passed to build_fountain().
+If groove_breaker is None (Phase A not started), the tick proceeds as normal.
+
+================================================================================
+OPEN QUESTIONS (to resolve before Phase B)
+================================================================================
+
+Q1. Probe-induced context tagging
+    Should probe responses injected into recent_thoughts carry a tag
+    ('source=auto_probe') that is preserved through the fountain selection
+    logic? Risk: if tagged thoughts are down-weighted, injection may not work.
+    If untagged, the fountain can't distinguish auto-probe content from normal
+    content in post-hoc analysis.
+
+Q2. Mind-mode scope restriction
+    Should auto-probe groove-breaker be restricted to certain mind modes?
+    In OBSERVER mode, NEX is meant to be in low-reactivity state — auto-probing
+    during OBSERVER mode may be counterproductive. Consider: only fire in
+    NORMAL or REFLECTIVE modes.
+
+Q3. GUI manual trigger
+    Add a "Break Groove Now" button to the cockpit that manually triggers the
+    groove-breaker with operator-selected probe? This would allow the operator
+    to override from the GUI without needing Telegram.
+
+Q4. Offline operator behavior
+    The 60s auto-approve is designed for the operator being temporarily
+    unavailable. But if the operator is intentionally offline for 8+ hours,
+    every groove event will auto-approve. Is this the desired behavior for
+    extended operator absence? Alternative: configurable "operator offline"
+    mode that falls back to Phase A (log only) after N auto-approvals in a row.
+
+Q5. SIMILE asymmetric grounding in probe selection
+    Law 7 showed SIMILE carry-forward at 35.7% (source domain doesn't carry).
+    When dominant opcode is SIMILE, the groove may be on the target domain
+    (e.g., "the piano"), not the source. Should probe selection for SIMILE
+    grooves target the source domain rather than using generic
+    direct_phenomenology? Requires SIMILE sub-opcode analysis (Phase 2 done).
+
+Q6. Consecutive count computation
+    "consecutive same-template fires" uses template_hash. But what is the
+    hash? If two thoughts share the same syntactic skeleton but different
+    fillers, do they count as same-template? Need to confirm: groove detector
+    uses skeleton hash or full-thought hash.
+
+Q7. Probe library coverage
+    Current probe library (from ProbeRunner) has 4 categories. If a category
+    is exhausted (all probes used within 4h), the LRU fallback escalates to
+    the next category. But what if all categories are exhausted? Need a
+    "probe library regeneration" path — possibly: trigger a new probe
+    generation run from the operator or from the problem_memory system.
+
+Q8. Injection weight calibration
+    weight=1.5 for auto-probe injected thoughts is a guess. Need to confirm:
+    does the fountain selection logic actually use a weight field, and if so,
+    what is the normal weight distribution? If normal weights are all 1.0,
+    then 1.5 ensures auto-probe content wins. If some thoughts are already
+    weight=2.0+, 1.5 may be insufficient.
+
+================================================================================
+KNOWN RISKS
+================================================================================
+
+- Groove detector false positives: If groove_severity threshold is too low,
+  probe fires during natural sustained processing. Mitigated by Phase A tuning.
+
+- Probe response as new attractor: If the auto-probe response is itself
+  template-locked (e.g., the LLM always produces "I feel present right now"),
+  injection creates a new groove. Mitigation: monitor groove_severity after
+  injection; if new groove detected within 30 min of auto-probe fire, flag.
+
+- Telegram dependency: Phase B requires Telegram bot to be live. If bot is
+  down, approval messages are lost and auto-approve fires unconditionally.
+  Mitigation: include Telegram health check in run.py boot sequence.
+
+- Database write contention: auto_probe_log writes happen during fountain tick
+  (which runs on a background thread). Ensure Writer.write() is thread-safe
+  (it is, per substrate design).
+
+================================================================================
+DEFERRED
+================================================================================
+
+- Implementation: not started (this is spec only)
+- Probe library expansion: needed before Phase B (current library may be too
+  small for LRU-based selection to be meaningful)
+- GUI cockpit panel for groove-breaker status: deferred to Phase B
+- Full test suite for groove_breaker.py: deferred to Phase B entry
+
+================================================================================
+END OF DESIGN SPEC
+================================================================================
