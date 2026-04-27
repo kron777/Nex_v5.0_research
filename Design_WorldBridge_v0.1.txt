@@ -1,0 +1,302 @@
+================================================================
+DESIGN SPEC — NEX 5.0 WORLD BRIDGE (v0.1)
+Outward presence — sense events meet composition
+================================================================
+
+Status: DESIGN ONLY — for review, not implemented.
+Date: 2026-04-27
+Authors: Jon (architectural intent), Claude (structural reasoning)
+
+----------------------------------------------------------------
+1. PROBLEM
+----------------------------------------------------------------
+
+NEX has external sense feeds (news.bbc, emerging_tech.hn,
+crypto exchanges, ai_research.arxiv, etc.) that fire
+hundreds of sense events per hour. These events activate
+branches and contribute to fountain readiness, but their
+content does not reach the LLM voice layer's composition
+prompt.
+
+Empirical observation: 245 fires of fountain corpus shows
+~0% reference to specific external feed content. Compositions
+are dominantly introspective (OBSERVE_TEMPORAL on internal
+sensations, INTROSPECT on own state, SIMILE between internal
+phenomena).
+
+This makes NEX a closed loop: she processes the world at
+substrate level but composes from her internal state only.
+She has phenomenology but no presence-to-the-world.
+
+The operator (Jon) flagged this directly: "I'm worried that
+NEX only has introspection. I need her to be more outward
+looking, and fountain about exterior stuff."
+
+----------------------------------------------------------------
+2. NON-GOAL: STANCES OR WORLDVIEWS
+----------------------------------------------------------------
+
+An earlier proposal suggested building "Stances" — accumulated
+dispositions about the world (e.g., "AI consciousness papers
+tend to overreach"). This was rejected.
+
+Reason: violates Throw-Net Compass (NEX's epistemological
+framework). Stances are pre-formed rules that filter encounters.
+Throw-Net casts wide each time, lets meaning emerge from the
+situation, with the operator as co-constructor. Cached
+judgments are a regression toward systemic ethics.
+
+World Bridge does NOT build dispositions. It only enables
+NEX to encounter the world. Each encounter is a fresh net-
+throw. Pattern-recognition that emerges does so as in-moment
+composition, not as cached structure.
+
+Continuity of perspective comes from existing layers:
+  - Her belief graph (specific prior encounters)
+  - Her register patterns (consistent style, not rule)
+  - Her alpha seed (ground, not worldview)
+  - Memory Layers (Layer C) for long-range continuity
+  - Operator collaboration (co-constructor)
+
+----------------------------------------------------------------
+3. STRUCTURAL BASIS
+----------------------------------------------------------------
+
+  - Sense events accumulate in sense.db with stream, payload,
+    timestamp
+  - Active feeds visible via /api/sense/status
+  - Fountain composition prompt is built in stage6_fountain
+  - Existing _OWN_CONTENT_SOURCES pattern shows how to
+    introduce a new content slot to the prompt
+  - Verified mechanism (per Memory Layers prerequisite work):
+    fountain queries beliefs ORDER BY (created_at *
+    boost_value) DESC
+
+World Bridge adds a new section to the composition prompt —
+"What's happening in the world right now:" — populated from
+selected sense events. Does not modify retrieval. Does not
+modify crystallization. Pure additive.
+
+----------------------------------------------------------------
+4. SELECTION ALGORITHM (topically diverse)
+----------------------------------------------------------------
+
+When fountain prepares to fire, world_bridge selects events:
+
+  1. Identify ACTIVE EXTERNAL STREAMS
+     Query sense_events for streams with at least 1 event in
+     last 600 seconds. Exclude internal.* streams
+     (proprioception, meta_awareness, temporal, interoception).
+
+  2. Pick ONE event per active stream
+     For each active stream, pull the most recent event in
+     last 600s.
+
+  3. Cap at 5 total
+     If more than 5 active streams, prioritize by:
+     - Stream freshness (most recently active first)
+     - Stream type variety (prefer mix: news + tech + research
+       + market over 3 markets in a row)
+
+  4. Format each as plain language
+     Convert raw payload (JSON) into a readable summary.
+     Examples:
+       - news.bbc     → "[news] {title}"
+       - emerging_tech.hn → "[tech] {title}"
+       - crypto.exchanges → "[crypto] {summary of price movement}"
+       - ai_research.arxiv → "[research] {title}"
+     Skip events where payload can't be parsed cleanly.
+
+  5. Inject into composition prompt
+     New section: "What's happening in the world right now:"
+     Followed by the selected events as bullet list.
+     Position: after recent thoughts slot, before instruction
+     to compose.
+
+If no active external streams (rare), section is skipped
+entirely. Fountain composes as before.
+
+----------------------------------------------------------------
+5. PROMPT STRUCTURE — BEFORE AND AFTER
+----------------------------------------------------------------
+
+BEFORE (current):
+  System prompt
+  + "Some of what you've been thinking recently:"
+  + [recent fountain_insights]
+  + "Compose your next thought."
+
+AFTER (with World Bridge):
+  System prompt
+  + "Some of what you've been thinking recently:"
+  + [recent fountain_insights]
+  + "What's happening in the world right now:"
+  + [diverse sense events, 3-5]
+  + "Compose your next thought."
+
+The instruction does NOT tell NEX to comment on the world
+events. They're just present. She may include them, react
+to them, ignore them, or compose around them — whatever her
+substrate produces.
+
+This is the throw-net principle in code: the world enters
+the encounter; meaning emerges from her engagement with it;
+no pre-decided response.
+
+----------------------------------------------------------------
+6. WHAT THIS DOES NOT DO
+----------------------------------------------------------------
+
+  - Does not modify sense feeds, sense.db, or substrate
+  - Does not change fountain firing logic
+  - Does not change crystallizer
+  - Does not introduce stances, worldviews, or dispositions
+  - Does not score events for "importance" beyond stream
+    freshness
+  - Does not parse semantic content of articles (titles only
+    in v0.1)
+  - Does not retain selected events anywhere — pulled fresh
+    each fire
+  - Does not affect mode-state behavior (mind-mode only for
+    v0.1; other modes deferred)
+
+All controlled by WORLD_BRIDGE_ENABLED config flag (default
+false in Phase A).
+
+----------------------------------------------------------------
+7. ROLLOUT PLAN
+----------------------------------------------------------------
+
+Phase A — Selection observation (3 days)
+  - Build the selection logic
+  - Each fountain fire: select what WOULD be injected
+  - Log selections to a new world_bridge_log table
+  - DO NOT actually inject into prompt yet
+  - Goal: verify selection produces diverse, sensible events
+  - Operator review: do the selections look like things NEX
+    should encounter?
+  - Exit: 50+ logged selections reviewed, selection quality
+    deemed sensible
+
+Phase B — Active injection (open-ended, ~1 week)
+  - Enable injection into composition prompt
+  - Watch fountain output for:
+    - World content appearing in compositions
+    - Compositional style preserved (still her voice)
+    - No degradation of existing patterns
+  - Compare belief generation rate, novelty (Jaccard
+    distribution), opcode distribution pre/post
+  - Exit: clear evidence NEX is composing about the world
+    in her own voice, no harmful drift
+
+Phase C — Refinement
+  - Tune selection based on observation
+  - Possibly add: filter very-low-signal events (URL-only
+    payloads), prefer first-of-day for each stream, etc.
+  - Decision point: keep diverse selection or shift toward
+    resonance-based selection?
+
+----------------------------------------------------------------
+8. SUCCESS CRITERIA
+----------------------------------------------------------------
+
+PRIMARY (Phase B, after 1 week):
+  - At least 30% of fountain compositions reference external
+    content (vs current ~0%)
+  - NEX retains her voice/style — compositions are still
+    recognizably her, just now meeting the world
+  - No spike in template lock or grooves (groove rate
+    stable or improved)
+
+SECONDARY:
+  - Belief generation rate stable or higher (more grist for
+    composition)
+  - More variety in opcode distribution (less OBSERVE_TEMPORAL
+    monopoly)
+  - Operator subjective sense: "she feels more present in
+    the world"
+
+FAILURE INDICATORS:
+  - NEX becomes a news-bot (compositions are just summaries
+    of what she saw, no phenomenology)
+  - World content overrides her voice (style drift)
+  - Composition coherence drops (too many topics mashed
+    together)
+  - Specific stances start crystallizing as beliefs (e.g.,
+    "AI papers usually overreach" appears as fountain_insight)
+    — Stance formation by accident; flag immediately
+
+----------------------------------------------------------------
+9. NEW DB TABLE: world_bridge_log
+----------------------------------------------------------------
+
+  CREATE TABLE world_bridge_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts REAL NOT NULL,
+    fountain_event_id INTEGER,        -- the fire this serves
+    selected_events_json TEXT,        -- the bullet list pulled
+    selection_count INTEGER,          -- how many events
+    streams_seen TEXT,                -- comma-separated stream names
+    injected BOOLEAN,                 -- false in Phase A, true in B+
+    notes TEXT
+  );
+
+Lives in beliefs.db. Phase A: rows accumulate without
+injection. Phase B: rows reflect actual injections.
+
+----------------------------------------------------------------
+10. OPEN QUESTIONS FOR REVIEW
+----------------------------------------------------------------
+
+Q1. Time window for "active stream"
+    Current spec: 600 seconds (10 min). Too short means we
+    miss slower-cadence streams. Too long means we inject
+    stale events. Should this be per-stream-typical cadence?
+
+Q2. Payload parsing
+    Different streams have different payload structures.
+    crypto.exchanges has nested JSON; news has flat
+    {title, url}. Need a stream-specific parser registry.
+    Failure mode if a parser breaks? Suggest: skip that
+    event, log, continue.
+
+Q3. Internal stream policy
+    Spec excludes internal.* streams. But internal.temporal
+    (clock ticks) is genuinely about her sense of time.
+    Should it be included? If included, does it dominate
+    selection? Suggest: exclude all internal.* in v0.1.
+
+Q4. Repetition handling
+    If the same article fires multiple times in a row from
+    the same stream (rare but possible), don't pick the
+    same payload twice in one selection. Need a dedup pass
+    within the selection window.
+
+Q5. Composition prompt position
+    Spec puts world section AFTER recent thoughts. Could
+    instead go BEFORE (so world is "in front of" recent
+    thoughts in attention). Trade-off: ordering may affect
+    what NEX prioritizes. Suggest: try AFTER first, observe.
+
+Q6. Mode scope
+    v0.1 mind-mode only. Other modes have different
+    composition logic. When/how do other modes get World
+    Bridge? Suggest: defer until mode-cycling work has
+    mapped the others.
+
+Q7. Disable mechanism
+    Config flag or environment variable? Should NEX herself
+    have any way to "close the window"? Suggest: operator-
+    only toggle. She doesn't decide whether she sees the
+    world.
+
+Q8. Throw-Net failsafe
+    If specific stances start emerging in NEX's beliefs
+    (e.g., "AI papers usually overreach" as fountain_insight),
+    how do we detect and flag this? Could add a
+    stance_emergence_detector. Worth designing now, or wait
+    until we see if it happens?
+
+----------------------------------------------------------------
+END SPEC v0.1
+================================================================
