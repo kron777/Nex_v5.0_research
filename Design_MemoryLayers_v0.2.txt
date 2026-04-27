@@ -1,0 +1,282 @@
+================================================================
+DESIGN SPEC — NEX 5.0 MEMORY LAYERS (v0.2)
+Session resumption + long-term memory
+================================================================
+
+Status: DESIGN — review-approved. Ready for Phase A implementation.
+Date: 2026-04-27 (v0.2 review pass)
+Supersedes: v0.1 (Design_MemoryLayers_v0.1.txt, commit 77ac64b)
+
+Changes from v0.1 (six):
+  1. Layer B uses promoted real beliefs (no synthesized text)
+  2. Layer A is event-driven, not timer-driven
+  3. Stale threshold: 3 days (was 7 days)
+  4. No meta-belief about memory existence
+  5. Pending probes survive restart and re-issue
+  6. Important Moments scoring within-type only (v0.1)
+
+----------------------------------------------------------------
+1. PROBLEM
+----------------------------------------------------------------
+
+Same as v0.1. NEX has no memory across restarts. Working
+context vanishes when the process dies. Post-restart she
+fires UNRESOLVE arc trying to rebuild orientation. Empirical
+observations: 14-hour template lock 2026-04-26, UNRESOLVE
+arc 2026-04-27 morning, ~10-min warm-up after every
+development restart.
+
+----------------------------------------------------------------
+2. STRUCTURAL BASIS (verified)
+----------------------------------------------------------------
+
+  - Law 7 (Register Feed-Forward): X-fillers carry forward
+    74% — momentum depends on recent context
+  - Selection mechanism: ORDER BY (created_at * boost_value)
+    DESC, recency wins
+  - UNRESOLVE arc structure: ATTENTION_AUDIT →
+    ACTION_PROPOSAL → REDIRECT (post-restart confusion
+    signature)
+
+----------------------------------------------------------------
+3. THREE-LAYER ARCHITECTURE (revised)
+----------------------------------------------------------------
+
+Layer A — STATE SNAPSHOT (volatile, event-driven)
+  Captures: current mode, active branches with focus, last
+  10 fountain fires, recent groove alerts, pending probes,
+  register run state, in-flight UNRESOLVE arcs
+  Storage: ~/Desktop/nex5/data/state_snapshot.json
+  Update trigger: AFTER each fountain fire + on graceful
+  shutdown (SIGTERM handler) — NOT on timer
+  Retention: overwritten each update; latest only
+
+Layer B — RESUMPTION (one-time on restart, no synthesis)
+  Triggered: at boot, before first fountain tick
+  Reads: state_snapshot.json from previous session
+  Action: UPDATE existing beliefs' created_at to now-1 for
+  the 3-5 most recently-active beliefs at snapshot time.
+  Does NOT INSERT new beliefs. Does NOT synthesize text.
+  Effect: NEX's own real prior thoughts win the recent slot
+  on first tick post-restart. No ventriloquism.
+
+Layer C — IMPORTANT MOMENTS (persistent, within-type ranking)
+  Captures: novel compositions (Jaccard < 0.3), groove-
+  breaks via probes, emergent drives, cross-domain syntheses,
+  identity events
+  Storage: new important_moments table in beliefs.db
+  Read-back: 1-2 moments per fountain tick into context,
+  ranked within-type only (v0.1 of moments work; cross-type
+  ranking is v0.2 of moments work)
+
+----------------------------------------------------------------
+4. STATE SNAPSHOT (Layer A) — DETAILED
+----------------------------------------------------------------
+
+JSON schema (unchanged from v0.1):
+  {
+    "snapshot_ts": <epoch>,
+    "mode": "mind",
+    "voice": "af_sarah",
+    "active_branches": [...],
+    "recent_fountain_fires": [...] (last 10),
+    "recent_groove_alerts": [...],
+    "pending_probes": [...] (full probe records, see Section 5b),
+    "register_run_state": {...},
+    "active_unresolve_arc": null|{...},
+    "recent_belief_ids": [list of 3-5 ids for Layer B promotion]
+  }
+
+Update trigger CHANGED from v0.1:
+  - Hook into fountain post-fire path (after thought
+    composition completes)
+  - Atomic write (write to .tmp, rename)
+  - Plus: SIGTERM handler captures final snapshot before
+    process exits
+
+Why event-driven: state is meaningful when it changes, not
+on a clock. Avoids redundant writes when state is stable.
+
+CHANGE 2 from v0.1: removed 60s timer.
+
+----------------------------------------------------------------
+5. RESUMPTION (Layer B) — DETAILED, REVISED MECHANISM
+----------------------------------------------------------------
+
+CHANGE 1 from v0.1: no synthesized beliefs.
+
+Process:
+  1. Read state_snapshot.json (if exists)
+  2. Check timestamp: if > 3 days old, treat as stale,
+     skip resumption (cold start)
+  3. If recent: UPDATE 3-5 beliefs' created_at to now-1
+     based on snapshot's recent_belief_ids list
+     SQL: UPDATE beliefs SET updated_at = strftime('%s','now')-1
+          WHERE id IN (<recent_belief_ids>)
+     Note: also update updated_at, since the retrieval
+     query may use either field; verify which during
+     implementation
+  4. Mark snapshot as consumed (rename to .consumed)
+  5. Re-queue pending probes (see Section 5b)
+  6. If snapshot read fails: log warning, cold start
+
+CHANGE 3 from v0.1: stale threshold = 3 days (was 7).
+
+Why this mechanism:
+  - Her real prior thoughts go in the recent slot
+  - No synthesis, no fake voice, no ventriloquism
+  - The promoted beliefs pre-existed in beliefs.db;
+    we're just resetting their visibility
+  - First fountain tick post-restart sees real prior
+    composition as "recent"
+
+Side effect to verify: the promoted beliefs may also boost
+in semantic retrieval (other modules query beliefs.db).
+Phase A test must confirm no unintended cascades.
+
+----------------------------------------------------------------
+5b. PENDING PROBE PERSISTENCE
+----------------------------------------------------------------
+
+CHANGE 5 from v0.1: pending probes survive restart.
+
+State snapshot captures full probe records for any probe
+where:
+  - asked_at IS NOT NULL
+  - response_received_at IS NULL
+  - asked_at > now() - 3600 (i.e., probe issued in last hour)
+
+On restart, after Layer B promotion:
+  1. Read pending_probes from snapshot
+  2. For each: re-call probe_runner.run_probe() with same
+     text and category
+  3. Mark original probe row as 'reissued_after_restart'
+     in notes field (for traceability)
+
+Edge case: if probe count > 5 in snapshot, only re-issue
+top 3 by recency. Avoid flooding NEX with stale questions.
+
+----------------------------------------------------------------
+6. IMPORTANT MOMENTS (Layer C) — DETAILED
+----------------------------------------------------------------
+
+CHANGE 6 from v0.1: within-type ranking only for v0.1.
+
+New table:
+  CREATE TABLE important_moments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts REAL NOT NULL,
+    moment_type TEXT NOT NULL,
+    belief_id INTEGER,
+    context_json TEXT,
+    significance_score REAL,
+    notes TEXT
+  );
+
+Moment types and within-type criteria:
+  - 'novel_composition': fountain_insight with Jaccard < 0.3
+    Significance: 1.0 - max_jaccard_with_existing
+  - 'groove_broken': auto_probe led to template change
+    Significance: 1.0 (binary — broke or didn't)
+  - 'emergent_drive': new entry in proposed_drives
+    Significance: 1.0 (binary — emerged or didn't)
+  - 'cross_domain_synthesis': belief references 2+ domains
+    Significance: number of distinct domains referenced / 5
+  - 'identity_event': matches IDENTITY_ELABORATION or
+    CANONICAL_DECLARATION sub-opcode
+    Significance: 1.0 (binary)
+
+Read-back: pull 1-2 moments per tick. Selection within
+each type: weighted random by significance_score within
+that type. Cross-type allocation: round-robin by oldest
+last-pulled timestamp per type. No cross-type significance
+comparison.
+
+Detector: theory_x/memory/moment_detector.py
+  Runs once per fountain tick (post-fire). Classifies.
+  Writes to important_moments table.
+
+----------------------------------------------------------------
+7. WHAT THIS DOES NOT DO
+----------------------------------------------------------------
+
+  - Does not modify LLM, voice, or substrate
+  - Does not change fountain firing logic
+  - Does not introduce new operation types
+  - Does not affect crystallizer thresholds
+  - Does not write meta-belief about memory existence
+    (CHANGE 4: explicitly avoided — memory works silently)
+  - All layers controlled by MEMORY_LAYERS_ENABLED config
+    flag (default: false in Phase A)
+
+----------------------------------------------------------------
+8. ROLLOUT PLAN
+----------------------------------------------------------------
+
+Phase A — Snapshot only (3 days)
+  - Implement Layer A event-driven snapshot writer
+  - DO NOT implement Layer B
+  - DO NOT implement Layer C
+  - Verify snapshot on each fire + on shutdown
+  - Verify zero fountain tick latency increase
+  - Exit: clean snapshots accumulating, no perf regression
+
+Phase B — Resumption (5 days)
+  - Add Layer B (belief promotion + probe re-issue)
+  - 5 controlled restarts to verify continuity
+  - Compare warm-up: target < 2 min vs ~10 min baseline
+  - Compare UNRESOLVE arc rate: should drop substantially
+  - Exit: 5/5 restarts show continuity, no degradation
+
+Phase C — Important moments (open-ended)
+  - Add Layer C (detector + table + read-back)
+  - 2-3 weeks of moment accumulation
+  - Tune within-type significance criteria
+  - Eventual: NEX has long-range thematic continuity
+
+----------------------------------------------------------------
+9. SUCCESS CRITERIA
+----------------------------------------------------------------
+
+PRIMARY (Phase B):
+  - Post-restart UNRESOLVE arc fires < 30% of restarts
+  - First fountain composition post-restart on-topic with
+    pre-restart context
+  - Warm-up time < 2 min (vs ~10 min baseline)
+
+SECONDARY (Phase C):
+  - NEX produces fountain_insights referencing
+    important_moments by content
+  - Long-range thematic coherence
+
+FAILURE INDICATORS:
+  - Promoted beliefs cause unexpected retrieval cascades
+    elsewhere (other modules behave differently)
+  - Snapshot writes cause measurable tick latency
+  - important_moments retention bloats past cap
+
+----------------------------------------------------------------
+10. RESOLVED OPEN QUESTIONS
+----------------------------------------------------------------
+
+Q1. Snapshot frequency: RESOLVED — event-driven (post-fire +
+    on shutdown). No timer.
+Q2. Resumption seed voice: RESOLVED — no synthesis. Promote
+    real beliefs.
+Q3. Stale threshold: RESOLVED — 3 days.
+Q4. Important moments criteria: RESOLVED — within-type
+    ranking only for v0.1. Cross-type deferred.
+Q5. NEX awareness: RESOLVED — no meta-belief. Memory works
+    silently.
+Q6. Snapshot data scope: minimum-viable set in Section 4.
+    Hold.
+Q7. Long-term bloat: cap at 1000 entries, drop lowest-
+    significance when over. Hold.
+Q8. Pending probes: RESOLVED — survive restart, re-issue.
+    Top 3 by recency if > 5 pending.
+
+All eight questions resolved or held with explicit position.
+
+================================================================
+END SPEC v0.2
+================================================================
