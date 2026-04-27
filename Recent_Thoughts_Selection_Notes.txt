@@ -1,0 +1,256 @@
+================================================================
+RECENT_THOUGHTS SELECTION INVESTIGATION
+Phase A prerequisite for auto-probe groove breaker (Design v0.2)
+================================================================
+
+Date: 2026-04-27
+Purpose: Document how the fountain assembles its recent-thoughts
+context for the LLM, so the auto-probe injection mechanism can
+be designed empirically (not guessed).
+
+Files read:
+  ~/Desktop/nex5/theory_x/stage6_fountain/generator.py  (693 lines)
+  ~/Desktop/nex5/theory_x/diversity/groove.py           (254 lines)
+  ~/Desktop/nex5/theory_x/diversity/boost.py            (48 lines)
+  ~/Desktop/nex5/substrate/beliefs.sql                  (beliefs table schema)
+  /tmp/nex5_last_prompt.log                             (live prompt example)
+
+----------------------------------------------------------------
+1. WHERE IS "recent_thoughts" POPULATED?
+----------------------------------------------------------------
+
+The term "recent_thoughts" does not exist in the fountain code.
+There is no attribute, pool, or variable by that name anywhere
+in theory_x/stage6_fountain/.
+
+The design spec v0.1/v0.2 used this term loosely. The actual
+mechanism is:
+
+  FountainGenerator._retrieve_context_beliefs()
+  generator.py lines 436-522
+
+This function queries the beliefs table and returns a list of
+belief dicts. Those beliefs appear in the LLM prompt under:
+  "Some of what you've been thinking recently:"
+
+The function is called inside _build_prompt() (line 533):
+  context_beliefs = self._retrieve_context_beliefs(
+      own_n=mode.retrieval_own_n, seed_n=mode.retrieval_seed_n
+  )
+
+There is no in-memory pool that accumulates between ticks.
+Each fountain tick does a fresh SQL query.
+
+----------------------------------------------------------------
+2. HOW ARE ITEMS SELECTED FOR THE PROMPT?
+----------------------------------------------------------------
+
+Two categories: own content (dominant) and seed (minority).
+
+OWN CONTENT — "Some of what you've been thinking recently:"
+  Sources: fountain_insight, synergized, precipitated_from_dynamic,
+           behavioural_observation
+  Query:
+    SELECT b.id, b.content, b.source, b.tier, b.confidence,
+           b.created_at, COALESCE(bb.boost_value, 1.0) AS boost_value
+    FROM beliefs b LEFT JOIN belief_boost bb ON b.id = bb.belief_id
+    WHERE b.source IN (...own sources...)
+    ORDER BY (b.created_at * COALESCE(bb.boost_value, 1.0)) DESC
+    LIMIT own_n
+  own_n: mode-dependent; typical value 7 in normal mode.
+
+SEED CONTENT — "Things you've read that sometimes come to mind:"
+  Sources: koan, tao, dont_know, heart_sutra, keystone_seed,
+           reification_recognition, self_location, alpha
+  Query: ORDER BY RANDOM() LIMIT seed_n
+  seed_n: mode-dependent; typical value 2 in normal mode.
+
+RESIDUE — beliefs that appeared in the previous cycle's pool but
+  were in positions >= own_n // 2. Up to 2 prepended to results.
+  Source: theory_x/diversity/residue.py via pop_residue().
+
+REANIMATION — every 20th fire, one dormant belief prepended.
+  Source: theory_x/diversity/reanimate.py via pop_reanimated().
+
+TOTAL in prompt per tick: up to ~12 (7 own + 2 seed + 2 residue
+  + 1 reanimated on 20th fire).
+
+ORDERING IN PROMPT:
+  Own beliefs appear newest-first (highest created_at*boost first).
+  Confirmed in live prompt: items listed "2 min ago", "18 min ago",
+  "20 min ago", "23 min ago", "25 min ago" — most recent at top.
+
+----------------------------------------------------------------
+3. DOES A WEIGHT FIELD EXIST?
+----------------------------------------------------------------
+
+YES — the belief_boost table (in beliefs.db):
+
+  Schema:
+    belief_id    INTEGER (FK → beliefs.id, UNIQUE)
+    boost_value  REAL
+    boosted_at   REAL (epoch)
+    source_grade REAL
+    decay_rate   REAL
+
+  Normal range:
+    boost_value = 1.0 + grade  (from apply_boost in diversity/boost.py)
+    grade is a float from diversity scoring, so boost typically 1.1–1.9
+    Decays at 0.02/day; removed when boost_value <= 1.05
+
+  How it affects selection:
+    ORDER BY (created_at * boost_value) DESC
+    A belief with boost=2.0 appears as if its epoch timestamp is
+    doubled — roughly equivalent to appearing "twice as new."
+    For a belief created 10 minutes ago at epoch ~1.78e9:
+      No boost:   1.78e9 * 1.0 = 1.78e9
+      boost=2.0:  1.78e9 * 2.0 = 3.56e9  (appears older than now+~56yr)
+    In practice: boost significantly increases priority for recent
+    beliefs but is less effective for older ones (they'd need extreme
+    boost values to compete with truly recent beliefs).
+
+  Key conclusion for injection:
+    A belief written NOW (created_at = time.time()) will always sort
+    to the absolute top of the own pool with NO boost needed.
+    Boost is only needed if injecting a belief with an older timestamp.
+    The auto-probe injection should always write created_at = now.
+
+----------------------------------------------------------------
+4. HOW DOES TEMPLATE_HASH WORK (groove detector)?
+----------------------------------------------------------------
+
+There is no "template_hash" field or concept in the groove detector.
+The design spec v0.1/v0.2 trigger condition ("consecutive_same_template
+>= 8") does not correspond to any measurable quantity in the code.
+
+The actual groove detector (theory_x/diversity/groove.py) implements
+four detection methods:
+
+  A. exact_repetition
+     Counter of exact belief content strings in 20-belief window.
+     Fires when same sentence appears >= 2 times.
+     Severity: min(1.0, 0.5 + (n-2)*0.2)
+
+  B. ngram_repetition
+     Extracts trigrams from each belief in the window.
+     Fires when a single trigram appears >= 3 times (NGRAM_REPEAT_THRESHOLD).
+     Severity: min(1.0, 0.5 + (count - 3 + 1) * 0.1)
+
+  C. template_repetition (most relevant for groove-breaker)
+     Extracts content bigrams for each belief.
+     Finds bigrams shared by >= 2 beliefs.
+     Counts pairs of beliefs sharing >= 3 non-stopword bigrams.
+     Fires when >= 3 beliefs participate in such pairs.
+     Severity: min(1.0, 0.5 + (n_fires - 3) * 0.1)
+     So: 3 fires = 0.5, 7 fires = 0.9, 8+ fires = 1.0
+
+  D. centroid_tightening
+     Computes embedding centroid spread for current 20-belief window
+     vs prior 20-belief window (rows 20-39).
+     Fires when spread decreases > 40% (CENTROID_TIGHTEN_THRESHOLD).
+     Severity: min(1.0, tightening_ratio)
+
+Results are written to the groove_alerts table:
+  (detected_at, alert_type, severity, pattern, sample_belief_ids,
+   window_size)
+
+The content_hash in _push_cooldown() is:
+  hashlib.sha256(pattern.encode()).hexdigest()
+  This is the KEY for the signal_cooldown table — it is NOT used
+  to identify which thoughts are "same-template."
+
+Consequence for trigger condition:
+  The spec's "consecutive_same_template >= 8" cannot be computed
+  directly. The correct approach is to query groove_alerts for
+  recent high-severity events:
+    SELECT severity, alert_type, pattern FROM groove_alerts
+    WHERE alert_type IN ('template_repetition','ngram_repetition',
+                         'exact_repetition')
+    AND severity >= 0.80
+    AND detected_at > (time.time() - 1800)
+    ORDER BY detected_at DESC LIMIT 1
+
+  If such a row exists, the groove trigger fires.
+
+----------------------------------------------------------------
+5. INJECTION MECHANISM RECOMMENDATION
+----------------------------------------------------------------
+
+Replace design spec v0.2 Section 8 "inject into fountain.recent_thoughts"
+with the following verified mechanism:
+
+  STEP 1: Write probe response as a belief
+    INSERT INTO beliefs
+    (content, tier, confidence, created_at, source, branch_id, locked)
+    VALUES (?, 6, 0.70, ?, 'auto_probe', 'systems', 0)
+    created_at = int(time.time())  -- must be NOW for priority guarantee
+
+  STEP 2: Add 'auto_probe' to _OWN_CONTENT_SOURCES in generator.py
+    (1-line change in theory_x/stage6_fountain/generator.py line 24-29)
+    Without this, auto_probe beliefs are not in the selection pool.
+
+  STEP 3: No belief_boost row needed
+    A brand-new created_at guarantees top position in the own pool.
+    Boost adds nothing for fresh timestamps.
+
+  STEP 4: Confirm in prompt structure
+    The belief will appear as "(0 min ago) <probe response text>"
+    under "Some of what you've been thinking recently:" on the very
+    next fountain tick.
+
+Why not source='fountain_insight'?
+  Q1 resolution requires source='auto_probe' for traceability.
+  Writing as 'fountain_insight' would make it indistinguishable
+  from normal crystallizer output in any post-hoc analysis.
+
+Alternative if code change to generator.py is not desired:
+  Write with source='fountain_insight' but prefix content with
+  "[probe] " — visible in prompt but traceable. Less clean.
+  Preferred approach: add 'auto_probe' to _OWN_CONTENT_SOURCES.
+
+----------------------------------------------------------------
+6. UPDATES NEEDED TO DESIGN SPEC v0.2
+----------------------------------------------------------------
+
+Section 5 (Trigger Conditions), item 2:
+  REPLACE: "consecutive_same_template >= 8"
+  WITH:    "groove_alerts contains a row with alert_type IN
+            ('template_repetition','ngram_repetition','exact_repetition')
+            AND severity >= 0.80 AND detected_at within last 30 min"
+
+Section 8 (Firing Path), injection paragraph:
+  REPLACE: "inject into fountain.recent_thoughts with source='auto_probe'
+            tag, mechanism per Section 4 prerequisite (weight or
+            alternative method to be determined)"
+  WITH:    "write probe response as a belief (source='auto_probe',
+            tier=6, confidence=0.70, created_at=now). Requires
+            'auto_probe' added to _OWN_CONTENT_SOURCES in generator.py.
+            No boost row needed. Belief appears first in next tick's
+            own-content pool."
+
+Section 13 (What This Does Not Do):
+  ADD: "Requires 1-line addition to generator.py: add 'auto_probe'
+       to _OWN_CONTENT_SOURCES tuple"
+
+Section 9 Q8 resolution:
+  ALREADY CORRECT: "investigate before Phase A. No weight=1.5 assumption."
+  Confirmed: no weight needed at all for fresh beliefs.
+
+----------------------------------------------------------------
+7. PHASE A READY?
+----------------------------------------------------------------
+
+Yes, with one prerequisite code change:
+  Add 'auto_probe' to _OWN_CONTENT_SOURCES in generator.py (line 24).
+  This is a 1-line edit, not an implementation of the groove-breaker.
+  It must be present for the injection to work when Phase B begins.
+
+The trigger condition must be rewritten (Section 6 above). The
+groove_alerts table is the correct signal source, not a consecutive
+counter derived from fountain_events.
+
+Everything else in the spec is structurally sound.
+
+================================================================
+END NOTES
+================================================================
