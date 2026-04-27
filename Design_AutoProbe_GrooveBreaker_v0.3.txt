@@ -1,0 +1,359 @@
+================================================================================
+DESIGN SPEC: AUTO-PROBE GROOVE BREAKER
+NEX 5.0 — Intervention Layer v0.3
+================================================================================
+
+Status: DESIGN — review-approved. Phase A prerequisite satisfied.
+Date: 2026-04-27 (v0.3 reality pass)
+Supersedes: v0.2 (Design_AutoProbe_GrooveBreaker_v0.2.txt)
+References: Recent_Thoughts_Selection_Notes.txt (commit acbfb23)
+
+Changes from v0.2:
+  - Section 5 trigger 2: changed from "consecutive_same_
+    template >= 8" to groove_alerts table query (matches
+    actual groove detector mechanism)
+  - Section 8 firing path: changed from "inject into
+    recent_thoughts" to "write belief row with source=
+    auto_probe and created_at=now" (matches actual fountain
+    context retrieval)
+  - Added Phase A pre-step: 1-line code change to
+    _OWN_CONTENT_SOURCES in generator.py
+  - Section 4 prerequisite marked satisfied
+  - Q6 (template_hash) and Q8 (injection weight) resolved
+    via investigation
+
+================================================================================
+1. PROBLEM STATEMENT
+================================================================================
+
+Same as v0.2. NEX exhibited 14-hour template lock on 2026-04-26.
+Groove detector identifies locks but has no actuator. Auto-probe
+closes the loop: detect → select probe → (approve) → fire →
+write probe response as belief → break attractor on next fountain
+tick.
+
+================================================================================
+2. STRUCTURAL BASIS (verified)
+================================================================================
+
+  - Law 1 (P3 Saturation): SIMILE ≥3 consecutive → SENSE_OBS
+    100%. Verified categorically (17/17, 1048 fires).
+  - Law 7 (Register Feed-Forward): X-filler carries forward
+    74% (>60% threshold). Verified.
+  - Architectural prediction: probes targeting different
+    operation types break locks. Verified live 2026-04-27
+    ~05:30.
+  - Selection mechanism: fountain queries beliefs table each
+    tick, ORDER BY (created_at * boost_value) DESC LIMIT own_n.
+    Verified via code investigation 2026-04-27 (commit acbfb23).
+
+================================================================================
+3. MODULE LOCATION
+================================================================================
+
+  New file: theory_x/auto_probe/groove_breaker.py
+  Wired into: theory_x/stage6_fountain (post-tick observer)
+  Reversible: AUTO_PROBE_ENABLED=false in config disables
+
+================================================================================
+4. PHASE A PREREQUISITE
+================================================================================
+
+SATISFIED. Recent_Thoughts_Selection_Notes.txt committed as
+acbfb23. Selection mechanism verified.
+
+================================================================================
+4b. PHASE A PRE-STEP (single-line code change)
+================================================================================
+
+Before Phase A wiring, modify generator.py:24 to add
+'auto_probe' to _OWN_CONTENT_SOURCES:
+
+  Current:
+  _OWN_CONTENT_SOURCES = (
+      "fountain_insight",
+      "synergized",
+      "behavioural_observation",
+      "precipitated_from_dynamic",
+  )
+
+  Change to:
+  _OWN_CONTENT_SOURCES = (
+      "fountain_insight",
+      "synergized",
+      "behavioural_observation",
+      "precipitated_from_dynamic",
+      "auto_probe",
+  )
+
+Without this change, beliefs written with source='auto_probe'
+will be filtered out of the context retrieval query and never
+reach the LLM. The injection would silently fail.
+
+This is a 1-line change. Test: write a test belief with
+source='auto_probe' and verify it appears in the next fountain
+tick's prompt log (/tmp/nex5_last_prompt.log).
+
+================================================================================
+5. TRIGGER CONDITIONS
+================================================================================
+
+All four conditions must hold simultaneously:
+
+  1. Active groove_alert with severity >= 0.80
+     Query: SELECT * FROM groove_alerts
+            WHERE severity >= 0.80
+            AND detected_at > strftime('%s','now') - 1800
+            ORDER BY detected_at DESC LIMIT 1
+     (1800s = 30 min freshness window)
+
+  2. Groove sustained: at least 8 fountain_events fired since
+     the alert's first detection
+     Query: SELECT COUNT(*) FROM fountain_events
+            WHERE ts > <alert.first_detected_at>
+            AND hot_branch NOT IN ('voice_fallback','quiescent')
+
+  3. Cooldown elapsed: last auto_probe_log entry > 30 min ago
+     Query: SELECT MAX(ts) FROM auto_probe_log
+     (Compare to current time, require > 1800s diff)
+
+  4. No pending approval: no row in auto_probe_log with
+     status='pending_approval'
+
+CHANGE FROM v0.2: Trigger 2 was previously "consecutive_same_
+template >= 8" assuming a template_hash was tracked per fire.
+Investigation found no such hash exists. The groove detector
+itself uses bigram overlap across a 20-belief window. Reformulated
+to use detector's own alert as the gate, plus a sustain count of
+fires since the alert started.
+
+================================================================================
+6. PROBE SELECTION
+================================================================================
+
+Same as v0.2. By operation-type inversion. v0.1 uses generic
+direct_phenomenology for SIMILE; refinement deferred.
+
+  ┌──────────────────────┬──────────────────────────────────┐
+  │     Locked opcode    │      Probe operation type        │
+  ├──────────────────────┼──────────────────────────────────┤
+  │ OBSERVE_*            │ direct_phenomenology             │
+  │ INTROSPECT_*         │ grounded_observation             │
+  │ SIMILE / TRANSLATE   │ direct_phenomenology  (v0.1)     │
+  │ DIALECTICAL          │ substitution                     │
+  │ ACTION               │ direct_phenomenology             │
+  │ OTHER/UNKNOWN        │ direct_phenomenology  (default)  │
+  └──────────────────────┴──────────────────────────────────┘
+
+LRU within category. If LRU < 4h ago, escalate to next
+category. If all exhausted in 4h, operator-prompt mode.
+
+To extract dominant_opcode from the groove alert, examine the
+alert's matched_text or the most recent N fountain_events
+preceding the alert and classify via existing register patterns.
+
+================================================================================
+7. OPERATOR APPROVAL (Phase B)
+================================================================================
+
+Same as v0.2.
+
+7.1 Approval flow:
+  1. Write row to auto_probe_log with status='pending_approval'
+  2. Send Telegram message to @Nex_4bot
+  3. Wait up to 60 seconds polling for reply
+  4. On /approve: status='approved', proceed to fire
+  5. On /reject: status='rejected_by_operator', 4h cooldown
+  6. On 60s timeout: status='would_have_approved', NO FIRE
+
+7.2 Phase A: no Telegram, no firing. Log status='observation'.
+7.3 Phase C: no approval step. Fire on trigger.
+
+================================================================================
+8. FIRING PATH
+================================================================================
+
+Uses existing ProbeRunner.run_probe() without modification.
+
+Pseudocode:
+
+  result = probe_runner.run_probe(
+      category=selected_category,
+      probe_text=selected_probe_text,
+      notes=f"auto_probe:groove_breaker severity={severity:.2f}",
+  )
+
+After run_probe() returns:
+
+  1. If result["response_text"] empty or starts with "[ERROR":
+     mark as 'error', do NOT write belief. Log error details.
+
+  2. On success: write the probe response as a belief in
+     beliefs.db:
+
+       INSERT INTO beliefs (
+         content,
+         tier,
+         source,
+         created_at,
+         updated_at,
+         provenance,
+         boost_value
+       ) VALUES (
+         <result["response_text"]>,
+         6,
+         'auto_probe',
+         strftime('%s','now'),
+         strftime('%s','now'),
+         <JSON: groove_signal_id, severity, probe_id, dominant_opcode>,
+         1.0
+       )
+
+     With source='auto_probe' (in _OWN_CONTENT_SOURCES per 4b)
+     and created_at=now, this belief wins the top slot in the
+     next fountain context retrieval (ORDER BY created_at *
+     boost_value DESC). Boost stays at default 1.0 — recency
+     alone is sufficient.
+
+  3. Update auto_probe_log: status='fired', probe_id,
+     belief_id (the newly inserted belief),
+     response_preview (first 200 chars).
+
+CHANGE FROM v0.2: v0.2 said "inject into fountain.recent_thoughts
+with weight=1.5". Investigation found no recent_thoughts pool
+exists. Replaced with belief insert. The boost=1.5 guess is
+unnecessary — created_at=now ranks above all older content with
+boost=1.0.
+
+The fountain's normal selection logic decides what to use on
+next tick. We seed; we do not force.
+
+================================================================================
+9. OPEN QUESTIONS — RESOLUTIONS
+================================================================================
+
+Q1. Probe-induced context tagging: source='auto_probe' tag
+    in beliefs row. Provenance JSON captures groove context.
+Q2. Mind-mode scope: v0.1 mind-mode only.
+Q3. GUI manual trigger: yes, Phase B.
+Q4. Offline operator: timeout = log-only, no fire (v0.2 change).
+Q5. SIMILE asymmetric: deferred to v0.2 of this work.
+Q6. Template hash: RESOLVED — no hash exists. Trigger uses
+    groove_alerts table directly.
+Q7. Probe library exhaustion: operator-prompt fallback.
+Q8. Injection weight: RESOLVED — no weight needed.
+    created_at=now provides ordering.
+
+================================================================================
+10. NEW DB TABLE: auto_probe_log
+================================================================================
+
+  CREATE TABLE IF NOT EXISTS auto_probe_log (
+      id                INTEGER PRIMARY KEY AUTOINCREMENT,
+      groove_alert_id   INTEGER,          -- FK into groove_alerts
+      groove_severity   REAL,
+      dominant_opcode   TEXT,
+      sustained_fires   INTEGER,          -- fires since alert detected
+      selected_category TEXT,
+      probe_id          INTEGER,          -- FK into probes table
+      belief_id         INTEGER,          -- FK into beliefs (the injected row)
+      status            TEXT,
+        -- 'observation'
+        -- 'pending_approval'
+        -- 'approved'
+        -- 'rejected_by_operator'
+        -- 'would_have_approved'
+        -- 'fired'
+        -- 'failed_to_break'
+        -- 'groove_broken'
+        -- 'error'
+      operator_reply    TEXT,
+      response_preview  TEXT,
+      ts                REAL
+  );
+
+Lives in beliefs.db alongside probes table.
+Written by auto_probe/groove_breaker.py via beliefs Writer.
+
+CHANGE FROM v0.2: groove_signal_id renamed to groove_alert_id
+(matches actual table name). Added belief_id field for
+traceability of the injected belief. Replaced consecutive_count
+field with sustained_fires (fires since detection).
+
+================================================================================
+11. ROLLOUT PLAN
+================================================================================
+
+PRE-PHASE A (single commit):
+  - Apply 1-line change to generator.py:24
+    (add 'auto_probe' to _OWN_CONTENT_SOURCES)
+  - Test: write a test belief with source='auto_probe',
+    verify it appears in /tmp/nex5_last_prompt.log on next
+    fountain tick
+  - Commit and push
+
+Phase A — Observation (3 days)
+  - groove_breaker.py wired in, checks trigger conditions every tick
+  - Logs status='observation' when trigger fires
+  - No Telegram, no firing, no belief writes
+  - Goal: validate trigger fires at sensible rate (0-3/day)
+  - Exit: ≥2 logged events, rate not excessive
+
+Phase B — Operator-Approved (10 days)
+  - Approval flow per Section 7
+  - Operator silence → log only, no fire
+  - Daily review of auto_probe_log
+  - GUI manual trigger button live
+  - Goal: confirm probe selection coherent, break rate >50%
+  - Exit: ≥5 attempts, >50% broken
+
+Phase C — Autonomous (after Phase B success)
+  - No approval step
+  - Hard cooldown and backoff enforced
+  - GUI kill-switch in cockpit panel
+
+================================================================================
+12. KNOWN RISKS (unchanged from v0.2)
+================================================================================
+
+  - Groove detector false positives (Phase A tunes)
+  - Probe response as new attractor (monitor severity post-fire)
+  - Telegram dependency (boot health check)
+  - DB write contention (Writer is thread-safe)
+
+================================================================================
+13. WHAT THIS DOES NOT DO
+================================================================================
+
+  - Does not modify substrate (LLM, prompt, retrieval)
+  - Does not change crystallizer
+  - Does not alter mode-state
+  - Does not add operation types
+  - Does not change 6-mode taxonomy
+
+Amplification, not architectural modification.
+
+================================================================================
+14. SUCCESS CRITERIA
+================================================================================
+
+After 2 weeks of Phase B:
+
+  PRIMARY:
+   - Mean lock duration < 1 hour (vs ~14h baseline)
+   - 90%+ severe grooves cleared by 1st or 2nd probe
+   - Zero false positives disrupting healthy register runs
+
+  SECONDARY:
+   - New fountain_insight beliefs/day increase
+   - Operator approval rate >70%
+   - Operator silence (would_have_approved) <30%
+
+  FAILURE INDICATORS:
+   - Probe-loop: >2 same probe in 24h
+   - High operator silence: >50% would_have_approved
+   - Trigger thrashing: >5 events/day
+
+================================================================================
+END OF DESIGN SPEC v0.3
+================================================================================
