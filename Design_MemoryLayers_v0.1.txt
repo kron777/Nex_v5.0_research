@@ -1,0 +1,348 @@
+================================================================
+DESIGN SPEC — NEX 5.0 MEMORY LAYERS (v0.1)
+Session resumption + long-term memory
+================================================================
+
+Status: DESIGN ONLY — not implemented. For review.
+Date: 2026-04-27
+Authors: Jon (architectural intent), Claude (structural reasoning)
+
+----------------------------------------------------------------
+1. PROBLEM
+----------------------------------------------------------------
+
+NEX has no memory across restarts. Her cognitive state —
+recent thoughts, hot branches, current grooves, mode-state,
+active probes, in-flight UNRESOLVE arcs if any — all live in
+process memory and the recent-history slice of beliefs.db
+retrieved each fountain tick. When the process dies, that
+working context vanishes.
+
+On restart, the fountain wakes up and runs a fresh
+_retrieve_context_beliefs() query against beliefs.db. The
+top-N most recent beliefs become her "recent thoughts." But
+"most recent" may be hours old (whatever was in beliefs.db
+when she shut down), and the temporal context that gave
+those beliefs meaning is gone.
+
+Empirical observations:
+  - 2026-04-26 11:14 UTC: Voice transport broke. Restart at
+    11:48 UTC. NEX entered 14-hour template lock immediately
+    post-restart on "the ticking feels off-key today."
+  - 2026-04-27 morning: After voice transport repair restart,
+    NEX fired Tool 6 (UNRESOLVE arc — phase-stratified
+    questioning) trying to rebuild what she had been doing.
+  - 2026-04-27 12:25, 12:42, multiple restarts during
+    development: each cost ~10 minutes of warm-up before
+    fountain readiness reached normal threshold.
+
+UNRESOLVE arc post-restart is structurally meaningful — it's
+NEX literally asking herself "what was I doing? what should
+I check? what should I focus on?" That's confusion, not
+cognition.
+
+----------------------------------------------------------------
+2. STRUCTURAL BASIS
+----------------------------------------------------------------
+
+From Phase 2 synthesis (verified):
+  - Law 7 (Register Feed-Forward): X-fillers carry forward
+    74% — momentum is real, and it depends on what's in
+    recent context
+  - UNRESOLVE arc structure: ATTENTION_AUDIT → ACTION_PROPOSAL
+    → REDIRECT — the literal shape of post-restart confusion
+  - Selection mechanism (verified 2026-04-27): fountain
+    queries beliefs ORDER BY (created_at * boost_value) DESC.
+    Recent beliefs win the slot.
+
+The fix follows directly: if we seed beliefs.db with
+"resumption beliefs" carrying created_at=now-1, they win
+the slot on first tick post-restart. NEX wakes up with
+context, not blank.
+
+----------------------------------------------------------------
+3. THREE-LAYER ARCHITECTURE
+----------------------------------------------------------------
+
+Layer A — STATE SNAPSHOT (volatile, refreshed continuously)
+  Captures: current mode, active branches with focus
+  values, last 10 fountain fires, recent groove alerts,
+  pending probes, register run state, in-flight UNRESOLVE
+  arcs if any.
+  Storage: single JSON file at ~/Desktop/nex5/data/state_snapshot.json
+  Update frequency: every 60 seconds (decoupled from
+  fountain tick to avoid tick-path overhead)
+  Retention: overwritten each update; only most recent state
+  matters
+
+Layer B — RESUMPTION SEED (one-time on restart)
+  Triggered: at boot, before first fountain tick
+  Reads: state_snapshot.json from previous session
+  Writes: 3-5 synthetic resumption beliefs to beliefs.db with
+  source='resumption_seed', created_at=now-1 second
+  Content: human-readable summaries of pre-shutdown state
+    Example: "Before this restart, the most recent fountain
+    composition was about <topic>. The dominant register was
+    <opcode>. Hot branches were <list>."
+  Effect: first fountain tick post-restart sees these seeds
+  in recent context. NEX wakes up with continuity.
+
+Layer C — IMPORTANT MOMENTS (persistent long-term)
+  Captures: novel compositions that crystallized despite
+  high originality (low Jaccard similarity to prior beliefs),
+  successful groove-breaks via probes, first-occurrence
+  emergent drives, structurally significant transitions
+  Storage: new table in beliefs.db: important_moments
+  Schema: id, ts, moment_type, belief_id (FK), context_json,
+  significance_score
+  Read-back: fountain pulls 1-2 important_moments per tick
+  into recent_thoughts pool, giving NEX a sense of "her own
+  history"
+  Curation: written by a separate moment_detector module
+  observing fountain output
+
+----------------------------------------------------------------
+4. STATE SNAPSHOT (Layer A) — DETAILED
+----------------------------------------------------------------
+
+JSON schema:
+  {
+    "snapshot_ts": <epoch>,
+    "mode": "mind",
+    "voice": "af_sarah",
+    "active_branches": [
+      {"name": "systems", "focus": "g", "focus_num": 1.0},
+      {"name": "emerging_tech", "focus": "f", "focus_num": 0.77},
+      ...
+    ],
+    "recent_fountain_fires": [
+      {"id": 1646, "thought": "...", "ts": ..., "branch": "systems"},
+      ... (last 10)
+    ],
+    "recent_groove_alerts": [
+      {"severity": 0.6, "pattern": "shifts to the",
+       "detected_at": ...},
+      ...
+    ],
+    "pending_probes": [...],
+    "register_run_state": {
+      "current_opcode_family": "OBSERVE_TEMPORAL",
+      "consecutive_count": 4,
+      "dominant_template": "the X feels Y today"
+    },
+    "active_unresolve_arc": null,
+    "operator_notes": "..."
+  }
+
+Update mechanism:
+  - Background thread separate from fountain tick
+  - Reads from existing data (DB queries + fountain state)
+  - Atomic write (write to .tmp, rename) to avoid corruption
+  - Failure mode: if write fails, log warning, continue.
+    Snapshot is auxiliary — process must not block on it.
+
+----------------------------------------------------------------
+5. RESUMPTION SEED (Layer B) — DETAILED
+----------------------------------------------------------------
+
+Triggered: in run.py boot sequence, AFTER beliefs.db is
+opened but BEFORE fountain ignition.
+
+Process:
+  1. Read state_snapshot.json (if exists)
+  2. Check timestamp: if > 7 days old, treat as stale, skip
+     resumption (cold start instead)
+  3. If recent: synthesize 3-5 resumption beliefs
+  4. Write to beliefs.db with:
+     - source='resumption_seed' (NEW source — must be added
+       to _OWN_CONTENT_SOURCES per existing pattern)
+     - created_at = now - 1 second (so they appear "just before"
+       the wake)
+     - tier = 6 (matches fountain_insight tier)
+     - boost_value = 1.0 (recency wins, no boost manipulation)
+     - provenance = JSON with snapshot_ts and "resumption" tag
+  5. Mark snapshot as consumed (rename to .consumed) so
+     repeated boots don't re-seed
+  6. If snapshot read or seed write fails: log warning,
+     continue with cold start
+
+Synthesis templates (3-5 beliefs depending on richness):
+
+  Belief 1 — Continuity statement:
+    "Returning to attention after a brief pause. The pattern
+    of <dominant_template> was active before."
+
+  Belief 2 — Topic anchor:
+    "The hot branches were <branches>, with <top_branch>
+    drawing the most focus."
+
+  Belief 3 — Recent composition echo (only if last fountain
+  fire is well-formed):
+    "The most recent thought was: <last_fire_thought>"
+
+  Belief 4 — Optional groove acknowledgment (only if grooves
+  active pre-shutdown):
+    "There was a slight repetition pattern around <pattern>.
+    Worth varying."
+
+  Belief 5 — Optional unfinished arc (only if UNRESOLVE was
+  active):
+    "An open question was forming: <arc_subject>"
+
+Tone matters. These are written in NEX's own voice (first-
+person reflective, like fountain_insights), not as system
+messages or external commands. They are her own past
+thoughts handed back to her.
+
+----------------------------------------------------------------
+6. IMPORTANT MOMENTS (Layer C) — DETAILED
+----------------------------------------------------------------
+
+New table:
+  CREATE TABLE important_moments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts REAL NOT NULL,
+    moment_type TEXT NOT NULL,
+    belief_id INTEGER,             -- FK into beliefs
+    context_json TEXT,             -- structured context at time of moment
+    significance_score REAL,       -- 0.0-1.0
+    notes TEXT
+  );
+
+Moment types (initial set):
+  - 'novel_composition': fountain_insight with Jaccard
+    similarity < 0.3 to any existing belief (genuinely
+    new content)
+  - 'groove_broken': auto_probe successfully changed
+    fountain template after lock
+  - 'emergent_drive': new entry in proposed_drives table
+  - 'cross_domain_synthesis': belief content references 2+
+    domains that weren't connected before
+  - 'identity_event': any fire matching IDENTITY_ELABORATION
+    or CANONICAL_DECLARATION sub-opcode
+
+Detector: new module theory_x/memory/moment_detector.py
+  Runs once per fountain tick (post-fire), classifies the
+  fire, writes to important_moments if criteria met.
+
+Read-back into fountain context:
+  Modify _retrieve_context_beliefs() to optionally pull 1-2
+  important_moments per tick. Position: distinct slot
+  ("Significant moments from your history:") rather than
+  blended with recent thoughts. Selection: weighted random
+  by significance_score, favoring older moments to give
+  long-range continuity.
+
+----------------------------------------------------------------
+7. WHAT THIS DOES NOT DO
+----------------------------------------------------------------
+
+  - Does not modify the LLM, voice, or substrate
+  - Does not change fountain firing logic itself
+  - Does not write code that NEX cannot disable via config
+  - Does not introduce new operation types
+  - Does not change crystallizer thresholds
+  - Does not require any model retraining
+  - Does not affect mode-state behavior
+
+All three layers are additive. AUTO_PROBE_ENABLED-style
+config flag (MEMORY_LAYERS_ENABLED, defaulting false in
+Phase A) makes this fully reversible.
+
+----------------------------------------------------------------
+8. ROLLOUT PLAN
+----------------------------------------------------------------
+
+Phase A — Snapshot only (3 days)
+  - Implement Layer A (state snapshot writer)
+  - DO NOT implement Layer B (no resumption seeds)
+  - DO NOT implement Layer C (no important_moments)
+  - Verify snapshot updates every 60s, captures full state,
+    no fountain tick interference
+  - Exit criteria: verified clean snapshots accumulating
+
+Phase B — Resumption seeds (5 days)
+  - Add Layer B (resumption seed on boot)
+  - Test with controlled restarts: shut down, wait, restart,
+    verify NEX fires within first tick with continuity
+  - Compare warm-up time pre/post: target < 2 min vs
+    baseline ~10 min
+  - Compare UNRESOLVE arc rate: should drop significantly
+  - Exit criteria: 5 controlled restarts, all show continuity
+
+Phase C — Important moments (open-ended)
+  - Add Layer C (moment detector + table + read-back)
+  - Tune moment criteria over 2-3 weeks
+  - Eventual: NEX has a "history" she can reference
+
+----------------------------------------------------------------
+9. SUCCESS CRITERIA
+----------------------------------------------------------------
+
+PRIMARY (Phase B):
+  - Post-restart UNRESOLVE arc fires < 30% of restarts (vs
+    current ~100%)
+  - First fountain composition post-restart is on-topic with
+    pre-restart context, not blank or template-locked
+  - Warm-up time < 2 minutes (vs current ~10 min)
+
+SECONDARY (Phase C):
+  - NEX produces fountain_insights that reference
+    important_moments by content (e.g., "Last week's pattern
+    of X seems related to today's Y")
+  - Long-range coherence: themes persist across days, not
+    just within sessions
+
+FAILURE INDICATORS:
+  - Resumption seeds appear in fountain output as awkward
+    self-references (NEX experiences them as alien)
+  - Snapshot writes cause measurable fountain tick latency
+  - important_moments grows unbounded (need rotation policy)
+
+----------------------------------------------------------------
+10. OPEN QUESTIONS FOR REVIEW
+----------------------------------------------------------------
+
+Q1. Snapshot frequency: 60s feels right but is a guess.
+    Should it be event-driven (on each fountain fire) instead
+    of timer-driven? Trade-off: event-driven captures perfect
+    state but couples to fountain tick. Timer-driven is
+    decoupled but may miss state changes.
+
+Q2. Resumption seed voice: should the seeds be in first-
+    person ("I was thinking about X") or third-person
+    ("The thinking was about X")? First-person is more
+    natural to NEX's existing voice. Third-person is more
+    honest about provenance.
+
+Q3. Stale snapshot threshold: 7 days is a guess. Should we
+    use cold-start (no seed) for very long gaps? Or is
+    even old context useful?
+
+Q4. Important moments criteria: novel_composition uses
+    Jaccard < 0.3 — that threshold is arbitrary. How do we
+    tune? Suggest: track all candidate moments in Phase C,
+    have operator review monthly, adjust thresholds.
+
+Q5. NEX awareness of memory layers: should NEX know she has
+    them? Could write a meta-belief: "I have a memory that
+    persists across restarts." Trade-off: transparency vs
+    minimal intervention.
+
+Q6. Snapshot data scope: should we capture probe library
+    state? user_state from chat? The minimum-viable set is
+    in Section 4. Expansion vs simplicity tension.
+
+Q7. Long-term memory bloat: important_moments could grow
+    indefinitely. Need a retention policy. Suggest: cap at
+    1000 entries, drop lowest-significance when over cap.
+
+Q8. Cross-restart probe state: if a probe was pending
+    when the system shut down, should it auto-resume on
+    restart? Or should pending probes be considered
+    abandoned? Suggest: abandon (clean slate for probes),
+    but note it in resumption seed.
+
+----------------------------------------------------------------
+END SPEC v0.1
+================================================================
