@@ -1,0 +1,322 @@
+================================================================================
+DESIGN SPEC: AUTO-PROBE GROOVE BREAKER
+NEX 5.0 — Intervention Layer v0.2
+================================================================================
+
+Status: DESIGN — review-approved. Pending Phase A prerequisite.
+Date: 2026-04-27 (v0.2 review pass)
+Supersedes: v0.1 (Design_AutoProbe_GrooveBreaker.txt)
+
+Changes from v0.1:
+  - Phase B operator silence behavior changed from "auto-approve"
+    to "log as would-have-approved, no fire"
+  - SIMILE asymmetric grounding probe selection deferred to v0.2
+    of this work; v0.1 uses generic direct_phenomenology for SIMILE
+  - Added Phase A prerequisite: verify recent_thoughts selection
+    mechanism in stage6_fountain
+  - Open questions Q1, Q2, Q3, Q6, Q7 resolved (see Section 9)
+
+================================================================================
+1. PROBLEM STATEMENT
+================================================================================
+
+Same as v0.1. NEX exhibited 14-hour template lock on 2026-04-26
+("the ticking feels off-key"). Groove detector correctly identified
+the lock at severity=0.92 but had no actuator. The auto-probe
+groove breaker closes the loop: detect → select probe → (approve)
+→ fire → inject response → break attractor.
+
+================================================================================
+2. STRUCTURAL BASIS (verified)
+================================================================================
+
+  - Law 1 (P3 Saturation): SIMILE ≥3 consecutive → SENSE_OBS 100%.
+    Verified categorically (17/17, 1048 fires).
+  - Law 7 (Register Feed-Forward): X-filler carries forward 74%
+    (>60% threshold). Verified.
+  - Architectural prediction: probes targeting different operation
+    types break locks. Verified live 2026-04-27 ~05:30.
+
+================================================================================
+3. MODULE LOCATION
+================================================================================
+
+  New file: theory_x/auto_probe/groove_breaker.py
+  Wired into: theory_x/stage6_fountain (post-tick observer)
+  Reversible: AUTO_PROBE_ENABLED=false in config disables
+
+================================================================================
+4. PHASE A PREREQUISITE — recent_thoughts selection verification
+================================================================================
+
+Before Phase A starts, the implementation team must:
+
+  4.1 Read stage6_fountain code and document:
+      - How recent_thoughts pool is populated
+      - How items are selected for next fire's prompt
+      - Whether a weight field exists and how it's used
+      - Order of selection (recency, weight, random, mixed?)
+      - Pool size and rotation behavior
+
+  4.2 Write findings to:
+      ~/Desktop/nex5_research_log/Recent_Thoughts_Selection_Notes.txt
+
+  4.3 Update Section 6 (FIRING PATH) of this spec with verified
+      injection mechanism. Replace weight=1.5 guess with empirical
+      value or different mechanism if no weight field exists.
+
+  4.4 Commit and push the notes file before Phase A begins.
+
+This prerequisite exists because v0.1's weight=1.5 was a guess.
+Phase A cannot start until the injection mechanism is understood,
+not assumed.
+
+================================================================================
+5. TRIGGER CONDITIONS
+================================================================================
+
+All four conditions must hold simultaneously:
+
+  1. groove_severity >= 0.80
+  2. consecutive_same_template >= 8
+  3. cooldown_elapsed: last auto_probe_log entry > 30 min ago
+  4. no_pending_approval: no row with status='pending_approval'
+
+Same as v0.1. No changes.
+
+================================================================================
+6. PROBE SELECTION
+================================================================================
+
+By operation-type inversion. v0.1 uses generic direct_phenomenology
+for SIMILE; refinement deferred to v0.2 of this work.
+
+  ┌──────────────────────┬──────────────────────────────────┐
+  │     Locked opcode    │      Probe operation type        │
+  ├──────────────────────┼──────────────────────────────────┤
+  │ OBSERVE_*            │ direct_phenomenology             │
+  │ INTROSPECT_*         │ grounded_observation             │
+  │ SIMILE / TRANSLATE   │ direct_phenomenology  (v0.1)     │
+  │ DIALECTICAL          │ substitution                     │
+  │ ACTION               │ direct_phenomenology             │
+  │ OTHER/UNKNOWN        │ direct_phenomenology  (default)  │
+  └──────────────────────┴──────────────────────────────────┘
+
+Within selected category: pick LRU probe. If LRU was used <4h ago,
+escalate to next category in mapping.
+
+If all categories exhausted in last 4h: trigger operator-prompt
+mode (see Section 9 Q7) — do not auto-generate probes.
+
+================================================================================
+7. OPERATOR APPROVAL (Phase B)
+================================================================================
+
+7.1 Approval flow:
+
+  1. Write row to auto_probe_log with status='pending_approval'
+  2. Send Telegram message to @Nex_4bot:
+       "GROOVE DETECTED [auto_probe v0.1]
+
+        Severity: X.XX
+        Template: '<truncated text>'
+        Sustained: N fires
+        Locked opcode: <NAME>
+
+        Suggested probe: [<category>]
+        '<probe_text>'
+
+        Reply /approve, /reject, or do nothing within 60s."
+
+  3. Wait up to 60 seconds polling for reply
+  4. On /approve: status → 'approved', proceed to fire
+  5. On /reject: status → 'rejected_by_operator', set 4h cooldown,
+     log reply text in operator_reply field
+  6. On 60s timeout: status → 'would_have_approved', NO FIRE.
+     Log captures what would have happened. Operator reviews
+     retroactively.
+
+CHANGE FROM v0.1: timeout no longer auto-approves and fires.
+This preserves operator-in-loop discipline through Phase B.
+Auto-firing on timeout is a Phase C behavior.
+
+7.2 In Phase A: no Telegram, no firing. Log only with status='observation'.
+7.3 In Phase C: no approval step. Fire immediately on trigger.
+
+================================================================================
+8. FIRING PATH
+================================================================================
+
+Uses existing ProbeRunner.run_probe() without modification.
+
+Pseudocode:
+
+  result = probe_runner.run_probe(
+      category=selected_category,
+      probe_text=selected_probe_text,
+      notes=f"auto_probe:groove_breaker severity={severity:.2f}",
+  )
+
+After run_probe() returns:
+
+  1. If result["response_text"] empty or starts with "[ERROR":
+     mark as 'error', do NOT inject. Log error details.
+  2. On success: inject into fountain.recent_thoughts with
+     source='auto_probe' tag, mechanism per Section 4 prerequisite
+     (weight or alternative method to be determined).
+  3. Update auto_probe_log: status='fired', probe_id,
+     response_preview (first 200 chars).
+
+The injection seeds; it does not force. Fountain's normal selection
+logic decides what to use on next tick.
+
+================================================================================
+9. OPEN QUESTIONS — RESOLUTIONS
+================================================================================
+
+Q1. Probe-induced context tagging
+    RESOLVED: Yes, tag with source='auto_probe'. Do not down-weight.
+    Tag exists for traceability in logs, not for selection logic.
+
+Q2. Mind-mode scope restriction
+    RESOLVED: v0.1 mind-mode only. Other modes deferred until
+    mode-cycling work is done. Extending without mode decryption
+    would be premature.
+
+Q3. GUI manual trigger
+    RESOLVED: Yes, add to cockpit. "Break groove now" button opens
+    probe-selection dialog. Same firing path as auto-trigger but
+    bypasses trigger conditions. Useful for testing and operator
+    agency. Implement in Phase B.
+
+Q4. Offline operator behavior
+    RESOLVED IN SECTION 7: 60s silence → log as 'would_have_approved',
+    no fire. Operator reviews retroactively.
+
+Q5. SIMILE asymmetric grounding probe selection
+    DEFERRED to v0.2 of this work. v0.1 uses generic direct_
+    phenomenology. Revisit after observing actual SIMILE lock
+    frequency in practice (Law 1 suggests SIMILE locks self-resolve
+    via P3 saturation, so this may rarely matter).
+
+Q6. Consecutive count via template_hash
+    PARTIALLY RESOLVED: Implementation team must verify how the
+    existing groove detector computes template_hash before relying
+    on it. Check theory_x/signals/ for the hash function. Add
+    findings to Phase A prerequisite notes.
+
+Q7. Probe library exhaustion
+    RESOLVED: When all categories exhausted in 4h window, send
+    operator-prompt: "Groove detected, no fresh probes available,
+    please craft one manually via GUI." Do NOT auto-generate probes
+    (separate trust question, deferred).
+
+Q8. Injection weight calibration
+    RESOLVED VIA PHASE A PREREQUISITE: investigate before Phase A.
+    No weight=1.5 assumption.
+
+================================================================================
+10. NEW DB TABLE: auto_probe_log
+================================================================================
+
+Same as v0.1, with status enum updated:
+
+  CREATE TABLE IF NOT EXISTS auto_probe_log (
+      id                INTEGER PRIMARY KEY AUTOINCREMENT,
+      groove_signal_id  INTEGER,
+      groove_severity   REAL,
+      dominant_opcode   TEXT,
+      consecutive_count INTEGER,
+      selected_category TEXT,
+      probe_id          INTEGER,
+      status            TEXT,
+        -- 'observation'
+        -- 'pending_approval'
+        -- 'approved'
+        -- 'rejected_by_operator'
+        -- 'would_have_approved'  (NEW: replaces auto_approved_timeout)
+        -- 'fired'
+        -- 'failed_to_break'
+        -- 'groove_broken'
+        -- 'error'
+      operator_reply    TEXT,
+      response_preview  TEXT,
+      ts                REAL
+  );
+
+================================================================================
+11. ROLLOUT PLAN
+================================================================================
+
+Phase A — Observation (3 days)
+  PREREQUISITE: Recent_Thoughts_Selection_Notes.txt committed
+
+  - groove_breaker.py wired in, checks trigger conditions every tick
+  - Logs status='observation' when trigger fires
+  - No Telegram, no firing
+  - Goal: validate trigger conditions fire at sensible rate (0-3/day)
+  - Exit: ≥2 logged events, rate not excessive
+
+Phase B — Operator-Approved (10 days)
+  - Approval flow per Section 7
+  - Operator silence → log only, no fire (changed from v0.1)
+  - Daily review of auto_probe_log
+  - Adjust thresholds based on data
+  - GUI manual trigger button live (from Q3)
+  - Goal: confirm probe selection coherent; groove-break rate >50%
+  - Exit: ≥5 grooves attempted via approval, >50% broken
+
+Phase C — Autonomous (after Phase B success)
+  - No approval step
+  - Hard cooldown and backoff still enforced
+  - GUI kill-switch in cockpit panel
+  - Auto-fires on trigger conditions
+
+================================================================================
+12. KNOWN RISKS (unchanged from v0.1)
+================================================================================
+
+  - Groove detector false positives (mitigated by Phase A tuning)
+  - Probe response as new attractor (monitor severity post-injection)
+  - Telegram dependency (health check in run.py boot)
+  - Database write contention (Writer is thread-safe)
+
+================================================================================
+13. WHAT THIS DOES NOT DO
+================================================================================
+
+  - Does not modify substrate (LLM, prompt builder, retrieval)
+  - Does not change crystallizer
+  - Does not alter mode-state
+  - Does not add operation types
+  - Does not change 6-mode taxonomy
+
+Amplification of existing capability (probes), not architectural
+modification. Within NEX's own logic per Phase 2 discipline.
+
+================================================================================
+14. SUCCESS CRITERIA
+================================================================================
+
+After 2 weeks of Phase B operation:
+
+  PRIMARY:
+   - Mean lock duration < 1 hour (vs ~14h baseline)
+   - 90%+ of severe grooves cleared by first or second probe
+   - Zero false positives disrupting healthy register runs
+
+  SECONDARY:
+   - New fountain_insight beliefs/day increase
+     (baseline: ~1/day during locks, ~10/day healthy)
+   - Operator approval rate >70%
+   - Operator silence rate (would_have_approved) <30%
+
+  FAILURE INDICATORS:
+   - Probe-loop (probes themselves grooved): >2 same probe in 24h
+   - High operator silence: >50% events as would_have_approved
+     (suggests timeout window too tight or operator overwhelmed)
+   - Trigger thrashing: >5 events/day (threshold too sensitive)
+
+================================================================================
+END OF DESIGN SPEC v0.2
+================================================================================
