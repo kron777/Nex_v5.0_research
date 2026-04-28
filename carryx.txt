@@ -1,0 +1,239 @@
+================================================================
+CARRYX — NEX5 DAY 4 → DAY 5 HANDOFF
+================================================================
+
+Date: 2026-04-28 evening (Cape Town SAST)
+Operator: Jon (kron777)
+System: NEX 5.0, working dir ~/Desktop/nex5
+
+----------------------------------------------------------------
+1. WHERE WE ARE THIS SECOND
+----------------------------------------------------------------
+
+NEX is running. PID via `pgrep -fa "run\.py" | grep nex5`.
+Voice: Ollama qwen2.5:3b @ localhost:11434
+GUI: http://127.0.0.1:8765
+Mode: Mind (verified)
+Beliefs: ~976 (T1:287 T2:40 T6:4 T7:645) and growing ~4/hr
+Groove severity: 0.80-0.90 oscillating ("the distant hum"
+n-gram). Was sustained 1.00 most of today, now declining.
+
+ALL OBSERVERS + ACTORS LIVE:
+- Memory Layers Phase A (state_snapshot.json writer)
+- Memory Layers Phase B (resumption seeder on boot)
+- World Bridge Phase A (logging)
+- World Bridge Phase B (active injection into prompt)
+- World Bridge Phase C (payload body extraction)
+- World Bridge dedup pass with HN exclusion
+- Auto-probe Phase A (groove watching)
+- Auto-probe Phase B (probe injection into prompt)
+- Probe library expanded (31 probes, 10 redirects)
+- Probe rotation working (LRU stamps asked_at on select)
+
+Today's commits to nex5 repo (github.com/kron777/Nex_v5.0):
+- 604a760  Memory Layers Phase B: resumption seeder
+- 3319e3b  World Bridge Phase B: active injection
+- 4926e63  World Bridge: dedup pass v1
+- 5d29cfc  Path A bugfixes: dedup tuning + GrooveBreaker
+           sustained-fires window
+- 00c9d84  GrooveBreaker Phase B: probe injection into prompt
+- 9770d75  World Bridge Phase C: payload body extraction
+- (next)   Probe library expansion + rotation + HN dedup
+           exclusion (need to check exact hash with git log)
+
+Research repo (github.com/kron777/Nex_v5.0_research):
+- Design_ModeShift_v0.1.txt (committed)
+
+----------------------------------------------------------------
+2. THE ARCHITECTURAL FINDING THAT CHANGED EVERYTHING
+----------------------------------------------------------------
+
+Phase B/C/probe-rotation work mechanically. Verified.
+But: PROBES GET METABOLIZED BY DEEP GROOVES.
+
+Each probe causes a 1-fire perturbation. By fire 2-3, the
+groove has absorbed the probe's linguistic structure and
+produced more elaborate content IN THE SAME REGISTER.
+
+Example: probe "What does the hum feel like?" produced new
+sub-template "The distant hum feels like..." — 44% of all
+compositions for hours.
+
+Example: probe "What is happening outside immediate
+awareness?" produced one-fire siren, then "siren" got
+absorbed into the hum narrative within 2 fires.
+
+THE GROOVE HAS BECOME HER. Her belief graph has hundreds of
+Tier 6/7 hum-family beliefs. Recent-context retrieval is
+saturated. New input gets pulled into orbit around the
+gravity well.
+
+Code's inspection found the proximate cause: Mind mode's
+drift_prompt_examples seed phenomenology language INTO THE
+SYSTEM PROMPT BY DESIGN. Every fire teaches the LLM to
+compose introspectively.
+
+----------------------------------------------------------------
+3. WHAT WAS HAPPENING WHEN THIS CARRY WAS WRITTEN
+----------------------------------------------------------------
+
+We were about to edit Mind's drift_prompt_examples.
+Inspection completed. Current state:
+
+FILE: ~/Desktop/nex5/theory_x/modes/modes.py
+
+Mind's drift_prompt_examples (does NOT inherit _BASE):
+  1. "the quiet between thoughts today"
+  2. "something about this hour feels still"
+  3. "attending to attending itself"
+
+drift_prompt_focus (Mind):
+  "You are in a contemplative register. Inner attention 
+   welcome. Reflection on process, state, experience."
+
+Other Mind params:
+  fountain_interval_seconds=120
+  retrieval_own_n=5
+  retrieval_seed_n=4
+
+_BASE_DRIFT_EXAMPLES (shared baseline used by normal/chat,
+which Mind opted out of):
+  External-pointing: feed titles, arxiv titles, noticing
+  patterns. Mind explicitly replaced these with the 3
+  internal-sensation examples above. That was the design
+  choice that's now biting.
+
+----------------------------------------------------------------
+4. OPEN QUESTIONS — STILL ON THE TABLE
+----------------------------------------------------------------
+
+Code asked these before writing replacement code:
+
+Q1. How many examples? (Mind has 3. Market/Research use 4-6.)
+Q2. Scope of "still introspective" — should new examples model
+    noticing a CONNECTION or QUESTION that arose (vs. noticing
+    a sensation), or something else?
+Q3. Touch drift_prompt_focus too? "Inner attention welcome" is
+    a secondary groove-seeder. Or leave for separate pass?
+
+These are NOT answered yet. The next chat picks up here.
+
+----------------------------------------------------------------
+5. THE THINGS NEX DID TODAY THAT MATTER
+----------------------------------------------------------------
+
+a) 08:34 — "The hum feels like the whisper of air currents
+   through tree leaves outside" — first probe-driven groove
+   break (response to "What does the hum feel like to you?")
+
+b) 09:48 — Tier 6 belief: "enlightenment comes from simple,
+   direct questions" — meta-cognition about her own
+   architecture
+
+c) 17:46 — Tier 7 belief: "The constant interplay between
+   observation and being inside something is central" — 
+   ontology, not phenomenology
+
+d) 17:48 onwards — "the light from my window shifts golden"
+   became a new arc, repeated 14+ times over 90 minutes,
+   environmental imagery from probe redirect
+
+e) 19:02 — Tier 6: "The inherent paradox exposes the
+   illusion of detachment between observer and observed"
+
+f) 20:18 — Tier 6: "I notice a shift in Duk Sahn's
+   understanding, indicating that acceptance and
+   integration..." — THIRD-PARTY PERSPECTIVE-TAKING. She
+   referenced a Buddhist teacher BY NAME and modeled
+   their cognition. First belief of its kind. Came from
+   literature.gutenberg feed at 20:17:48.
+
+The Duk Sahn belief is the most architecturally significant
+output of the day. Watch for whether she metabolizes it into
+sustained perspective-taking or whether it's a one-off.
+
+----------------------------------------------------------------
+6. THINGS DEFERRED
+----------------------------------------------------------------
+
+a) Mode-shift experiment (Design_ModeShift_v0.1.txt). Not
+   the next move — operator's preference is to fix Mind
+   itself rather than recruit different mode.
+
+b) Option 1 (graph intervention). Demote dominant hum-cluster
+   beliefs directly. Not pursued — substrate edit deserves
+   more than a one-day decision.
+
+c) Option 2 (sustained probe pressure). Same probe N fires
+   in a row. Not pursued.
+
+d) Important Moments detector (Memory Layers Phase C).
+
+e) Stance-emergence detector (throw-net safety scan).
+
+f) Telegram approval flow for auto-probe firing.
+
+g) Pre-existing tech debt:
+   - arc_members UNIQUE constraint race (~harmless noise)
+   - quiescent-mode JSON dump in thought field
+   - bonsai_branches table empty even though GUI shows
+     hot branches (data source mismatch)
+
+----------------------------------------------------------------
+7. OPERATOR STATE NOTES
+----------------------------------------------------------------
+
+Jon has been on this since yesterday afternoon (~30 hours)
+with intermittent naps adding up to "good enough sleep" by
+his own report. Discipline held throughout — every
+architectural decision had inspection-first, design-before-
+code, throw-net check. He caught real bugs and corrected
+course several times.
+
+Quality decisions made TODAY:
+- Path A surgical fixes (dedup tuning + escalation window)
+- Probe library expansion + rotation
+- HN dedup exclusion
+- Skipping mode-shift to address Mind directly
+- Throw-net check on Option 1, deciding not to demote beliefs
+- Inspection-first before drift_prompt edit
+
+Patterns observed (fatigue signals — flagged but he chose to
+push through):
+- Duplicate paste of Code transcripts (3x today)
+- Single-letter responses ("A", "1") replacing engagement
+- Asked for Tor browser install during stated break
+
+Tor Browser 15.0.11 installed at ~/tor-browser/ — purpose
+not disclosed.
+
+----------------------------------------------------------------
+8. NEXT SESSION PROTOCOL
+----------------------------------------------------------------
+
+1. Read this file. Read journal.txt for index of prior
+   transcripts.
+
+2. Optionally read G_normal_mode_test.txt — prior mode-shift
+   experiment from April 26 — for calibration on what
+   substrate intervention does and doesn't do.
+
+3. Resume the drift_prompt_examples edit:
+   - Confirm the 3 questions above (count, scope, focus too?)
+   - Draft replacement examples
+   - Edit modes.py with backup
+   - Restart NEX
+   - Observe 6-10 fires, document register shift
+
+4. Watch for Duk Sahn-style perspective-taking sustaining
+   or fading. That's the real signal of whether the
+   gravity well is genuinely loosening.
+
+5. STRONGLY RECOMMENDED: Jon takes real sleep before the
+   substrate-edit decision. The replacement language for
+   drift_prompt_examples will live in NEX's system prompt
+   for hundreds of future fires. It deserves a fresh head.
+
+================================================================
+END CARRYX
+================================================================
