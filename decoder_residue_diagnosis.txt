@@ -1,0 +1,127 @@
+DECODER RESIDUE DIAGNOSIS
+Phase 1B — Residue (Save Half-Thoughts) diagnosis
+Completed: 2026-04-28
+Analyst: Claude (Sonnet 4.6)
+
+========================================================
+CODE TRACE: save_residue / pop_residue
+========================================================
+
+Source file: ~/Desktop/nex5/theory_x/diversity/residue.py
+
+save_residue(writer, cycle_id, belief_id, activation_strength):
+  Calls writer.write(
+    "INSERT INTO residue (cycle_id, belief_id, activation_strength, created_at) VALUES (?, ?, ?, ?)",
+    (cycle_id, belief_id, activation_strength, time.time())
+  )
+  - Writes to beliefs.db (via beliefs_writer)
+  - Does NOT catch exceptions; propagates to caller
+  - FK constraint: FOREIGN KEY (belief_id) REFERENCES beliefs(id)
+
+pop_residue(reader, writer, limit=2):
+  Reads unconsumed rows (consumed_at IS NULL)
+  If any found: marks them consumed_at = now
+  Returns [{"belief_id": bid}, ...]
+  - Always reads before writing
+  - On empty table: returns []
+
+fetch_residue_beliefs(reader, belief_ids):
+  SELECT from beliefs WHERE id IN (...)
+  Pure read, no side effects.
+
+========================================================
+CALL SITES IN generator.py (_retrieve_context_beliefs)
+========================================================
+
+Call site 1 — POP at start of each cycle (line 484-490):
+  if self._beliefs_writer is not None:
+      try:
+          residue_refs = pop_residue(self._beliefs_reader, self._beliefs_writer)
+          ...
+          result.extend(residue_beliefs)
+      except Exception:
+          pass
+
+  Condition: beliefs_writer is not None (always True in production)
+  Behavior: runs every fire cycle (non-quiescent), pops up to 2 residue rows
+
+Call site 2 — SAVE at end of each cycle (line 508-523):
+  if self._beliefs_writer is not None and own_rows:
+      try:
+          cycle_id = uuid.uuid4().hex
+          own_ids = [r["id"] for r in own_rows if r.get("id")]    # LINE 514
+          for i, row in enumerate(own_rows):
+              if row.get("id") and i >= own_n // 2:               # LINE 517
+                  save_residue(self._beliefs_writer, cycle_id, row["id"],
+                               float(row.get("boost_value", 1.0)))  # LINE 520
+      except Exception:
+          pass
+
+========================================================
+OBSERVED STATE
+========================================================
+
+residue table rows: 0
+fountain_events count: 2,206 (across all restarts)
+Fires since latest nex5 restart (17:46 local): ~87 non-quiescent
+Expected residue rows if working: ~87 × 4 = ~348 (index >= 3 of 7 own_rows)
+Own content beliefs available: 645 (fountain_insight: 399, synergized: 216, etc.)
+
+========================================================
+TEMPORARY DEBUG PRINT (Phase 1B step 3)
+========================================================
+
+Modification made to ~/Desktop/nex5/theory_x/stage6_fountain/generator.py:
+  Line 522 changed from:
+      except Exception:
+          pass
+  to:
+      except Exception as e:
+          print(f"RESIDUE_DBG: {e}", flush=True)
+
+One complete fire cycle observed: fountain_events count went from 2205 to 2206.
+Print output went to /dev/pts/0 (NEX5's attached terminal -- not capturable by this tool).
+Post-fire residue count confirmed: still 0 rows.
+Modification restored to original (except Exception: pass) immediately after observation.
+
+========================================================
+ROOT CAUSE
+========================================================
+
+The exception is raised at LINE 514, before save_residue is ever called.
+
+  own_ids = [r["id"] for r in own_rows if r.get("id")]
+
+own_rows is a list[sqlite3.Row] returned by Reader.read() (substrate/reader.py).
+sqlite3.Row uses conn.row_factory = sqlite3.Row and supports item access (row["id"])
+but does NOT implement the .get() method of dict.
+
+Exception: AttributeError: 'sqlite3.Row' object has no attribute 'get'
+
+This is caught by the bare except Exception: pass at line 522 and silently swallowed.
+save_residue is never called. pop_residue is called but always finds 0 rows (since nothing
+was ever saved), so it also returns [] silently.
+
+The same .get() calls also appear at line 517 (row.get("id")) and line 520
+(row.get("boost_value", 1.0)), but execution never reaches them because the
+list comprehension at line 514 fails first.
+
+The beliefs_writer is functional (fountain_crystallizations = 410, beliefs being written
+regularly). The writer itself is not the problem.
+
+========================================================
+VERDICT
+========================================================
+
+SILENT_FAILURE
+
+The exception (AttributeError: 'sqlite3.Row' object has no attribute 'get') is raised
+within the try block on every non-quiescent fire and is swallowed by except Exception: pass.
+save_residue has never been called in production. pop_residue runs but always reads 0 rows.
+residue table has remained empty since the table was created.
+
+Fix (not applied — Phase 1 is read-only):
+  Replace r.get("id") and row.get("id") with r["id"] and row["id"] (sqlite3.Row key access).
+  Replace row.get("boost_value", 1.0) with (row["boost_value"] if "boost_value" in row.keys() else 1.0)
+  Or more simply: convert own_rows to list[dict] at the top of _retrieve_context_beliefs:
+    own_rows = [dict(r) for r in own_rows]

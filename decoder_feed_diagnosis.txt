@@ -1,0 +1,120 @@
+DECODER FEED DIAGNOSIS
+Phase 1A — Feed emptiness diagnosis
+Completed: 2026-04-28
+Analyst: Claude (Sonnet 4.6)
+
+========================================================
+PER-FEED STATUS TABLE
+========================================================
+
+| Stream                  | Adapter File         | Poll Interval | Events in snap | Last Fetch Age  | Fetch Result            | Freshness Window | Status           |
+|-------------------------|----------------------|---------------|----------------|-----------------|-------------------------|------------------|------------------|
+| emerging_tech.hn        | hacker_news.py       | 300s (5min)   | 37,894         | ~57min (snap)   | LIVE OK (5 hits, algolia API) | 60s          | FUNCTIONAL / SHORT_WINDOW |
+| news.bbc                | bbc_news.py          | 900s (15min)  | 8,820          | ~57min (snap)   | LIVE OK (28 items, RSS) | 171s             | FUNCTIONAL / SHORT_WINDOW |
+| science.quanta          | quanta.py            | 1800s (30min) | 860            | ~57min (snap)   | LIVE OK (5 items, RSS)  | ~1000s           | FUNCTIONAL       |
+| ai_research.arxiv       | arxiv_ai.py          | 3600s (1h)    | 2,580          | ~57min (snap)   | n/a (batch)             | ~60s             | FUNCTIONAL / WINDOW_MISMATCH |
+| ai_research.lab_blogs   | lab_blogs.py         | 1800s (30min) | 2,350          | ~57min (snap)   | n/a                     | ~477s            | FUNCTIONAL       |
+| cognition.lesswrong     | lesswrong.py         | 1800s (30min) | 1,720          | ~57min (snap)   | n/a                     | ~474s            | FUNCTIONAL       |
+| computing.tech_news     | tech_news.py         | 1800s (30min) | 3,768          | ~57min (snap)   | n/a                     | ~291s            | FUNCTIONAL       |
+| emerging_tech.ieee      | ieee_spectrum.py     | 1800s (30min) | 4,720          | ~57min (snap)   | n/a                     | ~231s            | FUNCTIONAL       |
+| mathematics.arxiv       | arxiv_math.py        | 1800s (30min) | 569            | ~57min (snap)   | n/a                     | ~693s            | FUNCTIONAL       |
+| literature.gutenberg    | gutenberg.py         | 1800s (30min) | 1,502          | ~57min (snap)   | n/a                     | ~784s            | FUNCTIONAL       |
+| agi.arxiv_cs_ai         | arxiv_cs_ai.py       | 3600s (1h)    | 1,485          | ~57min (snap)   | n/a                     | ~310s            | FUNCTIONAL / WINDOW_MISMATCH |
+| internal.temporal       | temporal.py          | 60s           | 7,292          | current         | n/a (internal)          | 300s             | FUNCTIONAL       |
+| internal.meta_awareness | meta_awareness.py    | 10s           | 43,481         | current         | n/a (internal)          | 60s              | FUNCTIONAL       |
+
+All feeds: sense_global_running=True, 31 adapters active (27 external, 4 internal), as confirmed by
+meta_awareness payload at 20:53:00 UTC.
+
+Snapshot note: /tmp/sense_snap.db was created at 2026-04-28 20:53:03 local (57 min old at analysis
+time). The live sense.db shows all streams producing fresh events up to ~21:53 local. All streams
+are operationally active.
+
+========================================================
+3 EXTERNAL ADAPTER LIVE FETCH TESTS
+========================================================
+
+Test executed via standalone python3 -c (no nex5 imports):
+
+1. BBC News RSS (https://feeds.bbci.co.uk/news/rss.xml)
+   Result: HTTP 200, 21,328 bytes, 28 items
+   Status: LIVE AND RETURNING CONTENT
+
+2. HN Algolia API (https://hn.algolia.com/api/v1/search_by_date?tags=front_page&hitsPerPage=5)
+   Result: HTTP 200, 5 hits returned
+   First title: "Ghostty is leaving GitHub"
+   Status: LIVE AND RETURNING CONTENT
+
+3. Quanta Magazine RSS (https://www.quantamagazine.org/feed/)
+   Result: HTTP 200, 11,068 bytes, 5 items
+   Status: LIVE AND RETURNING CONTENT
+
+All three external feeds are reachable and returning fresh content.
+
+========================================================
+FRESHNESS WINDOW ANALYSIS
+========================================================
+
+The selector (world_bridge/selector.py) computes:
+  freshness_window = max(60, cadence * CADENCE_MULTIPLIER)
+  where cadence = mean inter-event gap over last CADENCE_LOOKBACK_SECONDS (3600s)
+  and CADENCE_MULTIPLIER = 5
+
+PROBLEM: Batch-fetching adapters insert N events (e.g. 20 arxiv papers, 28 BBC items) all with
+the same integer timestamp (timestamp = int(time.time()) set ONCE before the loop in _helpers.py
+parse_rss). This creates N events with identical timestamps within a burst, so inter-event gaps
+within the burst are 0 seconds. The mean cadence becomes artificially small.
+
+Example - arxiv_ai (3600s real poll interval, 20 events per burst):
+  Between-burst max gap observed: 15,028s (4.2h)
+  Mean cadence computed: ~92-178s (counting within-burst 0-gaps)
+  Derived freshness window: max(60, 178*5) = 890s (14.8 min)
+  Actual quiet period after burst: 3600s minus burst age
+  Result: events expire from window after ~14.8 min; adapter won't poll for ~60 min
+
+Example - bbc_news (900s poll, ~28-80 events per burst):
+  Mean cadence computed: ~34s
+  Derived freshness window: max(60, 34*5) = 170s (2.8 min)
+  Actual poll gap: 900s
+  Result: BBC events stale within 3 minutes; won't repoll for 15 minutes
+
+Example - hacker_news (300s poll, 30 events per burst):
+  Cadence computed: ~10s
+  Derived freshness window: max(60, 10*5) = 60s (1.0 min)
+  Actual poll gap: 300s (5 min)
+  Result: HN events stale within 60 seconds; won't repoll for 5 minutes
+
+========================================================
+ROOT CAUSE
+========================================================
+
+Root cause: Freshness windows are derived from mean inter-event cadence, which is compressed
+by within-burst 0-second gaps from batch-fetching adapters. This causes freshness windows to
+be far shorter than actual poll intervals, creating long "stale" windows between batches.
+
+Consequence: After each burst, external streams fall out of the freshness window within 60–890
+seconds. The fountain fires every ~120s. During the gap between burst expiry and next poll, the
+selector finds no active external streams and logs only internal.temporal + internal.meta_awareness.
+
+Frequency in last 24h (from beliefs_snap.db, cutoff 21:49 local):
+  Total world_bridge_log entries: 469 (in 24h window)
+  Entries with >= 1 external stream: 359 (76.5%)
+  Internal-only entries (only internal.temporal + internal.meta_awareness): 114 (24.3%)
+  Entries with no_active_streams: 0
+
+Hourly breakdown (some hours have near-100% external, some 40-50%):
+  Peak external coverage hours (02:49-08:49 local): 19-22/22 fires had external content
+  Lower coverage hours (09:49-17:49 local): 10-15/21 fires had external content
+
+Secondary factors:
+  1. DEDUP_EXCLUDED_STREAMS includes "emerging_tech.hn" -- HN passes through dedup but
+     its 60s freshness window means it's often stale at fire time.
+  2. fountain_event_id is always NULL in world_bridge_log (confirmed: 596/596 rows NULL).
+     The selector is called with fountain_event_id=None (Phase A is logging-only; no
+     injection yet). This is by design (world_bridge is Phase A: log only).
+  3. No adapter is a separate process, cron, or external scheduler. All adapters run as
+     daemon threads in the main nex5 process via SenseScheduler. External feeds are
+     PAUSED on boot and require GUI start_all() or equivalent call.
+     Live check: sense_global_running=True confirms they are currently running.
+
+No fixes applied. All findings are read-only observations.
