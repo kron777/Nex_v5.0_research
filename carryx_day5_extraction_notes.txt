@@ -1,0 +1,62 @@
+DAY 5 EXTRACTION NOTES
+Generated: 2026-04-28 18:59:29 UTC
+============================================================
+
+WINDOW
+  Start: 2026-04-26 11:00:00 SAST (= 09:00:00 UTC)
+  End:   2026-04-28 18:59:29 UTC (~20:59 SAST)
+  Duration: ~58.0 hours
+
+FIRE COUNT
+  Total fountain_events in window: 839
+  (Excludes voice_fallback and quiescent)
+  Fires with missing prior context (<3 prior in window): 0
+
+BRANCH DISTRIBUTION
+  systems                          778  (92.7%)
+  emerging_tech                     56  (6.7%)
+  ai_research                        4  (0.5%)
+  cognition_science                  1  (0.1%)
+
+BELIEF COUNT
+  Total beliefs in window: 273
+  Tier distribution:
+    Tier 7: 273
+  Note: the diagnostic run ~2h earlier showed one tier-6 belief
+  (created 18:50 SAST). By DB-snap time (20:56 SAST) it had been
+  promoted to tier-7. No tier-6 beliefs remain in the window.
+
+EXTRACTION PATH TAKEN
+  Step 2: spark_detector.py and nex_cognition_simulator.py found.
+  These scripts CONSUME the corpus file; they do not generate it.
+  No generator script found. Took Step 3a path (direct DB extraction).
+
+SENSE STREAMS SOURCE
+  world_bridge_log.streams_seen (injected=1)
+  5-minute window: [fire.ts - 300, fire.ts]
+  World bridge log entries in window: 468
+  fountain_event_id column is unpopulated — time-based join used.
+
+SCHEMA NOTES
+  fountain_events: id, ts, thought, readiness, hot_branch, word_count, droplet
+  beliefs: id, content, tier, confidence, created_at, branch_id, source, ...
+  No schema surprises. All expected columns present.
+
+EXTRACTION ISSUES
+  373/839 fires have no sense stream data (shown as "(none)" in fires.txt).
+  Root cause: World Bridge Phase B went live at 2026-04-27 22:20 SAST.
+  Fires from 2026-04-26 11:00 → 2026-04-27 22:20 SAST (~35h, ~373 fires)
+  predate the world_bridge_log and have no stream record. This is expected
+  and reflects the system state — not a data corruption. Fires from
+  2026-04-27 22:20 onward have full stream coverage.
+  First fire with stream data: approximately fire ID ~1840 (Apr 27 22:20).
+  No corrupt rows. No schema surprises. No gaps in fountain_events IDs.
+
+FILES GENERATED
+  carryx_day5_fires.txt    — all fires in window, corpus format
+  carryx_day5_beliefs.txt  — all beliefs in window, 01_all_beliefs format
+  carryx_day5_recent50.txt — most recent 50 fires, full content
+  carryx_day5_extraction_notes.txt — this file
+
+============================================================
+END
