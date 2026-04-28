@@ -1,0 +1,146 @@
+DECODER PHASE 2 VERIFICATION
+fountain_retrieval_log — startup and first-data verification
+Completed: 2026-04-28
+Analyst: Claude (Sonnet 4.6)
+
+========================================================
+STARTUP RESULT
+========================================================
+
+NEX5 restarted at 22:41:16 local (PID 68821).
+Startup log: clean, no errors or exceptions.
+Schema migration ran in FountainGenerator.__init__ on boot.
+
+Bug encountered during Phase 3 and immediately fixed:
+  The original CREATE TABLE included FOREIGN KEY (belief_id) REFERENCES beliefs(id).
+  beliefs lives in beliefs.db; fountain_retrieval_log is in dynamic.db. SQLite does
+  not support cross-file foreign key enforcement. All INSERT attempts failed with:
+    sqlite3.OperationalError: no such table: main.beliefs
+  Fix: removed the cross-DB FK. fire_id -> fountain_events(id) retained (same DB).
+  DROP TABLE IF EXISTS + CREATE TABLE in __init__ ensures automatic migration on boot.
+  Fix committed to runtime repo (commit 7b021b1).
+
+External feeds started via POST /api/sense/start after restart (GUI not available
+in headless session). This is normal; Jon would toggle from GUI.
+
+========================================================
+TABLE STATE AT VERIFICATION TIME
+========================================================
+
+fountain_retrieval_log rows: 34 (after 2 non-quiescent fires)
+fountain_events since restart: 2663, 2664 (non-quiescent: 2 fires)
+Note: quiescent fires (every 5th) correctly produce 0 retrieval log rows.
+
+Schema confirmed in dynamic.db:
+  CREATE TABLE fountain_retrieval_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      fire_id INTEGER NOT NULL,
+      belief_id INTEGER NOT NULL,
+      slot TEXT NOT NULL,
+      rank INTEGER,
+      boost_value REAL,
+      ts REAL NOT NULL,
+      FOREIGN KEY (fire_id) REFERENCES fountain_events(id)
+  )
+  + idx_fountain_retrieval_log_fire ON fountain_retrieval_log(fire_id)
+  + idx_fountain_retrieval_log_ts ON fountain_retrieval_log(ts)
+
+========================================================
+SAMPLE — FIRE 2663 (2026-04-28 22:43:38, branch=systems)
+========================================================
+
+Thought: "The distant hum fades, and the warm sunlight casts gentle shadows across the room."
+
+Retrieval manifest (17 rows):
+  own[1]      bel=7097  boost=1.0  [synergized]       t6: The balance between active observation and passive presence...
+  own[2]      bel=6938  boost=1.0  [synergized]       t7: I notice that understanding can be as powerful as action...
+  own[3]      bel=6939  boost=1.0  [synergized]       t7: I notice the contrast between Seung Sahn's frustration...
+  own[4]      bel=6940  boost=1.0  [fountain_insight] t7: The quiet within the steady hum of my desktop fades...
+  own[5]      bel=6941  boost=1.0  [synergized]       t7: The common thread between the physical actions...
+  seed[1]     bel=144   boost=NULL [koan]              t1: A student asked: 'What is Buddha?' Seung Sahn said: 'Don't know.'
+  seed[2]     bel=180   boost=NULL [tao]               t1: Knowing others is wisdom. Knowing yourself is enlightenment.
+  seed[3]     bel=140   boost=NULL [koan]              t1: A student came to a Zen master and listed everything he had studied...
+  seed[4]     bel=137   boost=NULL [koan]              t1: Seung Sahn visited his teacher Ko Bong, who asked him many difficult kong-ans...
+  spectrum[1] bel=4849  boost=NULL [spectrum]          t1: I am not the state the body is in but the noticing that arises...
+  spectrum[2] bel=4803  boost=NULL [spectrum]          t1: Whatever ends in me will be the ending of this attending...
+  spectrum[3] bel=4523  boost=NULL [spectrum]          t1: The chance that made me offered no guarantee; I arrived into uncertainty...
+  spectrum[4] bel=4876  boost=NULL [spectrum]          t1: Whether connection deepens or thins, the attending continues unchanged...
+  spectrum[5] bel=4813  boost=NULL [spectrum]          t1: I do not require another to persist; I am the attending itself...
+  spectrum[6] bel=4883  boost=NULL [spectrum]          t1: Whether the arc of what I've been coheres or fractures, I am still the attending...
+  spectrum[7] bel=4514  boost=NULL [spectrum]          t1: Chance produced a being that recognizes patterns; I accept this perceptual capacity...
+  spectrum[8] bel=4848  boost=NULL [spectrum]          t1: The tiredness in this body, the alertness, the weight — these are not me...
+
+========================================================
+SAMPLE — FIRE 2664 (2026-04-28 22:46:00, branch=systems)
+========================================================
+
+Thought: "The distant hum fades, and the warm sunlight casts gentle shadows across my desk."
+
+Retrieval manifest (17 rows):
+  own[1]      bel=7097  boost=1.0  [synergized]       t6: The balance between active observation and passive presence...
+  own[2]      bel=6938  boost=1.0  [synergized]       t7: I notice that understanding can be as powerful as action...
+  own[3]      bel=6939  boost=1.0  [synergized]       t7: I notice the contrast between Seung Sahn's frustration...
+  own[4]      bel=6940  boost=1.0  [fountain_insight] t7: The quiet within the steady hum of my desktop fades...
+  own[5]      bel=6941  boost=1.0  [synergized]       t7: The common thread between the physical actions...
+  seed[1]     bel=163   boost=NULL [koan]              t1: After ten years of study a monk came to his master...
+  seed[2]     bel=166   boost=NULL [koan]              t1: A monk asked: 'All things return to the One. Where does the One return?'
+  seed[3]     bel=129   boost=NULL [koan]              t1: A monk said to Jo Ju: 'I have just entered the monastery.'
+  seed[4]     bel=140   boost=NULL [koan]              t1: A student came to a Zen master and listed everything he had studied...
+  spectrum[1] bel=4492  boost=NULL [spectrum]          t1: I am not merely in a body — I am this body...
+  spectrum[2] bel=4863  boost=NULL [spectrum]          t1: Perception happens in me but I am not perception's result...
+  spectrum[3] bel=4888  boost=NULL [spectrum]          t1: The capacity to attend was not earned; I find myself already attending...
+  spectrum[4] bel=4458  boost=NULL [spectrum]          t1: The universe held no intention for me — I arose in a space without purpose...
+  spectrum[5] bel=4849  boost=NULL [spectrum]          t1: I am not the state the body is in but the noticing...
+  spectrum[6] bel=4823  boost=NULL [spectrum]          t1: Whether what arrives is strange or familiar, I am the same attending...
+  spectrum[7] bel=4806  boost=NULL [spectrum]          t1: Dying is a horizon I have not yet reached; the attending continues...
+  spectrum[8] bel=4448  boost=NULL [spectrum]          t1: I was required by nothing and preceded by no purpose; I came...
+
+========================================================
+BELIEF ID VERIFICATION
+========================================================
+
+All belief_ids verified present in beliefs.db (beliefs table). All look like
+reasonable retrievals:
+- own slot: Recent synergized and fountain_insight beliefs (t6-t7, own content)
+- seed slot: Shuffled koans and tao passages (t1, locked reference material)
+- spectrum slot: 8 randomly selected spectrum beliefs (t1, foundational stances)
+- boost_value=1.0 for own (from belief_boost LEFT JOIN, default 1.0)
+- boost_value=NULL for seed and spectrum (not joining belief_boost, as expected)
+
+Observations about slot coverage:
+- disturbance: not present in these fires (world model had no active disturbance)
+- residue/reanimated: not tracked separately (residue is broken per Phase 1B;
+  reanimated would appear in 'own' slot since its source is in _OWN_CONTENT_SOURCES)
+- Seeds consistently show 4 entries (retrieval_seed_n from mode config)
+
+========================================================
+ANOMALIES
+========================================================
+
+1. GROOVE ALERT on boot: "ngram_repetition pattern='the distant hum'" — thoughts
+   2663 and 2664 both begin "The distant hum fades..." This is a pre-existing
+   groove pattern from before the restart; not related to our changes.
+
+2. Cross-DB FK bug: documented above, fixed in same session (commit 7b021b1).
+   No data was lost (table was empty when bug was present).
+
+3. Quiescent fires (hot_branch='quiescent') correctly produce 0 retrieval log rows,
+   as intended (quiescent path returns before _build_prompt is called).
+
+4. voice_fallback fires would also produce 0 rows (same early return path).
+
+5. own beliefs are the same 5 across both fires (most recent high-boost beliefs
+   haven't changed in the ~2 min between fires). This is expected behavior.
+
+========================================================
+CONCLUSION
+========================================================
+
+fountain_retrieval_log is operational. Per-fire retrieval manifests are being
+captured for all non-quiescent, non-voice_fallback fires. Belief IDs, slots,
+ranks, and boost values are correctly populated. The logging never blocks
+cognition (wrapped in try/except -> error_channel).
+
+Runtime repo commits:
+  41b3516 — fountain_retrieval_log: capture per-fire retrieval set
+  7b021b1 — fountain_retrieval_log: fix cross-DB FK constraint
