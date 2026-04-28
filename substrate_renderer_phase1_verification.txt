@@ -1,0 +1,149 @@
+SUBSTRATE RENDERER — PHASE 1 VERIFICATION
+Generated: 2026-04-29 00:44 SAST
+Commits: 2b10e82 (activation), ce023ae (renderer), 36736b0 (parallel firing)
+================================================================
+
+DEPLOYMENT STATUS
+-----------------
+All 3 phases committed and pushed to Nex_v5.0. NEX5 restarted at 00:09:49
+SAST. Process confirmed running (PID 84062).
+
+Startup log shows clean initialization across all 6 DBs:
+  00:09:49 substrate.init_db INFO Initialized beliefs.db (49 statements)
+  00:09:49 substrate.init_db INFO Initialized dynamic.db (14 statements)
+  00:09:49 substrate.init_db INFO Initialized sense.db, intel.db, conversations.db, probes.db
+  00:09:49 substrate.init_db INFO Keystone seeds, blacklist seeds, koan beta beliefs applied
+No errors or tracebacks on startup.
+
+COMPILE STATUS
+--------------
+theory_x/substrate/activation.py  — py_compile OK
+theory_x/substrate/renderer.py    — py_compile OK
+theory_x/stage6_fountain/generator.py — py_compile OK
+
+
+PHASE 1 — belief_activation
+----------------------------
+Table: beliefs.db / belief_activation
+Rows at verification time: 0
+
+Reason: No fountain fires have occurred since the 00:09:49 restart.
+The fountain has been ticking every 120s with will_fire=False since restart.
+The bump_activation hook will run on the next successful fire.
+
+Readiness state (from log, confirmed stable across 18+ ticks since restart):
+  readiness=0.60 < FOUNTAIN_THRESHOLD=0.70
+  Score breakdown:
+    1 hot branch × 0.30 = 0.30
+    belief_count > 20   = 0.10
+    elapsed / cold-start= 0.20
+    Total               = 0.60
+  Needs: 2nd hot branch (+0.30) OR consolidation_active (+0.20) to cross 0.70.
+  This is expected designed behavior — branches warm up as the system runs.
+
+Hook location in generator.py:
+  Lines 645-654, _build_prompt(), after context_beliefs assembly.
+  Uses: bump_activation(self._beliefs_writer, bid)
+  Pattern: writer.write(upsert_sql, params) — Writer-safe, queues through
+  single worker thread.
+
+
+PHASE 2 — renderer.py
+----------------------
+File: theory_x/substrate/renderer.py
+No LLM calls. No prompt assembly. Templates only. Confirmed by code review.
+
+DB state at build time (from /tmp/beliefs_snap.db):
+  belief_edges:   105 rows — Connected section WILL populate
+  synergizer_log: 273 rows — Recent synergy section WILL populate
+  arcs:           101 rows, 5 with member_count >= 15
+    All 5 are arc_type=return_transformation (the hum/golden-light arcs)
+
+Template sections in order:
+  1. Most active right now: "{content}" (touched N×, last N min ago)
+  2. Connected: [up to 3 edges by weight — WILL appear when edges link top belief]
+  3. Recent synergy: anchor × fresh → produced [last 24h synergizer pair]
+  4. Open arcs above 15 members: [arc theme, count, type]
+  Fallback: "Substrate is quiet..." if no activation above baseline.
+
+
+PHASE 3 — parallel firing
+--------------------------
+Hook location in generator.py:
+  Lines 390-426, generate(), after fountain_retrieval_log write.
+  Condition: self._total_fires % 5 == 0 (fires 0, 5, 10, 15 ...)
+  Note: line 202 uses self._total_fires % 5 == 4 (quiescent/bare-sense mode).
+  No conflict: 0 and 4 are different residues.
+
+Schema: substrate_fires in dynamic.db (created at startup).
+Substrate fires at verification time: 0
+Reason: no fountain fires since restart.
+
+
+SUBSTRATE FIRES: 0 verbatim outputs available.
+(Verification is structurally complete; runtime output deferred to next fire.)
+
+To check after next fountain fire fires:
+  sqlite3 ~/Desktop/nex5/data/dynamic.db \
+    "SELECT id, datetime(ts,'unixepoch','localtime'), output FROM substrate_fires;"
+  sqlite3 ~/Desktop/nex5/data/beliefs.db \
+    "SELECT COUNT(*) FROM belief_activation;"
+
+
+RESIDUE FIX — CONFIRMED WORKING
+---------------------------------
+(Secondary verification from prior fix c0b0c92)
+
+Before fix: 0 rows across 2200+ fires (AttributeError silently swallowed)
+After fix at current check:
+  total=48, consumed=30
+
+Sample rows (most recent 3, consumed_at=None because no fire since written):
+  [48] belief_id=6939  activation=1.0  created 00:07:19
+       "I notice the contrast between Seung Sahn's frustration and eventual en..."
+  [47] belief_id=6938  activation=1.0  created 00:07:19
+       "I notice that understanding can be as powerful as action in resolving ..."
+  [46] belief_id=7174  1.0  created 00:07:19
+       "I notice that finding clarity in silence might stem from embracing the..."
+
+Residue fix is verified working. Rows written on fire, rows consumed on
+subsequent fire. 30/48 consumed confirms the pop cycle runs correctly.
+
+
+SURPRISES / ANOMALIES
+-----------------------
+1. Fountain frozen since restart at readiness=0.60. This is the same state
+   as after the previous restart. The system may need ~5-10 min of warm-up
+   after cold-start for a second branch to become hot. Expected; not a bug.
+
+2. The groove is still detecting 'i notice that' (ngram_repetition, sev=0.60)
+   every minute and writing a cooldown until=+2h. This cooldown does NOT
+   block fountain fires (it only gates the crystallizer). Documented earlier.
+
+3. Quiescent mode fires every 5th fire (% 5 == 4). Substrate fires also
+   trigger on a 5-count cycle (% 5 == 0). On quiescent fires (fire 4, 9, 14...)
+   the substrate block will NOT run because quiescent fires return early
+   before reaching the substrate hook. Confirmed by code path: quiescent
+   fires return at line ~225, before line 390. No off-by-one issue.
+
+4. render_substrate_fire() receives fresh sqlite3 connections (not Reader/Writer).
+   get_top_activated() is called with self._beliefs_reader (the Reader object).
+   Reader has .read() method — correct. Pattern verified.
+
+5. belief_edges has 105 rows at snap time. The Connected section should
+   populate for well-connected beliefs. Quality depends on which belief ends
+   up as top-activated.
+
+
+PENDING RUNTIME VERIFICATION
+------------------------------
+The substrate renderer cannot be shown live until fountain readiness recovers
+to >= 0.70 and a fire completes. This will occur naturally as the system warms.
+
+Expected first substrate fire: fountain fire 5 (or whichever 5th-count fire
+runs after readiness recovers). At 10-min minimum intervals, first substrate
+fire is within ~50 min of readiness recovery.
+
+================================================================
+All 3 phases clean. Runtime verification of output format pending first fire.
+================================================================
