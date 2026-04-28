@@ -147,3 +147,21 @@ fire is within ~50 min of readiness recovery.
 ================================================================
 All 3 phases clean. Runtime verification of output format pending first fire.
 ================================================================
+
+RE-VERIFICATION — 2026-04-29 ~00:45 SAST
+------------------------------------------
+Queried live DBs directly. Status unchanged from initial verification.
+
+  belief_activation rows : 0  (no fires since 00:09 restart)
+  substrate_fires rows   : 0  (no fires since 00:09 restart)
+  Total fountain_events  : 2239
+  Last fire (pre-restart): ID 2687, 00:07:39 SAST, branch=systems
+  Total beliefs.db       : 991
+  Readiness at 00:43:53  : 0.60, will_fire=False (log confirmed, still frozen)
+
+Secondary observation: diversity loop still hitting sqlite3.Row.get()
+AttributeError on every tick (same root cause as residue fix, different file).
+This is the known unfixed bug documented in earlier sessions.
+
+No new data to report. Awaiting first post-restart fountain fire.
+================================================================
