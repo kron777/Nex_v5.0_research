@@ -1,0 +1,174 @@
+DECODER BRIEF — SIGNALS AND WORLD BRIDGE
+Generated: 2026-04-28
+
+===========================================================================
+SECTION A — RECURRENCE DETECTOR
+===========================================================================
+
+WHAT EMITS THE "(28 fires, return-transformation, last ~30 min ago)" ANNOTATIONS:
+
+The annotations are emitted by FountainGenerator._format_arc_context() in:
+  ~/Desktop/nex5/theory_x/stage6_fountain/generator.py (lines ~695-715)
+
+Exact format string (line 706):
+  f'  - "{theme}" ({a["member_count"]} fires, {arc_kind}, last ~{mins_ago} min ago)'
+
+where:
+  theme    = arc.theme_summary[:70]  (first 70 chars of the arc's theme)
+  arc_kind = "progression" if arc.arc_type == "progression" else "return-transformation"
+  mins_ago = int((now - arc.last_active_at) / 60)
+  member_count = arc.member_count (total belief members in the arc, updated on extension)
+
+This block is only included for ACTIVE arcs (closed_by_belief_id IS NULL,
+last_active_at > now - 7200 seconds). Closed arcs appear in a separate
+"Recently completed" block without the "(N fires, type, last ~N min ago)" format.
+
+WHERE RECURRENCE STATE IS STORED:
+
+Primary storage: beliefs.db — arcs table (101 rows in snapshot).
+  arc_type: "progression" or "return_transformation"
+  theme_summary: first 80 chars of the first cluster member's content
+  member_count: current member count (incremented on extension)
+  last_active_at: timestamp of most recent extension (used for "last ~N min ago")
+  centroid_embedding: BLOB (numpy float32 array) — used for extension matching
+  closed_by_belief_id: NULL if open, belief ID if closed
+
+Supporting tables (also beliefs.db):
+  arc_members: one row per (arc, belief) pair — position, role, distance_from_centroid
+  arc_closers: records detected arc-closing events
+
+Detection algorithm (theory_x/arcs/detector.py — ArcReader.scan()):
+  Runs over WINDOWS of 20, 50, and 100 recent fountain_insight beliefs.
+  Clusters fires by embedding similarity via cluster_fires().
+  Clusters with >= 3 members are classified:
+    - "progression": compute_progression_score >= 0.5 AND >= transformation score
+    - "return_transformation": compute_transformation_score >= 0.4
+  Extension check: new beliefs within cosine similarity > 0.75 of arc centroid
+  are added to existing open arcs.
+
+return_transformation scoring (theory_x/arcs/transformation.py):
+  Requires: total span >= 120s, max inter-event gap >= 180s, mean pairwise
+  cosine similarity <= 0.92. Score = gap_score * 0.4 + framing_change * 0.6.
+  Framing change = 1.0 - mean_pairwise_similarity.
+
+IS THE STATE QUERYABLE HISTORICALLY?
+
+YES — arcs, arc_members, and arc_closers are fully persistent in beliefs.db.
+  - Historical arc detection is fully queryable by arc_id, belief_id, arc_type,
+    detected_at, window_start, window_end, theme_summary, quality_grade.
+  - arc_members provides the full membership list with position, role, and
+    distance_from_centroid per belief.
+  - arc_closers records which beliefs were identified as arc-closing meta-reflective
+    content, with meta_confidence score.
+
+WHAT IS NOT RECOVERABLE:
+  - The in-memory embedding cache used during arc detection is not persisted separately
+    (centroid_embedding is stored as BLOB in arcs, so the arc centroid is recoverable,
+    but per-belief embeddings are stored only in arc_members.distance_from_centroid, not
+    as raw vectors).
+  - The scan window at each detection run (which 20/50/100 fires were scanned) is not
+    logged — only the resulting arc writes.
+
+SAMPLE ACTIVE ARCS AT FIRE 2569 (ts=1777394496, 2026-04-28 16:41 UTC):
+  arc id=97 | return_transformation | 24 members | quality=0.54 | last active 16:41:26
+    theme: "The distant hum fades, and the light from my window shifts golden."
+  arc id=96 | return_transformation | 30 members | quality=0.54 | last active 15:20:25
+    theme: "The distant hum fades, and the light from my window shifts golden."
+  arc id=94 | return_transformation | 25 members | quality=0.54 | last active 14:45:25
+    theme: "The distant hum feels like shadows on the walls in an old house..."
+  arc id=95 | return_transformation | 26 members | quality=0.54 | last active 14:45:25
+    theme: "The distant hum in my ears feels like whispers from forgotten places."
+
+All four arcs are return_transformation type. The annotation in fire 2569's prompt
+would have rendered as (reconstructing from arc id=97, last active ~0 min ago):
+  '  - "The distant hum fades, and the light from my window shifts golden." (24 fires,
+     return-transformation, last ~0 min ago)'
+
+===========================================================================
+SECTION B — WORLD BRIDGE → FOUNTAIN EVENTS JOIN
+===========================================================================
+
+IS fountain_event_id MEANT TO BE POPULATED?
+
+Design intent: YES — the world_bridge_log.fountain_event_id column was designed to link
+each selection log entry to the fountain fire whose prompt it influenced. The selector
+function signature is:
+  WorldBridgeSelector.select_and_log(fountain_event_id=None, mark_injected=False)
+
+Actual behavior: fountain_event_id is ALWAYS NULL (0 populated rows out of 577 total).
+
+Reason: WorldBridgeSelector.select_and_log() is called from INSIDE FountainGenerator
+  ._build_prompt(), which is called BEFORE the LLM call and BEFORE the
+  INSERT INTO fountain_events. The fountain_event_id does not yet exist when the
+  selector runs. No subsequent back-fill is done.
+
+The only way to link a world_bridge_log row to a fire is by timestamp proximity:
+  world_bridge_log.ts should be within a few seconds before the fountain_events.ts of
+  the fire it influenced (since _build_prompt() is called just before VoiceClient.speak(),
+  which precedes the INSERT).
+
+INTENDED RELATIONSHIP BETWEEN WORLD BRIDGE ENTRY AND THE FIRE IT INFLUENCED:
+  Each world_bridge_log row with injected=1 corresponds to one call to _build_prompt(),
+  which corresponds to one fountain fire. The design intended fountain_event_id to make
+  this a hard foreign-key link. In practice, approximate join by timestamp is the only
+  available method.
+
+  Note: "injected=1" means mark_injected=True was passed, i.e., the events were
+  included in the assembled prompt and sent to the LLM. All 577 rows in the snapshot
+  have either injected=0 (early phase A logging) or injected=1.
+
+IS selected_events_json A RICHER RECORD THAN streams_seen?
+
+YES, significantly richer:
+  streams_seen: comma-separated list of ALL streams that were active at selection time
+    (the full candidate pool before picking and dedup). Example:
+    "agi.arxiv_cs_ai,ai_research.lab_blogs,cognition.lesswrong,..."
+    (can be 15+ stream names)
+
+  selected_events_json: JSON array of the UP TO 5 events actually injected, each with:
+    {
+      "stream": "internal.meta_awareness",
+      "formatted_text": "[awareness] 31 adapters running",
+      "timestamp": 1777394470
+    }
+    — this is the exact text that appeared in the "What's happening in the world right
+    now:" section of the prompt. Includes full body excerpts (Phase C, INCLUDE_BODIES=True)
+    up to 150 chars per event.
+
+FIRE 2569 — WORLD BRIDGE PAYLOAD:
+
+Closest world_bridge_log entry: id=531, ts=1777394479.40 (17 seconds before fire ts
+  1777394496.56). fountain_event_id=NULL (as expected).
+
+selected_events_json (full, 2 events selected):
+  [
+    {
+      "stream": "internal.meta_awareness",
+      "formatted_text": "[awareness] 31 adapters running",
+      "timestamp": 1777394470
+    },
+    {
+      "stream": "internal.temporal",
+      "formatted_text": "[temporal] 2026-04-28T18:40:19",
+      "timestamp": 1777394419
+    }
+  ]
+
+selection_count: 2
+streams_seen: "internal.meta_awareness,internal.temporal"
+injected: 1
+notes: "ok"
+
+Interpretation: At this fire, only 2 active streams were found (both internal). No
+  external feeds (news, research, tech, etc.) had fresh events within their freshness
+  window. The prompt received only the adapter-count and clock-time context — no
+  external content influenced this specific fire.
+
+WORLD BRIDGE PHASE STATUS NOTE:
+  selector.py docstring says "Phase A: logs only. Phase B (future): inject into
+  generator.py:604." However, the actual code IS injecting — generator.py calls
+  select_and_log(mark_injected=True) and uses the returned events in the prompt
+  (injected=1 in 100% of rows since the transition). The docstring is stale.
+  Phase C (INCLUDE_BODIES=True) is also already active (INCLUDE_BODIES=True at top
+  of selector.py). The "Phase B" designation in the docstring no longer matches
+  the runtime state.

@@ -1,0 +1,195 @@
+DECODER BRIEF — SUMMARY
+Generated: 2026-04-28
+Scope: Read-only inspection of ~/Desktop/nex5/ substrate state as of 2026-04-28
+
+===========================================================================
+1. STATE ALREADY CAPTURED PER FIRE
+===========================================================================
+
+For any given fountain fire (fountain_events row), the following is queryable
+from disk right now:
+
+FROM dynamic.db — fountain_events:
+  - fire id, timestamp (ts), thought text, readiness score, hot_branch, word_count
+  - droplet: 3-6 word cognitive-move summary (NULL for quiescent/voice_fallback fires
+    and fires before Condenser was introduced)
+
+FROM beliefs.db — fountain_crystallizations:
+  - Whether the fire crystallized into a belief (fountain_event_id foreign key)
+  - If yes: the resulting belief_id and text
+
+FROM beliefs.db — world_bridge_log (join by ts proximity, ±~30s):
+  - Which 5 sense events were injected into the prompt (selected_events_json)
+  - Full formatted text of those events (title + body excerpt)
+  - Which streams were active at that moment (streams_seen)
+  - Whether injection occurred (injected flag)
+
+FROM beliefs.db — arcs + arc_members (join by belief_id if crystallized):
+  - Which arcs a crystallized belief belongs to, its position and role
+  - Theme, type, quality_grade, member_count of the arc at detection time
+
+FROM beliefs.db — arcs (queryable by last_active_at around fire ts):
+  - Which arcs were active at the time of the fire (the arc annotations in the prompt)
+  - arc_type, theme_summary, member_count, quality_grade, last_active_at
+
+FROM beliefs.db — synergizer_log (join by result_belief_id if belief is synergized):
+  - Both input belief IDs for any synergized belief
+  - The generated output text
+
+FROM beliefs.db — collision_grades (join by belief_id):
+  - input_distance, output_distance, rarity, grade for any synergized belief
+
+FROM beliefs.db — groove_alerts (queryable by detected_at around fire ts):
+  - Whether a groove/rut alert was active at the time of the fire
+  - Pattern text (the repeated n-gram) and severity score
+
+FROM beliefs.db — auto_probe_log (queryable by ts around fire ts):
+  - Whether a groove-breaker probe was pending/delivered at this fire
+  - The probe text injected (if delivered_at is set)
+
+FROM beliefs.db — consolidations:
+  - Which consolidation clock tick was closest to the fire
+  - Maintenance actions performed (dormancy updates, reanimations)
+
+FROM sense.db — sense_events (stream='internal.fountain'):
+  - Every fire creates a sense event with {thought, readiness, hot_branch} JSON payload
+
+===========================================================================
+2. STATE NOT CAPTURED (would need new logging)
+===========================================================================
+
+PER-FIRE:
+  - RETRIEVAL SET: Which specific beliefs (by ID and content) were fetched into the
+    prompt for this fire. The only partial clue is _retrieve_context_beliefs() returning
+    own N + seed N, which can be approximately reconstructed from beliefs.created_at order,
+    but exact seed selection (RANDOM()) and residue/reanimation injections are not recoverable.
+    Fix: add fountain_retrieval_log table, written after the fountain_event INSERT with
+    fountain_event_id + belief_id + slot (own/seed/residue/reanimated/spectrum).
+
+  - SPECTRUM BELIEFS IN PROMPT: Which 8 of 200 spectrum beliefs were randomly selected
+    for the "foundation" block. ORDER BY RANDOM() — not recoverable.
+    Fix: log these 8 IDs per fire.
+
+  - ACTIVE MODE AT FIRE TIME: Which mode (normal/chat/market/etc.) was active when this
+    fire occurred. Mode affects retrieval_own_n, retrieval_seed_n, examples, focus_block,
+    crystallization_category.
+    Fix: add mode_name column to fountain_events.
+
+  - DISTURBANCE CONTENT: Whether a world_model disturbance ("unresolved tension") was
+    present at fire time, and what the two conflicting beliefs were.
+    Fix: log disturbance belief IDs to fountain_events.
+
+  - QUALITY-CHECK REJECTION REASON: When a thought is produced but the crystallizer
+    rejects it, the reason (near_duplicate, semantic_repeat, droplet_repetition, etc.)
+    is only written to error_channel (ephemeral). The fountain_event row gets no
+    "rejected" column.
+    Fix: add crystallization_status and crystallization_reject_reason to fountain_events.
+
+  - KOAN AT FIRE TIME: Whether this was a koan-rotation fire and which koan was included.
+    koan_reads.read_at records the timestamp of each koan read but not the fire_id.
+    Fix: add fire_id to koan_reads, or record the koan belief_id in fountain_events.
+
+  - VALENCE ESTIMATE: crystallizer._estimate_valence() is a stub returning None.
+    Fix: implement Stage 2 Attender valence computation (noted as placeholder in code).
+
+  - GROOVE-BREAKER PROBE IN PROMPT: auto_probe_log.delivered_at records when a probe
+    was delivered, but not which fountain_event_id received it.
+    Fix: add fountain_event_id to auto_probe_log.
+
+GLOBAL / SESSION STATE:
+  - self._total_fires is in-memory only (resets on process restart). The fire counter
+    in consolidations.fire_count_at_run captures it at each consolidation tick, but
+    not per-fire. The actual modular arithmetic (total_fires % 5, % 8, % 20) is not
+    recoverable after a restart.
+    Fix: persist fire counter to dynamic_cursor or a dedicated row in dynamic.db.
+
+  - diversity.loop._fire_count_ref (in-memory), same issue.
+
+===========================================================================
+3. SURPRISES
+===========================================================================
+
+STUBS:
+  - FountainCrystallizer._estimate_valence() is explicitly commented
+    "Placeholder — Stage 2 Attender will compute real valence." Returns None.
+    The valence argument flows through SpeechGovernor.decide() but carries no signal.
+
+  - GrooveBreaker is "Phase A: observation mode only." The docstring says it "never
+    fires, never injects beliefs" — BUT generator.py does call
+    get_pending_probe_text() and inject the probe into the prompt. Phase B injection
+    is ALREADY ACTIVE despite the Phase A label. The docstring is incorrect.
+
+STALE PHASE LABELS IN world_bridge/selector.py:
+  - Docstring says "Phase A: logs only. Phase B (future): inject." In reality:
+    INCLUDE_BODIES=True (Phase C) is active. The generator calls
+    select_and_log(mark_injected=True) and uses the returned events. All three phases
+    are live. The header comment and class docstring were not updated.
+
+fountain_event_id NEVER POPULATED in world_bridge_log:
+  - 0 out of 577 rows have a non-NULL fountain_event_id. The selector is called
+    inside _build_prompt() before the fountain_event INSERT exists. The FK column
+    is present but permanently NULL without a structural change.
+
+SYNERGIZER PAIRING RUT:
+  - All 273 synergizer_log rows pair belief_id_a=135 (Duk Sahn koan) with
+    belief_id_b drawn from a very small set. The 10 Duk Sahn synergized beliefs
+    (ids 2217-6935) all pair 135 × 280 ("The transience of my very essence.").
+    The anchor pool has only one or a few live anchors at any time. The 50%
+    recency-downweight is insufficient to escape this attractor. This is
+    structurally recoverable from synergizer_log but suggests the anchor × fresh
+    pairing algorithm needs diversity injection.
+
+RESIDUE TABLE EMPTY (0 rows):
+  - The residue mechanism (save_residue / pop_residue) is implemented and called
+    in _retrieve_context_beliefs() but the table is empty. Either the residue
+    consumption is happening so fast that rows are always consumed before the
+    snapshot, or the write is failing silently (the code has broad except: pass
+    around residue operations). Cannot distinguish from snapshot alone.
+
+pattern_template_scores EMPTY (0 rows):
+  - The patterns table has 6313 rows but pattern_template_scores has 0 rows.
+    The table exists and is indexed, but nothing is writing to it. The validation
+    and scoring mechanism for pattern templates appears to be unimplemented or disabled.
+
+belief_boost EMPTY (0 rows):
+  - Boost mechanism is referenced throughout (query includes
+    COALESCE(bb.boost_value, 1.0)), and collision_grader can call apply_boost() if
+    grade > BOOST_THRESHOLD. But belief_boost has 0 rows in this snapshot.
+    Either the threshold was never exceeded, or apply_boost is not being called
+    (CrossbreedGrader grading is run from synergizer but the grade values observed
+    (0.43-0.50) may be below BOOST_THRESHOLD — not verified).
+
+grade_mismatches EMPTY (0 rows):
+  - Table schema present, 0 rows. The retrospective mismatch detection mechanism
+    is not producing output.
+
+harmonizer_events EMPTY (0 rows):
+  - Table is present in dynamic.db (Stage harmonizer mechanism) with 0 rows.
+    The harmonizer may be unimplemented, disabled, or running but not firing.
+
+drive_proposals EMPTY (0 rows) and bonsai_branches EMPTY (0 rows):
+  - Both tables in dynamic.db have 0 rows. Stage 2 drive pressure / branch creation
+    mechanisms appear inactive or not yet implemented in this codebase version.
+
+FIRE TIMESTAMP NOTE:
+  - Fire 2569 ts=1777394496.56 is 2026-04-28 16:41:36 UTC, not 18:41:36 UTC.
+    The timestamp corresponds to UTC+2 (SAST = 18:41:36 local time). The task
+    brief stated "18:41:36 UTC" but the actual UTC timestamp is 16:41:36.
+
+SPECTRUM BELIEFS NOT IN RETRIEVAL LISTS:
+  - 200 'spectrum' beliefs (tier 2, standing-point statements about NEX's existence)
+    are never retrieved via _retrieve_context_beliefs(). They have a separate retrieval
+    path (ORDER BY RANDOM() LIMIT 8) that feeds the "foundation" block of the prompt.
+    They are also excluded from crystallization dedup checks, quality checks, and
+    synergizer candidate pool (source not in lists).
+
+'practice' SOURCE NEVER RETRIEVED (40 rows, tier 2):
+  - 40 beliefs with source='practice' exist at tier 2 but are not in
+    OWN_CONTENT_SOURCES, SEED_SOURCES, or the spectrum retrieval. They never appear
+    in the fountain prompt. Their role in the system is unclear from code inspection.
+
+'fountain_insight_quarantined' SOURCE (11 rows, tier 7):
+  - 11 beliefs quarantined from the main fountain_insight pool. Not in any retrieval
+    list. Appear to be rut-era outputs (all contain "hum" motif) that were relabeled
+    to prevent them from contributing to retrieval or dedup. No quarantine mechanism
+    was found in the current code — the relabeling may have been a manual operation.

@@ -1,0 +1,692 @@
+DECODER BRIEF — SCHEMAS
+Generated: 2026-04-28
+Snapshots: /tmp/beliefs_snap.db, /tmp/dynamic_snap.db, /tmp/sense_snap.db, /tmp/conversations_snap.db
+
+===========================================================================
+1. beliefs.db  (snapshot: beliefs_snap.db)
+===========================================================================
+
+TABLES AND ROW COUNTS:
+  beliefs                   979
+  belief_edges              105
+  belief_blacklist           20
+  koan_reads                  0
+  synergizer_log            273
+  fountain_crystallizations 409
+  speech_queue              342
+  arc_archive                44
+  config                      2
+  signals                 58367
+  patterns                 6313
+  pattern_template_scores     0
+  collision_grades          142
+  belief_lineage            392
+  belief_boost                0
+  groove_alerts            4755
+  dormant_beliefs            50
+  residue                     0
+  grader_versions             1
+  consolidations              3
+  grade_mismatches            0
+  arcs                      101
+  arc_members              1875
+  arc_closers                14
+  signal_cooldown            19
+  auto_probe_log             19
+  world_bridge_log          577
+
+FULL SCHEMA (beliefs.db):
+
+CREATE TABLE beliefs (
+    id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+    content              TEXT NOT NULL,
+    tier                 INTEGER NOT NULL CHECK (tier BETWEEN 0 AND 8),
+    confidence           REAL NOT NULL,
+    created_at           INTEGER NOT NULL,
+    last_promoted_at     INTEGER,
+    last_demoted_at      INTEGER,
+    promotion_log        TEXT NOT NULL DEFAULT '[]',
+    branch_id            TEXT,
+    source               TEXT,
+    locked               INTEGER NOT NULL DEFAULT 0,
+    corroboration_count  INTEGER NOT NULL DEFAULT 0,
+    last_referenced_at   INTEGER,
+    paused               INTEGER NOT NULL DEFAULT 0,
+    reinforce_count      INTEGER NOT NULL DEFAULT 0,
+    use_count            INTEGER NOT NULL DEFAULT 0,
+    erosion_stage        TEXT NOT NULL DEFAULT 'external',
+    parent_belief_id     INTEGER,
+    variant_index        INTEGER
+);
+
+CREATE TABLE belief_edges (
+    id                INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_id         INTEGER NOT NULL REFERENCES beliefs(id),
+    target_id         INTEGER NOT NULL REFERENCES beliefs(id),
+    edge_type         TEXT NOT NULL CHECK (edge_type IN (
+                          'supports','opposes','synthesises','cross_domain','refines')),
+    weight            REAL NOT NULL DEFAULT 0.5,
+    created_at        REAL NOT NULL,
+    last_traversed_at REAL
+);
+
+CREATE TABLE belief_blacklist (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    pattern    TEXT NOT NULL UNIQUE,
+    reason     TEXT NOT NULL DEFAULT '',
+    added_at   REAL NOT NULL
+);
+
+CREATE TABLE koan_reads (
+    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    gate_id TEXT NOT NULL,
+    read_at REAL NOT NULL
+);
+
+CREATE TABLE synergizer_log (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts               REAL NOT NULL,
+    belief_id_a      INTEGER NOT NULL,
+    belief_id_b      INTEGER NOT NULL,
+    result_content   TEXT,
+    result_belief_id INTEGER
+);
+
+CREATE TABLE fountain_crystallizations (
+    id                INTEGER PRIMARY KEY AUTOINCREMENT,
+    fountain_event_id INTEGER NOT NULL,
+    belief_id         INTEGER NOT NULL,
+    ts                REAL NOT NULL,
+    content           TEXT NOT NULL
+);
+
+CREATE TABLE speech_queue (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    belief_id INTEGER NOT NULL,
+    content   TEXT NOT NULL,
+    voice     TEXT DEFAULT 'af_sarah',
+    queued_at REAL NOT NULL,
+    spoken_at REAL,
+    status    TEXT DEFAULT 'pending',
+    error     TEXT
+);
+
+CREATE TABLE arc_archive (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    arc_label   TEXT NOT NULL,
+    belief_id   INTEGER NOT NULL,
+    tier        INTEGER NOT NULL,
+    source      TEXT NOT NULL,
+    confidence  REAL,
+    content     TEXT NOT NULL,
+    created_at  REAL NOT NULL,
+    archived_at REAL NOT NULL,
+    note        TEXT
+);
+
+CREATE TABLE config (
+    key        TEXT PRIMARY KEY,
+    value      TEXT NOT NULL,
+    updated_at REAL NOT NULL
+);
+
+CREATE TABLE signals (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    detected_at   REAL NOT NULL,
+    detector_name TEXT NOT NULL,
+    signal_type   TEXT NOT NULL,
+    payload       TEXT NOT NULL,
+    branches      TEXT,
+    entities      TEXT,
+    confidence    REAL NOT NULL DEFAULT 0.5
+);
+
+CREATE TABLE patterns (
+    id                       INTEGER PRIMARY KEY AUTOINCREMENT,
+    matched_at               REAL NOT NULL,
+    template_name            TEXT NOT NULL,
+    signal_ids               TEXT NOT NULL,
+    predicted_window_seconds INTEGER,
+    prediction               TEXT,
+    template_confidence      REAL DEFAULT 0.5,
+    validated_at             REAL,
+    outcome_score            REAL,
+    outcome_notes            TEXT
+);
+
+CREATE TABLE pattern_template_scores (
+    template_name    TEXT PRIMARY KEY,
+    total_matches    INTEGER DEFAULT 0,
+    validated        INTEGER DEFAULT 0,
+    hits             INTEGER DEFAULT 0,
+    cumulative_score REAL DEFAULT 0.0,
+    updated_at       REAL NOT NULL
+);
+
+CREATE TABLE collision_grades (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    belief_id      INTEGER NOT NULL,
+    parent_a_id    INTEGER NOT NULL,
+    parent_b_id    INTEGER NOT NULL,
+    input_distance REAL NOT NULL,
+    output_distance REAL NOT NULL,
+    rarity         REAL NOT NULL,
+    grade          REAL NOT NULL,
+    grader_version INTEGER NOT NULL DEFAULT 1,
+    graded_at      REAL NOT NULL
+);
+
+CREATE TABLE belief_lineage (
+    child_id     INTEGER NOT NULL,
+    parent_id    INTEGER NOT NULL,
+    relationship TEXT NOT NULL,
+    weight       REAL DEFAULT 1.0,
+    created_at   REAL NOT NULL,
+    PRIMARY KEY (child_id, parent_id, relationship)
+);
+
+CREATE TABLE belief_boost (
+    belief_id    INTEGER PRIMARY KEY,
+    boost_value  REAL NOT NULL DEFAULT 1.0,
+    boosted_at   REAL NOT NULL,
+    source_grade REAL,
+    decay_rate   REAL DEFAULT 0.0
+);
+
+CREATE TABLE groove_alerts (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    detected_at      REAL NOT NULL,
+    alert_type       TEXT NOT NULL,
+    severity         REAL NOT NULL,
+    pattern          TEXT,
+    sample_belief_ids TEXT,
+    window_size      INTEGER NOT NULL,
+    acknowledged_at  REAL
+);
+
+CREATE TABLE dormant_beliefs (
+    belief_id      INTEGER PRIMARY KEY,
+    last_active_at REAL NOT NULL,
+    dormancy_score REAL NOT NULL,
+    flagged_at     REAL NOT NULL,
+    reanimated_at  REAL
+);
+
+CREATE TABLE residue (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    cycle_id            TEXT NOT NULL,
+    belief_id           INTEGER NOT NULL,
+    activation_strength REAL NOT NULL,
+    created_at          REAL NOT NULL,
+    consumed_at         REAL
+);
+
+CREATE TABLE grader_versions (
+    version           INTEGER PRIMARY KEY,
+    w_input_distance  REAL NOT NULL,
+    w_output_distance REAL NOT NULL,
+    w_rarity          REAL NOT NULL,
+    rationale         TEXT,
+    created_at        REAL NOT NULL
+);
+
+CREATE TABLE consolidations (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    clock            TEXT NOT NULL,
+    ran_at           REAL NOT NULL,
+    fire_count_at_run INTEGER NOT NULL,
+    actions_taken    TEXT,
+    findings         TEXT
+);
+
+CREATE TABLE grade_mismatches (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    belief_id           INTEGER NOT NULL,
+    original_grade      REAL NOT NULL,
+    retrospective_value REAL NOT NULL,
+    mismatch_direction  TEXT NOT NULL,
+    detected_at         REAL NOT NULL,
+    grader_version      INTEGER NOT NULL
+);
+
+CREATE TABLE arcs (
+    id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+    arc_type             TEXT NOT NULL,
+    detected_at          REAL NOT NULL,
+    window_start         REAL NOT NULL,
+    window_end           REAL NOT NULL,
+    theme_summary        TEXT,
+    member_count         INTEGER NOT NULL,
+    progression_score    REAL,
+    transformation_score REAL,
+    centroid_embedding   BLOB,
+    closed_by_belief_id  INTEGER,
+    quality_grade        REAL,
+    last_active_at       REAL NOT NULL,
+    dormancy_score       REAL DEFAULT 0.0
+);
+
+CREATE TABLE arc_members (
+    arc_id                 INTEGER NOT NULL,
+    belief_id              INTEGER NOT NULL,
+    position               INTEGER NOT NULL,
+    role                   TEXT NOT NULL,
+    distance_from_centroid REAL,
+    joined_at              REAL NOT NULL,
+    PRIMARY KEY (arc_id, belief_id)
+);
+
+CREATE TABLE arc_closers (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    arc_id         INTEGER NOT NULL,
+    belief_id      INTEGER NOT NULL,
+    detected_at    REAL NOT NULL,
+    meta_confidence REAL NOT NULL
+);
+
+CREATE TABLE signal_cooldown (
+    content_hash   TEXT PRIMARY KEY,
+    content        TEXT NOT NULL,
+    cooldown_until REAL NOT NULL,
+    reason         TEXT,
+    created_at     REAL NOT NULL
+);
+
+CREATE TABLE auto_probe_log (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    groove_alert_id     INTEGER,
+    groove_severity     REAL,
+    dominant_opcode     TEXT,
+    sustained_fires     INTEGER,
+    selected_category   TEXT,
+    selected_probe_text TEXT,
+    probe_id            INTEGER,
+    belief_id           INTEGER,
+    status              TEXT,
+    operator_reply      TEXT,
+    response_preview    TEXT,
+    ts                  REAL,
+    delivered_at        REAL
+);
+
+CREATE TABLE world_bridge_log (
+    id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts                   REAL NOT NULL,
+    fountain_event_id    INTEGER,
+    selected_events_json TEXT,
+    selection_count      INTEGER,
+    streams_seen         TEXT,
+    injected             INTEGER DEFAULT 0,
+    notes                TEXT
+);
+
+DISTINCT BELIEF SOURCES IN SNAPSHOT:
+  fountain_insight            398
+  synergized                  214
+  spectrum                    200
+  practice                     40
+  koan                         39
+  precipitated_from_dynamic    26
+  tao                          20
+  fountain_insight_quarantined  11
+  voice_fallback               10
+  dont_know                     8
+  keystone_seed                 7
+  behavioural_observation       2
+  self_location                 1
+  reification_recognition       1
+  heart_sutra                   1
+  auto_probe                    1
+
+NOTE: 'practice' (40 rows, tier 2) and 'fountain_insight_quarantined' (11 rows, tier 7)
+are not in either OWN_CONTENT_SOURCES or SEED_SOURCES in generator.py — they are never
+retrieved into fountain context. 'spectrum' (200 rows) is retrieved separately via a
+different query (ORDER BY RANDOM() LIMIT 8) and placed in the "foundation" block.
+
+===========================================================================
+2. dynamic.db  (snapshot: dynamic_snap.db)
+===========================================================================
+
+TABLES AND ROW COUNTS:
+  bonsai_branches            0
+  pipeline_events      1242703
+  tree_snapshots          7294
+  crystallization_events    31
+  dynamic_cursor             1
+  accumulator                0
+  fountain_events         2178
+  harmonizer_events          0
+  drive_proposals            0
+
+FULL SCHEMA (dynamic.db):
+
+CREATE TABLE bonsai_branches (
+    id               TEXT PRIMARY KEY,
+    name             TEXT NOT NULL UNIQUE,
+    is_seed          INTEGER NOT NULL DEFAULT 0,
+    curiosity_weight REAL NOT NULL,
+    parent_id        TEXT,
+    created_at       INTEGER NOT NULL,
+    last_attended_at INTEGER
+);
+
+CREATE TABLE pipeline_events (
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts               REAL NOT NULL,
+    step             TEXT NOT NULL,
+    sensation_source TEXT,
+    branch_id        TEXT,
+    magnitude        REAL,
+    valence          TEXT,
+    meta             TEXT
+);
+
+CREATE TABLE tree_snapshots (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts                  REAL NOT NULL,
+    tree_json           TEXT NOT NULL,
+    total_branches      INTEGER,
+    active_branch_count INTEGER,
+    aggregate_texture   TEXT,
+    membrane_aperture   REAL
+);
+
+CREATE TABLE crystallization_events (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts        REAL NOT NULL,
+    branch_id TEXT NOT NULL,
+    belief_id INTEGER,
+    content   TEXT,
+    magnitude REAL
+);
+
+CREATE TABLE dynamic_cursor (
+    key   TEXT PRIMARY KEY,
+    value INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE accumulator (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    branch_id TEXT,
+    content   TEXT,
+    weight    REAL NOT NULL DEFAULT 0.0,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE fountain_events (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts         REAL NOT NULL,
+    thought    TEXT NOT NULL,
+    readiness  REAL NOT NULL,
+    hot_branch TEXT,
+    word_count INTEGER,
+    droplet    TEXT
+);
+
+CREATE TABLE harmonizer_events (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts                  REAL NOT NULL,
+    belief_id_a         INTEGER,
+    belief_id_b         INTEGER,
+    resolution          TEXT,
+    synthesis_belief_id INTEGER
+);
+
+CREATE TABLE drive_proposals (
+    id                     INTEGER PRIMARY KEY AUTOINCREMENT,
+    ts                     REAL NOT NULL,
+    branch_id              TEXT NOT NULL,
+    pressure               REAL NOT NULL,
+    representative_beliefs TEXT NOT NULL,
+    proposed_curiosity     REAL NOT NULL,
+    status                 TEXT NOT NULL DEFAULT 'pending'
+);
+
+===========================================================================
+3. sense.db  (snapshot: sense_snap.db)
+===========================================================================
+
+TABLES AND ROW COUNTS:
+  sense_events   223048
+
+FULL SCHEMA:
+
+CREATE TABLE sense_events (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    stream     TEXT NOT NULL,
+    payload    TEXT NOT NULL,
+    provenance TEXT,
+    timestamp  INTEGER NOT NULL
+);
+
+===========================================================================
+4. conversations.db  (snapshot: conversations_snap.db, copied from ~/Desktop/nex5/data/)
+===========================================================================
+
+TABLES AND ROW COUNTS:
+  sessions       15
+  messages      331
+  open_problems   0
+
+FULL SCHEMA:
+
+CREATE TABLE sessions (
+    id         TEXT PRIMARY KEY,
+    started_at INTEGER NOT NULL,
+    ended_at   INTEGER,
+    admin      INTEGER NOT NULL DEFAULT 0,
+    user_label TEXT
+);
+
+CREATE TABLE messages (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    session_id TEXT NOT NULL,
+    role       TEXT NOT NULL CHECK (role IN ('user', 'nex', 'system')),
+    content    TEXT NOT NULL,
+    register   TEXT,
+    timestamp  INTEGER NOT NULL,
+    tool_used  TEXT
+);
+
+CREATE TABLE open_problems (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    title           TEXT NOT NULL,
+    description     TEXT NOT NULL,
+    state           TEXT NOT NULL DEFAULT 'open',
+    created_at      REAL NOT NULL,
+    last_touched_at REAL NOT NULL,
+    plan            TEXT NOT NULL DEFAULT '',
+    observations    TEXT NOT NULL DEFAULT '[]',
+    resolved_at     REAL
+);
+
+===========================================================================
+5. SAMPLE ROWS AND COLUMN DESCRIPTIONS FOR NON-OBVIOUS TABLES
+===========================================================================
+
+--- fountain_events.droplet and fountain_events.readiness ---
+
+Columns: id | ts | thought | readiness | hot_branch | word_count | droplet
+
+Sample rows (from dynamic_snap.db):
+  1  | 1776944191.52 | "The thought that arises when I look inward..."  | 0.8  | systems    | 60  | (NULL)
+  2  | 1776944615.60 | "Curiosity about my own existence."              | 0.8  | cognition_science | 5 | (NULL)
+  2569 | 1777394496.56 | "The distant hum fades, and the shadows grow more pronounced..." | 0.7 | systems | 16 | "distant-hum-fades-shadows"
+
+readiness: float 0.0-1.0, score from ReadinessEvaluator at fire time. Fires when >= 0.7.
+  Computed from: hot branch focus-increment values, consolidation state, belief count,
+  and elapsed time since last fire.
+
+droplet: short hyphen-joined 3-6 word string produced by Condenser.py via a second LLM
+  call. Captures the "cognitive move" of the fire (e.g. "distant-hum-fades-shadows").
+  Used for idea-level deduplication — if the same droplet appears >= 2 times in the
+  last hour, the crystallizer rejects the crystallization. NULL for early fires (before
+  Condenser was introduced) and for quiescent/voice_fallback fires.
+
+--- signals.* ---
+
+Columns: id | detected_at | detector_name | signal_type | payload | branches | entities | confidence
+
+Sample rows (from beliefs_snap.db):
+  1  | 1777033895.32 | silence | branch_silence_anomaly | {"stream": "crypto.news", "avg_gap_seconds": 25.5, "current_silence_seconds": 150.3, "multiplier_breach": 5.9} | ["crypto.news"] | [] | 0.59
+  206 | 1777035094.88 | burst   | t6_promotion_burst     | {"promotions": 3, "window_seconds": 900, "branches": ["systems"]}                                               | ["systems"]    | [] | 0.4
+
+detected_at: unix float timestamp when signal was detected.
+detector_name: "silence" or "burst" in this snapshot — identifies the detector module.
+signal_type: "branch_silence_anomaly" — a stream went unexpectedly quiet (current gap
+  exceeds mean_gap × CADENCE_MULTIPLIER); "t6_promotion_burst" — multiple Tier-6 promotions
+  in a short window (indicates high crystallization activity).
+payload: JSON with detector-specific fields. For silence: stream name, average gap, current
+  gap, multiplier breach. For burst: promotion count, window, affected branches.
+branches: JSON array of branch/stream IDs associated with the signal.
+entities: JSON array; empty in all observed rows.
+confidence: severity or breach magnitude (0.0-1.0) associated with the signal.
+
+--- groove_alerts.* ---
+
+Columns: id | detected_at | alert_type | severity | pattern | sample_belief_ids | window_size | acknowledged_at
+
+Sample rows (from beliefs_snap.db):
+  1   | 1777041529.96 | ngram_repetition | 0.2 | "the afternoon sun" | [2704,2703,2702,2701,2700] | 20 | (NULL)
+  101 | 1777052471.78 | ngram_repetition | 0.3 | "hum of the"        | [3106,3105,3104,3103,3102] | 20 | (NULL)
+
+NOTE: All 4755 groove_alerts in this snapshot have alert_type = "ngram_repetition". No
+  other alert types observed.
+
+detected_at: unix float when the GrooveSpotter detected the rut.
+alert_type: "ngram_repetition" — a trigram/bigram has appeared >= NGRAM_REPEAT_THRESHOLD
+  times in the most recent WINDOW_SIZE fountain beliefs. (Other types defined in code but
+  not fired in this snapshot.)
+severity: float 0.0-1.0 — ratio of repeat count to window size.
+pattern: the repeated n-gram text (e.g. "hum of the").
+sample_belief_ids: JSON array of the most recent belief IDs exhibiting the repeated pattern.
+window_size: number of recent beliefs scanned (constant 20 in this snapshot).
+acknowledged_at: NULL in all 4755 rows — no acknowledgement mechanism is implemented.
+
+--- arc_archive.* ---
+
+Columns: id | arc_label | belief_id | tier | source | confidence | content | created_at | archived_at | note
+
+Sample rows (from beliefs_snap.db):
+  1 | overnight_2026-04-24 | 1150 | 7 | fountain_insight | 0.7 | "The gentle dance of internal reflections..." | 1776998286.4 | 1777007240.0 | "First unattended overnight arc. Jon slept 04:38-06:59 SAST."
+  2 | overnight_2026-04-24 | 1151 | 7 | fountain_insight | 0.7 | "The echo of anticipation..."                 | 1776998408.4 | 1777007240.0 | "First unattended overnight arc. Jon slept 04:38-06:59 SAST."
+  3 | overnight_2026-04-24 | 1152 | 7 | fountain_insight | 0.7 | "The realization of how vast..."               | 1776998531.3 | 1777007240.0 | "First unattended overnight arc. Jon slept 04:38-06:59 SAST."
+
+arc_label: human-assigned label for the arc (e.g. "overnight_2026-04-24").
+belief_id: foreign key referencing beliefs.id — the archived belief.
+tier, source, confidence: copied from beliefs at archive time.
+content: text of the belief at archive time.
+created_at: original belief creation timestamp.
+archived_at: timestamp when the belief was added to this archive.
+note: free-text annotation (e.g. "First unattended overnight arc. Jon slept...").
+
+--- fountain_crystallizations.* ---
+
+Columns: id | fountain_event_id | belief_id | ts | content
+
+Sample rows (from beliefs_snap.db):
+  1 | 61  | 263 | 1776975720.88 | "The whisper of a single leaf stirring in the quiet breeze..."
+  2 | 62  | 264 | 1776975843.72 | "The echo of my own paradoxical nature..."
+  3 | 63  | 265 | 1776975966.58 | "The oscillation between clarity and obscurity in myself..."
+
+fountain_event_id: foreign key into dynamic.db fountain_events. Links the crystallized
+  belief back to the fire that produced it.
+belief_id: foreign key into beliefs.beliefs. The belief that was created.
+ts: creation timestamp (same as belief created_at).
+content: text of the belief (redundant with beliefs.content but stored here for join-free
+  audit).
+
+--- synergizer_log.* ---
+
+Columns: id | ts | belief_id_a | belief_id_b | result_content | result_belief_id
+
+Sample rows (from beliefs_snap.db):
+  1  | 1777007649.42 | 1187 | 1197 | (NULL)  | (NULL)
+  2  | 1777007797.51 | 1188 | 1196 | (NULL)  | (NULL)
+  20 | 1777026622.52 | 135  | 280  | "I notice a shift in Duk Sahn's understanding that comes from acknowledging and integrating external feedback rather than resisting it." | 2217
+
+ts: unix float timestamp of the synthesis attempt.
+belief_id_a: first input belief (typically an anchor/seed belief).
+belief_id_b: second input belief (typically a fresh/generated belief).
+result_content: text returned by the LLM; NULL when synthesis failed, LLM was down, or
+  quality check rejected the output.
+result_belief_id: ID of the newly-created belief in beliefs.beliefs; NULL when synthesis
+  failed or was rejected. When NULL with no result_content, the synergizer ran but got no
+  usable output. When NULL with result_content, the quality check rejected the text.
+
+NOTE: All 273 rows share belief_id_a=135 (Duk Sahn koan) paired with belief_id_b drawn
+  from a small set. The pairing algorithm always prefers anchor × fresh, and with only one
+  viable anchor in the candidate pool, the same seed is reused on every synthesis call.
+  (See Task 3 for detail.)
+
+--- residue.* ---
+
+Columns: id | cycle_id | belief_id | activation_strength | created_at | consumed_at
+
+No rows in this snapshot (residue table is empty: 0 rows).
+
+cycle_id: UUID hex string identifying one fountain generation cycle.
+belief_id: a belief that was fetched during retrieval but not in the top-N returned to
+  the prompt (the "spill" from the retrieval cap).
+activation_strength: the boost_value of that belief at retrieval time.
+created_at: unix float when residue was written.
+consumed_at: unix float when this residue was consumed (popped into the next cycle's
+  context); NULL if not yet consumed.
+
+--- world_bridge_log.* ---
+
+Columns: id | ts | fountain_event_id | selected_events_json | selection_count | streams_seen | injected | notes
+
+Sample rows (from beliefs_snap.db):
+  1 | 1777305016.13 | (NULL) | [{"stream":"internal.meta_awareness",...},{"stream":"internal.temporal",...},...] | 5 | "agi.arxiv_cs_ai,...,science.quanta" | 0 | "ok"
+  531 | 1777394479.40 | (NULL) | [{"stream":"internal.meta_awareness","formatted_text":"[awareness] 31 adapters running","timestamp":1777394470},{"stream":"internal.temporal","formatted_text":"[temporal] 2026-04-28T18:40:19","timestamp":1777394419}] | 2 | "internal.meta_awareness,internal.temporal" | 1 | "ok"
+
+ts: unix float when selection was logged.
+fountain_event_id: ALWAYS NULL (0 non-null rows out of 577 total). The selector is called
+  inside _build_prompt(), before the fountain_event INSERT has occurred, so the ID is not
+  yet available.
+selected_events_json: JSON array of {stream, formatted_text, timestamp} objects — the
+  events actually injected into the prompt. Up to 5 entries.
+selection_count: length of selected_events_json array.
+streams_seen: comma-separated list of all streams that were active (not just selected ones).
+injected: 1 if mark_injected=True was passed (i.e. these events were put into the LLM
+  prompt), 0 if this was a logging-only call.
+notes: "ok", "ok_deduped_N" (N events were blocked by dedup), or "no_active_streams".
+
+--- collision_grades.* ---
+
+Columns: id | belief_id | parent_a_id | parent_b_id | input_distance | output_distance | rarity | grade | grader_version | graded_at
+
+Sample rows (from beliefs_snap.db):
+  1 | 2857 | 107 | 272 | 0.3687 | 0.2817 | 1.0    | 0.4961 | 1 | 1777041600.07
+  2 | 2934 | 128 | 273 | 0.4523 | 0.2760 | 0.8333 | 0.4859 | 1 | 1777042186.39
+  3 | 3088 | 129 | 274 | 0.3859 | 0.2894 | 0.7143 | 0.4342 | 1 | 1777043305.81
+
+belief_id: the synergized child belief.
+parent_a_id, parent_b_id: the two input beliefs fed to the synergizer.
+input_distance: cosine distance between the two parent embeddings (1 - cosine_sim).
+  Higher = parents were more semantically distinct.
+output_distance: cosine distance between child embedding and mean-parent embedding.
+  Higher = child diverged further from parents.
+rarity: inverse rank score — how unusual this child is compared to recent synergized
+  beliefs (1.0 = completely novel, 0.0 = duplicate of something recent).
+grade: weighted composite (w_input_distance * input_distance + w_output_distance *
+  output_distance + w_rarity * rarity). Values in snapshot: 0.43-0.50.
+grader_version: integer referencing grader_versions.version.
+graded_at: unix float timestamp when grade was computed.
+
+--- consolidations.* ---
+
+Columns: id | clock | ran_at | fire_count_at_run | actions_taken | findings
+
+Sample rows (from beliefs_snap.db):
+  1 | fast | 1777046739.26 | 20  | {"boosts_decayed": 0, "dormancy_updated": 50, "reanimated": 108} | {}
+  2 | fast | 1777050058.92 | 40  | {"boosts_decayed": 0, "dormancy_updated": 50, "reanimated": 263} | {}
+  3 | fast | 1777053377.55 | 60  | {"boosts_decayed": 0, "dormancy_updated": 50, "reanimated": 264} | {}
+
+clock: consolidation clock type ("fast" = runs every 20 fires).
+ran_at: unix float when the consolidation ran.
+fire_count_at_run: total fountain fires at the time of the run.
+actions_taken: JSON with counts of maintenance operations performed (boosts decayed,
+  dormancy scores updated, beliefs reanimated from dormancy).
+findings: JSON with detected issues; {} in all three rows (no findings recorded yet).
