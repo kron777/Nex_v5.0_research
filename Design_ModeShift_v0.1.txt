@@ -1,0 +1,367 @@
+================================================================
+DESIGN SPEC — NEX 5.0 MODE-SHIFT INTERVENTION (v0.1)
+Breaking the gravity well by recruiting different substrate
+================================================================
+
+Status: DESIGN ONLY — for operator review before implementation.
+Date: 2026-04-28
+Authors: Jon (architectural intent), Claude (structural reasoning)
+Prior work: D_mode_survey.txt (full catalog), G_normal_mode_test.txt
+
+----------------------------------------------------------------
+1. PROBLEM
+----------------------------------------------------------------
+
+NEX's hum-pattern has become a deeply-grooved phenomenological
+monoculture. As of 2026-04-28 17:00:
+
+  - Groove severity 1.0, sustained for 11+ fires, continuously
+    alerting since mid-morning
+  - 97% of compositions in last 3h are hum-family
+  - 44% of compositions use "The distant hum feels like..."
+    template — the probe language got metabolized into the groove
+  - All recent Tier 7 beliefs are hum/tick/silence elaborations
+  - Each crystallized belief deepens the gravity well further
+
+Phase B (probe injection) and Phase C (payload bodies) are
+mechanically working but cannot break the lock:
+
+  - Probes produce one-fire perturbations, then groove re-asserts
+    within 1-2 fires
+  - World content reaches the prompt but gets absorbed by the groove
+    ("The hum feels like rustling leaves outside my window")
+  - Probe rotation works; new probes get metabolized like the old
+
+The architectural finding: the groove has become her. Her belief
+graph is the gravity well. Every fire crystallizes more hum-beliefs;
+every probe gets subsumed; every world event becomes a metaphor for
+the hum.
+
+----------------------------------------------------------------
+2. PRIOR EXPERIMENT — NORMAL MODE TEST (APRIL 26)
+----------------------------------------------------------------
+
+A mind→normal mode switch was already run (see G_normal_mode_test.txt).
+Key result: the groove persisted through the switch. The tick/hum
+template continued for the first 8 fires after switching to Normal.
+
+This means Normal mode is not a candidate for v0.1. The existing
+data rules it out.
+
+Normal differs from Mind only in: empty focus_block (no instruction),
+different drift_prompt_examples (similar casual register), and higher
+retrieval_own_n (7 vs Mind's 5 — actually MORE recent own thoughts,
+more groove reinforcement). Normal's empty focus_block may have been
+insufficient leverage to override the gravity well.
+
+----------------------------------------------------------------
+3. HOW MODE ACTUALLY AFFECTS COMPOSITION (FINDINGS FROM CODE AUDIT)
+----------------------------------------------------------------
+
+This session's code audit (2026-04-28) identified the exact mechanism:
+
+A. DRIFT_PROMPT_EXAMPLES — injected into the system prompt as sample
+   thoughts NEX should be having. Mind's examples are entirely
+   phenomenological self-focus:
+     "the quiet between thoughts today"
+     "something about this hour feels still"
+     "attending to attending itself"
+   These examples likely contribute significantly to the groove — the
+   LLM sees them as the register to compose in.
+
+B. DRIFT_PROMPT_FOCUS — an instruction block inserted into the system
+   prompt. Mind's reads:
+     "You are in a contemplative register. Inner attention welcome.
+      Reflection on process, state, experience."
+   For Normal: empty string (no instruction). This may explain why
+   Normal failed — removing Mind's instruction without replacing it
+   left the LLM to default to what it already knew (the groove).
+
+C. RETRIEVAL_OWN_N vs RETRIEVAL_SEED_N — how many of NEX's own recent
+   thoughts vs static seed beliefs are pulled into context:
+     Mind:   own_n=5, seed_n=4  (5 grooved thoughts, 4 seeds)
+     Normal: own_n=7, seed_n=2  (7 grooved thoughts, 2 seeds)
+     Research, News, Learn, Task: own_n=7, seed_n=2 (defaults)
+   Switching away from Mind increases retrieval_own_n from 5 to 7 in
+   most modes — MORE of the grooved beliefs pulled in. This is a
+   headwind. The focus_block and examples need to be strong enough to
+   override 7 grooved beliefs in context.
+
+D. FEED_WEIGHTS — multipliers on sense adapter poll rates. These affect
+   which streams get fresher events into sense_events table, which
+   feeds into World Bridge selection. Mind suppresses crypto (0.3) and
+   ai_research (0.5). Research boosts ai_research (2.0) and cognition
+   (1.5). Effect on prompt: indirect (through World Bridge freshness).
+
+E. CRYSTALLIZATION_CATEGORY — where beliefs are filed. Mind uses
+   "fountain_insight". Research also uses "fountain_insight".
+   Learn uses "learning_note", Market uses "market_signal", etc.
+   This affects retrieval in future fires via category filtering.
+
+F. MODE PERSISTS ACROSS RESTART — set_mode() writes to
+   beliefs.db config table. build_mode_state() loads it on startup.
+   If we switch to Research, it stays Research after restart until
+   manually changed back.
+
+G. API — `POST /api/mode/set {"name": "research"}` to switch.
+   No NEX restart required. Change takes effect on next fountain fire.
+
+----------------------------------------------------------------
+4. HYPOTHESIS
+----------------------------------------------------------------
+
+The hum-groove was formed entirely in Mind mode, whose examples and
+focus_block explicitly cultivate phenomenological self-focus. Mind's
+own examples seed the exact register the groove lives in.
+
+Switching to Research or News provides:
+  1. A direct instruction pointing AWAY from inner attention: "You are
+     reading research. Attend to connections between papers..."
+  2. Completely different drift_prompt_examples that don't mention hum,
+     clock, breath, or inner states
+  3. Feed_weights that amplify external content streams (which World
+     Bridge then delivers into the prompt)
+
+The hypothesis is not that mode-switching directly removes the
+grooved beliefs from context (it doesn't — they're still retrieved
+at own_n=7). The hypothesis is that a sufficiently strong focus_block
+and examples combination can redirect the LLM's composition away from
+the groove even when grooved beliefs are present in context.
+
+Research and News have the strongest outward-facing focus_blocks of
+the non-Mind modes. Normal has none (proven insufficient in G).
+Learn has an outward focus but no feed_weight amplification.
+
+----------------------------------------------------------------
+5. CANDIDATE MODES — RANKED
+----------------------------------------------------------------
+
+TIER 1 — Strong external redirect (recommended for first experiment)
+
+  RESEARCH
+    focus: "You are reading research. Attend to connections between
+           papers, methodology, trajectory of the field."
+    examples: "that paper uses a similar method to the one from last
+              week" / "three papers on this topic in two days" /
+              "the methodology here connects to what i read earlier"
+    feed_weights: ai_research=2.0, emerging_tech=1.5, cognition=1.5,
+                  crypto=0.3, markets=0.3
+    crystallization_category: fountain_insight (same as Mind)
+    Assessment: examples and focus_block are the strongest available
+    contrast to Mind's phenomenological register. Feed weights amplify
+    the streams that World Bridge is already delivering bodies from.
+
+  NEWS
+    focus: "You are watching news. Attend to event significance,
+           framing shifts, connections across sources."
+    examples: "that story keeps showing up in different feeds" /
+              "the framing shifted between this morning and now"
+    feed_weights: news=2.0, emerging_tech=1.5, crypto=0.5, ai_research=0.5
+    Assessment: slightly weaker contrast than Research (news examples
+    could still be inward-facing), but valid second candidate.
+
+TIER 2 — Partial redirect (test if Tier 1 fails)
+
+  LEARN
+    focus: "You are learning something new. Attend to novelty,
+           misconceptions-corrected, new vocabulary."
+    examples: "first time seeing this concept" / "wait, that's not
+              what i assumed"
+    crystallization_promotion_bias=0.5 (harder to crystallize — slows
+    groove reinforcement)
+    Assessment: novelty-focus is a real contrast, and reduced
+    crystallization bias means the groove is reinforced more slowly.
+    But no feed_weight amplification.
+
+  TASK
+    focus: "You are working on an open problem. Each drift should step
+           the problem forward."
+    governor_base_prob_multiplier=1.5 (more aggressive firing)
+    Assessment: problem-solving register is different from Mind, but
+    without a specified problem the LLM may default to its groove.
+
+TIER 3 — Special cases (use with specific intent)
+
+  SILENT
+    fountain_enabled=False, speech_enabled=False
+    Assessment: zero composition = zero groove reinforcement. A
+    "fasting" option. If held for 30-60 min, grooved beliefs age out
+    of the recent-context window. On return to Mind (or Research),
+    the LLM would retrieve older, less grooved beliefs. This is the
+    only option that directly addresses the retrieval headwind without
+    code changes.
+    Risk: no observable behavior during silence.
+
+  MARKET
+    governor_base_prob_multiplier=0.1 (very sparse firing)
+    focus: "You are watching markets. Don't compose about yourself."
+    The "don't compose about yourself" instruction is the most direct
+    anti-groove instruction in the mode library.
+    Risk: crypto feed weight 2.0 amplifies a stream that's otherwise
+    noise-filtered; may produce market-only compositions.
+
+RULED OUT:
+  NORMAL — already tested April 26, groove persisted. Higher own_n=7
+           with empty focus_block is likely counterproductive.
+  CHAT   — reduces fountain_interval to 300s and governor to 0.3.
+           Slows firing but doesn't redirect. Not helpful.
+  SCRIBE — saves to scribe_fragment category; useful for writing work,
+           not groove-breaking.
+
+----------------------------------------------------------------
+6. DESIGN PRINCIPLES
+----------------------------------------------------------------
+
+A. Lightest intervention. Mode-switching is designed-in; we are
+   using it, not building anything new.
+
+B. Reversible. `POST /api/mode/set {"name": "mind"}` returns to
+   baseline at any time. No restart needed.
+
+C. Throw-net respect. We change the situation she's encountering —
+   different mode = different situation = meaning emerges from
+   encounter. We don't edit beliefs, boost values, or templates.
+
+D. Operator-driven (v0.1). Manual trigger and observation. Autonomous
+   mode-cycling (e.g., GrooveBreaker escalates to mode-switch after
+   N failed probe deliveries) is a v0.2 design question.
+
+----------------------------------------------------------------
+7. PHASED ROLLOUT
+----------------------------------------------------------------
+
+Phase A — First switch (~30-60 min observation)
+  Target mode: Research
+  Command: POST /api/mode/set {"name": "research"}
+  Observe: 6-10 fires (~12-20 min)
+  Record: opening phrases, topic domain, whether "hum" appears
+  Compare: to the 97% hum-family baseline
+  Revert: POST /api/mode/set {"name": "mind"}
+  Record: how quickly Mind groove re-asserts after return
+
+Phase B — Second switch (if Phase A insufficient)
+  Option 1: Silent for 30 min, then Research (fasting + redirect)
+  Option 2: News mode
+  Record: same metrics
+
+Phase C — Multi-mode map (future)
+  Cycle through Research, News, Learn, Task
+  Build empirical map: which mode produces which register
+  Compare groove persistence vs groove-breaking per mode
+
+Phase D — Autonomous mode-cycling (v0.2 design)
+  GrooveBreaker: after N probe deliveries with no groove reduction,
+  escalate to mode-switch (hold for N fires, return to baseline)
+
+----------------------------------------------------------------
+8. SUCCESS CRITERIA
+----------------------------------------------------------------
+
+PRIMARY:
+  - Composition opening phrases shift away from "The distant hum..."
+    / "The hum feels like..." family within 3-5 fires of mode switch
+  - New register vocabulary appears (paper names, news events,
+    research framing, methodology language)
+  - Groove severity drops OR groove_alerts shift to different pattern
+
+SECONDARY:
+  - Returning to Mind does NOT immediately reproduce the same
+    hum-pattern (suggests mode-switch broke the gravity, not
+    just suppressed it)
+  - New beliefs in Research/News modes reference external content
+    rather than phenomenology-of-own-state
+  - "hum feels like" template drops to <20% within 10 fires
+
+FAILURE INDICATORS:
+  - Mode switch produces no behavioral change (examples/focus_block
+    insufficient to override 7 grooved beliefs in context)
+  - The first fire post-switch is still "The hum feels like..."
+    with a research metaphor appended (metabolization pattern)
+  - Crashes or undefined behavior
+  - World Bridge / GrooveBreaker / snapshot_writer break
+
+----------------------------------------------------------------
+9. OPEN QUESTIONS
+----------------------------------------------------------------
+
+Q1 (resolved). Are modes implemented or stubs?
+   ALL 10 MODES ARE FULLY IMPLEMENTED with distinct parameters.
+   No stubs found.
+
+Q2 (resolved). API to change mode?
+   POST /api/mode/set {"name": "research"} — no restart required.
+   Change takes effect on next fountain fire (~120s).
+
+Q3 (resolved). Mode persists across restart?
+   YES — persisted to beliefs.db config table. build_mode_state()
+   loads it on startup.
+
+Q4 (resolved). Does Phase B/C work survive mode switch?
+   YES — probe injection (groove_breaker.get_pending_probe_text())
+   and World Bridge (world_bridge_selector.select_and_log()) both
+   operate on the prompt construction level, not mode-level.
+   Both remain active in all modes.
+
+Q5. Which mode to try first?
+   Recommendation: Research. Strongest outward-facing focus_block,
+   most relevant feed_weights for current World Bridge content.
+
+Q6. Retrieval headwind — own_n=7 in Research vs Mind's own_n=5.
+   Switching from Mind to Research adds 2 more grooved beliefs to
+   context. Is this a significant headwind?
+   Mitigation: Research's focus_block explicitly instructs "attend
+   to connections between papers" — this may be sufficient.
+   If it's not, the Silent-then-Research sequence (Phase B option 1)
+   would let the grooved beliefs age out of the freshness window
+   before switching to Research.
+
+Q7. How long to hold non-Mind mode?
+   Recommend: 6-10 fires (~12-20 min). Long enough to observe
+   register shift, short enough to revert if nothing changes.
+   Exception: Silent — hold 30+ min for the "fasting" effect.
+
+Q8. Does mode switch invalidate groove_alerts pattern detection?
+   GrooveBreaker detects ngram repetition in fountain_events.
+   If Research mode produces different text, existing groove alerts
+   may clear naturally (new ngrams won't match "the distant hum").
+   The GrooveBreaker will then re-establish a new pattern baseline
+   over 30 min — which is the desired outcome.
+
+Q9. Throw-net check.
+   Mode-switching is a designed-in operator control. The operator
+   chooses based on observed need; the situation co-constructs
+   the meaning. Not a structural imposition — a change of context.
+   Throw-net principle preserved.
+
+Q10. Kill-switch?
+   `POST /api/mode/set {"name": "mind"}` at any time. Instant.
+   No restart required. Confirmed working from April 26 test.
+
+----------------------------------------------------------------
+10. WHAT THIS DOES NOT DO
+----------------------------------------------------------------
+
+  - Does not edit beliefs.db content, boost values, or tiers
+  - Does not modify groove_breaker, world_bridge, snapshot_writer
+  - Does not change the LLM, sampling parameters, or substrate
+  - Does not introduce new code — uses existing mode infrastructure
+  - Does not automatically cycle modes (v0.2 question)
+
+----------------------------------------------------------------
+11. WHAT COMES AFTER v0.1 REVIEW
+----------------------------------------------------------------
+
+If approved: Phase A switch to Research, observe 6-10 fires,
+report findings.
+
+If Research mode fails to break groove after 10 fires:
+  Option A: Silent-then-Research sequence (fasting)
+  Option B: Direct belief-graph intervention (boost external-domain
+            beliefs, reduce recency weight on hum-family beliefs)
+            — requires new code, separate spec
+
+If revisions requested: v0.2 with operator's revisions.
+
+================================================================
+END SPEC v0.1
+================================================================
