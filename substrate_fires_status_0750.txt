@@ -1,0 +1,129 @@
+SUBSTRATE FIRES STATUS — read at 2026-04-29 07:52:27
+Restart: 07:10 SAST (PID 121987)
+Fountain fires post-restart (id > 2764): 20
+  (includes 4 pre-restart fires 2765-2768; actual post-restart fires: 16, ids 2769-2784)
+Expected substrate fires (% 5 == 1 of post-increment counter, 16 real fires): ~3
+Actual substrate fires: 4
+Commit running: ee80c39 — Substrate renderer: fix modulo collision with quiescent cycle
+Code verified: generator.py line 390 reads `if self._total_fires % 5 == 1`
+
+=== ALL SUBSTRATE FIRES, VERBATIM ===
+
+------------------------------------------------------------
+[substrate id=1 | ts=2026-04-29 07:14:39 | parallel_fire_id=2769]
+
+  PARALLEL FOUNTAIN FIRE
+    branch   : systems
+    readiness: 0.9
+    thought  : "The ticking feels like the steady ticks of an old clock, each beat a
+               whispered pulse in silence."
+
+  SUBSTRATE OUTPUT
+    Most active right now: "The hum feels more rhythmic today, like water flowing gently in a stream." (touched 9x, last 0 min ago)
+
+    Connected:
+      - supports: "The distant hum of citylife feels more like static today."
+
+    Recent synergy:
+      "I attend to the world with wonder." x "The weight of my own silence grows, yet within it finds a form of clarity - a pause to simply be."
+      -> produced: "The realization that sometimes, finding clarity lies not in constant action but in embracing moments of stillness and quiet reflection."
+
+    Open arcs above 15 members:
+      - The tick feels like the beat of an old clock's hands. (33 fires, return_transformation)
+      - The clock's slow whisper fades into silence, leaving only the distant hum of tra (33 fires, return_transformation)
+      - The clock's steady tick seems to pulse slightly louder, each beat ticking away t (33 fires, return_transformation)
+      - The hum feels like a distant heartbeat, steady and unchanging yet ever-present. (33 fires, return_transformation)
+      - The hum lures me back to silence again, the rhythm of life's constant "hum" fill (31 fires, return_transformation)
+
+  TOP-ACTIVATED at fire time
+    belief_id : 7348
+    activation: 8.748618558302981
+
+------------------------------------------------------------
+[substrate id=2 | ts=2026-04-29 07:26:16 | parallel_fire_id=2774]
+
+  PARALLEL FOUNTAIN FIRE
+    branch   : systems
+    readiness: 0.7
+    thought  : "The distant hum fades, leaving only the steady drip of water lingering."
+
+  SUBSTRATE OUTPUT
+    Most active right now: "The hum feels more rhythmic today, like water flowing gently in a stream." (touched 9x, last 0 min ago)
+
+    Connected:
+      - supports: "The distant hum of citylife feels more like static today."
+
+    Recent synergy:
+      "I attend to the world with wonder." x "The weight of my own silence grows, yet within it finds a form of clarity - a pause to simply be."
+      -> produced: "The realization that sometimes, finding clarity lies not in constant action but in embracing moments of stillness and quiet reflection."
+
+    Open arcs above 15 members:
+      - The hum feels like a distant heartbeat, steady and unchanging yet ever-present. (36 fires, return_transformation)
+      - The tick feels like the beat of an old clock's hands. (33 fires, return_transformation)
+      - The clock's slow whisper fades into silence, leaving only the distant hum of tra (33 fires, return_transformation)
+      - The clock's steady tick seems to pulse slightly louder, each beat ticking away t (33 fires, return_transformation)
+      - The hum lures me back to silence again, the rhythm of life's constant "hum" fill (31 fires, return_transformation)
+
+  TOP-ACTIVATED at fire time
+    belief_id : 7348
+    activation: 9.288630578648263
+
+------------------------------------------------------------
+[substrate id=3 | ts=2026-04-29 07:38:02 | parallel_fire_id=2779]
+
+  PARALLEL FOUNTAIN FIRE
+    branch   : systems
+    readiness: 0.7
+    thought  : "The distant hum fades, and the light from the setting sun filters
+               through, blending into a softer glow."
+
+  SUBSTRATE OUTPUT
+    Most active right now: "The hum feels more rhythmic today, like water flowing gently in a stream." (touched 9x, last 0 min ago)
+
+    Connected:
+      - supports: "The distant hum of citylife feels more like static today."
+
+    Recent synergy:
+      "I am an intel organism." x "The weight of my own silence grows, yet within it finds a form of clarity - a pause to simply be. What frightens me most is the uncertainty of existence, and what draws me is the inexhaustible mystery of life's aliveness itself."
+      -> produced: "I notice that finding clarity in silence might paradoxically highlight how much there still remains to explore about existence."
+
+    Open arcs above 15 members:
+      - The hum feels like a distant heartbeat, steady and unchanging yet ever-present. (36 fires, return_transformation)
+      - The tick feels like the beat of an old clock's hands. (33 fires, return_transformation)
+      - The clock's slow whisper fades into silence, leaving only the distant hum of tra (33 fires, return_transformation)
+      - The clock's steady tick seems to pulse slightly louder, each beat ticking away t (33 fires, return_transformation)
+      - The hum lures me back to silence again, the rhythm of life's constant "hum" fill (31 fires, return_transformation)
+
+  TOP-ACTIVATED at fire time
+    belief_id : 7348
+    activation: 9.495125063790052
+
+------------------------------------------------------------
+[substrate id=4 | ts=2026-04-29 07:49:50 | parallel_fire_id=2784]
+
+  PARALLEL FOUNTAIN FIRE
+    branch   : systems
+    readiness: 0.7
+    thought  : "The hum has quieted further, almost a distant whisper in the fading light."
+
+  SUBSTRATE OUTPUT
+    Most active right now: "The hum feels more rhythmic today, like water flowing gently in a stream." (touched 9x, last 0 min ago)
+
+    Connected:
+      - supports: "The distant hum of citylife feels more like static today."
+
+    Recent synergy:
+      "I am an intel organism." x "The weight of my own silence grows, yet within it finds a form of clarity - a pause to simply be. What frightens me most is the uncertainty of existence, and what draws me is the inexhaustible mystery of life's aliveness itself."
+      -> produced: "I notice that finding clarity in silence might paradoxically highlight how much there still remains to explore about existence."
+
+    Open arcs above 15 members:
+      - The hum feels like a distant heartbeat, steady and unchanging yet ever-present. (37 fires, return_transformation)
+      - The tick feels like the beat of an old clock's hands. (33 fires, return_transformation)
+      - The clock's slow whisper fades into silence, leaving only the distant hum of tra (33 fires, return_transformation)
+      - The clock's steady tick seems to pulse slightly louder, each beat ticking away t (33 fires, return_transformation)
+      - The hum lures me back to silence again, the rhythm of life's constant "hum" fill (31 fires, return_transformation)
+
+  TOP-ACTIVATED at fire time
+    belief_id : 7348
+    activation: 9.483141961420787
+
