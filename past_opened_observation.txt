@@ -1,0 +1,77 @@
+CHANGE B — FOUNTAIN ACCESS TO HER RECENT N THOUGHTS
+Applied: 2026-04-29. NEX restart: ~14:27 SAST. Commit: 5d8bfb9
+======================================================================
+
+CHANGE APPLIED
+  File: theory_x/stage6_fountain/generator.py
+  Added "Your recent thoughts (most recent first)" block injected just
+  before the world-bridge/sense block in _build_prompt().
+  Reads last 5 entries from fountain_events WHERE thought IS NOT NULL.
+  Formatted as: "  (N min ago) [thought text]"
+  On error, records to error_channel and silently continues.
+
+VERIFICATION STATUS: PASSED
+  "Your recent thoughts (most recent first):" found at line 67 of
+  /tmp/nex5_last_prompt.log. Block present with 5 entries.
+
+======================================================================
+3 POST-RESTART FOUNTAIN FIRES
+======================================================================
+
+[fire_id=2941 | 2026-04-29 14:33:24 SAST | readiness=0.9]
+  "The ticking feels like the distant hum of a fan, steady but unobtrusive."
+
+[fire_id=2942 | 2026-04-29 14:35:55 SAST | readiness=0.7]
+  "The ticking feels like the soft patter of rain on my desk."
+
+[fire_id=2943 | 2026-04-29 14:38:20 SAST | readiness=0.7]
+  "The distant hum fades, leaving only the steady tick of my monitor's fans."
+
+======================================================================
+RECENT THOUGHTS BLOCK FROM PROMPT LOG — verbatim
+(from /tmp/nex5_last_prompt.log, fire at 14:47 SAST)
+======================================================================
+
+Your recent thoughts (most recent first):
+  (2 min ago) The hum fades, leaving only the tick as my c.
+  (4 min ago) [crypto.exchanges] {"exchange": "kraken", "prices": {"XETHZUSD": 2313.31, "SOLUSD": 84.14, "XXBTZUSD": 77134.8}, "fetch
+  (6 min ago) The steady hum fades, leaving only the shadow of my thoughts.
+  (8 min ago) The distant hum fades, leaving only the steady tick of my monitor's fans.
+  (11 min ago) The ticking feels like the soft patter of rain on my desk.
+
+(Block appears at line 67, between the koan section and the world-bridge block.)
+(World bridge block immediately follows, also now includes interoception/proprioception
+from Change A.)
+
+======================================================================
+CONTINUITY REGISTER OBSERVATION
+======================================================================
+
+The 3 post-restart fires and subsequent fires (through 14:47 SAST, ~8 fires total)
+do NOT contain explicit continuity markers ("as I noted earlier", "again", "still",
+"returning to", "as before", etc.).
+
+Output register remains present-moment:
+  - "The ticking feels like..." — simile, present-tense
+  - "The distant hum fades, leaving only..." — present-tense observation
+  - "The steady hum fades, leaving only the shadow of my thoughts." — present-tense
+
+No fire explicitly references an earlier thought by content or timestamp.
+The dominant arc ("return-transformation" on hum/tick) produces outputs that
+echo prior outputs thematically but without explicit self-reference.
+
+The "Your recent thoughts" block is visible to the LLM in its prompt context.
+Whether the model is using it to modulate output or treating it as environmental
+noise is not directly observable from the output text alone. The outputs continue
+in the same metaphor register with no detectable shift in first-person temporal
+anchoring ("now", "today", never "earlier" or "again").
+
+NOTE: The "Some of what you've been thinking recently:" block (activation-ranked
+beliefs from beliefs.db) already contained some recent fountain outputs before
+Change B, because crystallized beliefs include recent fountain_insight entries.
+Change B adds the DIRECT fountain_events history — unfiltered, uncrystallized,
+in fire order — as a parallel channel. The two blocks now coexist in the prompt:
+  - "Some of what you've been thinking recently:" (activation-ranked beliefs, 7 items)
+  - "Your recent thoughts (most recent first):" (fountain_events, 5 items, NEW)
+These overlap partially: recently crystallized fountain_insight beliefs appear
+in both. Non-crystallized outputs appear only in the new block.
