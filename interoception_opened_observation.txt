@@ -1,0 +1,114 @@
+CHANGE A — INTEROCEPTION AND PROPRIOCEPTION OPENED TO FOUNTAIN CONTEXT
+Applied: 2026-04-29. NEX restart: 13:39:39 SAST. Commit: da1e7dc
+=======================================================================
+
+CHANGE APPLIED
+  File: theory_x/world_bridge/selector.py
+  Moved internal.proprioception and internal.interoception from
+  NOISY_INTERNAL_STREAMS to QUALITATIVE_INTERNAL_STREAMS.
+  Also removed them from NOISY_INTERNAL_STREAMS.
+  Left internal.meta_awareness and internal.fountain unchanged.
+
+VERIFICATION STATUS: PASSED
+  Post-restart world_bridge_log entries with interoception: 4/4 (100%)
+  Post-restart world_bridge_log entries with proprioception: 4/4 (100%)
+
+=======================================================================
+3 POST-RESTART FOUNTAIN FIRES
+=======================================================================
+
+[fire_id=2935 | 2026-04-29 14:14:08 SAST | readiness=0.9]
+  "The ticking feels like the rhythm of a distant drumming."
+
+[fire_id=2936 | 2026-04-29 14:16:33 SAST | readiness=0.7]
+  "The tick feels like the heartbeat in my wrist now, steady and comforting."
+
+[fire_id=2937 | 2026-04-29 14:18:55 SAST | readiness=0.7]
+  "The ticking feels like the gentle rustling of autumn leaves in a breeze."
+
+=======================================================================
+SAMPLE WORLD BRIDGE LOG ENTRY — first post-restart (id=827)
+=======================================================================
+
+  id=827 | 2026-04-29 14:13:38 SAST
+  streams_seen: ai_research.lab_blogs, computing.tech_news,
+                internal.interoception, internal.meta_awareness,
+                internal.proprioception, internal.temporal, news.bbc
+
+  SELECTED EVENTS:
+    stream=internal.interoception
+    formatted: [internal] {"total_beliefs": 1060, "locked_beliefs": 317,
+                "tier_counts": {"0": 0, "1": 287, "2": 40, "3": 0, "4": 0,
+                "5": 0, "6": 6, "7": 727, "8": 0}, "last_created_at": 1777464818}
+
+    stream=internal.meta_awareness
+    formatted: [awareness] 31 adapters running
+
+    stream=internal.proprioception (entry id=830, 14:21 SAST)
+    formatted: [internal] {"cpu_percent": 8.2, "mem_percent": 46.6,
+                "mem_available_mb": 12793.1, "load_1m": ...}
+
+    stream=ai_research.lab_blogs
+    formatted: [research] Announcing our partnership with the Republic of Korea —
+                Google DeepMind and Korea partner to accelerate scientific breakthroughs
+
+    stream=computing.tech_news
+    formatted: [computing] School-shooting lawsuits accuse OpenAI of hiding violent ChatGPT users
+
+    stream=news.bbc
+    formatted: [news] 'If it wasn't for us, you'd be speaking French', King and Trump joke at dinner
+
+FULL RAW PAYLOADS (from sense.db, latest):
+  internal.proprioception:
+    {"cpu_percent": 7.0, "mem_percent": 46.4, "mem_available_mb": 12841.9,
+     "load_1m": 0.88, "load_5m": 1.6, "load_15m": 1.72,
+     "thermal": {"nvme": 29.9, "k10temp": 41.8, "jc42": 30.4,
+                 "iwlwifi_1": 30.0, "amdgpu": 32.0}}
+
+  internal.interoception:
+    {"total_beliefs": 1063, "locked_beliefs": 317,
+     "tier_counts": {"0": 0, "1": 287, "2": 40, "3": 0, "4": 0,
+                     "5": 0, "6": 6, "7": 730, "8": 0},
+     "last_created_at": 1777465242}
+
+=======================================================================
+PROMPT INJECTION CONFIRMED — /tmp/nex5_last_prompt.log (fire at 14:21 SAST)
+=======================================================================
+
+The "What's happening in the world right now" block in the fountain prompt
+now includes internal body-state lines alongside external news. From the
+actual prompt log for the most recent fire:
+
+  What's happening in the world right now:
+    - [internal] {"cpu_percent": 8.2, "mem_percent": 46.6, "mem_available_mb": 12793.1, "load_1m"...
+    - [awareness] 31 adapters running
+
+The proprioception payload appears truncated at BODY_MAX_CHARS=150. The
+interoception payload (belief tier counts, locked count, last_created_at)
+is selected by the world bridge and formatted the same way but appeared
+in the id=827 entry; by the 14:21 fire the world bridge had deduped it
+(DEDUP_HISTORY_SIZE=15) and selected proprioception instead.
+
+Both streams are now in QUALITATIVE_INTERNAL_STREAMS and participate in
+normal selection rotation. Neither is marked as noise.
+
+=======================================================================
+NOTES
+=======================================================================
+
+- Readiness was stuck at 0.60 for ~34 minutes post-restart (13:39–14:13)
+  because only 1 branch (systems) was in HIGH_FOCUS after the tree
+  rebuilt from scratch. The tree does not restore from snapshots on restart.
+  By 14:13, emerging_tech (focus=0.90), crypto (focus=0.64) had built up,
+  giving 3 hot branches and readiness=0.90.
+
+- The interoception/proprioception data appears in the WORLD BRIDGE
+  injection block ("What's happening in the world right now"), not in a
+  dedicated self-body block. It is formatted as JSON strings alongside
+  news headlines, indistinct in presentation from external event content.
+  The LLM receives body-state data but it is not labeled or contextualized
+  as "your own body state".
+
+- The three post-restart thoughts remain ticking/hum metaphors, consistent
+  with the dominant return-transformation arc. No immediate shift attributable
+  to interoception/proprioception injection is detectable in these 3 fires.
