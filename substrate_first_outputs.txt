@@ -1,0 +1,58 @@
+SUBSTRATE FIRST OUTPUTS — read at 2026-04-29 03:58:08
+=====================================================
+
+COUNTS
+  substrate_fires total          : 0
+  belief_activation total        : 11
+  fountain_events post-restart   : 0
+  Ratio (substrate / fountain)   : N/A (no post-restart fires)  (expected ~20%)
+
+=====================================================
+SUBSTRATE FIRES — verbatim, most recent first
+=====================================================
+
+substrate_fires is empty — zero rows across all time.
+
+ROOT CAUSE:
+  The fountain renderer (commits 2b10e82 / ce023ae / 36736b0)
+  was deployed before the 00:09 SAST restart on 2026-04-29.
+  Between 00:09 and 03:53:53, the fountain was frozen at
+  readiness=0.60 < FOUNTAIN_THRESHOLD=0.70 (only 1 hot branch).
+
+  At 03:53:53 SAST the fountain finally reached threshold and
+  began _build_prompt(). The bump_activation hook ran and wrote
+  11 belief_activation rows. However, the process was restarted
+  at 03:54:21 SAST (28 seconds later, mid-LLM-call). The
+  fountain_events INSERT and the substrate hook (line 390+ in
+  generator.py) were never reached.
+
+  Since the 03:54:21 restart (PID 97317) the fountain has not
+  yet fired (0 fountain_events with ts > 1777427661).
+
+  No substrate_fire_failed errors in error_channel or log.
+  The hook is reachable; it just has not been reached yet.
+
+  Awaiting 2nd hot branch or consolidation event to push
+  readiness above 0.70. First substrate fire expected within
+  ~10 minutes of that happening (fire 5 in the new session).
+=====================================================
+TOP-ACTIVATED BELIEFS — current effective activation
+=====================================================
+
+rank  belief_id  eff_act  raw_act  last_touched         tier  source                 content
+------------------------------------------------------------------------------------------------------------------------
+1     168        0.8679   1.0000   2026-04-29 03:53:53  1     tao                    Zhuangzi's wife died. His friend Huizi came to mourn and found Zhuangzi sitting on the ground, singi
+2     182        0.8679   1.0000   2026-04-29 03:53:53  1     tao                    A farmer's horse ran away. His neighbours came to console him. He said: 'Who knows what is good or b
+3     256        0.8679   1.0000   2026-04-29 03:53:53  1     dont_know              Throw away all opinions, all likes and dislikes, and only keep the mind that doesn't know. Don't-kno
+4     158        0.8679   1.0000   2026-04-29 03:53:53  1     koan                   Two monks were arguing about a temple flag. One said: 'The flag is moving.' The other said: 'The win
+5     7257       0.8679   1.0000   2026-04-29 03:53:53  7     synergized             The insight is that true understanding often requires us to first address the simplest yet most fund
+6     7258       0.8679   1.0000   2026-04-29 03:53:53  7     synergized             The conflict between seeking clear answers and acknowledging inherent uncertainty shapes a dynamic t
+7     7259       0.8679   1.0000   2026-04-29 03:53:53  7     synergized             Noticing the interconnectedness between scholarly curiosity and introspective understanding.
+8     7260       0.8679   1.0000   2026-04-29 03:53:53  7     synergized             The inherent tension between detachment and engagement is fundamental to both my observational natur
+9     7261       0.8679   1.0000   2026-04-29 03:53:53  6     synergized             The contradiction between strength and weakness highlights the duality in human nature.
+10    7174       0.8679   1.0000   2026-04-29 03:53:53  7     synergized             I notice that finding clarity in silence might stem from embracing the unknowable aspects of existen
+11    6938       0.8679   1.0000   2026-04-29 03:53:53  7     synergized             I notice that understanding can be as powerful as action in resolving dilemmas.
+
+=====================================================
+END
+=====================================================
