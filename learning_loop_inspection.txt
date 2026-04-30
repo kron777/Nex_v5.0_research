@@ -1,0 +1,192 @@
+GRADE_SYNERGY LEARNING LOOP — PHASE 1 INSPECTION
+=================================================
+Date: 2026-04-30
+Inspector: Claude Code
+
+VERDICT UPFRONT
+---------------
+Path B. apply_boost() IS wired and IS called. But BOOST_THRESHOLD = 0.7
+and the grader never produces grades above ~0.50. The condition
+`grade > BOOST_THRESHOLD` is never true. Zero boosts have ever fired.
+belief_boost table has 0 rows despite 237 graded collisions.
+
+Fix: lower BOOST_THRESHOLD from 0.7 to ~0.35 (p75 of observed distribution).
+
+
+1. WHERE COLLISION_GRADER PRODUCES GRADES
+-----------------------------------------
+File: theory_x/diversity/grader.py
+Function: CrossbreedGrader.grade(), lines 48–80
+
+How it works:
+  - Takes child_id, parent_a_id, parent_b_id (the synergized belief + its parents)
+  - Embeds all three beliefs (via theory_x/diversity/embeddings.py)
+  - Computes three components:
+      input_dist  = distance(embed_a, embed_b)        — how different the parents are
+      output_dist = min(dist(child,a), dist(child,b)) — how novel the child is
+      rarity      = 1/(1 + n_prior_same_branch_crosses / 5.0) — cross-branch novelty
+  - Weighted sum: grade = 0.40*input_dist + 0.35*output_dist + 0.25*rarity
+  - Writes row to collision_grades table (belief_id, parent_a_id, parent_b_id,
+    input_distance, output_distance, rarity, grade, grader_version, graded_at)
+  - Returns grade as float
+
+Called from TWO places:
+  A) synergizer.py:104 — inline after synergized belief is written
+     (active code path, responsible for all 237 rows in collision_grades)
+  B) loop.py:71 — DiversityLoop.grade_synergy() method
+     NOTE: grade_synergy() is NEVER CALLED from anywhere outside the class.
+     It is a dead method. The synergizer uses its own inline path (A), not
+     the loop path. This is not the bug but worth noting.
+
+What the synergizer does with the grade right now (synergizer.py:98-108):
+  record_synergy(...)                    # writes lineage
+  grader = CrossbreedGrader(...)
+  grade = grader.grade(...)              # grade written to collision_grades
+  if grade is not None and grade > BOOST_THRESHOLD:   # <- NEVER TRUE
+      apply_boost(self._writer, result_id, grade)     # <- NEVER RUNS
+  # No logging when apply_boost is skipped — silent non-event
+
+
+2. apply_boost() FUNCTION
+--------------------------
+File: theory_x/diversity/boost.py, lines 14–25
+
+Signature: apply_boost(writer, belief_id: int, grade: float) -> None
+
+What it writes:
+  - Table: belief_boost
+  - Schema: (belief_id INTEGER PRIMARY KEY, boost_value REAL,
+             boosted_at REAL, source_grade REAL, decay_rate REAL)
+  - boost_value = 1.0 + grade  (e.g. grade=0.35 → boost_value=1.35)
+  - ON CONFLICT(belief_id) DO UPDATE — upserts, so re-grading updates in place
+  - Logs via Python logging (NOT errors.record):
+      log.info("Boost applied: belief_id=%d boost=%.2f (grade=%.3f)", ...)
+
+Note: boost.py uses logging.getLogger(), not the errors_channel pattern
+used by synergizer.py (self._errors.record). The boost log line exists
+but goes to stdout/file logger, not the error_channel DB visible in the GUI.
+The brief asks for error_channel logging — this will need an errors.record()
+call added at the synergizer call site when we patch.
+
+
+3. BOOST_THRESHOLD CONSTANT
+----------------------------
+File: theory_x/diversity/boost.py, line 9
+
+Current value: BOOST_THRESHOLD = 0.7
+
+Imported by both synergizer.py:100 and loop.py:68.
+No other references in the codebase.
+
+
+4. REAL-WORLD GRADE DISTRIBUTION (collision_grades table, n=237)
+-----------------------------------------------------------------
+Table: data/beliefs.db :: collision_grades
+
+  count:    237
+  min:      0.204
+  max:      0.496
+  mean:     0.310
+
+  p50:      0.301
+  p75:      0.355
+  p90:      0.392
+  p95:      0.405
+
+Bucket breakdown:
+  grade >= 0.35:  63 rows  (27% of collisions)
+  grade >= 0.38:  32 rows  (14%)
+  grade >= 0.40:  16 rows   (7%)
+  grade >= 0.45:   2 rows   (1%)
+  grade >= 0.70:   0 rows   (0%) ← BOOST_THRESHOLD is here; nothing ever clears it
+
+Top-10 graded beliefs (by grade desc):
+  belief_id=2857  grade=0.4961
+  belief_id=2934  grade=0.4859
+  belief_id=3088  grade=0.4342
+  belief_id=6341  grade=0.4175
+  belief_id=7175  grade=0.4129
+  belief_id=5547  grade=0.4116
+  belief_id=6554  grade=0.4107
+  belief_id=6472  grade=0.4104
+  belief_id=4778  grade=0.4090
+  belief_id=7441  grade=0.4085
+
+RECOMMENDATION: new threshold = 0.35 (p75 level, boosts top ~25% of
+synergized beliefs — meaningful signal without flooding the boost table).
+
+
+5. RETRIEVAL QUERY — HOW BOOST FLOWS INTO RETRIEVAL
+-----------------------------------------------------
+File: theory_x/stage6_fountain/generator.py
+Function: FountainGenerator._retrieve_context_beliefs(), lines 544–627
+
+Own-content retrieval query (lines 561–568):
+
+  SELECT b.id, b.content, b.source, b.tier, b.confidence, b.created_at,
+         COALESCE(bb.boost_value, 1.0) AS boost_value
+  FROM beliefs b LEFT JOIN belief_boost bb ON b.id = bb.belief_id
+  WHERE b.source IN (<own_content_sources>)
+  ORDER BY (b.created_at * COALESCE(bb.boost_value, 1.0)) DESC LIMIT ?
+
+Boost mechanics:
+  - belief_boost is LEFT JOINed on belief_id
+  - COALESCE(bb.boost_value, 1.0) defaults to 1.0 for un-boosted beliefs
+  - ORDER BY multiplies created_at × boost_value
+  - A boost_value of 1.35 (grade=0.35) makes a belief rank as if it is 35%
+    newer than it actually is — pushing it up in the retrieval window
+  - boost_value is also recorded in retrieval_manifest and logged to
+    fountain_retrieval_log(boost_value) for each fire
+
+Seed retrieval (lines 571–581): does NOT use belief_boost at all.
+  Uses ORDER BY RANDOM() — seeds are not eligible for boost.
+
+Boost flows correctly once applied. The retrieval query is correct.
+The issue is solely that no boosts have ever been applied.
+
+
+6. IS apply_boost() CALLED ANYWHERE?
+--------------------------------------
+Yes — TWO call sites in non-test code:
+
+  theory_x/stage3_world_model/synergizer.py:106
+    → active path, runs after every successful synergized belief
+    → gated by: grade > BOOST_THRESHOLD (0.7)
+    → result: NEVER FIRES (no grade ever exceeds 0.7)
+
+  theory_x/diversity/loop.py:73  — DiversityLoop.grade_synergy()
+    → this method is NEVER CALLED from outside the class
+    → grep confirms: no call site for grade_synergy() outside loop.py itself
+    → dead method; not the active path
+
+Test call at tests/test_diversity.py:277 uses grade=0.85 (above any real grade).
+
+
+SUMMARY OF GAP
+--------------
+The loop is wired at the code level. The grader runs, grades are stored.
+But BOOST_THRESHOLD = 0.7 sits above the empirical ceiling of the grader
+(max ~0.50). The gate is permanently closed. belief_boost has 0 rows.
+Retrieval boost is fully implemented and correct — it just never activates.
+
+This is a miscalibration, not a missing wire.
+
+PROPOSED PATCH (Path B)
+------------------------
+Single change: theory_x/diversity/boost.py, line 9
+  BEFORE: BOOST_THRESHOLD = 0.7
+  AFTER:  BOOST_THRESHOLD = 0.35
+
+Additional change: synergizer.py:106, add errors.record() after apply_boost():
+  After: apply_boost(self._writer, result_id, grade)
+  Add:   self._errors.record(
+             f"boost_applied: belief_id={result_id} grade={grade:.3f} "
+             f"boost_value={1.0 + grade:.2f}",
+             source=_LOG_SOURCE, level="INFO",
+         )
+  (Makes boost events visible in the GUI error_channel, as requested.
+   boost.py already has a Python log.info() line but that only goes to
+   stdout/file, not the error_channel DB.)
+
+Total change: ~6 lines across 2 files. Both already existing functions.
+No new tables, no schema changes, no new imports.
