@@ -1,0 +1,185 @@
+METACOGNITIVE CALIBRATION — RETROSPECTIVE TYPE-2 PROBE (SPEC)
+===============================================================
+Date: 2026-10-03
+Inspector: Claude Code
+Status: SPEC ONLY. No code in nex5, no flags, no arming. NEX in STANDBY throughout.
+Scope guard: load-bearing set (ingestion dedup, writer one-pen, scheduler,
+negative-feedback trio, retrieval_log) and the warrant recorders are untouched
+by everything below, including the eventual first build step.
+
+VERDICT UPFRONT
+---------------
+Pursue gap #1 (metacognitive calibration) first. It is the only one of the three
+survey gaps that can be decided from data already on disk, with no LLM in the
+loop (so no 3B ceiling), and it tests a capacity that NEX's own instruments
+currently CLAIM without evidence (hot_observer's meta-beliefs; self_prediction's
+"beats the coin").
+
+Gaps #2 (broadcasting workspace) and #3 (homeostasis grounding valence) are
+deferred because the two zero-build checks (section 1) show that the signals
+they would build on are degenerate: internal "surprise" flags are 97.8% empty
+windows, and valence sits near-constant at +0.73, making VALENCE_DRIVE a fixed
+novelty bias rather than mood steering. Building broadcast or regulation on top of
+those would amplify artifacts. They come back only after their inputs are fixed.
+
+Honest framing: a PASS here means "an internal state she has before a fire carries
+information about how that fire will go, beyond what her recent outputs already
+show". That is functional self-monitoring. It is not evidence of awareness or
+experience, and the write-up of any result must say so.
+
+
+1. ZERO-BUILD CHECK RESULTS (read-only, 2026-10-03)
+---------------------------------------------------
+1a. Does mood shift VALENCE_DRIVE picks?
+    Mechanism: reach = clamp(1 + 0.5*valence*arousal, 0.6, 1.4); off if
+    valence <= -0.7. Scales only the novel-token term of the curiosity pick
+    (plus 0..0.15 random jitter). Armed 2026-09-13 (c04a7f7).
+
+    Mood since arming (3,631 affect_history rows):
+      valence p5/p50/p95 = +0.295 / +0.730 / +0.816
+      arousal p5/p50/p95 =  0.704 /  0.909 /  1.000
+      reach   p5/p50/p95 =  1.126 /  1.318 /  1.392   anti-rut floor hit 0.0%
+
+    Picks (fountain_events.focal_item vs surprise tokens the pick would have seen,
+    reconstructed from surprise_events, last 20 with score>0.3 in prior 6h):
+      LEVEL  pre-arm Sep10-13 (n=1,249) vs armed Sep13-18 (n=1,790):
+             picks overlapping novel tokens 76.8% -> 93.5%, +16.7pp CI[+14.1,+19.3]
+             mean overlap 4.90 -> 5.49, +0.59 CI[+0.32,+0.86]; token pool 141 vs 150
+      DOSE   within armed period (n=4,805), low vs high reach tercile:
+             86.3% vs 91.2%, +4.9pp CI[+2.7,+7.1]; Spearman(reach, overlap) = -0.002
+      PLACEBO same dose test pre-arm, flag OFF: +26.2pp CI[+20.2,+32.2],
+             Spearman +0.399 — a STRONGER mood/novelty association with the
+             mechanism switched off.
+
+    Reading: the flag shifts picks as a near-constant ~1.3x novelty boost (the
+    level shift is real but confounded: STAKES_DEEP armed Sep 12, 3-day pre-window,
+    arm times approximated by keepalive commit times). Mood VARIATION does not
+    detectably steer picks; the mood/novelty correlation exists without the
+    mechanism (surprise feeds both arousal and the token pool). Valence is not a
+    live control signal today.
+
+1b. Does the internal prediction stream beat "same as last window"?
+    Metric reproduced exactly (median |diff| vs stored score 0.0000; 95.9% within
+    0.01). Note distance = 1 - (cos+1)/2, so score > 0.5 needs NEGATIVE cosine to
+    every belief in the window.
+
+    Since Sep 1: 4,808 internal windows; 14.0% empty (score = 1.0).
+      Surprise flag (>0.5) fired on 14.4%; only 15 flagged windows were non-empty
+      -> the "surprise" flag is an empty-window flag (97.8%).
+    Non-empty paired windows (n=3,497; 49 dropped for eroded beliefs, 587 for an
+    empty previous window):
+      model 0.2836 vs B1 same-as-last-window centroid 0.3324
+        baseline-minus-model +0.0488 CI[+0.0457,+0.0519]; model wins 71.7%
+      model 0.2836 vs B2 last-10-beliefs centroid (model minus problems+drive) 0.2775
+        baseline-minus-model -0.0062 CI[-0.0072,-0.0050]; model wins 36.0%
+
+    Reading: it beats naive persistence only by averaging more beliefs. The parts
+    that make it a PREDICTION (open problems 0.3, drive 0.1) make it worse. The
+    May->Sep "surprise decline" (0.52 -> 0.38) tracks the empty-window share
+    (24.6% all-time -> 14.0% since Sep), not learning.
+
+1c. Incidental findings (reported, not fixed — each would be its own one-variable
+    change, operator's call):
+    - global_workspace._surprise_candidate takes the latest score>0.3 event; an
+      empty window (score 1.0, actual_content NULL) gives MAXIMUM salience and the
+      line "something surprised you — '...'" — the workspace's loudest frame is
+      often "nothing happened".
+    - self_prediction (NEX5_SELF_PRED, live) predicts "will I fire" where the base
+      rate is 99%: self 95.1% vs coin 50% looks like self-knowledge, but always-
+      "fire" scores 99.0%. Its control is the wrong one; readiness, its predictor,
+      is saturated (fires p50 = p95 = 1.000).
+
+
+2. THE QUESTION (operational)
+-----------------------------
+Before fire t, does NEX's metacognitive state predict whether fire t will be a
+template fire, better than (a) the base rate and (b) her own recent output record?
+
+"Metacognitive state" = the input her Metacognition module (stage9) already reads:
+GrooveSpotter's groove_alerts. This is the system's own representation of "I am in
+a groove" — the closest thing she has to a confidence signal about her own
+processing. (Readiness, the obvious alternative, is saturated and cannot carry
+information; it is reported for the record only.)
+
+
+3. DATA (all read-only, mode=ro; nothing new is logged for this step)
+---------------------------------------------------------------------
+Unit:      one row of dynamic.db fountain_events with non-empty thought.
+Windows:   PRIMARY      2026-09-01 .. 2026-10-03  (~11.7k fires, ~1.2k template)
+           REPLICATION  2026-06-01 .. 2026-08-31  (held out; read only after the
+                        primary result is written down)
+Outcome:   Y_t = theory_x.stage_tom.hot_observer._is_template(thought_t),
+           regex frozen at nex5 HEAD e40367e (record the regex sha256 in results).
+           Base rate: 6.0% all-time, 10.3% last 30 days.
+Primary predictor (ONE, pre-registered):
+           G_t = severity-weighted count of beliefs.db groove_alerts with
+                 detected_at in [ts_t - 3600, ts_t)   (strictly before the fire)
+Persistence features (the baseline G must beat):
+           P_t = { Y_{t-1};  template rate of the previous 10 fires;
+                   template rate of all fires in [ts_t - 3600, ts_t) }
+           (the last feature uses the SAME 60-min window as G, so G cannot win by
+           being a lagged copy of the label — it must add beyond same-window output
+           history)
+Exploratory (reported, no pass/fail weight): readiness_t; valence/arousal (last
+           affect_history row before t); last internal surprise score + empty-window
+           flag; last drives_competing_log weights.
+
+
+4. METRIC AND PASS BAR (pre-registered — fixed before the relationship is looked at)
+----------------------------------------------------------------------------------
+Model A (baseline):   logistic(Y ~ P_t)
+Model B (candidate):  logistic(Y ~ P_t + G_t)
+Evaluation:  leave-one-day-out cross-validated probabilities (blocks by calendar
+             day, so no fit sees its own day).
+Metric:      dAUC = AUC_B - AUC_A   (type-2 discrimination added by the
+             metacognitive signal); plus Brier skill of B over A.
+CI:          day-block bootstrap, 2,000 resamples of days.
+
+PASS:  primary window dAUC >= +0.02 AND 95% CI lower bound > 0 AND Brier skill > 0,
+       AND replication window dAUC > 0 with CI lower bound > 0.
+FAIL:  CI includes 0, or dAUC < +0.02, or replication flips sign.
+       -> do NOT build. Record the honest null: her groove monitor carries no
+       forward information beyond her recent outputs, so hot_observer's
+       "I notice..." meta-beliefs are commentary, not calibrated self-knowledge.
+Also reported (no weight): AUC of G alone, AUC of P alone, AUC of readiness alone
+(expected ~0.5), calibration curve of B, and per-era dAUC across flag-arm dates.
+
+
+5. THREATS AND HOW THE DESIGN HANDLES THEM
+------------------------------------------
+- Label circularity: GrooveSpotter's template_repetition alerts and the HOT regex
+  look at overlapping phrasing. Handled by putting same-window output history in
+  the baseline; G must add beyond it.
+- Regime shifts (flags armed through Sep): day-blocked CV, per-era dAUC reported.
+- Forking paths: one primary predictor, one window length (60 min), one label;
+  everything else is exploratory and cannot rescue a FAIL.
+- Anachronistic label: the regex grew from observed templates, so older data is
+  scored by a newer regex. Acceptable for a retrospective test; it is the reason
+  the decision rests on the primary (recent) window.
+- Lookahead: only alerts with detected_at strictly < ts_t; P_t uses only prior
+  fires. The prospective step below removes lookahead risk entirely.
+- No LLM anywhere: label is a regex, predictor is substrate state. The 3B voice
+  ceiling does not apply to this measurement.
+
+
+6. WHAT GETS MEASURED NOW vs LATER
+----------------------------------
+NOW (next turn, on approval): one read-only analysis script outside the
+load-bearing path (proposed tools/metacog_type2.py, opens every DB with mode=ro,
+writes only a results .txt in this log). No nex5 runtime code, no flags, no
+schema change, NEX stays in STANDBY.
+
+LATER, ONLY ON PASS — first build step, the ONE variable:
+  Add a dark, log-only forecast recorder (NEX5_METACOG_FORECAST, default OFF):
+  at each fire it writes p(template) from Model B's frozen coefficients BEFORE the
+  thought is generated, and resolves it after. Nothing reads the forecast; fire
+  behaviour is unchanged. The single variable changed is "a forecast row exists",
+  which turns the retrospective result into a PROSPECTIVE test (the prediction is
+  committed before the outcome exists). Prospective pass bar = same dAUC rule vs
+  same baselines over >= 14 days of live fires.
+  Using the forecast for CONTROL (e.g. pre-emptive focus rotation) is a separate,
+  later Phase-B decision and out of scope here.
+
+Not part of this spec (flagged in 1c, each its own one-variable change):
+  re-baselining self_prediction against the majority class; excluding empty
+  windows from the workspace's surprise candidate.
