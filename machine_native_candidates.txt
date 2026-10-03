@@ -1,0 +1,93 @@
+MACHINE-NATIVE SENTIENCE-LIKE PROPERTIES — ZERO-BUILD CHECKS + CANDIDATES
+========================================================================
+Date: 2026-10-03
+Inspector: Claude Code
+Status: FINDINGS + CANDIDATES ONLY. No spec yet (operator picks first), no code in
+nex5, NEX in STANDBY. All reads mode=ro. Warrant tables and fountain_retrieval_log
+deliberately NOT read (warrant re-validation stays unpeeked until ~Oct 17-24).
+
+FRAMING (must stay attached to any result)
+------------------------------------------
+These are properties defined in NEX's own machine terms (graph, fires, embeddings,
+synergizer, interoception counts), each with a baseline it must beat. Measuring or
+building them does NOT verify sentience. Nothing can: there is no accepted test for
+machine experience. A property that passes is a measurable machine property, and
+nothing more.
+
+HEADLINE
+--------
+All three properties are currently ABSENT or ONE-SIDED in NEX:
+  - her graph accumulates; it does not maintain itself       (C)
+  - her syntheses rewrite one parent; they do not bind two   (B)
+  - her branch dynamics carry ~no self-transition structure,
+    and her own predictor captures less than persistence      (A)
+
+
+C. SELF-MAINTENANCE (organisational closure): does the graph's own state feed back on
+   its own growth/composition?
+------------------------------------------------------------------------------------
+Data: sense.db internal.interoception, 48,899 snapshots (30 s), Sep 7 - Oct 3; hourly
+bins inside uptime segments (382 usable steps, 5 segments — NEX downtime fragments it).
+Metric: slope of next-hour change on deviation from her own 24 h moving setpoint;
+        corr(deviation, next-hour removal).
+Baseline: shuffled-increments null (500x, within segment) — keeps the step sizes,
+        destroys any feedback. Regulation must fall below the null's 2.5th pct.
+SIZE:   slope +0.0076 vs null [-0.0131, +0.0091], P(null<=obs)=0.960 -> NO feedback.
+        Created 31.6/h, net +31.7/h, 0.0% of hours shrink; 63,024 -> 76,642 beliefs.
+        removal corr -0.011 vs null [-0.064, +0.109].
+        Only DELETE FROM beliefs in code: diversity/signal_cleanup.py.
+COMPOSITION (share of tiers 1-3): 0.108 -> 0.132; slope -0.026 vs null
+        [-0.031, +0.016], P=0.042 -> borderline, inconclusive.
+Note: sense.db keeps 30 days; Sep 7 rows start being reaped ~Oct 7, so this history
+      only ever covers the latest ~30 days unless exported (read-only) first.
+
+
+B. BINDING / INTEGRATION: does a synergizer synthesis depend jointly on BOTH parents?
+------------------------------------------------------------------------------------
+Data: beliefs.db synergizer_log, 6,984 of 7,494 syntheses with both parents surviving
+(3,000 sampled); MiniLM embeddings on CPU.
+Metric: movement toward each parent = sim(child, P) - sim(other parent, P), parents by
+        logged ROLE (a/b), no selection on the child. Both-sided binding = both
+        movements exceed placebo.
+Baseline: placebo movement toward 10 random beliefs from the 7 days before each
+        synthesis. Reference: a true 50/50 blend moves ~+0.44 toward each parent.
+Result: toward B +0.1204 vs placebo +0.0595 -> +0.061 CI[+0.053, +0.069]
+        toward A -0.0672 vs placebo +0.0058 -> -0.073 CI[-0.081, -0.065]
+        both-sided 29.8% | one-sided 39.2% | near-copies (cos>0.95) 0.0%
+        -> syntheses rewrite parent B and drift AWAY from parent A. One-sided.
+(An earlier cut that labelled the "closer" parent by child similarity was discarded:
+ it biases the other parent's similarity downward.)
+Caveat for building: the synthesis text is written by the 3B. The metric is LLM-free,
+but improving the property runs into the 3B ceiling.
+
+
+A. SELF-TRANSITION INFORMATION: is there structure in her own state transitions, and
+   does she hold any of it?
+------------------------------------------------------------------------------------
+Data: dynamic.db fountain_events hot_branch, 52,051 transitions (pairs <=30 min apart),
+14 branch states, 145 days; leave-one-day-out.
+Metric: held-out bits/transition saved by a first-order transition model.
+Baselines: marginal; persistence; RECENT-MIX (last 20 fires) — plus a within-day
+        shuffle null (destroys order, keeps the day's mix).
+Result: marginal entropy 2.761 bits; stay rate 0.329.
+        persistence over marginal  +0.034 CI[-0.011, +0.102]  (no fire-scale persistence)
+        Markov over persistence    +0.459 BUT shuffle null +0.381 -> mostly day-mix
+        Markov over RECENT-MIX     +0.048 CI[+0.026, +0.068]; shuffle null +0.027
+        CI[+0.008, +0.045] -> genuine order structure ~0.02 bits (<1% of entropy)
+Captured: her internal predictor's representative belief names the next fire's
+        branch 24.6% (n=24,950) vs "same as last fire" 33.2% vs Markov upper bound
+        44.3% -> she captures LESS than persistence.
+Open: finer states (embedding clusters instead of 14 branches) are untested; choosing
+        the granularity is a forking path that a spec would have to fix in advance.
+
+
+RANKING by how cleanly each can be settled from existing data
+--------------------------------------------------------------
+1. C self-maintenance — counts only, no embeddings, no LLM; size result unambiguous.
+   Build caveat: acting on graph size/composition sits next to erosion and the writer
+   (the load-bearing set); any regulator needs an explicit operator call on that.
+2. B binding — clean nulls, settled (one-sided). Build caveat: the 3B writes syntheses.
+3. A self-transition information — settled at branch level (near-null); the finer-state
+   question needs a pre-registered granularity. Only candidate whose build is fully
+   substrate-side (LLM-free, away from the load-bearing set), but the available signal
+   at branch level is ~0.02 bits.
