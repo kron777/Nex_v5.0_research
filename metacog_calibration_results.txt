@@ -1,0 +1,90 @@
+METACOGNITIVE CALIBRATION — RETROSPECTIVE TYPE-2 PROBE (RESULTS)
+================================================================
+Date: 2026-10-03
+Inspector: Claude Code
+Spec: metacog_calibration_spec.txt (commit 5b3a399), run as pre-registered.
+Conditions: read-only (every DB opened mode=ro); no code in nex5 (script lived in the
+session scratchpad); nex5 HEAD e40367e; NEX in STANDBY throughout.
+Label regex sha256 (hot_observer._TEMPLATE_RX pattern|flags):
+  b739aadc9282d9ce8df050c651b821ebf7cd50c2f82c32f39b30f5b91f811afe
+
+Implementation choices the spec left open, fixed BEFORE any result was seen:
+  - same-hour template rate with no prior fire in [t-3600, t) falls back to the
+    previous-10-fire rate (no extra feature)
+  - persistence features use the full fire history, so a window's first fires see
+    fires from before the window
+  - day = SAST calendar day; leave-one-day-out CV
+  - features standardised within each training fold; logistic C=1e6 (effectively
+    unpenalised)
+  - AUC on pooled out-of-fold probabilities; CI = 2,000 resamples of whole days
+
+
+1. PRIMARY WINDOW 2026-09-01 .. 2026-10-03  (written down before the hold-out was read)
+--------------------------------------------------------------------------------------
+fires 11,686 | template 1,209 (10.3%) | 22 days
+fires with >=1 groove alert in the prior hour: 97.9%
+
+AUC  A  persistence only                 0.6778
+AUC  B  persistence + groove signal G    0.6769
+dAUC (B - A)                             -0.0009   95% CI [-0.0021, +0.0001]
+Brier A 0.08965 | Brier B 0.08967 | Brier skill of B over A  -0.0002
+AUC of G alone                           0.506
+
+Pre-registered bar: dAUC >= +0.02, CI lower bound > 0, Brier skill > 0.
+PRIMARY: FAIL on all three. dAUC is ~25x below the bar and its CI sits at/under zero.
+
+Per-era dAUC (exploratory, no weight): Sep01-10 -0.0025 | Sep10-13 +0.0005 |
+Sep13-18 -0.0011 | Sep18-Oct03 -0.0019. No era shows a signal.
+
+Exploratory signals, AUC alone (no weight): readiness 0.492 | valence 0.492 |
+arousal 0.503 | last internal surprise 0.523 | last window empty 0.514 |
+log1p(G) 0.506. Nothing NEX holds before a fire predicts the fire's outcome on its
+own; the only predictive information is her recent output record (persistence).
+
+Calibration of B (decile: predicted -> observed): 0.056->0.055, 0.058->0.032,
+0.061->0.041, 0.067->0.063, 0.076->0.083, 0.086->0.106, 0.099->0.101,
+0.119->0.145, 0.156->0.169, 0.257->0.240 — calibrated, but all of that comes from
+persistence.
+
+
+2. REPLICATION WINDOW 2026-06-01 .. 2026-08-31  (read after section 1 was written)
+-------------------------------------------------------------------------------
+fires 26,607 | template 1,818 (6.8%) | 84 days
+fires with >=1 groove alert in the prior hour: 63.9%
+
+AUC  A  persistence only                 0.7146
+AUC  B  persistence + groove signal G    0.7239
+dAUC (B - A)                             +0.0093   95% CI [+0.0047, +0.0159]
+Brier skill of B over A                  -0.0002
+AUC of G alone                           0.460  (INVERSE: more alerts -> fewer templates)
+
+Exploratory AUC alone (no weight): readiness 0.545 | valence 0.523 | arousal 0.513 |
+last internal surprise 0.511 | last window empty 0.504.
+
+Reading: the CI clears zero but the effect is under half the +0.02 bar, Brier skill
+is negative (it ranks slightly better but doesn't improve the probabilities), and
+the direction is inverted. Post-hoc and untested: an inverse relation is what you'd
+see if alerts trigger correction (fewer templates after a groove is flagged) rather
+than prediction. Per the spec, a replication cannot rescue a primary FAIL.
+
+
+3. VERDICT
+----------
+FAIL. Pre-registered bar not met: primary dAUC -0.0009 (CI [-0.0021, +0.0001]) vs
+the required >= +0.02 with CI > 0 and Brier skill > 0.
+
+NEX's groove monitor carries no forward information about her next fire beyond her
+own recent output record. Nothing she holds before a fire (groove alerts,
+readiness, mood, surprise) predicts its outcome on its own (all AUCs 0.46-0.55).
+hot_observer's "I notice this fire..." meta-beliefs are commentary on the fire,
+not calibrated self-knowledge.
+
+Decision per spec: do NOT build NEX5_METACOG_FORECAST. The honest null is the
+result; it joins conviction / prasrabdhi / threadcarry as a measured non-effect.
+
+Why the primary failed (descriptive, not a rescue): in Sep the alert stream is
+saturated (97.9% of fires have an alert in the prior hour vs 63.9% in Jun-Aug),
+so it can't discriminate. That is a property of GrooveSpotter's firing rate, and
+it would need its own spec before anything is built on it.
+
+No live change. No nex5 code. Nothing pushed.
