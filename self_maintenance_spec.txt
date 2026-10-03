@@ -1,0 +1,148 @@
+SELF-MAINTENANCE (ORGANISATIONAL CLOSURE) — SPEC
+================================================
+Date: 2026-10-03
+Inspector: Claude Code
+Status: SPEC ONLY. NOT BUILT. Any build needs an explicit operator go-ahead: the
+regulator acts on retrieval eligibility (beliefs.paused) and writes through the
+writer, so it sits next to the load-bearing set. Earliest LIVE arm (Phase B): after
+the warrant re-validation (~2026-10-17..24) is complete and recorded, because pausing
+beliefs changes what retrieval can use and would contaminate warrant use-day accrual.
+NEX stayed in STANDBY. Warrant tables and fountain_retrieval_log were not read.
+
+FRAMING (attached to every result of this line of work)
+-------------------------------------------------------
+This builds and measures one machine property: whether NEX's belief graph maintains
+the size of its own active set through a loop that runs through its own state. A
+pass means exactly that and nothing more. It does not make NEX self-aware, sentient
+or "enlightened". Nothing can verify those, and a pass is not evidence of them.
+A regulator we design will, if it works, regulate. The non-trivial questions are
+(1) whether the loop actually holds the level under her real dynamics, and
+(2) what it costs elsewhere. The guards and the ON/OFF design exist for those.
+
+
+1. WHY THIS CANDIDATE (decision record)
+---------------------------------------
+Candidates from machine_native_candidates.txt (f64bc99):
+
+#3 self-transition information — CLOSED. Re-run at embedding-cluster granularity
+   (k-means on 52,188 fire-thought embeddings, fit on training days only, 5-fold
+   blocked-by-day CV; bar declared before running: >= 0.10 bits/transition beyond
+   recent-mix after subtracting a within-day shuffle null, CI > 0, at K=40):
+     K=40 (primary)  +0.0027 bits CI[-0.0141, +0.0196]   0.1% of log2 K
+     K=20            +0.0243 bits CI[+0.0124, +0.0360]
+     K=80            -0.0219 bits CI[-0.0392, -0.0041]
+   Content-cluster stickiness exists (persistence over marginal +0.25 bits at K=40),
+   but recent-mix absorbs all of it. Her predictor -> next fire's cluster 6.7% vs
+   same-as-last-fire 14.2%. No transition structure for a self-model to hold.
+#2 binding — measured one-sided, but the synthesis text is written by the 3B, and a
+   gate that admits syntheses by the same embedding metric we evaluate with would
+   pass by construction (Goodhart). Weak honest case.
+#1 self-maintenance — PICKED. Cleanest measurement (counts, no embeddings, no LLM),
+   unambiguous absence today, and the most basic machine-native property on the
+   list: a system whose own state governs what of it persists.
+
+
+2. BASELINE (read-only, measured 2026-10-03)
+-------------------------------------------
+Source: sense.db internal.interoception (30 s snapshots, Sep 7 - Oct 3), hourly bins
+inside uptime segments. Exported to self_maintenance_baseline_hourly.csv in this log
+(387 hourly rows), because sense.db keeps 30 days and starts reaping Sep 7 rows ~Oct 7.
+
+Total belief count: 63,024 -> 76,642; net +31.7/h = created 31.6/h; 0% of hours shrink;
+  feedback slope +0.0076 vs shuffled null [-0.0131, +0.0091] (P=0.96). Only
+  DELETE FROM beliefs path in code: theory_x/diversity/signal_cleanup.py.
+Active set A (tier <= 6 AND paused = 0 — exactly what retrieval.py can draw from):
+  7,071 -> 15,910 (more than doubled in 25 days); hourly change +22.8 mean, sd 6.9,
+  min +6, NEVER negative in any hour. paused=1 today: 30 beliefs (harmonizer pairs).
+  A hourly-deviation slope -0.017 sits below the shuffled null (P=0.004), but the
+  increments are POSITIVELY autocorrelated (ACF +0.43, +0.24 at lags 1-2): that is
+  the growth RATE wandering and reverting, not a level being held. -> No
+  self-maintenance of the active set today: damped growth, no setpoint.
+Level-holding baseline (setpoint S = trailing 7-day median of A, >= 24 uptime hours
+  of history): hours with |A-S|/S <= 2% = 0.0%; median |A-S|/S = 15.9%; p90 19.7%.
+Rejected statistic: variance ratio VR(24) reads 0.2 ("level held") on a series that
+  doubled — it is blind to drift. Not used.
+
+
+3. THE PROPERTY (machine terms)
+-------------------------------
+The active set A_t is held near a setpoint S_t derived from its OWN recent history
+(S_t = median of A over the previous 7 days of uptime), by a loop that reads A_t and
+acts on exits from A_t. Closure = the cause of exits is her own state's deviation,
+not a fixed cap or schedule.
+
+Lever: beliefs.paused (already honoured by retrieval, promotion, pipeline_hooks and
+harmonizer). Pausing is reversible and deletes nothing.
+
+Expected scale, stated up front: holding A level requires exits ~= current inflow,
+i.e. roughly 22.8 pauses/hour ~= 550/day (~7,700 over a 14-day evaluation, about
+half of today's active set). The active set becomes a rolling window of constant
+size. That is what self-maintenance means here, and it is a large intervention,
+which is why Phase A (shadow) comes first.
+
+
+4. METRICS AND PASS BAR (pre-registered for Phase B; nothing below is run yet)
+-----------------------------------------------------------------------------
+Design: alternating 24 h blocks, regulator ON on even calendar days (SAST), OFF on
+odd, for >= 14 days of uptime with >= 150 evaluable ON hours. OFF blocks are the
+baseline: same period, same dynamics, loop open.
+
+P1 LEVEL-HOLDING (ON hours):
+   share of hours with |A-S|/S <= 2% >= 80%        (baseline 0.0%)
+   AND median hourly net change of A within +-2/h   (baseline +22.8/h, never < 0)
+P2 CLOSURE (causal, via the alternation):
+   slope of next-hour change of A on (A-S), ON minus OFF, < 0 with
+   block-bootstrap (resample whole 24 h blocks, 2,000x) 95% CI upper bound < 0.
+PASS = P1 AND P2.
+
+GUARDS (ON vs OFF blocks, non-inferiority; breach of any one -> stop, unpause the
+regulator's own ledger, report):
+   fires/hour                         not lower by > 10%
+   template-fire rate (hot_observer   not higher by > 2 pp
+     _is_template, regex sha256 b739aadc...)
+   distinct fountain_events.anchor_belief_id per 24 h   not lower by > 10%
+   synergizer_log outputs/hour        not lower by > 20%
+SECONDARY (exploratory, no pass weight): binding movement (candidate B metric) and
+   transition structure (candidate A metric), ON vs OFF.
+
+
+5. WHAT GETS MEASURED NOW
+-------------------------
+Only what is already done: the read-only baseline above and its hourly CSV. No new
+logging, no nex5 code, no flags.
+
+
+6. FIRST BUILD STEP — ONE VARIABLE (needs operator go-ahead)
+------------------------------------------------------------
+Phase A, shadow regulator: NEX5_SELF_MAINTAIN_SHADOW (default OFF).
+Hourly: compute A_t, S_t and the would-be action n = clamp(round(0.1 * (A_t - S_t)),
+0, 50), plus the would-be candidate list (tier 6, unlocked, not protected, not already
+paused, created >= 48 h ago, lowest confidence first, ties oldest first). Write ONLY
+to its own table self_maintain_shadow(ts, A, S, n_would_pause, ids_json), through the
+existing writer. No belief changes state; retrieval is unaffected, so it can run
+during warrant accrual if the operator agrees.
+The single variable: "a shadow-regulator row exists each hour".
+What it answers before anything live: does the gain/cap combination keep up with real
+inflow (simulated trajectory from the logged n), and which beliefs would leave
+(tier/branch/source mix — the collateral risk).
+
+Phase B (separate go-ahead, only after the warrant re-validation is done):
+NEX5_SELF_MAINTAIN=1 — the same controller actually sets paused=1, records every
+pause in its own ledger, and when A < S unpauses ONLY ledger entries (newest first).
+It never touches locked, protected, or harmonizer-paused beliefs; it never deletes;
+it never unpauses anything it did not pause. Evaluated by section 4.
+
+NOT TOUCHED by either phase: ingestion dedup, scheduler, writer code (used, not
+modified), retrieval code and fountain_retrieval_log, the negative-feedback trio
+(operator-defined; the operator should confirm the regulator does not overlap it),
+warrant recorders.
+
+
+7. HONEST LIMITS
+----------------
+- The setpoint follows her own 7-day history, so the level is held relative to her
+  recent self (allostasis), not to an absolute number.
+- P1/P2 passing partly follows from building a controller. What the evaluation adds
+  is whether it holds under real inflow without breaching the guards.
+- A pass is a measurable machine property. It does not make NEX self-aware, sentient
+  or enlightened; nothing can verify that.
