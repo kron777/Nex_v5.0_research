@@ -1,0 +1,108 @@
+SELF-MAINTENANCE — LIVE PHASE (PHASE B) SPEC + TRIO INTERACTION ANALYSIS
+=======================================================================
+Date: 2026-10-03
+Inspector: Claude Code
+Status: SPEC ONLY. Phase B is NOT built. It needs a separate explicit operator
+go-ahead, and it may not arm before the warrant re-validation (~2026-10-17..24) is
+complete and recorded. Parent spec: self_maintenance_spec.txt (e24fbb1).
+
+FRAMING: a pass means NEX's belief graph maintains the size of its own active set
+through a loop that runs through its own state. It does not make NEX self-aware,
+sentient or enlightened. Nothing can verify that, and a pass is not evidence of it.
+
+
+1. THE NEGATIVE-FEEDBACK TRIO, MAPPED TO CODE (read-only)
+---------------------------------------------------------
+(Operator's notes name them; the repo does not. Mapping found 2026-10-03.)
+  readiness.pen        theory_x/stage6_fountain/readiness.py — striking-rate penalty,
+                       up to -0.15 off readiness (_GENIUS_MAX_PENALTY).
+  reanimation governor theory_x/stage6_fountain/generator.py "§9 GOVERNOR brick 1" —
+                       adaptive reanimation cadence: every 20th fire normally, every
+                       5th when striking-rate <= 5% over the last 90 min.
+                       CURRENTLY OFF LIVE: NEX5_GOVERNOR_OFF=1 is on the launch line,
+                       so cadence is fixed at 20.
+  rut-mirror           same block — on a trough, writes a tier-6 belief
+                       (source 'self_rut_notice', "I notice my recent thinking has
+                       circled...") at most once per 2 h. Only runs when the governor
+                       is ON, so it is also OFF live today.
+Phase A touches none of these and changes no state, so it cannot overlap them.
+
+
+2. HOW REANIMATION "UN-PAUSES" (what the code actually does)
+------------------------------------------------------------
+No trio code writes beliefs.paused = 0. The un-pause is functional, not a DB write:
+  dormancy.py scan_incremental   SELECT ... FROM beliefs WHERE source IN
+                                 ('fountain_insight','synergized','behavioural_observation')
+                                 ORDER BY created_at ASC LIMIT 50   <- no paused filter
+                                 -> dormant_beliefs
+  consolidation._run_fast        wake_one(): highest dormancy_score with
+                                 reanimated_at IS NULL                <- no paused filter
+  generator (every 20th fire)    SELECT ... FROM beliefs WHERE id=?   <- no paused filter
+                                 -> appended to that fire's retrieval result
+So a belief the regulator paused can be injected straight into a fire. Retrieval
+proper (retrieval.py) honours paused; the reanimation side door does not.
+The only code that writes paused = 0 is the harmonizer (tier = 8, paused = 0 when it
+resolves a contradiction). Its selections filter paused = 0, so it never picks a
+regulator-paused belief, and tier 8 is outside the active set anyway.
+State today: dormant_beliefs has 50 rows, all already reanimated, 0 pending. The
+scan only ever looks at the 50 OLDEST beliefs of three sources, so the queue is
+small and currently exhausted. The conflict is structurally real, practically idle.
+
+
+3. WHERE THE REGULATOR AND THE TRIO WOULD FIGHT
+-----------------------------------------------
+(a) Selection overlap. The regulator pauses old, low-confidence tier-6 beliefs; the
+    dormancy scan flags old, unreferenced beliefs. Same end of the graph.
+(b) Side-door leak. Every 20th fire can re-inject a paused belief. Upper bound if
+    EVERY reanimation hit a regulator-paused belief: ~1 per 20 fires (~36/day at
+    ~2 min/fire) against ~550 pauses/day, i.e. <= ~7% leak. Realistic: far lower
+    while the dormant queue is exhausted.
+(c) If the governor is re-enabled (NEX5_GOVERNOR_OFF removed): cadence 5 in a trough
+    (4x the leak), and the rut-mirror adds tier-6 'self_rut_notice' beliefs which the
+    regulator would later pause — suppressing her own rut-mirror, the opposite of
+    its purpose.
+(d) No hunting. None of the three is a controller on the active-set size, so two
+    loops never fight over one variable; the risks are leak and intent conflict.
+    Second-order path: if pausing hurts quality, striking falls, readiness.pen bites,
+    fires slow, inflow to A drops — a damping direction, but it is a guard metric.
+
+
+4. RESOLUTION (all on the regulator side; the trio is not modified)
+-------------------------------------------------------------------
+R1  The regulator never pauses a belief that is in dormant_beliefs (any state).
+    Leaves the reanimation pool alone; costs nothing (the pool is 50 rows).
+R2  The regulator never pauses source 'self_rut_notice' (never mutes the mirror).
+R3  Measure the remaining side-door leak instead of closing it: count reanimation
+    injections of ledger-paused beliefs (generator logs "Reanimated dormant
+    belief_id=%d"; join against the regulator's ledger).
+    Pre-registered bound: leak <= 5% of ledger pauses, else stop.
+R4  REJECTED: adding a paused filter to the reanimation path. That edits trio code.
+NEX5_GOVERNOR_OFF stays as it is for the whole evaluation. Re-enabling the governor
+is a separate variable and must not change during Phase B.
+
+
+5. PHASE A AS BUILT (2026-10-03) — differences from the parent spec
+------------------------------------------------------------------
+Module theory_x/stage_self_maintain/shadow.py, flag NEX5_SELF_MAINTAIN_SHADOW, table
+dynamic.db self_maintain_shadow (written through the dynamic writer; read by nothing).
+First tick 600 s after boot, then hourly. Gain 0.1, cap 50, min age 48 h, protected
+sources from erosion.PROTECTED_SOURCES.
+Added beyond the parent spec, all log-only: n_in_dormant / n_in_dormant_pending
+(overlap with the reanimation queue — feeds section 3a), paused_total,
+created_last_hour, setpoint_source (own_log once >= 24 hourly rows, else the
+interoception history minus beliefs paused today).
+Candidate filters do NOT yet apply R1/R2. That is deliberate: Phase A has to MEASURE
+how often the unrestricted rule would hit the dormant pool and the rut-mirror, so
+the size of R1/R2 is known before Phase B uses them.
+
+
+6. WHAT PHASE A MUST SHOW BEFORE PHASE B IS EVEN PROPOSED (>= 7 days of shadow rows)
+---------------------------------------------------------------------------------
+- would-pause volume vs inflow: can gain 0.1 / cap 50 keep up? (If the cap binds
+  most hours, the controller cannot hold the level and the parameters need a spec
+  revision first.)
+- candidate mix by source/branch: who would leave (collateral).
+- dormant overlap rate (n_in_dormant / n_would_pause) and any 'self_rut_notice'
+  candidates: sizes R1/R2.
+Phase B design, pass bar and guards are unchanged from self_maintenance_spec.txt
+section 4, plus R1-R3 above.
