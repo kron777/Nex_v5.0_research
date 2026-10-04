@@ -1,0 +1,89 @@
+DEV QUEUE 2026-10-04 — RESULTS (spec 6601295; alobha spec b2860d9)
+==================================================================
+Inspector: Claude Code. Probes on sandbox DB copies (warrant tables + retrieval_log
+dropped; sqlite3.connect guarded). NEX in STANDBY. Steps reported as they finish;
+live arming strictly in queue order. A KEEP is a measured functional effect, not a
+claim that the factor is present in NEX or that anything is experienced.
+
+STEP 3 — WORKSPACE EMPTY-WINDOW SURPRISE FIX  (nex5 bfbe902, NEX5_GW_SURPRISE_NONEMPTY)
+-----------------------------------------------------------------------------------
+Replay: real _surprise_candidate at all 11,766 fire timestamps Sep 1-Oct 3, surprise
+events fed incrementally (no future rows), flag OFF vs ON.
+  OLD  surprise candidate at 1,321 fires; 412 (31.2%) were EMPTY windows, each at max
+       salience 1.0 (outranks stakes 0.90 / momentum 0.55 / bonsai / drive)
+  NEW  empty candidates 0; non-empty candidates identical 909/909; where old was empty
+       there was no earlier non-empty surprise in the 60 s window (0/412) -> no frame
+VERDICT: PASS. Arming waits for steps 1-2 (queue order).
+
+STEP 4 — AGENCY ZERO-BUILD (measurement only)
+---------------------------------------------
+Action EXPLORE = fire's hot_branch differs from previous fire's (<=30 min apart).
+H = habit (switch rate of last 20 fires); D = H + 5 drive weights at latest tick
+(<=30 min before). Leave-one-day-out logistic; day-block bootstrap 2,000.
+  PRIMARY full history  43,726 fires / 119 days, explore rate 0.708
+     AUC H 0.6579 | D 0.6710 | drives alone 0.6576 [0.6215, 0.6900]
+     dAUC +0.0131 [+0.0099, +0.0161]
+  SENSITIVITY Sep 1-Oct 3  11,694 fires / 23 days, explore rate 0.869
+     AUC H 0.6486 | D 0.6591 | drives alone 0.6616 [0.5477, 0.6955]
+     dAUC +0.0104 [+0.0019, +0.0188]
+VERDICT: below the pre-registered bar (dAUC >= +0.02 with CI > 0). The drive weights
+carry real information about her next move, but about as much as her own recent
+habit does (drives alone 0.658 vs habit alone 0.658) and add only +0.013 beyond it.
+Not checked: whether the weights are partly computed from her recent behaviour
+(drives_competing_log.inputs_json), which would make that overlap circular.
+Nothing built or armed (measurement only).
+
+
+STEP 1 — UPTAKE A/B/C (run 2026-10-04 19:29-20:31, no game, sandbox copies)
+---------------------------------------------------------------------------
+Virtue-probe method unchanged (3B voice, blind 7b rater, both orders, n=40 pairs;
+net = mean - 0.5; pair-bootstrap CI, prompt-clustered CI alongside).
+factor      n   B>A net  95% CI            B>C net  95% CI            verdict
+compassion  40  +0.138   [+0.037,+0.237]   +0.000   [-0.087,+0.087]   beats A not C -> DISARM
+compass     40  +0.225   [+0.125,+0.325]   +0.275   [+0.188,+0.350]   KEEP (clustered CIs > 0 too)
+amoha       40  +0.287   [+0.188,+0.375]   +0.287   [+0.188,+0.375]   KEEP (clustered CIs > 0 too)
+avidya      40  +0.075   [-0.062,+0.212]   +0.050   [-0.087,+0.188]   INERT
+dvesa       40  -0.037   [-0.125,+0.050]   -0.013   [-0.100,+0.075]   INERT
+mana        39  +0.128   [+0.013,+0.244]   -0.051   [-0.179,+0.077]   beats A not C -> DISARM
+moha        40  +0.075   [+0.000,+0.150]   +0.075   [-0.025,+0.175]   INERT
+raga        40  -0.013   [-0.125,+0.113]   +0.075   [-0.037,+0.188]   INERT (no own flag: rides in
+                                                                       bind(); recorded, no live change)
+curiosity   40  +0.087   [+0.000,+0.175]   +0.125   [+0.037,+0.212]   INERT (beats random re-rank C,
+                                                                       not the uniform pick A)
+Notes: mana lost 1 pair to a transient ollama runner failure (port collision 20:07;
+no amdgpu reset). avidya/dvesa/mana/moha share ONE flag (NEX5_AFFLICTIONS, the cluster
+note); all four fail -> the flag is disarmed. The compass reads amoha.detect() and the
+affliction cluster directly (not flag-gated), so its KEEP is unaffected by those disarms.
+Compass caveat: it fires on only 4/10 moral questions (recall), reported not fixed.
+Curiosity: A and B picked the same item in 2/40 pairs (18 distinct B picks) — the
+manipulation happened; its effect on what she writes did not clear vs uniform.
+Dependency: the alobha lever lives inside _curiosity_pick (spec 6601295), so arming
+alobha would require NEX5_CURIOSITY to stay armed — resolved under step 2.
+
+
+STEP 2 — ALOBHA PROBE (nex5 b5dd629 dark; run 20:31-21:19, no game, sandbox copies)
+-----------------------------------------------------------------------------------
+24 real E2 starts x 10 fires x 3 arms (A alobha off, B on, C = B's g values
+re-assigned), same seeds; blind 7b rater; CIs clustered by start (n=240 pairs).
+  M1 focal repeat     A 0.754 | B 0.562 | C 0.758   -> manipulation PASSES (-0.19 vs both)
+  E  B vs A (fresh ground)   +0.021 [-0.017,+0.060]  -> below bar (>= +0.10, CI > 0)
+  E  B vs C                  +0.017 [-0.004,+0.037]  -> below bar
+  Q  B vs A (substance)      -0.044 [-0.094,+0.004]  -> guard not breached
+VERDICT: INERT / below bar -> NOT armed. The lever changes her material exactly as
+designed (she re-grips 19 points less) but the change does not measurably show up in
+what she writes. Stays dark (flag OFF). Dependency on NEX5_CURIOSITY therefore moot.
+
+
+LIVE CHANGES (queue order; one commit per variable; supervisor swap in STANDBY)
+-------------------------------------------------------------------------------
+  6c203c3  disarm NEX5_COMPASSION   (beats A, not C)
+  b941c79  disarm NEX5_AFFLICTIONS  (dvesa/mana/avidya/moha all fail; one shared flag)
+  7fd3dd5  disarm NEX5_CURIOSITY    (inert vs uniform; makes NEX5_VALENCE_DRIVE a no-op —
+                                     flag left set, recorded)
+  fa35b6b  arm    NEX5_GW_SURPRISE_NONEMPTY (step 3 PASS)
+Unchanged and kept: NEX5_AMOHA, NEX5_COMPASS (both KEEP). raga: no own flag, no change.
+NEX5_ALOBHA: not armed. Step 5 respected: shadow recorder untouched; Phase B and the
+warrant re-validation not started.
+Supervisor swap 2026-10-04 21:21:51 with NEX in STANDBY: MainPID 160936 -> 438389; the
+script it holds (fd 255) == nex5 HEAD fa35b6b; 57 launch flags. NEX left in STANDBY; the
+new line loads on her next wake (verify /proc/<pid>/environ then).
