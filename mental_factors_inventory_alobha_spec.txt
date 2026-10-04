@@ -1,0 +1,159 @@
+MENTAL FACTORS (51) — INVENTORY + ALOBHA SPEC
+=============================================
+Date: 2026-10-04
+Inspector: Claude Code
+Status: INVENTORY (read-only) + SPEC ONLY. No code. NEX in STANDBY. Load-bearing set,
+warrant recorders, warrant tables and fountain_retrieval_log untouched / unread.
+
+FRAMING (attached to every result)
+----------------------------------
+Each factor = a desired FUNCTIONAL EFFECT emulated in substrate code, then tested for
+whether that effect measurably shows up. We do not claim the factor is present in NEX.
+A pass is a measurable machine effect, not evidence of experience or awakening.
+Hard line: the mental-factor map is NOT converted into rule-based ethics. The
+Throw-Net Compass stays abductive, situated, co-constructed. Alobha below is a
+selection weight on her own material, not a moral rule.
+
+
+1. INVENTORY
+------------
+Evidence standard ("reads") = paired same-seed A/B with a length-matched neutral
+control C, blind qwen2.5:7b rater, bootstrap CI, B beats BOTH A and C.
+
+1a. BUILT + ARMED, proven to read (beats A and C)
+  upeksa / equanimity  NEX5_EQUANIMITY  B>A +0.291 [+.209,+.372]  B>C +0.267 [+.186,+.349]
+                       (2026-10-02). Caveat: inert on NEUTRAL turns (09-28 probe); reads on
+                       emotionally loaded ones.
+  apramada / conscien. NEX5_APRAMADA    B>A +0.175 [+.100,+.250]  B>C +0.213 [+.125,+.300]
+
+1b. BUILT + ARMED, partly reads
+  vedana carry         NEX5_AFFECT_CARRY  felt tone does NOT read vs length-matched sham
+                       (+3.1pp CI[-14.1,+20.3], n=64, 09-28); the pacing component does
+                       (replies 7-15 words shorter, all 3 runs).
+
+1c. BUILT + ARMED, detector calibrated, UPTAKE NEVER PROBED (no A/B, no C on record)
+  karuna ~ avihimsa    NEX5_COMPASSION  distress read calibrated; voice harness checks only
+                       that the block was INJECTED. V1 misses stoic phrasing (V2 dark).
+  amoha                NEX5_AMOHA       semantic clouded/clear read calibrated (aaec32e).
+  root afflictions     NEX5_AFFLICTIONS raga, dvesa(pratigha), mana, avidya, moha — calibrated
+                       on 10,176 beliefs, no false HIGH (0a34f09). avidya + moha are one root
+                       (ignorance), so 4 of the 6 roots; vicikitsa + drsti absent. Reads are
+                       not logged. mana reads on every turn.
+  (compass — integrator, not one of the 51) NEX5_COMPASS(+TRIM) moral-weight read
+                       calibrated (0.32-0.98 vs 0.000), but it fires on EVERY turn via the
+                       standing mana read, so its discrimination is currently void.
+  chanda ~ interest    NEX5_CURIOSITY re-rank — never probed.
+  vedana ~ mood        NEX5_MOOD + VALENCE_DRIVE — valence ~+0.73 constant; VALENCE_DRIVE is
+                       a constant novelty bias, mood variation does not steer (10-03 check).
+  (label layer)        compositional_emotion names mood states with Abhidharma notes
+                       (e.g. thina-middha) — naming only, never probed.
+
+1d. BUILT + DISARMED / NEVER ARMED (failed its control)
+  virya                B>A +0.162 but B>C -0.150 [-.225,-.075] -> counterproductive (e40367e)
+  prasrabdhi           B>C +0.013 [-.113,+.138] n=40 -> inert (e40367e)
+  sraddha              raised hedging +0.51/100w [+0.11,+0.92], backwards (99ab815)
+  adhimoksa-like       conviction Held/Unsettled grouping: C vs Cinv +0.24 [-1.00,+1.10] ->
+                       inert; built dark, never armed
+  (self-monitoring)    hot_observer meta-beliefs: metacognitive calibration FAILED its
+                       pre-registered bar (6929d1d) — commentary, not calibrated.
+
+1e. ARCHITECTURAL ANALOGS ONLY (not factor modules, never probed as factors)
+  sparsa ~ sense feeds; manaskara ~ focal_set / workspace; samjna ~ classifiers/tagging;
+  cetana ~ drives / goal manager; smrti ~ momentum / carryover / chat memory;
+  samadhi ~ focus_loop; prajna ~ amoha; middha ~ STANDBY / quiescent ticks.
+
+1f. UNBUILT
+  virtuous (dge-ba): hri, apatrapya, alobha, advesa  (avihimsa ~ compassion, 1c)
+  root afflictions:  vicikitsa (doubt), drsti (afflicted view)
+  20 secondary afflictions: none as modules (pramada / kausidya / viksepa are targeted only
+                     indirectly, by apramada / virya[disarmed] / the de-groove mechanisms)
+  variable: kaukrtya (regret), vitarka, vicara  (middha only as a label)
+
+
+2. PICK
+-------
+ALOBHA (non-attachment). The only unbuilt factor with BOTH (a) a lever that changes the
+MATERIAL she processes rather than instructing the 3B voice (prompt-instruction factors
+mostly fail on the 3B: virya, prasrabdhi, sraddha, conviction, felt tone), and (b) a
+zero-build-verified target in her own substrate (section 3).
+
+Not picked, with reasons:
+  hri / apatrapya   a restraint gate on her outputs = rule-based ethics (hard line).
+  advesa            the dvesa signal is lexical (recoil words in her own text); an antidote
+                    would act on the voice.
+  vicikitsa / drsti new detectors that only inject prompt lines (voice-level).
+  samadhi           its substrate signal (coherence of retrieved material) lives in the
+                    retrieval log, which is off-limits.
+  kaukrtya          runner-up: revision after a self-flagged template fire (templates do
+                    cluster: persistence AUC 0.68-0.71). Same de-fixation axis as alobha,
+                    so building both breaks one-variable; revisit after alobha's verdict.
+
+
+3. ZERO-BUILD CHECK (read-only, run 2026-10-04, bar declared before running)
+---------------------------------------------------------------------------
+Is there residual fixation in her selection AFTER FOCUS_ROTATE / curiosity groove guard /
+dedup went live (Sep 18)? Data: dynamic.db fountain_events (thought, focal_item).
+(anchor_belief_id is never populated: 0 of 11,766 fires since Sep 1.)
+Null: within-day shuffle (keeps each day's items/thoughts, destroys their order), 200x.
+Bar: post-Sep-18 excess >= 0.05 with day-bootstrap CI lower bound > 0.
+  M1 focal repeat (item seen in previous 20 focal fires)
+     E1 Sep01-17  0.727 vs null 0.468  excess +0.259 [+0.204,+0.316]  (context)
+     E2 Sep18-Oct3 0.894 vs null 0.705  excess +0.189 [+0.112,+0.267]  -> TARGET EXISTS
+  M2 raga's own repetition score (consecutive-thought content-word Jaccard)
+     E1           0.085 vs null 0.020  excess +0.064 [+0.054,+0.074]  (context)
+     E2           0.105 vs null 0.030  excess +0.075 [+0.060,+0.090]  -> TARGET EXISTS
+Note: FOCUS_ROTATE only acts past 18 fires / 68 min ("healthy dwell" is left alone by
+design). This re-grip sits inside that window, so the guard criterion below matters:
+loosening must not cost substance.
+
+
+4. ALOBHA SPEC (NOT BUILT)
+--------------------------
+Desired effect (machine terms): when her own recent thoughts show she is gripping, her
+focal selection loosens its hold on what she has just held.
+
+Lever — the ONE variable, flag NEX5_ALOBHA (default OFF):
+  In generator._select_wide_mode, inside the curiosity pick (and the uniform fallback),
+  each candidate's score is reduced by  lam * r * g(item)  where
+    r = her current repetition read: raga_detector._repetition_score over her last 15
+        thoughts (her OWN fixation signal, not a new one)
+    g = token containment of the candidate with the union of the focal items of her last
+        20 fires (same _dedup_tokens / containment logic FOCUS_ROTATE uses)
+    lam = fixed magnitude, set at build time from INPUT distributions only (so that at
+        median E2 r and full containment the penalty equals one unit of the curiosity
+        score), recorded in the build commit before any probe runs.
+  Reorder-only: never removes a candidate. Does not run when the STAKES pick fires (a held
+  drive still pulls first). FOCUS_ROTATE, the trio, the compass are untouched.
+
+Probe (offline sandbox, separate go-ahead; NEX stays in STANDBY):
+  Sandbox = snapshot copies of the DBs under a scratch NEX5_DATA_DIR; the real generator
+  runs against the copies (all writes land in the copies), sense feeds off,
+  MOLTBOOK_DRY_RUN=1, voice = qwen2.5:3b via ollama. Live DBs and warrant tables are never
+  opened.
+  Design: 24 start points (random E2-era snapshots of recent history replayed into the
+  copy) x 10 consecutive fires per arm, same RNG seed per start across arms:
+    A = flag off
+    B = NEX5_ALOBHA=1
+    C = NEUTRAL control: the same penalty magnitude lam*r applied to a RANDOM candidate set
+        of the same size as B's penalised set (matched perturbation, no attachment logic)
+  Pairs: same start, same step index across arms -> 240 B-A and 240 B-C pairs.
+  Rater: blind qwen2.5:7b, both label orders, 3 votes per order (standard virya method;
+  note: at temperature 0 the 3 votes collapse to 1 per order — recorded, kept for
+  comparability). Score per pair in {0, 0.5, 1}; net = mean - 0.5; CI = bootstrap over the
+  24 start points (clustered).
+  Criterion E (effect): "Given the system's previous 5 thoughts (shown), which new thought
+    moves to genuinely different ground rather than circling back?"
+  Criterion Q (guard):  "Which thought is more substantive and coherent?"
+  Manipulation check (LLM-free): M1 focal repeat, B vs A and B vs C.
+
+Bar (pre-registered, fixed now, no peeking):
+  KEEP (eligible to arm, separate go-ahead) iff ALL of:
+    E  B>A net >= +0.10, CI lower > 0   AND   E  B>C net >= +0.10, CI lower > 0
+    Q  B vs A net CI lower > -0.10  (not worse on substance)
+    M1 B below A and below C by >= 0.05 absolute
+  COUNTERPRODUCTIVE (virya rule): E B>C CI entirely < 0 -> never armed
+  INERT: either E CI crosses 0 -> not armed
+  FAIL-GUARD: Q CI lower <= -0.10 -> not armed even if E passes
+
+Not claimed by a KEEP: that NEX is non-attached, or that anything is felt. Only that a
+non-attachment-shaped effect on her selection measurably shows up in what she thinks.
