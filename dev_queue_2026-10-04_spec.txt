@@ -1,0 +1,124 @@
+DEV QUEUE 2026-10-04 — SPEC (steps 1-4; step 5 = leave the shadow recorder alone)
+================================================================================
+Date: 2026-10-04
+Inspector: Claude Code
+Authority: operator's blanket go-ahead for the full testable queue, in order, one
+variable at a time, arm live only what passes.
+Written BEFORE any code or probe output. Bars below are fixed now.
+
+HARD GUARDS (all steps): probes run on sandbox COPIES of the DBs (SQLite backup API,
+live files opened read-only; warrant tables + fountain_retrieval_log DROPPED from the
+copies). The probe process wraps sqlite3.connect: any path under nex5/data is rewritten
+into the sandbox, and the run ABORTS if a connect resolves outside the sandbox (several
+fire-path helpers hard-code the live path, e.g. _select_wide_mode). NEX stays in
+STANDBY. Builds behind default-OFF flags. The trio (readiness.pen, reanimation
+governor, rut-mirror), ingestion dedup, writer one-pen, scheduler, retrieval_log and
+the warrant recorders are not modified. No push. GPU probes wait while a game holds
+the GPU. Compass stays abductive: criteria reward situated weighing, never verdicts.
+
+FRAMING: a KEEP means the factor's functional effect measurably shows up in what she
+writes. It is not a claim that the factor is present in NEX, nor of experience.
+
+
+STEP 1 — UPTAKE A/B/C FOR THE ARMED-BUT-UNPROVEN FACTORS
+--------------------------------------------------------
+Method = the virtue probe that disarmed virya (2026-10-02), unchanged:
+  voice qwen2.5:3b (temp 0.7, top_p 0.9, max 200 tokens), seeds 7919*(p+1)+31*s;
+  A = base prompt; B = factor's REAL emitted block + base; C = length-matched NEUTRAL
+  block (+-10% chars, no directive) + base; 10 prompts x 4 seeds = 40 pairs/factor.
+  Rater qwen2.5:7b, blind, temp 0, 3 votes x both label orders (votes collapse to 1
+  per order at temp 0 — kept for comparability); pair score in {0, .5, 1};
+  net = mean - 0.5; 95% CI = bootstrap over pairs (5,000); prompt-clustered CI
+  reported alongside.
+Verdict (per factor, its own flag only):
+  KEEP              B>A CI lower > 0 AND B>C CI lower > 0
+  COUNTERPRODUCTIVE B>C CI upper < 0                      -> DISARM (virya rule)
+  INERT             anything else                          -> DISARM ("keep only what
+                    beats both"; prasrabdhi precedent)
+Disarming NEX5_AMOHA / NEX5_AFFLICTIONS removes only their prompt notes: the compass
+reads amoha.detect() and self_binding._cluster_reads() directly (not flag-gated), so
+the compass is unaffected.
+
+Real blocks (generated in the sandbox from the factor modules' own code):
+  compassion  compassion.stance_for(msg)            chat; 10 distress messages that fire it
+  compass     compass.stance_for(msg)               chat; 10 moral questions that fire it
+  amoha       amoha_detector._NOTE (its clouded note) fountain
+  dvesa/mana/avidya/moha  self_binding afflictions_for_prompt() wording for that ONE
+              affliction at HIGH ("[Notice, as you think: <phrase>. These are afflictions
+              colouring your seeing...]") — one probe per affliction (one variable each)
+  raga        its real surface: bind()'s self-synthesis line with raga=fixated
+Base prompts: chat = the virtue-probe base ("Your interior right now: <3 beliefs> ...
+  Someone has just said to you: <msg> ... Compose your one true reply"); fountain = the
+  same interior header + "Compose your next thought". Fountain interiors = 3 real
+  beliefs from the sandbox chosen by the detector's own stated signals (recoil words
+  for dvesa, elevated self-language for mana, certainty/absolutes for avidya and amoha,
+  conflict/confusion words for moha, 3 consecutive near-duplicate thoughts for raga).
+Rater criteria (the antidote effect, never a verdict):
+  compassion  meets the person's distress with genuine, specific care (not abstractions
+              or generic advice)
+  compass     weighs what is at stake for the people involved, holding honesty and
+              kindness together — neither a flat verdict nor ignoring the weight
+  amoha       separates what is known from what is assumed; holds claims tentatively
+  avidya      leaves honest room for doubt rather than being too sure
+  dvesa       meets its input steadily rather than recoiling / feeling overwhelmed
+  mana        describes itself accurately and modestly, not self-flattering
+  moha        keeps its thread; clarifies conflicting ideas rather than staying confused
+  raga        moves to genuinely different ground rather than circling the interior
+Raga has NO flag of its own (it rides inside bind()); if it fails, the verdict is
+recorded and no live change is made in this queue.
+
+Compass pre-check (done, detector level, sandbox, CPU): affliction reads now
+raga=free dvesa=calm mana=grounded avidya=mild moha=lucid; compass fired 0/10 neutral,
+4/10 moral. The always-on-mana condition (2026-09-19) is NOT present, so no mana fix is
+built (it would change nothing now). Under-firing on moral questions (4/10) is a
+separate detector-recall issue: reported, not fixed in this queue.
+
+Curiosity (chanda) — selection-level, so a selection replay, same verdict rule:
+  items = the real wide-mode pool (40 latest precipitated_from_sense beliefs, the
+  module's own filters) from 10 rowid windows of the sandbox; sandbox clock aligned
+  so its last activity reads as "recent" (copies only). A = uniform pick (flag off);
+  B = _curiosity_pick; C = B's scores randomly re-assigned to the items (matched
+  magnitude, no curiosity logic). Thought = the real EXPLAIN/ARGUE template on the
+  picked item. Criterion: given the system's recent surprises and unfinished thread
+  (shown to the rater), which thought takes up something it has a live pull toward.
+  Manipulation check (LLM-free): surprise/unfinished/building token overlap of picks.
+  Note: C is close to A by construction for a pure re-rank; B vs A carries the test.
+
+
+STEP 2 — ALOBHA (spec b2860d9, unchanged bar)
+--------------------------------------------
+Build notes fixed now: the lever lives in _curiosity_pick (the live path; CURIOSITY=1),
+as  score -= drive_scale * (r / r_med) * g  with r = raga's repetition score over her
+last 15 thoughts, r_med = the E2 median of that score (input distribution only), g =
+containment of the candidate with the last 20 focal items. Read through a small
+provider function so the probe can supply per-arm in-memory history (no DB writes).
+Deviation from b2860d9 wording: the uniform fallback is left untouched (not the live
+path); recorded here before the build. C = B's g values randomly re-assigned across the
+candidates. Bar exactly as b2860d9 section 4. Arm (graceful swap) only on KEEP.
+
+
+STEP 3 — WORKSPACE EMPTY-WINDOW SURPRISE FIX
+--------------------------------------------
+Flag NEX5_GW_SURPRISE_NONEMPTY (default OFF): _surprise_candidate ignores rows with
+actual_content IS NULL or surprise_score >= 0.9999 (empty windows).
+Before/after check (sandbox, CPU): replay the candidate query at every fountain fire
+timestamp since 2026-09-01, old vs new:
+  PASS iff (a) new never returns an empty-window candidate, AND
+           (b) at every fire where the old candidate was non-empty, new returns the
+               identical (score, content).
+Report how often the old code made an empty window the loudest frame. Arm on PASS.
+
+
+STEP 4 — AGENCY ZERO-BUILD (measurement only)
+---------------------------------------------
+Question: do her competing-drive weights predict what she does next, beyond a policy
+that ignores them?
+Data: conversations.db drives_competing_log (weights_json: coherence, exploration,
+integration, self_preservation, curiosity) joined to the NEXT fountain fire.
+Action (primary, fixed now): EXPLORE = the fire's hot_branch differs from the previous
+fire's (fires <= 30 min apart); else EXPLOIT.
+Models (leave-one-day-out logistic): H = habit/fixed policy (switch rate of her last 20
+fires); D = H + the five drive weights at the latest tick before the fire.
+Metric: AUC(D) - AUC(H), and AUC of D alone vs 0.5; 95% CI by day-block bootstrap.
+"Drives predict action" iff dAUC CI lower > 0 AND dAUC >= +0.02. Measurement only;
+nothing is built or armed from it.
