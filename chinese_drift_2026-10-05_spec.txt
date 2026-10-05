@@ -108,3 +108,47 @@ belief corpus is not contaminated (14 CJK beliefs, not on the channel).
 ----------------------------
 Conviction files (4 untracked in nex5): decide commit-for-the-record vs bin, then clean the tree.
 Surprise promoter: needs ~1 day of uptime. If not yet, leave it noted.
+
+
+ADDENDUM (2026-10-05 ~10:30, operator's "feedback ratchet" hypothesis tested; second variable)
+---------------------------------------------------------------------------------------------
+Hypothesis tested read-only — "a Chinese fire is crystallized as a belief and retrieval feeds it back":
+  - Chinese fires since onset: 211/718; crystallized into beliefs: 0 (vs 77 crystallizations
+    across all 718 fires). The crystallizer never admitted one.
+  - CJK beliefs: 15 in total. Most are old English sentences with a stray CJK word. Only 1 was
+    drawn into a prompt since onset (belief_activation): a hot_observer meta-belief quoting a
+    Chinese fire.
+  - CJK in prompts since onset comes from fire-level recycling, not belief retrieval:
+      * 119/718 prompts carry visible Chinese from her own recent fires (momentum carried line,
+        self-narrative "recent fires": 184 blocks);
+      * the SOCIAL persona reply is in every prompt (100% Chinese until 09:54).
+  - The SYNTH flags did not seed it: the seed prompt had no CJK, and no CJK synergized belief exists.
+  -> The ratchet is real but runs through FIRE recycling + the persona, not belief storage.
+Persona guard (variable 1) live so far: persona 3/3 English, fires 11/11 English (was 33.6% today).
+
+(b) QUARANTINE OF CJK BELIEFS — NOT DONE, on the evidence:
+  - no Chinese fire was ever stored as a belief;
+  - 1 retrieval since onset;
+  - the fountain retrieval does not filter `paused` (no paused clause in generator.py), so a
+    pause would not quarantine on that path.
+  The effect would be nil and unmeasurable.
+
+(a) VARIABLE 2 — EXIT GUARD: NEX5_FIRE_LANG_GUARD (default OFF), fountain main path only
+  Purpose: close what the persona guard does not cover:
+    - the spontaneous 3B switch (~1-2 per 1000 fires);
+    - carry amplification (T1: a Chinese carried fragment alone -> 13/26 Chinese with an English
+      SOCIAL block).
+  Change, after the main voice call's text is finalized: if >20% of the fire's letters are
+  non-ASCII, regenerate ONCE with the same prompt + "Write your thought in English."
+    - English retry -> it replaces the thought;
+    - otherwise -> the fire is dropped (nothing written, carried or quoted).
+  RECONCILE (dormant) is not covered.
+Gates (offline; ALL must hold to arm):
+  G1  detector false positives on the last 2000 live English fires = 0;
+      detector hits on the 211 Chinese fires >= 99%
+  G2  sandbox contexts forced Chinese-prone (real Chinese carried fragments + the old Chinese
+      SOCIAL reply): stored outputs with CJK = 0
+  G3  retry success (English) among triggered fires >= 70% (otherwise too many fires are dropped)
+  G4  English first outputs are untouched: no retry call, identical text
+Live check: guard trigger/regenerate/drop counts from the soak log; CJK fire rate; English-fire
+metrics vs the baseline.
