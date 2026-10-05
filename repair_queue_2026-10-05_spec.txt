@@ -141,3 +141,29 @@ Decision: PARK, with this evidence; no change in this queue. Any repair (a persi
 requirement, a sentence label) or any retirement touches >=5 consumers (DRIFT drive line, GW
 drive candidate, STAKES_DEEP pick, chat injection, drive probes), so it is not one variable.
 It needs its own spec and uptake test.
+
+
+ITEM 2b — FACULTY REACH, second variable (pre-registered 2026-10-05 ~07:00, after item 2 results)
+--------------------------------------------------------------------------------------------------
+Finding from item 2:
+  - In all 60 B prompts the workspace (GW) line was the momentum winner: "you were mid-thought
+    on '...' - this thread is still live. Continue it if it leads somewhere."
+  - B outputs followed that thread off the item: on-subject 43->35/60, admission 31->24,
+    EXPLAIN substance -0.13.
+Change (one variable): NEX5_WIDE_FOCUS still carries the faculty lines into EXPLAIN/ARGUE, but
+NOT the workspace line. The other lines carry exactly as before: SELF, mood, metacog, amoha,
+stakes, competing drives. The flag stays dark until the probe passes.
+Probe: identical to item 2 (same harness, same seed, N=60 real wide contexts, exact pairing,
+blind 7b both orders), on a fresh sandbox snapshot. Runs only with no game running and NEX in
+STANDBY.
+Arm rule — ALL must hold (item 2's secondary measures are now gates):
+  Q substance           pair-bootstrap 95% CI lower > -0.10
+  S on-item             CI lower > -0.10
+  G striking share      B - A >= -0.05
+  crystallizer on-subject (_is_on_subject)              B - A >= -3/60
+  crystallizer admission (length & engagement)          B - A >= -3/60
+  EXPLAIN subgroup Q net (point)                         > -0.10
+Reported, not gated: words B-A, self-reference per word B-A, which lines were carried, reach.
+If any gate fails: not armed; the flag stays dark.
+Live check if armed: wide-fire carry share from fountain_prompt_blocks after >=30 composed fires,
+plus the crystallization rate of wide fires vs the previous 2000.
