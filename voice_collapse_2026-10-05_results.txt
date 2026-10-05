@@ -1,0 +1,77 @@
+VOICE COLLAPSE + CJK MOP-UP — RESULTS (spec aafc549)
+====================================================
+Inspector: Claude Code. STANDBY 15:10:25 (clean exit) for the build and the data step; no game
+running; the live-data test guard was on for all test runs.
+
+IN-FLIGHT ITEMS
+---------------
+Persona guard held: 20/20 English persona replies since 09:54; 0/116 fully-Chinese fires.
+Stray mid-English CJK: 2 fires (10:41, 11:36), both RECONCILE, during the carry tail. None after.
+Exit guard (NEX5_FIRE_LANG_GUARD): complete per its spec, stays DARK (G3 0.59 < 0.70).
+Conviction files: committed for the record (7cc1811); tree clean.
+Surprise promoter: pending (needs ~1 day of continuous uptime).
+
+CJK MOP-UP (data, reversible)
+-----------------------------
+All 15 CJK beliefs retired to tier 8 in one transaction, with NEX in STANDBY:
+  - 2 substantially-Chinese T3 hot_observer quotes: #301243 (drawn 14:39 today) and #299215;
+  - 13 English beliefs with a stray CJK word (T7).
+Original tiers: voice_collapse_2026-10-05_cjk_retired.tsv (revert = one UPDATE per row).
+Check: 0 CJK beliefs at tier < 8. Fountain retrieval excludes tier 8; chat retrieval is tier <= 6.
+
+VOICE COLLAPSE
+--------------
+Root cause:
+  - task-list fires = RECONCILE output; RECONCILE runs whenever >= 2 problems are open;
+  - signal_to_problem opened those problems from co-occurrence signals whose second branch came
+    from her OWN content:
+      hot_observer meta-beliefs quote each fire with the fire's branch;
+      the hourly re-inserted grounded_scorecard self-belief names Bitcoin in branch systems;
+  - 30 d: 60% of problems with evidence were self-dependent; all 5 of today's (559-563);
+  - closed entities respawn at the next tick (the dedupe only checks OPEN problems).
+Genius scorer is not the cause: STRIKING 39% task-list vs 42% other (14 d).
+Fix (one variable): NEX5_PROBLEM_SELF_GATE (nex5 2013b19 dark, armed 6729c7a). Before opening an
+N_branch problem, the entity's branches are re-counted excluding hot_observer and
+grounded_scorecard*; under 2 -> skip.
+Verification:
+  V1 4/4 tests
+  V2 the real gate replayed on today's retained signals: 559 0 / 560 1 / 561 0 / 562 0 / 563 1
+     external branches -> all BLOCK
+  regression: 14 signal/problem test files identical to HEAD (11 pre-existing failures)
+  prediction (30-d census, upper bound): RECONCILE-eligible fires 8.4% -> 2.2%; task-list 4.3% -> ~1.3%
+Armed by graceful swap at ~15:22: supervisor 178570, NEX pid 178627. Environ == HEAD 6729c7a
+(57 flags; the only change is +NEX5_PROBLEM_SELF_GATE). Clean boot, 0 tracebacks.
+
+LIVE WATCH (75 min after arming)
+--------------------------------
+(appended below)
+Window ~15:22-16:28: 29 composed fires
+  task-list 0/29 (vs 79/224 RECONCILE-eligible earlier today); CJK 0
+  words/fire 68.4 (pre-onset baseline 64.1); STRIKING 17/29; modes EXPLAIN 12 / ARGUE 10 / DRIFT 7;
+  14 distinct focal items
+  problems opened: none; open: #563 only -> RECONCILE dormant
+CAVEAT — the gate itself was NOT exercised live in this window. Today's five self-dependent
+problems (559-563, all in the last 24 h) filled DAILY_PROBLEM_CAP=5, so signal_to_problem has
+skipped every tick (0 "self_gate" log lines). The task-list drop here reflects RECONCILE being
+dormant with 1 open problem, which is consistent with the fix but not yet attributable to it. The
+first live gate decisions come after ~03:06 tomorrow, when #559 leaves the 24 h window. Check
+grep "self_gate: skipped" in the soak log, and the titles of the problems opened.
+Evidence for the gate stays offline: V1 + V2 (all 5 of today's problems would have been blocked).
+STILL OPEN (separate, not this variable): topic rut. 15/29 fires still write about Optimism /
+Ethereum L2 (52%), via carried context + a responsive persona. Its own spec if it persists.
+RUNTIME NOTE: 2 transient "database is locked" Writer errors today (14:13, 15:59; diversity-loop
+tick; recovered next tick). Same class as on 2026-08-08. Not attributable to today's changes: both
+happened while no operator/inspector action was running; none of today's changes added a writer.
+It is contention between the Writer and the 31 direct-sqlite writers (functions map 6ecc52a).
+
+SUMMARY
+item | root cause | fix | measured effect | status
+Persona watch (11:25) | - | - | 20/20 English replies, 0 Chinese fires since 09:54 | HELD
+Stray mid-English CJK | Chinese-carry tail inside RECONCILE fires | none needed | 2 fires (10:41, 11:36), 0 since | GONE
+Dormant CJK beliefs | 2 Chinese T3 hot_observer quotes reachable (1 drawn today) + 13 stray-word | retired to tier 8 (reversible TSV) | 0 CJK beliefs at tier < 8 | DONE
+Exit guard | spontaneous switches + carry | NEX5_FIRE_LANG_GUARD | G3 0.59 < 0.70 | DARK (per spec)
+Conviction files | uncommitted record | committed 7cc1811 | 15/15 tests | DONE
+Surprise promoter | needs ~1 day of uptime | none | ~5 h continuous, 0 promotions | PENDING
+Voice collapse | RECONCILE fed by self-spawned problems (hot_observer quotes + scorecard as 2nd branch; 60% of problems) | NEX5_PROBLEM_SELF_GATE (2013b19 / armed 6729c7a) | offline: 559-563 all blocked, predicted RECONCILE 8.4%->2.2%; live: task-list 0/29 but gate not yet exercised (daily cap) | ARMED, live confirmation pending
+Genius reinforcing boilerplate | not the case (39% vs 42%) | none | - | REFUTED
+Topic rut (Optimism) | carried context + persona echo | none (separate variable) | 52% of fires | OPEN

@@ -1,0 +1,17 @@
+# CJK beliefs retired to tier 8 on 2026-10-05 (NEX in STANDBY). Revert: UPDATE beliefs SET tier=<orig_tier> WHERE id=<id>;
+id	orig_tier	source
+33619	7	fountain_insight
+38910	7	synergized
+41742	7	fountain_insight
+49174	7	fountain_insight
+77434	7	wonder_loop
+213380	7	synergized
+215905	7	precipitated_from_sense
+218217	7	remember_loop
+235946	3	hot_observer
+237579	7	fountain_insight
+262879	7	fetch_loop
+267697	7	fountain_insight
+270095	7	fountain_insight
+299215	3	hot_observer
+301243	3	hot_observer
