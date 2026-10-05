@@ -1,0 +1,110 @@
+CHINESE-LANGUAGE DRIFT — SPEC (2026-10-05, pre-registered before any build)
+==========================================================================
+Inspector: Claude Code. Base: nex5 5091010 (live line, 55 flags).
+Same discipline as the repair queue:
+  - read-only investigation first; builds and probes with NEX in STANDBY and no game
+  - sandbox DB copies (warrant tables + fountain_retrieval_log dropped unread; live paths
+    redirected)
+  - one variable; arm via graceful swap only if it verifies
+  - load-bearing set, warrant recorders and compass untouched
+
+
+1. CHARACTERISATION (done, read-only)
+-------------------------------------
+Composed fires containing CJK, per day:
+  09-20 0/507 · 09-21 1/527 · 09-22 0/503 · 09-25 0/481 · 09-26 1/551
+  09-27 91/418 (first: fire 56936, 03:16 DRIFT)
+  09-28 16/68 · 09-30 15/59 · 10-02 7/34 · 10-03 42/89 · 10-04 4/7 · 10-05 21/67
+CJK fires are fully Chinese (median 90% of characters CJK; 195/196 >50%).
+They occur in every mode since onset (DRIFT 45%, ARGUE 30%, EXPLAIN 16%) and every branch (18-36%),
+so this is a state-level cause, not a topic.
+BELIEF CORPUS is NOT the channel: 14 CJK beliefs exist in total, all old except 1 hot_observer
+(09-27 09:23). No CJK synergized belief since 2026-07-18.
+SENSE INPUT: external.other_mind (the persona responder) is the only material CJK source.
+  persona replies with CJK, per day:
+    09-20..09-26  0/49, 0/58, 0/52, 0/43, 0/68
+    09-27 87/94 (first at 03:23:49)
+    since then 100% every day (19/19, 17/17, 10/10, 24/24, 2/2, 31/31)
+  (literature.gutenberg 5 events since 09-30 — negligible)
+Onset timeline 09-27:
+  03:13:48  persona reply in English
+  03:16:01  fire 56936 DRIFT in Chinese. Its prompt had NO CJK in any block: a spontaneous 3B switch.
+            The base rate of these is ~1-2 per 500 fires (09-21, 09-26 isolated, did not spread).
+  03:23:49  persona reads NEX's last 4 thoughts (which include 56936) and replies in CHINESE
+  03:33, 03:43 ...  persona stays Chinese even though NEX's fires that hour are English
+Every NEX fire carries the latest persona reply (NEX5_SOCIAL_N=1, SOCIAL block, no recency limit).
+
+ROOT-CAUSE HYPOTHESIS (to be tested causally, not assumed):
+NEX5_SOCIAL_DEPTH (armed 09-13, 4e265b4) persists the persona's "focus", extracted from its own
+reply by _focus_from_reply -> _normalize_tokens, which splits on WHITESPACE.
+  - A Chinese reply has no spaces, so the whole sentence becomes ONE token and is stored as focus.
+    The live interlocutor_state.focus is currently an entire Chinese sentence (turn 917).
+  - Every later persona call is told "You have been preoccupied with '<that Chinese sentence>' ...
+    carry your own thread forward".
+  - So it answers in Chinese, and the focus stays Chinese: a permanent lock-in from one seed.
+  - Nothing in the persona prompts asks for English, and the bouncer checks echoes only.
+  - The Chinese persona reply then sits in every fountain prompt (SOCIAL block), and the 3B answers
+    in Chinese at 20-57%.
+  - Her own Chinese fires are re-carried by secondary channels: momentum carried line,
+    self-narrative "recent fires", "Recent voice of yours that landed".
+
+SUSPECTS NAMED BY THE OPERATOR — NEX5_SYNTH_FRESH (armed 09-26 20:59) / NEX5_SYNTH_FRESH_SIBLING
+(22:43). Evidence against them being on the channel:
+  - they only change which beliefs the synergizer pairs;
+  - no CJK synergized belief exists in the window;
+  - the seed fire's prompt carried no CJK;
+  - the spontaneous-switch base rate is unchanged (~0.1%: 09-18 2, 09-21 1, 09-26 1 before arming).
+If the causal tests below explain the drift fully, the SYNTH flags are cleared and stay as they are.
+
+
+2. CAUSAL TESTS (offline, STANDBY, sandbox; 3B voice; no game)
+--------------------------------------------------------------
+T1  CHANNEL — does the SOCIAL block cause her Chinese fires?
+    N=40 real contexts built by _build_prompt on the sandbox (live mode mix: real _select_wide_mode,
+    so DRIFT/EXPLAIN/ARGUE as live).
+    Arm A = the prompt as built (SOCIAL = the live latest persona reply, Chinese).
+    Arm B = the SAME prompt with only that reply text swapped for the last pre-onset English persona
+      reply (exact string swap; everything else identical, including any Chinese her own carried
+      fires bring).
+    The 3B generates 2 samples per arm per context (n=80 per arm).
+    Measure: share of outputs with CJK.
+    SOCIAL is causal if CJK(A) - CJK(B) >= 0.15 and an exact McNemar test on per-context
+    discordance gives p < 0.05.
+T2  LOCK-IN — does the persisted focus keep the persona Chinese?
+    30 persona calls (_ask_persona, same recent thoughts) for each of:
+      (a) live state: Chinese focus
+      (b) same, focus replaced by an English content word
+      (c) English-only recent thoughts + Chinese focus
+    Measure P(CJK reply). Focus lock-in is causal if P(a) - P(b) >= 0.40.
+T3  SYNTH flags: cleared by T1/T2 plus the elimination evidence above. No change unless T1/T2
+    leave a residual that the persona channel cannot explain.
+
+
+3. FIX — ONE VARIABLE: NEX5_PERSONA_LANG_GUARD (default OFF), persona responder only
+------------------------------------------------------------------------------------
+One mechanism ("the persona stays in English"), enforced at its two points:
+  (i)  the bouncer discards any persona reply whose CJK share is > 0.2 (reason "non_english"), so
+       no Chinese reply is ever written to external.other_mind;
+  (ii) the persisted focus is Latin-letter words only: _focus_from_reply ignores non-ASCII tokens,
+       and a stored non-ASCII focus is treated as empty (the continuity line is omitted). This heals
+       the existing lock without touching the DB.
+Not changed: the SOCIAL block in the fountain, SOCIAL_N, SOCIAL_DEPTH's English behaviour, NEX's own
+prompts, momentum/self-narrative, synergizer flags.
+Offline verification (sandbox, guard ON, live Chinese state):
+  20 one_exchange() calls. PASS if 0 CJK replies are written, >= 50% of calls write an English reply,
+  and the stored focus becomes ASCII.
+Arm rule: arm only if T1 shows SOCIAL is causal AND the offline verification passes.
+Live check after arming:
+  (1) persona replies with CJK -> 0 from the first new reply;
+  (2) NEX fire CJK rate over the following hours vs 10-05's 31% (the secondary carriers should
+      decay as new English fires replace old Chinese ones);
+  (3) English fires otherwise unchanged vs the last 2000 English fires: mode mix, words per fire,
+      genius STRIKING share, crystallization rate.
+If (2) does not fall, the secondary carriers get their own spec. No purge is done in this step: the
+belief corpus is not contaminated (14 CJK beliefs, not on the channel).
+
+
+4. LOOSE ENDS (same session)
+----------------------------
+Conviction files (4 untracked in nex5): decide commit-for-the-record vs bin, then clean the tree.
+Surprise promoter: needs ~1 day of uptime. If not yet, leave it noted.
