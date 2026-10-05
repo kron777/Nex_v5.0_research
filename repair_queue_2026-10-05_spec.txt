@@ -1,0 +1,143 @@
+REPAIR / WIRING QUEUE 2026-10-05 — SPEC (pre-registered before any build)
+=========================================================================
+Inspector: Claude Code. Base: nex5 fa35b6b, functions map 6ecc52a.
+Rules: one variable at a time; investigation read-only; builds and probes with NEX in STANDBY and
+no game running; probes run on sandbox DB copies (warrant tables + fountain_retrieval_log dropped;
+sqlite3.connect guarded against live data/). Arm live only what verifies, via a graceful STANDBY
+supervisor swap. Repair OR retire on the evidence. Nothing in the load-bearing set (ingestion
+dedup, writer one-pen, scheduler, readiness pen / reanimation governor / rut-mirror,
+retrieval_log) and nothing in the warrant recorders is touched. Compass stays abductive.
+Nothing is pushed.
+
+
+ITEM 1 — AMOHA TRIGGER (0 fountain surfacings in 9,445 composed fires)
+---------------------------------------------------------------------
+Investigation (done, read-only):
+  - The detector is clouded when >=40% of the last 15 thoughts score >=0.30. Score = 2.5 x
+    (max cosine to the clouded anchors - max cosine to the clear anchors), on the remapped
+    (raw+1)/2 cosine scale. That scale predates amoha (April); calibration aaec32e (09-15)
+    was done on it, so there is no scale bug.
+  - Replay over all 9,454 fountain thoughts since 09-08:
+      per-thought p50 0.001, p90 0.118, p99 0.228, max 0.391
+      >=0.30: 11 thoughts (0.12%)
+      windows at composed fires: 9,441 clear, 12 mild, 0 clouded (max fraction 0.20)
+  - The top-salience thoughts are NOT clouded seeing. They are thoughts about silence,
+    loops and repetition ("The item stalls again. Silence speaks more loudly...") that sit
+    near the anchor "it always happens like this, it never changes". The upper tail is
+    false positives.
+  - Lexical cross-check (not a detector): 38/9,455 thoughts (0.40%) carry >=2 absolutist
+    markers. On reading they are news explainers, not over-certainty, and none score >=0.30.
+Remaining test — is genuinely clouded thinking present in her output at all?
+  Blind qwen2.5:7b rater, temperature 0, CLOUDED/CLEAR with the definition "false
+  certainty: absolute/totalising claims, one pattern explaining everything, no room left
+  for doubt". The rater is shown the thought only.
+    Sample: 300 random thoughts since 09-08, plus all thoughts with salience >=0.25 (55),
+    plus the 38 lexical-marker thoughts.
+    Rater validity check: 8 synthetic clouded and 8 synthetic clear sentences (not the
+    anchors). The rater must get >=14/16 right or the test is void and the item is parked.
+Decision rule:
+  - Random-sample clouded rate < 2% (<=5/300) -> the signal is absent in her output.
+    RETIRE the fountain trigger: remove NEX5_AMOHA=1 from the launch line and leave the code
+    dark. The compass's own clarity read (amoha.detect, not flag-gated) is unchanged.
+    Do NOT lower thresholds: that would trip on silence/loop thoughts, i.e. a faked trip.
+  - Rate >= 2% -> REPAIR candidate. A re-anchored or re-thresholded read must reach
+    precision >=0.6 and recall >=0.5 against the rater labels on a held-out half, and its
+    window fire-rate on real data is reported. Arm only if both hold.
+
+
+ITEM 2 — FACULTY REACH: NEX5_WIDE_FOCUS (default OFF, one variable)
+-------------------------------------------------------------------
+Measured before (manifests, last 2000 fires): workspace/mood carried in 100% of DRIFT fires and
+0% of EXPLAIN/ARGUE, i.e. 24.9% of all fires; metacog 12.3%; recursive SELF 1.1%.
+Change: when a fire takes EXPLAIN/ARGUE, append the FACULTY lines after the task text. These are
+focus_block minus the mode's own drift_prompt_focus, which is DRIFT-only and contemplative in
+mode "mind", contradicting the wide task's "do NOT be contemplative". Nothing else in the
+prompt changes. DRIFT is untouched.
+Probe (sandbox, STANDBY):
+  - N=60 contexts. Each is a real _build_prompt call (flag on) on the sandbox, with a forced
+    wide pick and a real historical momentum fragment written into the SANDBOX momentum row,
+    so the workspace line varies like it does live.
+  - P_B = the built prompt. P_A = P_B with the inserted faculty text removed (exact pairing:
+    same item, same retrieval).
+  - The 3B voice generates one output per arm, with the same call path as generate().
+Measures:
+  REACH  share of wide prompts that carry >=1 faculty line (B) vs 0 (A)
+  Q      substance: blind 7b pairwise "which says something more substantive and specific
+         about the item", both orders; net = mean(B wins) - 0.5, pair-bootstrap 95% CI
+  S      on-item: blind 7b pairwise "which stays more directly on the item", same method
+  G      striking share under the live genius v2 scorer (weights v2, F2_V2), B - A. Note the
+         score's self-witnessing feature rewards self-reference, so G is a do-not-drop guard,
+         not the quality judge.
+  SELF   first-person / attending-vocabulary rate, B vs A (reported)
+Arm rule (all must hold): Q CI lower > -0.10 AND S CI lower > -0.10 AND G(B) - G(A) >= -0.05.
+Otherwise do not arm, and leave the flag dark or revert it.
+Live check after arming: wide-fire reach from fountain_prompt_blocks after >=30 composed fires;
+genius striking rate over the following fires vs the previous 2000 (reported, noisy).
+
+
+ITEM 3 — SYNERGIZER QUIET TRIGGER (bad column since 88768a1, 2026-04-23)
+-----------------------------------------------------------------------
+Replay (read-only, 28 d of sense_events, every awake 60 s tick, 15-min window): with the column
+fixed, the trigger (<5 events) would fire 0/24,729 times. The minimum window count is 175,
+because the internal sensors alone emit ~200 per 15 min. External streams only would also give 0.
+Decision: RETIRE, not fix. Fixing the column yields a branch that never fires. Delete the dead
+quiet-trigger block and keep the 25-min timer exactly as is (the only path that has ever fired).
+This is behaviour-neutral by construction. Verify with the synergizer/world-model tests and a
+static diff check.
+
+
+ITEM 4 — SURPRISE -> BELIEF PROMOTER (0 promotions since 09-22)
+--------------------------------------------------------------
+Investigation (read-only):
+  - The promoter works. It last promoted the 09-22 16:56 event, which is exactly its cursor.
+  - Flagged surprises are almost all EMPTY windows (actual NULL, score 1.0), which it
+    correctly filters.
+  - Real flags come only from non-empty internal_belief windows whose nearest new belief has
+    distance > 0.5. Distance is 1 - cosine on the remapped scale, so this means a raw cosine
+    of about 0 or below: a far-tail event.
+      Sep 10-22: about 1/day, ~0.4% of ~240 windows/day, daily max 0.48-0.54 right at the bar
+      external_input windows have never flagged (max 0.41)
+      since 09-22: 807 non-empty windows (NEX mostly in STANDBY), 0 flags. P(0) ~ 0.04 at the
+      September rate.
+  - The GW empty-window fix does not touch this path, which already filtered NULLs.
+Decision: no code change. Watch for a self-resume while NEX is awake.
+Follow-up, NOT in this queue: the threshold sits on the remapped scale, and PredictiveSubstrate
+still flags empty windows at 1.0. Changing either touches every surprise consumer (GW,
+crystallizer SURPRISE_WEIGHT, momentum note, surprise rate), so it is not one variable here.
+
+
+ITEM 5 — THROWNET (no session since 09-18)
+-----------------------------------------
+Investigation (read-only):
+  - gate_reject triggers: all 90 completed sessions ran 09-09..09-13 on bursts of
+    "redundant:1.00" REJECTs (duplicate submissions). The coherence gate has issued ~0-3
+    REJECTs/day since. The 09-18 session came back empty.
+  - gap_deflection triggers: the chat gap-refusal path last ran 2026-05-29. Since then
+    use_substrate chat answers via VoiceEngine, so none are written.
+  - user_query rows: VoiceEngine telemetry since Phase 30 (1a87164, 05-11), deliberately
+    inserted fired=1. Queuing them would launch a session per chat turn.
+  - A session re-fetches EXISTING beliefs, re-gates them and counts outcomes. On ACCEPT it
+    writes nothing (the gate only decides and logs). The 803 "accepted" wrote 0 beliefs.
+Decision: confirm intended and document. No code change. It is idle because its only live
+trigger (duplicate-reject bursts) stopped, and when it runs it changes nothing. Flagged to the
+operator as a retirement candidate, not retired here: it is inert, and removing a named node is
+a scope call.
+
+
+ITEM 6 — VALENCE_DRIVE + the single "drive"
+-------------------------------------------
+VALENCE_DRIVE: read only inside _curiosity_pick, which runs only with NEX5_CURIOSITY=1 (disarmed
+7fd3dd5). No other consumer (grep). RETIRE: remove NEX5_VALENCE_DRIVE=1 from the launch line.
+No-op by construction; code and tests stay.
+The drive (drives id=1):
+  - It is a single slot overwritten every 600 s tick by whichever recent-belief cluster scores
+    highest. formed_at is kept and reinforce_count is incremented, so "formed 06-22,
+    reinforced 10,473x" is not one drive.
+  - The current cluster is 4 headlines (precipitated_from_sense).
+  - The top theme changed 145 times in the last 300 ticks (135 distinct themes).
+  - The label is the top-5 IDF tokens, so it is word salad by construction; the plain
+    synthesis is also a 5-word bag.
+Decision: PARK, with this evidence; no change in this queue. Any repair (a persistence
+requirement, a sentence label) or any retirement touches >=5 consumers (DRIFT drive line, GW
+drive candidate, STAKES_DEEP pick, chat injection, drive probes), so it is not one variable.
+It needs its own spec and uptake test.
