@@ -1,0 +1,85 @@
+VOICE COLLAPSE (task-list fires) + CJK MOP-UP — SPEC (2026-10-05 ~15:30, pre-registered)
+=========================================================================================
+Inspector: Claude Code. Base: nex5 05faeb7 (live; NEX5_PERSONA_LANG_GUARD armed).
+Same discipline: read-only first; STANDBY for builds; one variable; arm only what verifies.
+Load-bearing set, warrant recorders and compass untouched.
+
+0. IN-FLIGHT ITEMS — status (verified 15:03)
+--------------------------------------------
+- Persona guard held: 20/20 persona replies English since 09:54; interlocutor focus 'exploration'
+  (turn 938); 0/116 fully-Chinese fires since the fix.
+- Stray mid-English CJK ("价格", "扩容和解决方案"): 2/116 fires since the fix, both RECONCILE fires
+  at 10:41 and 11:36, during the carry tail. None since 11:36 (~50 fires).
+- Exit guard NEX5_FIRE_LANG_GUARD: complete per its spec. G3 failed (retry 0.59 < 0.70), so it
+  stays DARK. A stronger-retry variant would be a new variable.
+- Conviction files: committed for the record (7cc1811); tree clean.
+- Surprise promoter: 3.5 h continuous uptime (since 11:31). Still pending (needs ~1 day).
+
+1. CJK MOP-UP (data, reversible) — retire all 15 CJK beliefs to tier 8
+----------------------------------------------------------------------
+Reachable now:
+  - 2 substantially-Chinese T3 hot_observer quotes: #301243 (28% CJK, drawn into a prompt at
+    14:39 today) and #299215 (34%).
+  - 13 English beliefs with one stray CJK word (T7, last drawn between May and August).
+Tier 8 is the "retired" convention: fountain retrieval excludes tier=8 explicitly and chat
+retrieval bounds tier <= 6. `paused` is not honoured by the fountain path, so pausing would not
+work. Done in STANDBY in one transaction. The original (id, tier) pairs are written to
+voice_collapse_2026-10-05_cjk_retired.tsv, so it is reversible with one UPDATE.
+Check: 0 CJK beliefs remain at tier < 8.
+
+2. VOICE COLLAPSE — investigation (done, read-only)
+---------------------------------------------------
+Task-list fires ("Investigate X. Analyze Y.", "NEXT STEP:", "The FINISHED ANSWER is:") are the
+RECONCILE path:
+  - per 30-min slot today, task-list fires track RECONCILE eligibility (>=2 open problems):
+    03:00 7/8; 09:00-11:30 4-11 per slot vs 7-12 eligible; 0 since 13:30, when RECONCILE went
+    dormant;
+  - the shift started at 09:10 (#560 made two open), BEFORE the persona fix (09:54);
+  - over 30 d, task-list fires are 48% of RECONCILE-eligible fires vs 0.2% elsewhere.
+Spawn loop:
+  - signal_to_problem opens "Signal: investigate '<entity>'" from N_branch co-occurrence
+    signals (an entity in >=2 belief branches within 30 min).
+  - Self-sources supply the second branch:
+      (a) hot_observer meta-beliefs quote each fire WITH the fire's branch, so her own repeated
+          fires ("Ethereum Layer...", "Investigate Ethereum Layer...") cross branches. #559 and
+          #561 are self-only.
+      (b) her grounded_scorecard self-belief ("My hourly market direction calls ... Bitcoin
+          prices ...", branch systems) is deleted and re-inserted hourly, so "Bitcoin" is
+          always in branch systems. Any Bitcoin headline then makes a 2_branch signal: #560,
+          #562, #563 and the recurring Bitcoin problems.
+  - The 7-day dedupe only blocks while a problem is still OPEN, so a closed entity respawns at
+    the next tick (#560 closed 11:18 -> #562 11:20).
+  - Census of 95 problems in 30 d: 50 of the 84 with evidence (60%) do not reach 2 branches
+    without self-sources (hot_observer 46, scorecard 10); 34 qualify on external content.
+Genius scorer: NOT reinforcing the boilerplate. STRIKING over 14 d: task-list 39% vs other 42%;
+RECONCILE-eligible 39% vs normal 42%. (The 36%-vs-18% figure does not reproduce.)
+Also seen (separate, NOT this variable): from 13:30 normal fires write about "Optimism / Ethereum
+L2 shutting down" even when the assigned item is different (19/29 wide fires had "Terminal-Agent
+Training"). That is a topic rut from carried context + a responsive persona; it is measured and
+reported, not fixed here.
+
+3. FIX — ONE VARIABLE: NEX5_PROBLEM_SELF_GATE (default OFF), signal_to_problem only
+----------------------------------------------------------------------------------
+For N_branch signals, just before a problem would be opened: re-count the entity's branches from
+beliefs in the signal's own window (detected_at - window_seconds .. detected_at), with
+content LIKE %entity%, EXCLUDING self-sources (source = 'hot_observer' or LIKE
+'grounded_scorecard%'). If fewer than 2 branches remain -> mark the signal actioned and skip
+(logged "self_gate").
+Not changed: the detectors and signals table (other consumers keep their input), RECONCILE's
+bar, the dedupe semantics, existing open problems (#563 stays open; nothing is closed by hand).
+Prediction (30-d context census; an upper bound, since contexts are 3-item samples):
+  RECONCILE-eligible fires 8.4% -> 2.2%; task-list fires 4.3% -> ~1.3%;
+  today's 5 problems (559-563) all blocked.
+Offline verification:
+  (V1) unit tests — self-only second branch -> blocked; >=2 external branches -> opens;
+       flag off -> unchanged
+  (V2) the real gate function replayed read-only on the still-retained signals behind recent
+       problems: #559 / #561 / #562 must block. #560 / #563 (scorecard) cannot be replayed,
+       because the scorecard row is re-inserted hourly; covered by V1.
+Arm rule: V1 green, V2 as stated, and the signals/problem test suite identical to HEAD (under the
+live-data guard).
+Live check after arming (>= 60 min): self_gate decisions in the soak log; no new self-dependent
+problem; task-list fire share (expect ~0 while < 2 problems are open); normal fires stay
+substantive (the topic rut is reported separately).
+Options NOT taken (each its own variable if needed later): raising RECONCILE's bar to >=3,
+a respawn cooldown after close, excluding self-sources inside the detector itself.
