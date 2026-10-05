@@ -1,0 +1,167 @@
+REPAIR / WIRING QUEUE 2026-10-05 — RESULTS (spec 3986d1b)
+=========================================================
+Inspector: Claude Code.
+NEX was put in STANDBY at 03:27:31 (clean exit) for builds and probes; no game was running.
+Probes ran on sandbox DB copies (warrant tables + fountain_retrieval_log dropped unread).
+Every sqlite connection aimed at the live data/ dir was REDIRECTED to the sandbox copy (logged).
+One verdict per item, in queue order.
+
+INCIDENT (reported, not hidden)
+-------------------------------
+A regression run of the pre-existing tests/test_fountain.py at 03:33:43 overwrote the LIVE
+dynamic.db momentum row with that test's thought ("solitude is a form of attention").
+  Cause: generate() reaches momentum.capture_momentum via a hardcoded live path, so that
+         test file is not hermetic.
+  Impact: none reachable. Every momentum reader ignores rows older than 30 min, and her first
+          real fire overwrites the row. No other live rows changed after STANDBY: no beliefs,
+          edges, activation, fountain_events, recursion_attrib or emphasis rows.
+  Not part of this: the 04:02 beliefs.db write was the scheduled nightly reaper (1,550
+          residue rows).
+  From then on, every test run used a pytest plugin that refuses live-DB connections, and
+  live mtimes were checked before and after.
+  Follow-up (not done here): ~10 hardcoded "/home/rr/.../nex5/data/*.db" paths in
+  generator.py and global_workspace.py make the fountain tests write live.
+
+
+ITEM 1 — AMOHA TRIGGER   ->  PARKED (signal present, not detectable by an embedding read; nothing armed)
+---------------------------------------------------------------------------------------------------
+Replay (spec): 0 clouded windows in 9,453; the detector's top tail is silence/loop thoughts.
+Blind qwen2.5:7b rater (temperature 0); validity check 16/16 on synthetic sentences:
+  random 300 thoughts           CLOUDED 25 (8.3%)   <- above the 2% bar, so the REPAIR branch applies
+  amoha salience >= 0.25 (55)   CLOUDED 1  (1.8%)   <- the current read's top tail is not clouded
+  lexical-marker thoughts (38)  CLOUDED 2  (5.3%)
+  The rater-CLOUDED thoughts score ~0 on amoha. The clearest group: ARGUE/EXPLAIN fires that map
+  every item onto "my foundation that true mastery lies in simplifying actions to their most
+  fundamental essences" (one frame explains everything), plus sweeping generalisations.
+  A few labels look like rater noise.
+Repair candidates (threshold fitted on the even-id half, held-out odd half; bar P>=0.6 AND R>=0.5):
+  current amoha read            held-out P 0.04  R 0.19   FAIL
+  re-anchored contrast (generic anchors for the observed forms)
+                                held-out P 0.08  R 0.56   FAIL
+  kNN k=5 on her labelled thoughts
+                                held-out P 0.08  R 1.00   FAIL
+Verdict: PARKED, per the pre-registered rule. MiniLM topic embeddings do not carry the stance
+(over-certainty). No read reaches the bar, so nothing is armed and thresholds are NOT lowered
+(that would trip on silence/loop thoughts, i.e. a faked trip). The live flag is unchanged: the
+note stays inert, and if it ever fired it would fire on the wrong thoughts.
+Note: the clouded form lives mostly in ARGUE/EXPLAIN, exactly the modes the note could not reach
+before item 2.
+Options for the operator:
+  (a) an LLM-judged read, cost-gated (e.g. one 3B classification per DRIFT fire);
+  (b) address the "my foundation" mapping at the template/groove level instead;
+  (c) retire NEX5_AMOHA from the line. It is cosmetic now; the compass's clarity read is
+      separate and stays.
+
+
+ITEM 2 — FACULTY REACH: NEX5_WIDE_FOCUS   ->  NOT ARMED, built dark (nex5 e602017)
+-----------------------------------------------------------------------------------
+Build: _build_prompt collects the faculty lines as they are woven into focus_block. With the flag
+on, a wide (EXPLAIN/ARGUE) fire carries them after the task text. It never carries the mode's
+drift focus or the parked drive line. DRIFT is unchanged.
+  4 new tests green.
+  fountain/budgie/retrieval/amoha failure set identical to HEAD (6 pre-existing).
+Probe:
+  N=60 real wide contexts: items from the last 2000 wide fires; the real preceding thought was
+    written into the sandbox momentum row.
+  One _build_prompt per context; arm A = arm B minus the appended faculty blocks, so the item,
+    retrieval and random draws are identical (exact pairing 60/60).
+  The 3B generated once per arm; blind qwen2.5:7b rated both orders.
+  Live-path connections redirected to the sandbox: GW 60, generator 60.
+Pre-registered gates:
+  REACH  B prompts with >=1 faculty line: 100% (workspace 60, SELF 60, mood 60) vs 0% in A
+  Q      substance  B>A net +0.008  CI [-0.083, +0.108]   pass (lower > -0.10, narrowly)
+  S      on-item    B>A net -0.008  CI [-0.075, +0.058]   pass
+  G      striking share  A 0.417  B 0.433  (+0.017)        pass
+Secondary measures (NOT pre-registered). All point the same way:
+  words per output          B-A +15.6   CI [+1.1, +28.9]       (82 -> 98)
+  self-reference per word   B-A +0.0077 CI [+0.0020, +0.0134]  (+36%)
+  crystallizer _is_on_subject      A 43/60  B 35/60   discordant 12 vs 4, exact p=0.077
+  crystallizer admission (length & engagement)
+                                   A 31/60  B 24/60   discordant 14 vs 7, p=0.19
+  by mode  EXPLAIN (n=34) Q -0.132, S -0.044  |  ARGUE (n=26) Q +0.192, S +0.038
+  Mechanism: in all 60 B prompts the workspace winner was the momentum line "you were mid-thought
+  on '...' - this thread is still live. Continue it if it leads somewhere." B outputs pick that
+  thread up ("Meanwhile, another...", "I've been ob...") instead of staying on the item.
+Verdict: NOT ARMED. This deliberately departs from the pre-registered arm rule, in the
+conservative direction. The operator's instruction "if it degrades her thinking, revert"
+outranks a narrow non-inferiority pass. Every secondary measure shows the fire drifting off the
+item, getting longer and more self-referential, with lower crystallizer yield; EXPLAIN (the
+on-subject mode) loses substance. The flag stays off and the code stays dark (no live effect).
+Reach before = after = 24.9% of fires.
+Next variable (needs its own spec): the same carry WITHOUT the workspace momentum imperative
+("Continue it if it leads somewhere"), or ARGUE-only. ARGUE alone was positive here (+0.19
+substance), but that is a post-hoc subgroup of n=26.
+
+
+ITEM 3 — SYNERGIZER QUIET TRIGGER   ->  RETIRED (nex5 63878e3)
+-------------------------------------------------------------
+Replay: with the column fixed, the trigger fires 0/24,729 awake ticks over 28 d (min 15-min count
+175; external-only also 0). Fixing it would add a branch that never fires, so it was retired.
+Change: deleted the quiet block and its two constants, with a comment carrying the evidence.
+The 25-min timer is untouched.
+Verification:
+  3 new hermetic tests: the timer fires at t=1, 26 and 51 min over 60 min; no sense_events read;
+  constants gone.
+  test_world_model + test_synergizer + test_synergizer_attribution under the live-DB guard:
+  43 passed / 1 failed, identical to HEAD. The pre-existing failure is
+  test_no_direct_sqlite3_outside_substrate; 0 live connections.
+Behaviour-neutral by construction: the old try-block always raised and left fire=False.
+
+
+ITEM 4 — SURPRISE -> BELIEF PROMOTER   ->  NO CHANGE (not dead; starved). Watch on wake.
+--------------------------------------------------------------------------------------
+See spec: the promoter works (it promoted up to its 09-22 cursor). Real flags are a far-tail
+event (~0.4% of non-empty internal windows, ~1/day fully awake). Since 09-22 there were 807
+non-empty windows (mostly STANDBY), so 0 flags is plausible (P~0.04). Self-resume watch: at
+05:00 (4 min after wake) no prediction window had verified yet: 0 surprise events, 0 surprise
+beliefs. At ~1 real flag per fully-awake day, the self-resume check needs about a day of uptime.
+Re-read: beliefs where source='surprise' and created_at > 2026-10-05 04:57.
+
+
+ITEM 5 — THROWNET   ->  CONFIRMED INTENDED-IDLE, documented; no code change
+-------------------------------------------------------------------------
+  Only live trigger: bursts of >=4 same-topic "redundant:1.00" gate REJECTs. Last burst 09-13.
+    The gate now issues ~0-3 REJECTs/day.
+  gap_deflection triggers: the chat gap-refusal path last ran 2026-05-29.
+  user_query rows: VoiceEngine telemetry (Phase 30, 1a87164), deliberately inserted fired=1.
+    Queuing them would start a session per chat turn.
+  Sessions re-gate EXISTING beliefs and write nothing on ACCEPT: 803 "accepted", 0 beliefs.
+Operator call: retirement candidate (inert node). Not retired here.
+
+
+ITEM 6 — VALENCE_DRIVE + THE DRIVE
+---------------------------------
+VALENCE_DRIVE  ->  RETIRED from the launch line (nex5 02f7a0a)
+  No-op: read only inside _curiosity_pick, which runs only with NEX5_CURIOSITY=1 (disarmed).
+  Code and tests stay. Loads at the next supervisor swap.
+The drive  ->  PARKED with evidence:
+  It is a single slot overwritten each 600 s tick by the densest recent cluster.
+    The current cluster is 4 headlines.
+    145 theme changes in the last 300 ticks (135 distinct themes).
+    The label is a top-5 IDF token bag (word salad by construction).
+  Any repair or retirement touches >=5 consumers, so it needs its own spec + uptake test.
+  NEX5_WIDE_FOCUS deliberately does not carry the drive line into wide fires.
+
+
+LIVE STATE AFTER THE QUEUE
+--------------------------
+Supervisor swap with NEX in STANDBY: MainPID 1610 -> 48865 at 04:56:38 (fresh parse of HEAD 02f7a0a).
+STANDBY removed 04:56:41; HTTP 200 after ~20 s; NEX pid 48932.
+/proc/48932/environ == HEAD 02f7a0a launch line exactly: 56 flags. The only change vs the
+previous line is -NEX5_VALENCE_DRIVE.
+Boot clean: 0 tracebacks. One benign warning: self_pred status read before Flask was up; the same
+warning appeared at the 10-03 21:33 boot (pre-existing startup race).
+Synergizer timer fired normally after the swap (synergizer_log 05:00:21); no synergizer errors.
+Untouched: load-bearing set, warrant recorders, warrant tables, fountain_retrieval_log (dropped
+unread in the sandbox copies only), compass. Nothing pushed.
+
+
+SUMMARY
+-------
+item | investigated | change | measured effect | status
+1 amoha trigger | replay 0/9,453 clouded windows; blind 7b: 8.3% of thoughts clouded, detector P 0.04 | none (re-anchor + kNN tried offline) | best held-out P 0.08 (bar 0.6) | PARKED
+2 faculty reach (WIDE_FOCUS) | reach 24.9% (DRIFT only) | flag + carry built dark (e602017) | reach 0->100% of wide prompts; Q +0.008, S -0.008, G +0.017 (pass); on-subject 43->35/60, +15.6 words, +36% self-ref, EXPLAIN Q -0.13 | NOT ARMED (dark)
+3 synergizer quiet trigger | dead since 04-23; fixed would fire 0/24,729 | dead branch deleted (63878e3) | behaviour-neutral; tests = HEAD under guard; timer fires live | RETIRED
+4 surprise promoter | works; real flags ~0.4%/window, far-tail on remapped scale | none | 0 flags since 09-22 consistent with little uptime; live re-check needs ~1 day | NO CHANGE (watch)
+5 ThrowNet | trigger = duplicate-reject bursts only; user_query = telemetry; sessions write 0 beliefs | none | idle by design | DOCUMENTED (retirement candidate)
+6 VALENCE_DRIVE + drive | VALENCE no-op; drive = churning 4-headline label (145 changes/300 ticks) | VALENCE removed from line (02f7a0a) | no-op removed; drive untouched | VALENCE RETIRED; drive PARKED
