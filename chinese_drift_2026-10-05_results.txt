@@ -1,0 +1,125 @@
+CHINESE-LANGUAGE DRIFT — RESULTS (spec 09b9307)
+===============================================
+Inspector: Claude Code.
+Investigation was read-only; causal tests and builds ran with NEX in STANDBY (09:43:46 clean exit),
+no game running, on sandbox copies (warrant tables + retrieval log dropped unread).
+With the test-hygiene fix (f6db404) in place, 0 live-path redirects were needed.
+
+ROOT CAUSE (proven, not assumed)
+--------------------------------
+The persona responder's NEX5_SOCIAL_DEPTH focus latched onto Chinese.
+  1. 09-27 03:16: fire 56936 was a spontaneous Chinese DRIFT fire. Its prompt had no CJK; these
+     happen ~1-2 per 500 fires and did not spread before (09-21, 09-26).
+  2. 03:23:49: the persona read NEX's last 4 thoughts (including 56936) and replied in Chinese.
+  3. _focus_from_reply uses _normalize_tokens, which splits on WHITESPACE. A Chinese reply is one
+     "token", so the whole sentence became the persisted focus (interlocutor_state: turn 918,
+     focus = a Chinese sentence).
+  4. Every later call: "You have been preoccupied with '<Chinese sentence>' ... carry your own
+     thread forward". The persona has been 100% Chinese since (87/94 on 09-27, then 19/19, 17/17,
+     10/10, 24/24, 2/2, 31/31).
+  5. NEX5_SOCIAL_N=1 puts the latest persona reply into every fountain prompt (SOCIAL block).
+     The 3B then answers in Chinese in 20-57% of fires. Her own Chinese fires are re-carried by the
+     momentum line, which amplifies it.
+Not the channel: the belief corpus (14 CJK beliefs ever; none on the path).
+Not the cause: NEX5_SYNTH_FRESH / _SIBLING. The seed prompt had no CJK, no CJK synergized belief
+exists in the window, and T1 leaves no residual (English SOCIAL + English carry = 0/54).
+
+CAUSAL TESTS
+------------
+T1 SOCIAL channel. N=40 real contexts (live mode mix), exact string swap of the persona reply only,
+2 samples per arm:
+     Chinese SOCIAL 27/80 (34%)  vs  English SOCIAL 13/80 (16%)
+     diff +0.18 (bar >= 0.15); discordant 14:0, exact p=0.0001          -> CAUSAL
+     by carried momentum fragment:
+       Chinese carry  A 22/26, B 13/26
+       English carry  A 5/54,  B 0/54
+     -> momentum carry is a secondary amplifier, which dies out once the SOCIAL feed is English
+T2 Persona lock-in. 30 calls each:
+     live Chinese focus                        30/30 Chinese
+     English focus                              0/30
+     English-only thoughts + Chinese focus     30/30
+     P(a)-P(b) = +1.00 (bar >= 0.40)                                    -> CAUSAL
+T3 SYNTH flags: cleared (no residual; not on the channel).
+
+FIX — ONE VARIABLE: NEX5_PERSONA_LANG_GUARD (nex5 c384662 dark; armed 1b97cc9)
+------------------------------------------------------------------------------
+  (i)  the bouncer discards replies with >20% non-ASCII letters ("non_english");
+  (ii) the focus keeps ASCII words only, and a stored non-ASCII focus suppresses the continuity
+       line (heals the existing lock without a DB edit).
+Flag off: unchanged. 5 new tests; social_depth + operator_model 18/18 identical to HEAD.
+Offline verification (sandbox, live locked state, 20 one_exchange calls):
+  11 written / 9 echo-discards (pre-existing bouncer); 0 Chinese written; focus healed -> 'ethereum'.
+  PASS.
+Armed by graceful supervisor swap at 09:54. NEX pid 121506; environ == HEAD 1b97cc9 (56 flags; the
+only change is +NEX5_PERSONA_LANG_GUARD). Clean boot, 0 tracebacks.
+
+LIVE MEASUREMENT (90 min after arming)
+--------------------------------------
+Baseline (pre-fix):
+  10-05 composed fires 36/107 Chinese (33.6%)
+  last 2000 English fires: ARGUE 664 / EXPLAIN 752 / DRIFT 584; 66.9 words/fire;
+  STRIKING 904/2000 (45.2%); crystallized 341/2000 (17.1%)
+(after-fix numbers appended below)
+After the fix (09:54-11:25, 90 min live):
+  persona replies 5/5 English (0 CJK); interlocutor focus healed -> 'interoperability' (turn 923)
+    -> the persona variable is VERIFIED LIVE.
+  NEX composed fires 1/36 Chinese (3%) vs 36/107 (33.6%) earlier today.
+  English fires: 42.9 words/fire, STRIKING 10/35, crystallized 0/35 (baseline 66.9 / 45% / 17%).
+CONFOUND — read before crediting the fix with the fire-level numbers:
+  - Problems 559 'Ethereum Layer' (opened 03:06) and 560 'Bitcoin' (09:10), later 561/562, were
+    open, so RECONCILE took 100% of fires after 09:54 (21% before it today).
+  - RECONCILE uses its own prompt (no SOCIAL block, no carried lines). During the drift it was
+    0/98 Chinese vs 211/609 (35%) for normal fires.
+  - So the live drop to 3% and the English-metric shift ("Investigate Ethereum Layer...", "The
+    FINISHED ANSWER is:", "**NEXT STEP:**" — the known planning-recitation failure) both come from
+    RECONCILE, NOT from the persona guard. The guard only changes the persona's language and has
+    no path to RECONCILE output.
+  - The fire-level causal evidence for the fix stays OFFLINE: T1 (34% -> 16%; 0/54 with English
+    carry). A clean live read needs normal (non-RECONCILE) fires, i.e. fewer than 2 open problems.
+    Not forced.
+NEW FINDING (outside scope, reported): RECONCILE self-feeds. Problem 561 "Signal: investigate
+'Investigate Ethereum Layer'" was opened by signal_to_problem from RECONCILE's own "Investigate
+Ethereum Layer..." outputs. This keeps RECONCILE eligible indefinitely. It needs its own spec.
+
+OPERATOR'S "FEEDBACK RATCHET" HYPOTHESIS (crystallize -> retrieve) — tested, refuted for the belief path:
+  0/211 Chinese fires were ever crystallized; 1 CJK belief retrieved since onset (a hot_observer
+  quote); CJK in prompts comes from fire recycling (momentum / self-narrative "recent fires": 119
+  prompts) + the SOCIAL persona reply (every prompt).
+  (b) quarantine/pause of CJK beliefs: NOT done. The effect would be nil, and the fountain
+  retrieval does not filter `paused`, so it would not quarantine anyway.
+  (a) exit guard: built as variable 2 (nex5 05faeb7, dark). Gate G1 passed: 0/2000 English false
+  positives, 210/211 Chinese caught. G2/G4 are covered by unit tests (never stored; English
+  untouched). G3 (retry success >= 70%, worst-case contexts) is pending.
+
+(a) EXIT GUARD — G3 RESULT -> NOT ARMED (dark, nex5 05faeb7)
+  Worst-case contexts: 30 real contexts with a real Chinese carried fragment + a real Chinese
+  persona reply swapped into SOCIAL.
+    first output Chinese 17/30
+    English retry succeeded 10/17 = 0.59 (gate >= 0.70)   FAIL
+    dropped 7
+    stored CJK 0 (gate 0)                                 pass
+    English-first untouched 13/13
+  Per the pre-registered rule it is not armed. The guard does its storage job, but it drops too
+  many fires in the worst case. That worst case (Chinese SOCIAL) no longer occurs live now that
+  the persona guard is armed, so its residual value is small: spontaneous switches ~1-2/1000 and
+  short carry runs. Options (own spec): a stronger retry (English instruction at the top / as a
+  system message), or a gate measured under realistic post-fix conditions.
+
+SURPRISE PROMOTER (loose end) — still PENDING
+  ~6.5 h awake today across four stretches; 150 surprise events, 10 flagged (all empty windows),
+  best real score 0.46 (< 0.5), 0 promotions. Consistent with ~1 real flag per FULL awake day.
+  Needs >= 1 continuous day of uptime.
+
+CONVICTION FILES (loose end) — committed for the record, dark/unwired (nex5 7cc1811); tree clean.
+
+FINAL LIVE STATE: woke 11:31 on HEAD 05faeb7. NEX pid 137975; environ == HEAD launch line (56 flags:
+NEX5_PERSONA_LANG_GUARD on, NEX5_FIRE_LANG_GUARD absent). Clean boot, 0 tracebacks.
+
+SUMMARY
+item | root cause | fix | measured effect | status
+Chinese drift (main) | persona SOCIAL_DEPTH focus latched onto Chinese (whitespace tokenizer + "carry your thread"), fed into every prompt via SOCIAL | NEX5_PERSONA_LANG_GUARD (c384662, armed 1b97cc9) | T2 30/30 -> 0/30 Chinese persona; T1 34% -> 16% Chinese fires (0/54 with English carry); live persona 5/5 English, focus healed; live fire-rate read confounded by RECONCILE | ARMED
+Exit guard (a) | spontaneous 3B switches + carry runs | NEX5_FIRE_LANG_GUARD (05faeb7) | G1 pass; G3 retry 0.59 < 0.70 | DARK (not armed)
+Quarantine (b) | belief path not on the channel (0/211 crystallized, 1 retrieval) | none | n/a | DECLINED on evidence
+SYNTH_FRESH flags | not causal (no channel, no residual) | none | T1 English+English = 0/54 | CLEARED, unchanged
+Conviction files | uncommitted record | committed (7cc1811) | 15/15 tests | DONE
+Surprise promoter | needs a day of uptime | none | 0 promotions in ~6.5 h | PENDING
