@@ -165,3 +165,79 @@ item | investigated | change | measured effect | status
 4 surprise promoter | works; real flags ~0.4%/window, far-tail on remapped scale | none | 0 flags since 09-22 consistent with little uptime; live re-check needs ~1 day | NO CHANGE (watch)
 5 ThrowNet | trigger = duplicate-reject bursts only; user_query = telemetry; sessions write 0 beliefs | none | idle by design | DOCUMENTED (retirement candidate)
 6 VALENCE_DRIVE + drive | VALENCE no-op; drive = churning 4-headline label (145 changes/300 ticks) | VALENCE removed from line (02f7a0a) | no-op removed; drive untouched | VALENCE RETIRED; drive PARKED
+
+
+=====================================================================================
+CLOSE-OUT (operator go-ahead "finish the queue end to end", 2026-10-05 ~07:30-08:30)
+=====================================================================================
+GAME EVENT: MTGA was launched at 06:49:56 while NEX was awake, with qwen2.5:3b resident: the
+known crash pattern. At 06:51:23 NEX was put into STANDBY (clean exit) and the 3B unloaded via
+the ollama API (keep_alive 0; no sudo needed); no process held /dev/kfd. No amdgpu reset seen.
+All GPU work waited for the game to clear.
+Self-match bug: an earlier game check's pgrep pattern matched its own shell's command line.
+Fixed with bracketed patterns (gameguard.sh).
+
+ITEM 2b — WIDE_FOCUS without the workspace line   ->  NOT ARMED; faculty-reach lever CLOSED at the 3B
+  Build nex5 4296108 (dark). Same harness and seed; sandbox snapshot taken at STANDBY 06:51.
+  In this state only the mood line was carried (60/60). Exact pairing 60/60.
+  Gates:
+    Q  substance  net -0.025 CI [-0.108, +0.058]     FAIL (lower bound below -0.10)
+    S  on-item    net +0.000 CI [-0.058, +0.058]     pass
+    G  striking   A 0.233  B 0.217 (-0.017)           pass
+    on-subject    A 15  B 14 (-1)                     pass
+    admission     A 11  B 6  (-5)                     FAIL
+    EXPLAIN Q     -0.091 (n=33)                       pass (barely); ARGUE +0.056 (n=27)
+  Reported: self-reference +35% (0.0091 -> 0.0123); words +6.3 CI [-6.6, +19.0].
+  Confound: 42/60 A and 38/60 B outputs were in CHINESE (vs 6/3 in the 2a run). The English-token
+  on-subject/admission measures are depressed for both arms. Q (blind 7b) is language-neutral and
+  still failed.
+  Verdict: per the operator's rule, even one mood line degrades the wide fire (lower crystallizer
+  yield, more self-reference, substance CI below the margin). The flag stays dark, and the
+  faculty-reach lever is closed at the 3B: the 3B cannot carry inner-state lines into an outward
+  task without being pulled toward them.
+
+ITEM T — TEST HYGIENE   ->  REPAIRED (nex5 f6db404)
+  Recording guard over the full suite (HEAD): 20 live call sites reached by tests.
+  Fix:
+    substrate/paths.DbPath, a use-time path that resolves via db_paths() and honours
+      NEX5_DATA_DIR (identical path in production).
+    33 hardcoded DB constants in the reached modules and the fountain path converted.
+    The generator wide-item query and identity read, the gui tag-merge site and the
+      compositional_emotion fallbacks now use db_paths.
+    Script-mode imports are kept working for the 5 modules with __main__ blocks.
+  tests/conftest.py: NEX5_DATA_DIR defaults to a session temp dir. Any sqlite connection or file
+    write under live data/ is refused AND fails the test at teardown, even if swallowed
+    (self-check: a swallowed live connect -> ERROR, as intended).
+  Verified on the full suite (1,451 tests): failing set identical to HEAD-under-guard (40 = the
+    known 40 pre-existing), 0 new, 0 hygiene trips. Live data/ mtimes unchanged across the run.
+  52 literals remain in modules no test reaches (gui endpoints, moltbook listener/responder,
+    decoder, faculty modules, import-failure fallbacks). The guard fails any future test that
+    reaches them.
+
+ITEM 1 — AMOHA   ->  RETIRED from the launch line (nex5 280125c)
+  It fired 0/9,445, its precision against blind-rater labels is 0.04, and no embedding read
+  reached the bar (best held-out P 0.08). Leaving it armed advertises a faculty that does not
+  work. Code dark. The compass's own clarity read (amoha.detect, not flag-gated) is untouched;
+  note that it rests on the same low-precision read, which is a compass-review matter, not done
+  here.
+
+ITEM 4 — THROWNET   ->  RETIRED (loop not started; nex5 5091010; NEX5_THROWNET=1 restores)
+  Sessions over 5 months: 4 beliefs (one sentence x4) and ~21k held-zone entries. ACCEPT writes
+  nothing. It self-re-triggers via its own "redundant" REJECTs. No trigger since 09-13.
+  Trigger telemetry is kept. ThrowNet/GUI tests (22 files) under the guard: failure set
+  identical to HEAD.
+
+ITEM 5 — SURPRISE PROMOTER   ->  PENDING
+  NEX was awake ~3 h 07 m today (02:14-03:27, 04:57-06:51), far short of the ~1 day needed.
+  At 06:50: 44 surprise events since wake, 3 flagged (all empty windows), best real score 0.433
+  (< 0.5), 0 promotions. Re-run after ~24 h of uptime.
+
+FINDING (outside the queue; reported, not acted on) — CHINESE-LANGUAGE DRIFT IN LIVE FIRES
+  Share of composed fires containing CJK text, by day:
+    09-18..09-26  ~0% (max 0.4%)
+    09-27  21.8% (first at 03:16)
+    09-28  23.5%   09-30  25.4%   10-02  20.6%   10-03  47.2%   10-04  57.1% (n=7)   10-05  31.2%
+  Onset follows the arming of NEX5_SYNTH_FRESH (09-26 20:59) and NEX5_SYNTH_FRESH_SIBLING
+  (22:43). Correlation only; another candidate is a Chinese fragment carried by momentum /
+  self-narrative and self-reinforcing.
+  Needs its own investigation and spec.
