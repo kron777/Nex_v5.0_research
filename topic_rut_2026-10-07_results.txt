@@ -1,0 +1,91 @@
+TOPIC RUT (persona focus ratchet) — RESULTS (spec c097f5c)
+==========================================================
+Inspector: Claude Code, in a cloud SOURCE checkout — NO live NEX, NO data/ DBs.
+Code: nex5 e924c89 on branch claude/nex-dev-f1afni (NOT merged; NOT armed).
+Spec pre-registered first in a separate commit (c097f5c), before any code.
+
+WHAT THIS ROUND IS, AND IS NOT
+------------------------------
+This is the OFFLINE half only. The one-variable fix is built, unit-tested and
+replayed offline; it is DARK (default OFF) and unmerged. It has had NO live
+exposure — the persona focus ratchet, the 52% rut, and the healthy focus-dwell
+all live on the machine, not here. The live arm, the falsifier read and the
+anti-tuning check are handed off below for the operator.
+
+THE FIX (built)
+---------------
+NEX5_PERSONA_FOCUS_ROTATE (default OFF), persona_responder.py only. After the SAME
+interlocutor focus has been carried _PERSONA_FOCUS_STALE_TURNS (=4) consecutive
+turns, the next would-be carry is forced off it: drift to the most frequent content
+word in the reply that is NOT the stale focus, else clear the focus to "". A new
+focus_streak column on interlocutor_state tracks the run; back-compat ALTER migrates
+the existing live row. Token extraction was factored into _focus_tokens/_most_frequent
+and reused by the forced drift (no new vocabulary rule invented). Nothing else
+changed: the carry/drift logic below the bound, the mood walk, SOCIAL_N, the fountain
+SOCIAL block, NEX's own fires. Fail-safe: any error returns the prior state.
+
+OFFLINE VERIFICATION
+--------------------
+V1 — unit tests (tests/test_persona_focus_rotate.py, 7 tests, all pass):
+  flag OFF carries 'optimism' past the bound (streak keeps growing), identical to HEAD;
+  the streak accumulates and persists in the row; _load still returns the 3 legacy
+  keys (HEAD contract); flag ON leaves a healthy < K thread untouched; at the bound a
+  carry is forced to a different content word; with no other content word the focus
+  clears; after a rotate the streak resets (sawtooth, not per-turn thrash).
+  test_social_depth.py (8) and test_operator_model.py (10) pass UNCHANGED from HEAD.
+  Full suite: 60 failed / 1412 passed — the 60 are the pre-existing baseline set
+  (same world_predictions / beliefs.content UNIQUE schema-fixture gaps); the only new
+  passes are the 7 above. ZERO new failures.
+
+V2 — offline replay (scratch script; the module's _evolve over a synthetic
+Optimism-locked reply sequence, K=4):
+  NEX5_PERSONA_FOCUS_ROTATE=unset   turns 1-5 focus='optimism' (streak 1->5), drifts
+                                    at turn 6 only because that reply drops the word.
+                                    => the ratchet: carries as long as the word recurs.
+  NEX5_PERSONA_FOCUS_ROTATE=1       turns 1-4 focus='optimism' (streak 1->4), then the
+                                    would-be-5th carry ROTATES off to a different word
+                                    (streak reset to 1). => bound fires on turn 5, and
+                                    ONLY when armed.
+  (init emits harmless "no such table: world_predictions" Writer lines — the same
+  pre-existing schema-fixture gap as the 60 baseline failures, unrelated to this code.)
+
+ARM RULE (from the spec) — MET offline
+--------------------------------------
+V1 green; V2 as stated; test_social_depth + test_operator_model identical to HEAD
+under the live-data guard. The remaining conditions are LIVE and are the operator's.
+
+HANDOFF — to arm and confirm on the live NEX (not doable in this container)
+---------------------------------------------------------------------------
+0. ANTI-TUNING FIRST. Before arming, confirm K=4 sits ABOVE the persona's healthy p90
+   focus-dwell (how many consecutive turns a genuine evolving thread normally keeps a
+   focus). There is no stored history of focus changes (interlocutor_state is a single
+   row), so estimate the dwell from the persona log / external.other_mind cadence, or
+   log focus transitions for a day with the flag OFF first. If p90 >= 4, RAISE K above
+   it and re-register the spec — never lower K to catch the rut.
+1. ARM. Add NEX5_PERSONA_FOCUS_ROTATE=1 to the environment and relaunch by graceful
+   swap (the only change vs HEAD e924c89 + this env var). The ALTER migrates the live
+   interlocutor_state row on first touch (focus_streak starts at 0/NULL -> treated as
+   0, so the clock starts fresh; expect the first rotate ~K persona turns later).
+2. FOCUS ROTATES (the mechanism). Watch for the log line
+     "persona focus ROTATED off stale '<x>' -> '<y>' (carried N >= 4)"
+   and the interlocutor_state.focus row changing off a stale topic within ~K persona
+   turns (ticks ~600 s, so ~40 min of carrying before a rotate). Confirm the persona
+   is still developing multi-turn threads BELOW the bound (not reset-every-turn
+   small-talk) — engagement must survive.
+3. THE RESULT (what the variable is for). Over a soak window >= the rut's inter-arrival
+   (propose 24 h), NEX fire topic concentration must FALL vs the 52% / current-DF
+   baseline: measure the Optimism/ETH-L2 share of composed fires AND the existing
+   maxDF*/corpus_convergence reading.
+4. FALSIFIER (teeth). If the persona focus rotates as designed (step 2 passes) but the
+   fire topic concentration does NOT fall meaningfully (Optimism/ETH-L2 share stays
+   within noise of 52%, say >= 45% over 24 h), the persona was NOT the dominant driver
+   — the FIRE-recycling carry is. DISARM this variable and open variable 2: a carry-side
+   topic gate on the momentum / self-narrative "recent fires" blocks (the topic analogue
+   of NEX5_FIRE_LANG_GUARD). That is pre-committed here, not a post-hoc pivot.
+
+NOTE ON CONFOUNDS
+-----------------
+NEX5_PROBLEM_SELF_GATE armed in the same recent window (6729c7a) and its own live
+confirmation is still pending (daily cap). Do not arm this variable in the same swap
+as anything else, and attribute a concentration drop to it only after step 2 shows the
+focus actually rotating — otherwise a RECONCILE-side change could be credited here.
