@@ -1,0 +1,98 @@
+TOPIC RUT — VARIABLE 2 (carry-side topic gate) — RESULTS (spec 2e38970)
+=======================================================================
+Inspector: Claude Code, in a cloud SOURCE checkout — NO live NEX, NO data/ DBs.
+Code: nex5 8f98106 on branch claude/nex-dev-f1afni (NOT merged; NOT armed).
+Spec pre-registered first in a separate commit (2e38970), before any code.
+
+WHAT THIS ROUND IS, AND IS NOT
+------------------------------
+Offline half only. Variable 2 is built, unit-tested and replayed offline; DARK
+(default OFF), unmerged, unarmed. It is the pre-committed follow-up to variable 1's
+falsifier — built now so it is ready, NOT because variable 1 was shown to fail. Arm it
+ALONE and only after variable 1's live verdict says it is needed (see INDEPENDENCE).
+
+THE FIX (built)
+---------------
+NEX5_CARRY_TOPIC_GATE (default OFF), generator.py only. The recent-striking feedback
+block (_build_recent_striking_block, GENIUS_SCORE_v2 §7 consumer B, default ON) feeds 2
+recent STRIKING fires back verbatim; its groove filter is PHRASE/TEMPLATE-only, so a
+TOPIC rut passes through. Added:
+  - _dominant_topic_terms(thoughts, df_frac=0.40): pure detector returning the content
+    tokens in >= 40% of the recent-fire window, via the crystallizer's _fidelity_tokens
+    (lowercase, no stem -> a term substring-matches the raw fire text). 10-fire floor
+    (too few fires to call a rut). Fail-safe [].
+  - _recent_fire_topic_terms(): reads the last 40 fire thoughts (dynamic reader) and
+    defers to the detector.
+  - In _build_recent_striking_block, under the flag, a PRE-SAMPLE drop: remove from the
+    deduped candidate pool any fire whose text contains a dominant topic term, so a
+    non-rut STRIKING fire is surfaced. Never empties the pool (if every kept fire is on
+    the rut topic, keep them — the block stays a counterweight; fail-safe).
+Default OFF -> byte-identical (the detector is never called; the existing phrase groove
+filter is untouched and still runs after the sample exactly as on HEAD).
+
+TARGET NOTE (honest, from the spec §1)
+--------------------------------------
+Variable 1's falsifier named "momentum / self-narrative recent-fires blocks". The live
+code showed the momentum carried line is DRIFT-only, already excluded from WIDE fires
+(item 2b) and bounded (_MAX_CARRY=3) — low leverage on a rut that is ~70% WIDE fires;
+and self-narrative's live reach is uncertain. The live, per-fire, wide-reaching "recent
+fires" feedback is _build_recent_striking_block. Variable 2 targets it — faithful to the
+falsifier's intent, better aimed than its wording.
+
+OFFLINE VERIFICATION
+--------------------
+V1 — unit tests (tests/test_carry_topic_gate.py, 9 tests, all pass):
+  detector: a token in >= 40% of the window is returned; a token at 30% is not; a
+  diverse window returns []; a sub-10-fire window returns []; empty/None -> []; a
+  returned term substring-matches the raw fire that produced it.
+  block integration (generator via __new__ + stub readers, recent window 8/10 'optimism'):
+  flag ON surfaces the non-'optimism' STRIKING fire and never the 'optimism' one; flag
+  OFF feeds the 'optimism' fire back (HEAD behaviour); an all-'optimism' pool is NOT
+  emptied (fail-safe).
+  Full suite: 60 failed / 1421 passed — the 60 are the pre-existing baseline
+  (world_predictions / beliefs.content UNIQUE schema-fixture gaps); only the 9 new tests
+  were added. ZERO new failures. test_retrieval / test_fountain unchanged from HEAD.
+
+V2 — offline replay (pure detector over a 20-fire window, 12/20 = 60% 'optimism'):
+  df_frac=0.40 -> {optimism, ethereum, scaling, note, ...}  (dominant tokens caught)
+  df_frac=0.65 -> []                                         (above the 0.60 share; monotone)
+  all-diverse window -> []
+  9-fire window (below floor) -> []
+
+ARM RULE (from the spec) — MET offline
+--------------------------------------
+V1 green; V2 as stated; test_retrieval + test_fountain failure sets identical to HEAD
+under the live-data guard; full-suite 60-failure baseline unchanged. Remaining conditions
+are LIVE and the operator's.
+
+HANDOFF — to arm and confirm on the live NEX (not doable in this container)
+---------------------------------------------------------------------------
+0. SEQUENCE / INDEPENDENCE. Arm variable 2 ALONE. Do NOT arm it in the same swap as
+   variable 1 (NEX5_PERSONA_FOCUS_ROTATE) or PROBLEM_SELF_GATE — all three move topic/task
+   structure and a joint arm makes any concentration drop unattributable. Suggested order:
+   get variable 1's live verdict first; its falsifier decides whether variable 2 is even
+   needed. If needed, arm variable 2 alone.
+1. ANTI-TUNING CHECK. df_frac=0.40 and window=40 are pre-set from existing conventions.
+   Before/at arming, confirm they are not degenerate on the live stream (a healthy diverse
+   window should yield few/no dominant terms). If the gate over-drops in the live check
+   (empties the striking block on a large share of fires), RAISE df_frac and re-register —
+   never lower it.
+2. ARM. NEX5_CARRY_TOPIC_GATE=1, graceful swap (the only change vs HEAD 8f98106 + the env
+   var). No schema/migration (read-only detector).
+3. GATE FIRES. When a topic dominates >= 40% of recent fires, confirm the recent-striking
+   block stops surfacing that topic: inspect the striking block's rendered fires in
+   fountain_prompt_blocks; the dropped topic should no longer appear there while a non-rut
+   STRIKING fire does.
+4. THE RESULT. Over a soak window >= the rut inter-arrival (propose 24 h), fire topic
+   concentration must FALL vs the 52% / current maxDF* baseline (Optimism/ETH-L2 share +
+   maxDF*/corpus_convergence).
+5. COUNTERWEIGHT PRESERVED. The striking block must still render on most fires (it is NOT
+   emptied wholesale); the Mode-A/STRIKING rate must not degrade.
+
+FALSIFIER (teeth)
+-----------------
+If, armed ALONE, the striking block demonstrably stops feeding the rut topic back (step 3
+passes) BUT fire topic concentration does NOT fall meaningfully (share stays >= 45% over
+24 h), the striking block is not a load-bearing carrier of this rut — the persona
+(variable 1) or the hot_observer one-quote-per-fire slot is. Keep variable 1; open
+variable 3 (a topic gate on the hot_observer retrieval slot). Pre-committed here.
