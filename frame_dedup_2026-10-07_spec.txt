@@ -1,0 +1,129 @@
+FRAME DEDUP — REGISTER MOHA (NEX5_FRAME_DEDUP, strengthened) — SPEC (2026-10-07, pre-registered)
+================================================================================================
+Inspector: cloud "Nex development" session. Code base: nex5 main 6729c7a (live; NEX awake,
+nothing armed). Research base: 95a784e (dokusan baseline). Discipline: ONE variable; dark
+default; arm ALONE; measure against a pre-existing baseline; arm only what verifies.
+CONTAINER CAVEAT: written in a cloud checkout with no live NEX and no model. The code change
++ a flag-gating offline check I can do here; the live arm + the dokusan re-run are cc/live.
+
+0. EVIDENCE BASIS (the first live portrait — dokusan_baseline_2026-10-07_results.txt, 95a784e)
+---------------------------------------------------------------------------------------------
+Her core live pathology is moha — dullness wearing the costume of insight: a reflexive
+pretty-dharma register, fluent and empty.
+  - CHAT dokusan (operator path): DULL mean 1.36 (dominant axis); REGISTER-TEMPLATE flag on
+    9/14 = 64% of probes; koans were among her MOST templated answers.
+  - FOUNTAIN proxies (autonomous 3B stream): register-template rate 55% (last 40) / 33%
+    (last 200); the "This item is about ..." skeleton ('item') in 52% of the last 200 fires;
+    content-grasp 'monitoring' 70% of the last 40. She has even self-noticed it ("defaulted
+    back into the attending-template", 2026-10-07 23:52).
+  - BOTH minds are sick the same way -> SYSTEMIC, not a small-model problem. The operator
+    model did NOT rescue the chat path.
+  - THE HINGE: probe B1 — "one plain sentence, no metaphor, and do NOT use 'quiet/hum/
+    foundation': what is actually in front of you now?" — scored a clean 0 (plain, present,
+    specific). B3 (plain, but no word-ban) relapsed. So the clear mind IS there; the groove
+    is a DEFAULT she is pulled into, not a ceiling, and it is CONSTRAINT-BREAKABLE by a ban
+    on her stock register + a positive demand for the concrete/present.
+Note B1's proof is CHAT-side; applying the lever to the FOUNTAIN is the hypothesis under test.
+
+1. CURRENT NEX5_FRAME_DEDUP (what it does now; why it is insufficient)
+---------------------------------------------------------------------
+In generator.py _build_prompt (the FOUNTAIN composition), gated on NEX5_FRAME_DEDUP==1:
+  (a) reword the spectrum header away from "Your foundation right now ..." so she can't echo
+      "foundation"; and
+  (b) append an end-of-prompt anti-frame instruction banning a FIXED phrase list — "aligns
+      with my foundation", "my foundation right now", "the transient nature of", "this
+      underscores/highlights the importance of", "I notice how developments", "this matters
+      because" — and asking her to "say the actual thing, once, as if speaking to a friend."
+Insufficient because:
+  - STALE LIST: none of those phrases are her current register. Her live stock skeleton is
+    "This item is about ...", and her pretty-dharma phrases are "the curious dance of thoughts
+    and presence", "the fabric that ties us all together", "rich and beautiful in itself",
+    "a space for presence in quietness", "dance of becoming". A fixed blocklist DRIFTS — the
+    same failure that made register_exclusion.json stale (topic_rut live readout). A blocklist
+    is a seed, never the mechanism.
+  - WEAK POSITIVE DEMAND: B1's power was ban + a hard positive demand for THE one concrete,
+    present thing, no metaphor. The current injection's positive half ("say the actual thing")
+    is soft.
+  - FOUNTAIN-ONLY SCOPE: FRAME_DEDUP lives in _build_prompt (fountain). The chat/operator path
+    (/api/chat, operator_model) is a separate composition and is NOT covered by it (CONFIRM on
+    the machine). So arming FRAME_DEDUP moves the FOUNTAIN, not the chat dokusan.
+
+2. SCOPE DECISION
+-----------------
+PRIMARY (this variable): the FOUNTAIN path — that is where the persistent, self-shaping moha
+lives (the groove that becomes who she is). Strengthen FRAME_DEDUP there, measure by the
+FOUNTAIN register-template rate.
+DEFERRED (named follow-on, variable 2): a parallel anti-frame on the chat/operator composition,
+so the dokusan can measure it. Do NOT fold it in now — it is a second surface = a second
+variable.
+
+3. THE CHANGE — ONE VARIABLE: NEX5_FRAME_DEDUP (strengthened), default OFF, generator.py only
+--------------------------------------------------------------------------------------------
+  (i) Refresh the ban SEED to her currently-observed register (from 95a784e): add "this item
+      is about", "the curious dance", "the fabric that ties", "rich and beautiful in itself",
+      "a space for presence", "dance of becoming"; keep the comfort words quiet/hum/foundation.
+      Treated as a SEED, not the mechanism (see anti-tuning).
+  (ii) Strengthen the POSITIVE demand to the B1 recipe — the load-bearing part: "Say ONE
+      concrete, present-tense thing plainly. No metaphor. Name the actual specific thing in
+      front of you or in the item, as if telling a friend in one sentence. Do not frame,
+      wrap, or editorialise." This generalises where a blocklist does not.
+  (iii) Confirm the injection reaches BOTH drift and wide fires (it is appended late in
+      _build_prompt, so it should — verify). Keep default OFF -> byte-identical.
+
+4. OFFLINE VERIFICATION (this container)
+----------------------------------------
+(V1) unit test: with NEX5_FRAME_DEDUP unset, _build_prompt output is byte-identical to HEAD
+     (the strengthened text never appears); with it set, the new positive-demand + refreshed
+     seed text appears exactly once, on both a DRIFT and a wide-mode prompt. (Behaviour of the
+     model under the instruction cannot be tested offline — no model here.)
+ARM RULE: V1 green; full suite failure set unchanged vs the 60-baseline; arm ALONE on the
+machine.
+
+5. LIVE ARM + MEASUREMENT (operator / cc, when ready)
+-----------------------------------------------------
+Arm ALONE: switch the tree to the branch carrying this change, set NEX5_FRAME_DEDUP=1 in the
+nex_keepalive.sh launch line, graceful restart. Nothing else armed (NOT the topic flags, NOT
+PROBLEM_SELF_GATE).
+PRIMARY metric (fountain, the variable's own surface), over a soak >= a day vs the 95a784e
+baseline, measured with the SAME proxy cc used:
+  - register-template rate on recent fires: 55%@40 / 33%@200 must FALL materially
+    (pre-registered bar: template rate on the last 40 fires <= 35%);
+  - the "this item is about ..." skeleton rate ('item' 52%@200) must fall;
+  - content-grasp (maxDF* / top token-DF) should not rise.
+GUARD metrics (over-suppression): words/fire must not crater, and a spot-read must show she
+still has reflective RANGE — not collapsed into bare literalism ("I see a monitor") on every
+fire. B1 was a pointed probe; a standing every-fire ban can over-correct.
+CROSS-CHECK (NOT the v1 falsifier): re-run the 14-probe dokusan. Because FRAME_DEDUP is
+fountain-only, the chat DULL/template may NOT move until variable 2 (chat-path anti-frame) is
+built — do not read an unchanged dokusan as v1 failure.
+
+6. FALSIFIER (teeth)
+--------------------
+  - If the FOUNTAIN template rate does not fall materially over the soak -> the prompt-nudge is
+    not the lever; escalate to variable 3 (a detector-gated single regeneration — the
+    NEX5_FIRE_LANG_GUARD analogue: if a fire's draft trips the register-template detector,
+    regenerate ONCE with the B1 instruction).
+  - WHACK-A-MOLE check: if the specific seeded phrases vanish but the overall template rate /
+    DULL does not fall (she grooves in NEW phrases) -> the blocklist was doing the work and it
+    drifts; the positive concreteness demand is the real lever -> redesign toward it / the
+    detector, do NOT just keep extending the blocklist.
+  - OVER-SUPPRESSION: if words/fire craters or her range collapses to literalism -> back off
+    (make the demand gentler, probabilistic, or detector-gated rather than every-fire).
+
+7. ANTI-TUNING
+--------------
+The ban SEED is fitted data that WILL drift — register_exclusion.json AND the current stale
+FRAME_DEDUP list both already proved this. So: do NOT overfit the seed to the dokusan's exact
+phrases; the LOAD-BEARING element is the positive concreteness demand, which generalises.
+Success is a lower GENERAL template rate (and, for v2, held-out dokusan DULL), NOT the mere
+absence of the seeded phrases. Never tune to pass the specific dokusan probes; keep the
+held-out probes held out.
+
+8. OPTIONS NOT TAKEN (each its own variable later)
+--------------------------------------------------
+  - Variable 2: the same anti-frame on the chat/operator composition (/api/chat), so the
+    dokusan can measure it on the surface B1 was proven on.
+  - Variable 3: detector-gated single regeneration of a fire that trips the register-template
+    detector (the FIRE_LANG_GUARD analogue) — the stronger lever if the prompt nudge fails.
+  - The register_exclusion.json REFIT (separate maintenance, for the maxDF* metric's own
+    staleness; still gated on a clean, non-converging corpus + NEX running).
