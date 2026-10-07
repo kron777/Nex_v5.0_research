@@ -1,0 +1,81 @@
+TOPIC RUT — VARIABLE 3 INVESTIGATION — FINDING (2026-10-07)
+===========================================================
+Inspector: Claude Code, cloud SOURCE checkout (no live NEX / data). Code base: nex5
+8f98106 (branch claude/nex-dev-f1afni; variables 1 + 2 built dark). Research base: 97abbd2.
+No code shipped this step — this records a REFUTED premise so the dead gate is not built.
+
+PRE-REGISTERED TARGET
+---------------------
+Variables 1 and 2's falsifiers both pre-committed variable 3 as "a topic gate on the
+hot_observer one-self-quote-per-fire retrieval slot" (the R75/R76 "advancements" groove
+amplifier: hot_observer beliefs quote a recent fire verbatim, one drawn per fire).
+
+REFUTED: THE HOT_OBSERVER SLOT DOES NOT REACH THE PROMPT IN HEAD
+---------------------------------------------------------------
+The dedicated HOT slot in _retrieve_context_beliefs still DRAWS one hot_observer belief
+per fire (72h pool, R76 widen+dedup) and appends it to context_beliefs — but in HEAD that
+belief is NEVER RENDERED into the prompt. A topic gate there would gate a dead channel.
+
+Evidence (all in this container, HEAD 8f98106):
+  1. Empirical probe A: inserted 5 recent hot_observer beliefs with a unique marker, built
+     a real prompt (FountainGenerator on a temp DB). The hot belief was present in
+     _retrieve_context_beliefs' return (Counter: hot_observer=1, tao=1, koan=1) but the
+     marker was ABSENT from the built prompt.
+  2. Empirical probe B: inserted fountain_insight + synergized + hot_observer beliefs. None
+     of their markers appeared in the prompt; the only own-ish rendered block was seeds
+     ("Things you've read that sometimes come to mind") and "Recent input". manifest slots
+     = {seed} only.
+  3. Code: there is NO render loop over `own` (the fountain_insight/synergized subset) or
+     over the hot_observer belief. generator.py renders only own_sense (precipitated_from_
+     sense), seeds, spectrum, favourites and the recent-striking block. The `for belief in
+     context_beliefs` loop (line ~3066) only bumps activation — a DB write, not a render.
+  4. The render that WOULD have shown it is gone: "DISABLED self-observations block removed
+     (session 49 continued) -- dead since 2026-05-15 (`if False`)" (generator.py ~3696).
+  5. The comment at generator.py ~3688 ("her own recent thinking flows through retrieval:
+     _retrieve_context_beliefs returns synergized + fountain_insight sources") is STALE —
+     the recent-thoughts block was removed in Phase 43 AND the retrieval-render was removed
+     in session 49, so neither path renders her own distilled content now.
+  6. Corroboration: tests/test_retrieval.py::test_build_prompt_includes_own_content_section
+     and ::test_build_prompt_includes_beliefs_held are in the 60-failure baseline — they
+     assert an own-content block ("Some of what you've been thinking recently:") that no
+     longer exists.
+
+So: in HEAD the hot_observer slot draws + dedups + bumps activation, then discards the pick
+from the prompt. R75/R76's "injected into every fire" held when they measured it (Aug 23);
+the render was removed afterwards. Gating this slot now is inert and mis-aimed — the same
+class of mechanism this repo keeps DISARMING (cf. AMOHA, VALENCE_DRIVE). NOT BUILT.
+
+WHAT ACTUALLY CARRIES TOPIC INTO THE PROMPT (HEAD), after variables 1 + 2
+-------------------------------------------------------------------------
+Rendered, live, topic-bearing blocks (probed/grepped):
+  - recent-striking block (consumer B)        -> gated by variable 2 (NEX5_CARRY_TOPIC_GATE)
+  - persona SOCIAL block                        -> gated by variable 1 (NEX5_PERSONA_FOCUS_ROTATE)
+  - own_sense "Things you've been reading about lately" (precipitated_from_sense): LIVE,
+    417 surfacings in fountain_prompt_blocks; 57% of all beliefs are news headlines. WORLD
+    input, not her own fires.
+  - the WIDE-mode seed item, and the world-bridge "What's happening in the world right now"
+    block: WORLD input, from the 24 external feeds.
+  - favourites (affinity beliefs) and spectrum (standing-points): STABLE identity content,
+    not recent-topic — unlikely rut drivers.
+Her own distilled fires (fountain_insight / synergized / hot_observer) do NOT render at all.
+
+IMPLICATION FOR A REAL VARIABLE 3 (if variables 1 + 2's live verdict shows residual rut)
+----------------------------------------------------------------------------------------
+The remaining live topic carriers are WORLD-input-driven: own_sense, the wide seed item,
+and world-bridge events — all from the 24 feeds. If those feeds are crypto-heavy, part of
+the "topic rut" is the world's actual content reaching her, not a self-recycling loop. The
+correctly-aimed variable 3 would be a topic-diversification on the WORLD-INPUT side (feed /
+own_sense / wide-seed selection), building on the existing RSS-diversification machinery
+(NEX5_RSS_DIVERSIFICATION; tests/test_rss_diversification.py) — NOT a gate on the dead
+hot_observer slot. Pre-registering it needs a live read of the feed/topic distribution
+(not available in this container), so it is DEFERRED to the operator, best decided AFTER
+variables 1 + 2's live verdict (which may make it unnecessary).
+
+SEPARATE REPAIR-QUEUE CANDIDATE (not part of the rut fix)
+---------------------------------------------------------
+The own-content render being dead is either an intended Phase-43 consequence or an
+over-removal in session 49 (the comment implies own content was meant to flow via
+retrieval). Either way: (a) the own-content retrieval tests fail for this reason — update
+or retire them; and (b) the hot_observer DRAW in _retrieve_context_beliefs is now pure dead
+weight (draw + dedup + activation-bump, never rendered) — restore the render or delete the
+draw and the stale comment. A decision for the operator; flagged, not acted on here.
