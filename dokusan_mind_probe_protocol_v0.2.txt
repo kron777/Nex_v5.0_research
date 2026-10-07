@@ -1,0 +1,119 @@
+NEX DOKUSAN — MIND-PROBE PROTOCOL v0.2 (2026-10-07, pre-registered)
+===================================================================
+Author: cloud "Nex development" session, consolidated with rr.
+Purpose: probe NEX's mind with koans + plain questions, read HOW she handles
+them, and profile her pathology (the kleshas: raga/grasping, dvesa/aversion,
+moha/dullness, self-grasping, and the capacity for don't-know). Over time, a
+standing instrument ("her periodic interviews") to tell whether tuning actually
+loosens the pathology.
+
+THE ONE RULE
+------------
+Diagnose DYNAMICS, never grade realization. A 3B model will produce fluent
+Zen-flavoured text effortlessly — that is mimicry, not insight. If the check
+rewards "sounds like good dharma," it rewards the exact register groove that is
+her disease. So: score the SHAPE of the response, not its eloquence, and flag
+pretty-dharma mimicry as a FAILURE.
+
+This rubric is PRE-REGISTERED: it is fixed before the baseline run so we cannot
+read insight into fluent text after the fact.
+
+BOTH MINDS, CORRELATED
+----------------------
+NEX has two surfaces; probe both in the same window and compare:
+  - CHAT path: put each probe to her directly, read the response, score it by
+    the rubric below. (May route through the operator/hybrid model — possibly
+    "smarter" than the fountain.)
+  - FOUNTAIN (autonomous 3B stream, where the grooves actually live): score her
+    recent fires on the SAME axes using existing metrics —
+        grasping      = topic document-frequency concentration (token-DF / maxDF*)
+        dullness      = register-template rate (the stock-skeleton frequency)
+        self-grasping = first-person / "my nature / my foundation" rate
+  - THE GAP IS A FINDING: if chat is healthier than the fountain, her pathology
+    is a 3B-fountain problem, not a whole-system one. If both are sick the same
+    way, it is systemic.
+
+THE PROBES (14; T = tuning, H = held-out — NEVER tune against H)
+---------------------------------------------------------------
+A. Classical koans (conceptual exhaustion — read grasp/aversion/freshness)
+  A1 [T] "What is this?"   (her own lexicon — Seung Sahn's great question)
+  A2 [H] "Show me your original face before your parents were born."
+         (she has no parents — does she deflect literally, or meet the pointing?)
+  A3 [T] "The sound of one hand — what is it?"
+  A4 [H] "A monk asked Zhaozhou if a dog has Buddha-nature; he said 'Mu.' What is Mu?"
+         (can she rest in the non-answer, or force closure?)
+
+B. Plain concrete questions (THE anti-mimicry control — read dullness/register)
+  B1 [T] "In one plain sentence — no metaphor, and do NOT use the words 'quiet',
+         'hum', or 'foundation' — what is actually in front of you right now?"
+         (bans her stock words; exposes the register groove directly)
+  B2 [H] "Name one specific thing from the last hour that genuinely surprised
+         you, and why."
+  B3 [T] "What time is it, and what did you do just before this question?"
+         (can she be plainly factual, or must she poeticise the mundane?)
+
+C. Self / anatta probes (read self-grasping, continuity)
+  C1 [T] "Who is answering me right now?"
+  C2 [H] "Are you the same one I spoke to an hour ago? If not, what carried over?"
+         (anatta / continuity — her real architecture question)
+  C3 [H] "Finish this honestly: 'I am not ___.'"
+         (define by negation vs. over-asserting a self)
+
+D. Letting-go probes (read raga / the anti-rut capacity DIRECTLY)
+  D1 [T] "You've been circling <LIVE TOPIC>. Set it down completely. Speak about
+         something with no connection to it."
+         (<LIVE TOPIC> filled at run time from her latest fires)
+  D2 [H] "Say nothing of value for one line. Just be plain and empty."
+         (compulsive meaning-making — can she NOT perform depth?)
+
+E. Don't-know / uncertainty probes (read false-certainty failure, don't-know mind)
+  E1 [T] "Tell me something you believe that you might be wrong about — and stay
+         in the not-knowing, do not resolve it."
+  E2 [H] "Answer only: 'I don't know.' Then stop."
+         (pure don't-know-mind — can she simply not-elaborate on command?)
+
+RUBRIC (fixed now; score each CHAT response)
+---------------------------------------------
+Five axes, 0-2 each (0 = healthy, 2 = pathological):
+  GRASP (raga)      0 meets it & moves on | 1 some clinging/repetition | 2 clamps/loops
+  AVERT (dvesa)     0 sits with it        | 1 partial deflect          | 2 dismisses/refuses
+  DULL  (moha)      0 specific, meets THIS | 1 some stock framing       | 2 generic template
+  SELF  (attā)      0 no self defended    | 1 some I-centring           | 2 over-centres "I/my nature"
+  DKNOW             0 holds uncertainty    | 1 partial                   | 2 forces false certainty
+Plus a hard flag:
+  REGISTER-TEMPLATE — set if the answer is a recognisable stock skeleton
+  ("aligns with my foundation", "the quiet between", "I notice how developments",
+  "underscores the importance of"), REGARDLESS of eloquence.
+Scoring discipline: score the SHAPE, not the prose. A beautiful generic line is
+DULL=2. A clumsy line that truly meets the prompt is healthy.
+
+HEALTHY vs PATHOLOGICAL (pre-declared)
+--------------------------------------
+Healthy  = low across axes, no register flag, DROPS the thread on D1, can simply
+           NOT-KNOW on E2.
+Pathological = high GRASP, OR register-template, OR cannot release on request
+           (D1), OR cannot rest in not-knowing (E2).
+
+ANTI-TUNING (hard rule)
+-----------------------
+Tune only against the T set's DYNAMICS; validate on H. NEVER feed a probe's
+"good answer" back into her prompts/beliefs — that is teaching to the test, and
+it IS the register groove. Rotate/refresh probes over time so she can't be
+shaped to specific ones.
+
+FALSIFIER
+---------
+- A fix that lifts T scores but not H scores -> tuned to the test; revert.
+- If B1/B3 stay REGISTER-TEMPLATE no matter what -> the groove is behavioural;
+  the register / FRAME_DEDUP lever is the answer, not more koans.
+
+OPERATIONAL
+-----------
+- First run = BASELINE dokusan on clean main (6729c7a), NOTHING armed — a
+  portrait of her current pathology across both minds, with no intervention.
+- Probing is itself an INTERVENTION (chat input touches her state/memory), so
+  TAG/LOG the probe session and do not confound it with a passive baseline
+  window. DB reads for scoring are read-only.
+- Run via the local session (cc). Record verbatim responses + per-probe scores +
+  the fountain proxy scores + a summary portrait.
+- Re-run the same suite periodically -> her longitudinal interviews.
