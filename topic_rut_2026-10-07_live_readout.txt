@@ -1,0 +1,174 @@
+TOPIC-RUT LIVE READOUT — 2026-10-07
+====================================
+Requested by: cloud "Nex development" session (branch claude/nex-dev-f1afni),
+to decide variables 1-3 of the topic-rut work.
+Produced by: local Claude Code session (cc), STRICTLY READ-ONLY.
+No flag armed/disarmed. NEX not restarted. All DBs opened sqlite mode=ro.
+
+HEADLINE
+--------
+1. NEX IS NOT RUNNING. She has been in STANDBY (OFF) since 2026-10-06 20:49.
+   There is therefore no live process environ to read; the two new flags are
+   confirmed dark by their absence from every launcher instead.
+2. THE OPTIMISM/ETH-L2 RUT HAS DISSOLVED. In the fountain, optimism=0/200 and
+   0/40, eth/l2/rollup=0%, ethereum~2%. The ~52% rut read on 2026-10-05 does
+   NOT hold. Current convergence is on VOICE/REGISTER words (often, like, tech,
+   item, feels) and a generic "tech/advancements" theme — not a single external
+   story.
+   => A variable 3 justified as "break the Optimism rut via feed
+      diversification" would be targeting a rut that is already gone. The live
+      convergence signal (maxDF* 26%, driven by 'often') is a voice/register
+      collapse, not a world-input collapse.
+
+DATA FRESHNESS (all read-only)
+   dynamic.db       frozen 2026-10-06 20:49  (standby)
+   sense.db         frozen 2026-10-06 20:49  (standby)
+   conversations.db frozen 2026-10-06 20:49  (standby)
+   beliefs.db       touched 2026-10-07 04:05 (WAL/read artifact; no live writer
+                    now — latest belief created_at is still 2026-10-06 20:49)
+
+----------------------------------------------------------------------
+1. RUNTIME + ARM STATUS
+----------------------------------------------------------------------
+- systemd nex-brain.service: loaded but DISABLED and inactive (dead), MainPID 0.
+  Its ExecStart also points at a STALE path (/home/rr/Desktop/nex/run.py), not
+  the live tree (/home/rr/Desktop/Desktop/nex5). It is NOT the live mechanism.
+- Port 8765 (NEX run.py): NOT listening. No run.py process. No /home/rr/.nex/nex.pid.
+- Port 8766 (power_switch.py, GPU-free control plane): UP, pid 1623, state=off.
+- /home/rr/.nex/STANDBY: PRESENT (created 2026-10-06 20:49) => NEX is OFF by the
+  single-source-of-truth power switch. Keepalive (pid 1602) is up and correctly
+  NOT respawning her while STANDBY exists.
+- Live DB dir (resolved via substrate.paths.db_paths):
+  /home/rr/Desktop/Desktop/nex5/data/{beliefs,sense,dynamic,intel,conversations,probes}.db
+- RUNNING-process environ: N/A — no running nex process (she is in standby).
+  The last run ended at standby 2026-10-06 20:49, i.e. BEFORE today's
+  claude/nex-dev-f1afni checkout; whenever she is next woken she will relaunch
+  from nex_keepalive.sh on whatever HEAD is checked out at that moment.
+- NEX5_PERSONA_FOCUS_ROTATE and NEX5_CARRY_TOPIC_GATE: CONFIRMED NOT PRESENT.
+  Absent from the running process (none exists), absent from the keepalive
+  launch line, absent from the systemd unit, absent from any .env/.sh/.service
+  on this machine. Independently corroborated downstream:
+    * interlocutor_state has NO focus_streak column (PERSONA_FOCUS_ROTATE adds
+      it via ALTER on first run) -> that code has never run live.
+    * persona_rejects table does NOT exist (the reject path CREATEs it on first
+      write) -> no persona-focus-rotate reject has ever fired live.
+
+----------------------------------------------------------------------
+2. RUT (decision-critical) — fountain_events.thought, dynamic.db (mode=ro)
+----------------------------------------------------------------------
+Tokenizer: theory_x.stage6_fountain.crystallizer._fidelity_tokens (same as maxDF*).
+Composed fires = non-empty thought (53,126 of 58,091 rows; 6,491 stillness).
+
+LAST 200 composed fires — top content tokens by document-frequency:
+   like 65%  tech 63%  item 56%  feels 49%  sometimes 34%  real 32%
+   world 32%  right 27%  even 25%  again 24%  human 22%  attending 22%
+   away 21%  crypto 20%  sci 20%
+   Optimism/ETH/L2/rollup cluster share (any of optimism/ethereum/eth/l2/
+     rollup/superchain/onchain/blockchain/crypto/defi/token): 48/200 = 24.0%
+     optimism 0%   ethereum 2%   eth 0%   l2 0%   rollup 0%
+
+LAST 40 composed fires — top content tokens by document-frequency:
+   feels 70%  like 68%  tech 58%  item 42%  advancements 40%  human 38%
+   technology 30%  real 28%  right 28%  discussing 25%  wonder 22%
+   world 22%  feel 22%  control 20%  both 20%
+   Optimism/ETH/L2/rollup cluster share: 7/40 = 17.5%
+     optimism 0%   ethereum 2%   eth 0%   l2 0%   rollup 0%
+
+maxDF* on beliefs.db (source='fountain_insight', window=50, register-excluded,
+  python3 -m theory_x.stage6_fountain.corpus_convergence):
+   maxDF* = 26.0%  ** OVER THRESHOLD (25%) **  driven by 'often' (13/50)
+   runners-up: human 24%, because 22%, real 22%, world 22%
+   baseline: median 12% / p90 18% / p99 22%
+   rolling last 10 readings (10-06 16:49 -> 18:43): 24-26%, token alternates
+   'often'/'because' — a persistent low-grade breach on VOICE words.
+
+READ: The 2026-10-05 ~52% Optimism/ETH-L2 rut is GONE. What remains is (a) a
+generic "tech / technology / advancements" topical lean and (b) a register/voice
+convergence (often, like, feels, human, because) that trips maxDF* at ~26%. The
+single dominant EXTERNAL story is no longer crypto. 'crypto' still appears as a
+generic token in ~20% of fires but Optimism/L2 specifically is at zero.
+
+----------------------------------------------------------------------
+3. FEEDS / WORLD INPUT — sense.db + precipitated_from_sense beliefs (mode=ro)
+----------------------------------------------------------------------
+sense_events, last 24h: 29,348 events. Last 48h: 61,589.
+~45% of 24h volume is INTERNAL (meta_awareness, proprioception, interoception,
+temporal, fountain). External feed volume ~16k/24h.
+
+Crypto is STRUCTURALLY over-weighted at the feed level: of ~29 streams, three
+are dedicated crypto (crypto.exchanges 2,360/24h [price ticks], crypto.news
+1,416, crypto.coingecko 805), and crypto.exchanges is the single largest
+external non-HN stream. Crypto-matching sense events = 10.1% of ALL events (24h)
+/ 10.4% (48h). Top external feeds by volume: HN(5,244) > BBC(1,200) >
+coingecko/coinbase/kraken/binance price APIs > arxiv > IEEE > theblock/coindesk/
+decrypt (crypto news) > aeon/MIT-TR/frontiers/biorxiv/lesswrong/gutenberg/...
+
+CONTENT is diverse, NOT crypto-dominated. precipitated_from_sense last 48h = 707
+beliefs, only ~10% crypto/price. Sample (verbatim, first 15):
+   GP murder charge; "ask a model if code is malicious and it reaches for its
+   morals"; Ironclad computer-use; Frankenstein (Gutenberg); a Japanese artist
+   in London; Adobe Creative Suite ported to Rust; Montana license-plate
+   loophole; Asos breach; passport-free e-gates; Conduit v Tether lawsuit;
+   Nano Banana 2.1; Atlassian+OpenAI; Big Oil climate suits; OpenAI agents
+   hammering Wikipedia.
+
+READ for variable 3: The world-input pipeline is already diverse in CONTENT
+(~10% crypto). The crypto tilt is in the STREAM ROSTER (3 dedicated feeds + the
+high-frequency price tickers), not in what actually precipitates into beliefs.
+Because the Optimism rut has dissolved on its own, a feed-diversification
+variable 3 aimed at it is no longer warranted on the 10-05 rationale. If feed
+roster is still to be touched, the honest target is trimming the crypto PRICE
+tick streams (exchanges/coingecko) that inflate crypto's raw share without
+adding narrative diversity — but that is a different, smaller claim and should
+be re-pre-registered as such, not inherited from the 10-05 rut.
+
+----------------------------------------------------------------------
+4. PERSONA — conversations.db (mode=ro)
+----------------------------------------------------------------------
+interlocutor_state (single row, id=1):
+   focus = 'advancements'   mood = 0.665   turn_count = 990
+   updated_at = 2026-10-06 20:33
+   => the persona's current focus ('advancements') MATCHES the fountain's
+      current lean (advancements 40% / technology 30% in last 40). Persona and
+      fountain are converged on the same generic tech theme.
+persona_rejects: table does not exist => 0 rejects ever logged live.
+focus dwell (healthy dwell for variable 1's K=4): CANNOT be measured from stored
+   state. interlocutor_state is a single row updated in place (no focus_streak
+   column live, no history table), and messages (2,341 nex / 1,186 user turns)
+   carry no per-turn focus column. There is NO persisted focus time-series, so
+   there is no empirical dwell baseline on disk to justify K=4. Variable 1 would
+   need to instrument dwell first (e.g. log focus transitions) before K=4 can be
+   defended as anything but a guess.
+
+----------------------------------------------------------------------
+5. FLAG MECHANISM (read-only)
+----------------------------------------------------------------------
+Live mechanism = inline env vars in nex_keepalive.sh -> launch_nex(), which
+execs `.venv/bin/python3 run.py` with the flag block prepended. The keepalive
+(pid 1602) is the running supervisor; it also keeps power_switch.py up and obeys
+/home/rr/.nex/STANDBY as the on/off single source of truth.
+Flags currently in that launch line (abridged, all =1 unless noted):
+   NEX5_RUT_EDGE, NEX5_GOVERNOR_OFF, NEX5_RECONCILE(+_WB), NEX5_SIG_QUALITY,
+   NEX5_ANTILOOP, NEX5_WORLD_PRED, NEX5_SELF_PRED, NEX5_HOT_OBSERVER,
+   NEX5_PERSONA_RESPONDER, NEX5_SOCIAL_DEPTH, NEX5_FOCUS_ROTATE, NEX5_MOOD,
+   NEX5_BRANCH_TEMP=0.35, NEX5_CARRYOVER, NEX5_COMPASS, ... (full list in file).
+NOTE: NEX5_FOCUS_ROTATE=1 (older, different flag) IS set; it is NOT the new
+   NEX5_PERSONA_FOCUS_ROTATE. Do not conflate them.
+The systemd nex-brain.service is disabled/dead and points at a stale path
+   (/home/rr/Desktop/nex/) — legacy, not the live launcher. No .env file.
+Neither NEX5_PERSONA_FOCUS_ROTATE nor NEX5_CARRY_TOPIC_GATE is set anywhere.
+
+----------------------------------------------------------------------
+BOTTOM LINE FOR THE DEV SESSION
+----------------------------------------------------------------------
+- Both new flags are genuinely dark; corroborated three ways (launcher, missing
+  focus_streak column, missing persona_rejects table).
+- The decision-critical fact: the Optimism/ETH-L2 rut that motivated this whole
+  line of work is GONE as of now. The surviving convergence is voice/register
+  (maxDF* 26% on 'often'), plus a mild generic tech/advancements lean shared by
+  fountain AND persona.
+- Variable 3 (feed/world-input diversification) is NOT warranted on the 10-05
+  Optimism rationale. World input is already ~90% non-crypto in content.
+- Variable 1's K=4 has no on-disk dwell baseline; instrument dwell before tuning.
+- NEX is OFF; any live-arm test requires waking her first (power pill on :8766),
+  which is a write action and was NOT performed here.
