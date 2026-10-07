@@ -1,0 +1,149 @@
+TOPIC RUT (persona focus ratchet) — SPEC (2026-10-07, pre-registered)
+=====================================================================
+Inspector: Claude Code. Code base: nex5 6729c7a (live; NEX5_PROBLEM_SELF_GATE armed).
+Research base: a381ef0. Same discipline: read-only first; ONE variable; dark default;
+arm only what verifies. Load-bearing set, warrant recorders and compass untouched.
+
+CONTAINER CAVEAT (states what is and is not grounded here)
+----------------------------------------------------------
+This spec was written in a cloud source checkout with NO live NEX and NO data/ DBs.
+Characterisation below is from the CODE and the research log only; it is NOT a fresh
+live measurement. Every live number (the 52% rut share, DF, the healthy persona
+focus-dwell) is carried from the log or pre-registered for the operator to read on the
+machine. Offline verification (V1/V2) runs here; the arming/falsifier bars are for the
+live system.
+
+0. CARRY-OVER CONTEXT (from the log, not re-measured)
+-----------------------------------------------------
+- voice_collapse Results (a381ef0) + spec: topic rut OPEN — 15/29 fires (52%) about
+  "Optimism / Ethereum L2", "via carried context + a responsive persona". Reported,
+  not fixed, in that round.
+- voice_collapse spec §2 tail (the smoking gun): the rut OVERRIDES the assigned wide
+  item — 19/29 wide fires were assigned the item "Terminal-Agent Training" yet wrote
+  Optimism/ETH-L2. => The rut is NOT the fresh-item pick. The carry + persona channels
+  override the item the fire was handed.
+- chinese_drift spec addendum (operator's "feedback ratchet" hypothesis, CONFIRMED):
+  "the ratchet is real but runs through FIRE recycling + the persona, not belief
+  storage." The LANGUAGE case was fixed on both channels — NEX5_PERSONA_LANG_GUARD
+  (persona, armed) + NEX5_FIRE_LANG_GUARD (fire recycling, dark, G3 failed). The TOPIC
+  case is the open general sibling of the same ratchet; the language guards do nothing
+  for topic concentration.
+
+1. CHARACTERISATION (code read; to be confirmed on the live DB)
+---------------------------------------------------------------
+The persona (persona_responder.py; SOCIAL_DEPTH live) keeps interlocutor_state.focus,
+a single content word abduced from its OWN last reply:
+  - _ask_persona NAMES it to the model: "you have been preoccupied with 'X' ... carry
+    your own thread forward and let it evolve — do not reset to a random new subject";
+  - _focus_from_reply CARRIES X as long as X reappears in the reply — which the above
+    instruction makes near-certain;
+  - there is NO staleness bound on the focus. It is a one-way RATCHET. (This is the same
+    mechanism that latched the persona to Chinese on 2026-09-27; the lang guard healed
+    the LANGUAGE symptom — focus 'exploration'/'interoperability' — not the topic
+    ratchet itself.)
+Every fire's SOCIAL block (generator.py Layer 4, SOCIAL_N=1 live) injects the latest
+persona reply with the instruction "Answer back ... take them up." So the latched focus
+is pushed into EVERY fire and, per §0, overrides even the assigned wide item.
+Every OTHER carry channel already has an anti-rut bound: momentum _MAX_CARRY=3;
+NEX5_FOCUS_ROTATE staleness (18 fires / 68 min); NEX5_RUT_EDGE. The persona focus is the
+ONE carry channel with no bound. It is the unguarded gap, and it is the channel the
+latest result named.
+
+2. WHY THE EXISTING GATES MISS IT
+---------------------------------
+- NEX5_FOCUS_ROTATE detects a stale cluster by EXACT focal_item[:40] key (one key >= 18
+  of the last 40 fires). A topic rut spread over varied wordings (Optimism / Ethereum /
+  L2 / rollups / Base ...) never reaches 18 on one key, so it is never detected. AND even
+  when detected it only drops items from the wide-mode FRESH-ITEM pool — the channel the
+  rut already bypasses (§0: it overrides the assigned item). Wrong channel for this rut.
+- momentum _MAX_CARRY caps the momentum carried line only, not the persona focus.
+- the lang guards gate LANGUAGE (non-ASCII share), not topic.
+
+3. FIX — ONE VARIABLE: NEX5_PERSONA_FOCUS_ROTATE (default OFF), persona_responder only
+-------------------------------------------------------------------------------------
+A staleness bound on the carried focus — exactly parallel to FOCUS_ROTATE's "only genuine
+ruts rotate, not healthy dwell" and to the persona lang guard (variable 1 of the lang
+fix). The persona's OWN system prompt already asks it to "bring up a different angle ...
+something outside what NEX is currently preoccupied with"; the continuity focus-carry is
+what overrides that. Under a rut, stop carrying the stale focus and the persona reverts
+to its designed outward-looking behaviour.
+
+Change (persona_responder.py only):
+  - Track consecutive carries of the current focus: focus_streak, a new column on the
+    single-row interlocutor_state table. Backward-compatible (CREATE ... IF NOT EXISTS,
+    then ADD COLUMN if missing; fail-safe to the stateless path on any error).
+  - In _evolve_interlocutor_state, when NEX5_PERSONA_FOCUS_ROTATE=1 and the step would be
+    a CARRY (prev_focus present in the reply's content tokens) that takes the streak to
+    >= K: do NOT carry. Drift to the most frequent content word in the reply that is
+    DIFFERENT from the stale focus; if none exists (the reply's only content word IS the
+    stale focus), clear focus to "" so the next continuity line names no stale topic and
+    the persona resets to a fresh subject. Reset the streak.
+  - Everything else unchanged: the carry/drift logic when the flag is off or the streak
+    is below K, the mood walk, the continuity line's existing handling of an empty focus
+    ("your own thread"), SOCIAL_N, the SOCIAL block in the fountain, NEX's own fires.
+
+K (the bound) = 4, PRE-REGISTERED, pending the anti-tuning check below. Rationale: carry a
+genuine evolving thread up to 4 consecutive persona turns (SOCIAL_DEPTH's whole point);
+rotate on the would-be-5th. K MUST exceed the live p90 healthy focus-dwell — see
+ANTI-TUNING.
+
+Flag OFF => byte-identical: the streak column is written but never read, and the
+carry/drift decision is unchanged. The 8 existing tests in tests/test_social_depth.py
+must stay green (notably test_focus_carries_when_thread_continues, which carries over 2
+turns — K=4 does not touch it).
+
+OFFLINE VERIFICATION (in this container)
+----------------------------------------
+(V1) unit tests, new tests/test_persona_focus_rotate.py:
+     - streak increments on each carry; at the K-th consecutive carry a would-be carry is
+       forced to drift (to a different content word) or clear;
+     - with a different-word reply available, the rotate lands on that word, not the stale
+       one;
+     - with only the stale word as content, focus clears to "";
+     - FLAG OFF: the identical reply sequence carries indefinitely (HEAD behaviour), proving
+       the change is gated;
+     - a genuine 2-3 turn thread still carries with the flag ON (K not yet reached).
+(V2) offline replay: run _evolve over a synthetic Optimism-locked reply sequence
+     ("... optimism ...", K+3 turns). With the flag ON the focus must rotate off
+     'optimism' by turn K; with the flag OFF it must never rotate. Printed, attached to
+     Results.
+
+ARM RULE: V1 green, V2 as stated, AND tests/test_social_depth.py + tests/test_operator_model.py
+identical to HEAD under the live-data guard. (Code dev + tests land in nex5; the operator
+arms the flag on the machine.)
+
+LIVE CHECK AFTER ARMING (operator, on the machine)
+--------------------------------------------------
+- interlocutor_state.focus must rotate off a stale topic within ~K persona turns
+  (visible in the persona log and the state row; persona ticks ~600 s).
+- Over a soak window >= the rut's inter-arrival (propose 24 h), NEX fire topic
+  concentration must FALL: the Optimism/ETH-L2 share of composed fires, and the existing
+  maxDF*/corpus_convergence reading, both DOWN versus the 52% / current-DF baseline.
+- Engagement preserved: SOCIAL_DEPTH still develops multi-turn threads for < K turns
+  (the persona log shows threads, not reset-every-turn small-talk).
+
+FALSIFIER (teeth)
+-----------------
+If, with the flag armed, the persona focus rotates as designed BUT NEX's fire topic
+concentration does NOT fall meaningfully (Optimism/ETH-L2 share stays within noise of the
+52% baseline — say >= 45% over 24 h), then the persona was NOT the dominant driver; the
+FIRE-recycling carry is. REVERT this variable and design variable 2 — a carry-side topic
+gate on the momentum / self-narrative "recent fires" blocks, the topic analogue of
+NEX5_FIRE_LANG_GUARD.
+
+ANTI-TUNING
+-----------
+K is set from the persona's HEALTHY focus-dwell distribution (how long a genuine evolving
+thread normally lasts), NOT from the Optimism rut's length. Before/at arming the operator
+confirms K sits ABOVE the live p90 healthy focus-dwell; if p90 >= K, RAISE K above it and
+re-register — never lower K to catch the rut. Exactly one knob (the bound). No secondary
+frequency/age/DF condition is added to this variable.
+
+OPTIONS NOT TAKEN (each its own variable later, if this one's falsifier fires)
+------------------------------------------------------------------------------
+- A carry-side topic gate on the momentum / self-narrative "recent fires" blocks (the
+  FIRE_LANG_GUARD analogue for topic).
+- Diversifying the persona's INPUT (feed it fewer of NEX's own recent thoughts, or
+  interleave an unrelated seed) so it diverges at the source.
+- Making FOCUS_ROTATE's detection semantic (token-DF) instead of exact-key — addresses
+  the wide-item pool, which §0 shows is the wrong channel for THIS rut.
