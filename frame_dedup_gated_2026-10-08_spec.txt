@@ -1,0 +1,117 @@
+FRAME GATE — DETECTOR-GATED REGISTER DEMAND (NEX5_FRAME_GATE) — SPEC (2026-10-08, pre-registered)
+================================================================================================
+Inspector: cloud "Nex development" session. Code base: claude/nex-dev-f1afni @ f60e926 (live tree;
+NEX awake, nothing armed after the always-on disarm). Research base: 56b8adb. Discipline: ONE
+variable; dark default (byte-identical to HEAD when off); arm ALONE; measure vs a pre-existing
+baseline; arm only what verifies offline.
+This is VARIABLE 3, named in frame_dedup_2026-10-07_spec.txt sec 6/8 as the escalation if the
+prompt-nudge over-suppressed: "a detector-gated single regeneration — the NEX5_FIRE_LANG_GUARD
+analogue."
+
+0. EVIDENCE BASIS (why gated, not always-on)
+---------------------------------------------
+frame_dedup_2026-10-08_results.txt: the always-on positive-concreteness demand VALIDATED the lever
+(non-circular held-out register 46% -> 15%; content-grasp 70% -> 22%; broad loosening, not
+ban-compliance). BUT it over-pruned range: words/fire mean 50.3 -> 26.5, and STILL sliding at 5h
+(p90 61 -> 40, p50 26 -> 17 first-40 vs last-40). The demand is right; firing it on EVERY fire is
+wrong — it flattens the fires that were already concrete/alive. A DETECTOR-GATED form fixes
+register exactly where moha appears and leaves every other fire at full range: strict domination
+over always-on.
+
+1. THE CHANGE — ONE VARIABLE: NEX5_FRAME_GATE, default OFF, generator.py only
+----------------------------------------------------------------------------
+Model it on the EXISTING, proven exit guard NEX5_FIRE_LANG_GUARD (generator.py:1857-1876), which
+already does detector-gated single regeneration (detect non-ASCII share in the draft -> regenerate
+ONCE with a suffix -> use the retry if it passes, else fall back). Same shape, register detector
+in place of the non-ASCII check.
+
+Hook point: in FountainGenerator.generate(), immediately after the draft is produced
+(`thought = resp.text.strip()`, generator.py:1841) and after the existing Real-drift leak strip +
+the FIRE_LANG_GUARD block — operate on `thought`. Gated on NEX5_FRAME_GATE == "1".
+
+  (i) DETECT: `_register_template_trips(thought) -> bool`. Trips if the draft EITHER
+      - contains any _FRAME_STOCK_PHRASES member (generator.py:151-167, case-insensitive substring), OR
+      - opens with the attending-template SHAPE — a structural regex in the family of
+        attribution_marker.py:25: ^\s*(this\s+item\s+(is\s+about|talks\s+about|states|discusses|
+        describes|reports|claims|introduces|notes)) (anchored to the first ~12 words).
+      The structural opener is the load-bearing half (generalises); the phrase set is a SEED.
+      NB: this detector GATES the intervention; it is NOT the success metric (see sec 3 — success
+      is measured on the frozen held-out set, which the detector must not be tuned to).
+  (ii) REGENERATE ONCE: if it trips, re-call self._voice.speak with
+       `prompt + _FRAME_GATE_RETRY_SUFFIX`, where the suffix is the B1 positive demand (reuse the
+       validated _frame_dedup_block text, generator.py:179-183: "Say it plainly... name the ONE
+       concrete present thing... no metaphor, no wrapper, then stop."). One retry only — no loop.
+  (iii) SELECT: use the retry iff it is non-empty AND does NOT trip the detector; otherwise KEEP
+       THE ORIGINAL draft (unlike FIRE_LANG_GUARD, do NOT drop — a register-y fire is still valid
+       content; the gate only ever upgrades a tripped draft to a clean one, never degrades).
+  (iv) Log each gate action (tripped / regenerated-clean / regenerated-still-trips-kept-original)
+       so the trip rate and regen-success rate are measurable from logs without a new table.
+  Default OFF -> no detector call, no retry, byte-identical to HEAD.
+
+2. SCOPE
+--------
+ALL composed fountain fires (the main voice path at generator.py:1836), not just drift/wide — the
+gate is self-targeting (it no-ops on concrete fires), so widest scope is correct and simplest. The
+chat/operator path stays out (that was a separate deferred variable). Keep the always-on
+NEX5_FRAME_DEDUP in the code, unarmed — it remains the validated reference probe.
+
+3. LIVE ARM + MEASUREMENT (cc, when ready)
+------------------------------------------
+Pre-arm baseline = the POST-DISARM, range-recovered state (confirm range recovered toward 50
+words/fire after the always-on disarm first; that is this variable's baseline). Arm ALONE
+(NEX5_FRAME_GATE=1 only; FRAME_DEDUP, var1, var2 all off), soak, then read-only vs baseline:
+  PRIMARY (both must hold — this is the strict-domination claim):
+    - REGISTER loosens: the FROZEN held-out set (frame_dedup_2026-10-08_results.txt:
+      ["this item talks about","makes me wonder","resonates with my","ground stance","feels surreal"])
+      falls materially, comparable to always-on (~46% -> ~15%). Measured on the held-out set, NOT
+      the detector's phrases.
+    - RANGE recovers vs always-on: words/fire mean well above the always-on 26.5 and near baseline
+      ~50; p90 near ~61 (not ~40). This is the whole point — register fixed WITHOUT flattening.
+  GUARD — TRIP RATE (fraction of fires that trip + regen):
+    - ~100% => the gate ≈ always-on (no range benefit) => detector too broad; tighten.
+    - ~0%   => detector not catching her moha => too narrow/structural-only; broaden.
+    - healthy band ~30-55% (near her observed baseline register rate).
+  GUARD — regen-success rate (of tripped fires, fraction that produced a clean retry). If low, the
+    per-fire demand is not landing on retry.
+  CROSS-CHECK: content-grasp should stay down (like always-on); over-suppression should be ABSENT
+    on untripped fires.
+
+4. OFFLINE VERIFICATION (this container / branch)
+-------------------------------------------------
+(V1) flag OFF -> generate() path byte-identical: no detector call, no retry (assert voice.speak
+     called exactly once; `thought` unchanged).
+(V2) detector unit tests: trips on known stock drafts ("This item is about X.", "the curious dance
+     of...", "This item talks about Y."); passes clean concrete drafts ("The ransomware fixer
+     defrauded clients.").
+(V3) single-regen: with a mocked voice whose first reply trips and second is clean, assert
+     voice.speak called exactly twice and `thought` == the clean retry.
+(V4) keep-original: with a mocked voice whose retry is empty OR still trips, assert `thought` ==
+     the ORIGINAL draft (never dropped, never degraded).
+ARM RULE: V1-V4 green; full-suite failure set unchanged vs the 60-baseline; arm ALONE.
+
+5. FALSIFIERS (teeth)
+---------------------
+- REGISTER FLAT under the gate: if the held-out register rate does NOT fall, split by trip rate.
+  Low trip rate + flat => detector misses her actual register (broaden the structural opener).
+  High trip rate + flat => the retry is not producing concrete output (the per-fire demand is
+  weaker than expected; revisit the suffix) — do NOT just extend the phrase seed.
+- RANGE NOT RECOVERED (still compressed like always-on): trip rate is ~100% => detector too broad,
+  effectively always-on => tighten the detector; the gate has no value if it fires on everything.
+- WHACK-A-MOLE: seeded detector phrases vanish from fires but the held-out register rate is flat
+  => the seed did the work and it drifts => the positive demand/structural detector is the lever.
+
+6. ANTI-TUNING
+--------------
+The detector's phrase set is a SEED that will drift (as register_exclusion.json and the always-on
+ban both did). The load-bearing elements are (a) the STRUCTURAL opener detector and (b) the
+POSITIVE concreteness demand on regen. Success = held-out register down AND range recovered — NOT
+the absence of the seeded phrases, and NEVER tuned to the held-out set (keep it held out; if it
+leaks into the detector, rotate in a fresh held-out set).
+
+7. OPTIONS NOT TAKEN (each its own variable later)
+--------------------------------------------------
+- PROBABILISTic every-fire demand (fire the always-on block on X% of fires): simpler but blind —
+  it clips healthy fires at random and misses moha on the other (1-X)%. Detector-gating dominates
+  it. Fallback only if the detector proves unbuildable.
+- chat/operator-path anti-frame (the surface B1 was proven on): still deferred; separate variable.
+- register_exclusion.json refit (maxDF* maintenance): still gated, separate.
