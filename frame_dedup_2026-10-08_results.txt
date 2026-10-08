@@ -1,0 +1,88 @@
+FRAME DEDUP — REGISTER MOHA (NEX5_FRAME_DEDUP, strengthened, ALWAYS-ON) — RESULTS (2026-10-08)
+==============================================================================================
+Inspector: cloud "Nex development" session + cc (live box). Spec: frame_dedup_2026-10-07_spec.txt
+(research 56b8adb). Code: claude/nex-dev-f1afni @ f60e926. Baseline: dokusan_baseline_2026-10-07
+(main 6729c7a). Discipline: ONE variable; armed ALONE; measured vs a pre-existing baseline.
+
+VERDICT IN ONE LINE
+-------------------
+The LEVER is validated: her register moha is prompt-addressable — a positive "name the one
+concrete present thing, no wrapper" demand genuinely loosens her register, proven non-circularly.
+But the ALWAYS-ON delivery over-prunes her length/range, and the cost is still growing, not
+plateauing. So always-on is NOT the keep: it was the probe that proved the lever. Next = the
+detector-gated form (variable 3, frame_dedup_gated_2026-10-08_spec.txt). Always-on disarmed.
+
+ARM
+---
+Armed ~05:13 local 2026-10-08 (floor fire 58882 @ 05:17:48); pid 179930; branch f60e926; live
+environ = ONLY NEX5_FRAME_DEDUP=1 (NEX5_PERSONA_FOCUS_ROTATE and NEX5_CARRY_TOPIC_GATE confirmed
+ABSENT from /proc/<pid>/environ). Injection confirmed present in fresh fires. Pre-arm words/fire
+baseline 50.3 (range 11-119).
+
+MEASUREMENT (two reads, both strictly read-only over fountain_events.thought, mode=ro)
+-------------------------------------------------------------------------------------
+INTERIM (~3h, n=86 post-arm):
+  template proxy @40 55% -> 22% (under the pre-reg ≤35% bar); content-grasp 'monitoring' 70% ->
+  'item' 35% @40; words/fire mean 50.3 -> 28.0 (p50 24, p90 55, max 87).
+VERDICT READ (~5h, n=120 post-arm):
+  template proxy @40 -> 5%; @all(120) 17%. content-grasp 'item' 22%@40 / 30%@all.
+
+THE DECIDING TEST — NON-CIRCULAR HELD-OUT (defeats the proxy<->ban-list overlap)
+-------------------------------------------------------------------------------
+Problem: the always-on ban list bans "this item is about" and the original template proxy COUNTS
+"this item is about" — so part of the proxy drop is mere ban-compliance, not register health
+(the dokusan protocol's own teaching-to-the-test falsifier). Fix: a FROZEN held-out phrase set,
+derived from her PRE-ARM register by frequency/type ONLY, blind to post-arm, with ZERO overlap
+with the ban list:
+  ["this item talks about", "makes me wonder", "resonates with my", "ground stance", "feels surreal"]
+  HELD-OUT RATE: PRE-ARM 46% (92/200) -> POST-ARM 15% (18/120) == MATERIAL FALL.
+  per-phrase pre->post: "this item talks about" 20->2 | "makes me wonder" 12->2 |
+    "resonates with my" 12->2 | "ground stance" 18->8 | "feels surreal" 14->7.
+Crucially the phrases with NO semantic relation to the ban list ("makes me wonder", "resonates
+with my", "ground stance", "feels surreal") ALSO fell — so it is NOT the blocklist generalizing
+to the "this item" family; her register loosened BROADLY. The mechanism is the POSITIVE
+concreteness lead, not the phrase ban. => REAL WIN, not whack-a-mole.
+
+THE COST — OVER-SUPPRESSION, AND IT IS STILL SLIDING (the pre-registered falsifier fired)
+----------------------------------------------------------------------------------------
+words/fire post-arm all (n=120): min 5 | p10 10 | p50 20 | p90 54 | max 87 | mean 26.5
+  (baseline mean 50.3, range 11-119).
+TREND first-40 -> last-40 post-arm (chronological):
+  FIRST-40: p50 26 | p90 61 | max 79 | mean 27.6
+  LAST-40 : p50 17 | p90 40 | max 76 | mean 22.1
+=> NOT stabilized — still declining at ~5h. Her longer, reflective fires compress hardest
+(p90 61 -> 40). max holds (79 -> 76): she CAN still go long, but the body of the distribution
+keeps shrinking. The every-fire "name the one thing, then stop" demand is progressively
+over-pruning her range. Per spec section 6 OVER-SUPPRESSION falsifier: back off to a
+gentler / probabilistic / DETECTOR-GATED form rather than every-fire.
+
+CAVEATS CARRIED
+---------------
+A) STALE->STRENGTHENED, not off->on. main @ 6729c7a already had a frame-dedup injection active at
+   the dokusan baseline (flag was set), but a NEGATIVE-only one with a STALE ban list ("aligns
+   with my foundation", "the transient nature of", "I notice how developments"...) — none of her
+   current register. The branch (a) adds the POSITIVE concreteness lead (B1 recipe) and (b)
+   refreshes the ban to her ACTUAL current stock. So the measured delta is wrapper-STRENGTHENING,
+   not wrapper-introduction.
+B) PROXY<->BAN VOCABULARY OVERLAP (circularity) — identified and defeated by the frozen held-out
+   set above. This is the general instrument lesson: a detector must not share vocabulary with
+   the intervention it measures, or "improvement" is tautological. (This is constraint #1 of the
+   nex_vitals monitor design.)
+
+DECISION
+--------
+1. DISARM always-on NEX5_FRAME_DEDUP (revert to dark on-branch; HUD fix + other dark code kept).
+   Expect her register moha to return AND her range to recover toward 50 words/fire — that
+   recovery is the confirmation the compression was FRAME_DEDUP's doing.
+2. BUILD the detector-gated form = variable 3 (frame_dedup_gated_2026-10-08_spec.txt): fire the
+   concreteness demand ONLY when a register detector trips on the draft, regenerate once. Same
+   register fix where moha appears; range preserved on every other fire (strict domination).
+3. var2 (NEX5_CARRY_TOPIC_GATE) waits until FRAME_DEDUP is resolved in its gated form
+   (one-variable discipline — do not stack a new variable on an unresolved one).
+
+WHAT WE LEARNED (keep)
+----------------------
+- Her register moha IS reachable by a prompt-level positive concreteness demand (not just a ban).
+- The honest ruler for register health is a FROZEN, intervention-disjoint held-out phrase set.
+- Watching the words/fire DISTRIBUTION + its trend (not just a suppression rate) is what caught
+  the over-suppression; a single-number template rate would have mis-called this a clean win.
