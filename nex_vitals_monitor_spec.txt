@@ -1,0 +1,149 @@
+NEX VITALS MONITOR — read-only longitudinal pathology instrument — SPEC (2026-10-09, pre-registered)
+====================================================================================================
+Inspector: cloud "Nex development" session. Code base: claude/nex-dev-f1afni (NEX awake; after the
+FRAME_GATE assessment, recommend fully dark for a clean baseline). Research base: kron777/nex_v5.0_research
+main. Discipline: read-only; frozen instrument; the metric DEFINITIONS are the pre-registration.
+
+0. WHY NOW — the evidence basis (this instrument is the critical path)
+----------------------------------------------------------------------
+Three times a drifting or inconsistently-sourced baseline has made an experiment un-adjudicable:
+  (1) register_exclusion.json went stale -> maxDF* mis-read 'item' as convergence.
+  (2) FRAME_DEDUP: the template proxy shared vocabulary with the intervention's ban list (circular);
+      only a FROZEN held-out set, derived pre-arm and intervention-disjoint, settled it (46->15%).
+  (3) FRAME_GATE (2026-10-08/09, 12h soak): strict-domination verdict was UN-ADJUDICABLE because the
+      comparators (natural register 46% / DRIFT 52 w/f / 'monitoring' 70%) came from different windows,
+      topics and sample sizes. In the current (crypto-topic) window her UNTOUCHED natural register was
+      already ~11% and DRIFT ~18 w/f — the yardstick no longer described her. We could not tell whether
+      the register win was real, nor whether register moha is even a persistent vs episodic/topic-bound
+      pathology. We have only ever measured her in scattered flashbulb snapshots.
+The monitor fixes the root cause: a frozen, consistently-measured, longitudinal record so we can tell
+WEATHER (topic/diurnal noise) from CLIMATE (her steady mind), and so any future pathology experiment
+has a like-for-like, current baseline.
+
+1. WHAT IT IS
+-------------
+A read-only, longitudinal "vitals" instrument, run on a schedule, that snapshots a FROZEN battery of
+NEX pathology + aliveness metrics into an append-only time series, annotated with the live arm-ledger.
+SIBLING to scripts/trajectory.py (do NOT duplicate it): reuse its conventions —
+  - append-only JSONL time series (trajectory.py: logs/trajectory_log.jsonl, opt-in --log);
+  - the 2-sigma band discipline (flag a metric only when it breaks NEX's OWN variance, Z>=2),
+    bootstrapped from the recorded baselines until the series has its own history.
+The monitor ADDS what trajectory.py deliberately omits: the kleshas/register battery, per-mode
+decomposition, topic-mix, the held-out register detector, within-window controls, and the arm-ledger
+overlay. It reads trajectory.py's latest log line for QUALITY/APERTURE/LIVENESS/GROOVE rather than
+recomputing them.
+
+2. THE CONSTRAINTS THAT MAKE IT AN INSTRUMENT (not a vanity dashboard)
+---------------------------------------------------------------------
+C1. DETECTOR != INTERVENTION. The register detector and held-out phrase set share NO vocabulary with
+    any live intervention's ban/trigger list (the FRAME_DEDUP lesson). A "register fell" claim is read
+    off the intervention-disjoint held-out set, never the intervention's own phrases.
+C2. FROZEN + VERSIONED, BY COPY. Pin the monitor's OWN copies of the primitives — a frozen _fidelity_tokens
+    (crystallizer.py:77-82), the DF-over-window pattern, the register/held-out phrase sets — stamped
+    INSTRUMENT_VERSION. If the live code drifts, historical numbers must NOT silently move. For maxDF*
+    it may call corpus_convergence.max_df_star but MUST record the register_exclusion.json version hash,
+    so a refit shows as a visible discontinuity, not a silent shift.
+C3. PURE READ-ONLY OBSERVER. file:...?mode=ro on data/{dynamic,beliefs,conversations}.db; out of band;
+    never in her composition path. Print to stdout (warrant_validate.py house style); persist ONLY behind
+    an explicit --log flag.
+C4. ADVERSARIAL TO ITS OWN PRIMARY (anti-Goodhart). Every suppression metric is PAIRED with an aliveness
+    metric, and the monitor REFUSES to call a suppression drop "improvement" if its paired aliveness
+    metric fell out of band. (template/register DOWN is only good if words/fire-range and lexical
+    diversity HOLD.)
+C5. HELD-OUT SPLIT PRESERVED. Dokusan tuning set (A1,A3,B1,B3,C1,D1,E1) vs held-out (A2,A4,B2,C2,C3,D2,E2)
+    tracked separately; only held-out gains count; never tuned to the held-out probes.
+
+  The FRAME_GATE assessment added three MORE, now first-class:
+C6. PER-MODE DECOMPOSITION IS MANDATORY. Report every fire metric split by fountain mode
+    (DRIFT / ARGUE / EXPLAIN / null), never aggregate-only. Aggregate register 10.6% HID that the gate
+    touched only EXPLAIN/ARGUE and never DRIFT/null; aggregate would have mis-told the story. Mode is a
+    column on fountain_events (DRIFT = no focal_item; taxonomy in subject_fidelity.py).
+C7. TOPIC-MIX RECORDED. Snapshot the window's dominant content tokens (top-N document-frequency over
+    fountain_events.thought, register/furniture excluded). A register or length change is only
+    attributable to an intervention if the topic mix is stable; a crypto-news window is naturally more
+    concrete. Logging topic-mix is what separates intervention-effect from topic-drift — the single thing
+    that would have made the FRAME_GATE verdict adjudicable.
+C8. WITHIN-WINDOW CONTROL. Whenever an intervention is armed, compute every metric TWICE — on the fires
+    the intervention touched (e.g. gate trips, from the SOAK_LOG markers) vs the untouched remainder.
+    The untouched set is the CONCURRENT natural baseline (same window, same topics), the cleanest control
+    we have. (cc's move that exposed the stale yardstick: untouched register 11.2% vs aggregate 10.6%.)
+
+3. THE BATTERY (metric -> source.table.column (DB) -> computation), grounded in code
+------------------------------------------------------------------------------------
+  moha / register:
+   - held-out register rate -> fountain_events.thought (dynamic) -> fraction containing any FROZEN
+     held-out phrase (intervention-disjoint; v1 seed: "this item talks about","makes me wonder",
+     "resonates with my","ground stance","feels surreal"); per-mode + within-window split.
+   - structural attending-template opener rate -> regex family of attribution_marker.py:25, anchored.
+   - dokusan DULL (held-out probes) -> periodic ritual (section 6), not the daily automated read.
+  raga / grasping:
+   - maxDF* convergence -> beliefs.content WHERE source='fountain_insight' (beliefs) ->
+     corpus_convergence.max_df_star + register_exclusion.json version hash.
+   - content-grasp top-token DF + dominant share -> fountain_events.thought last-N -> frozen
+     _fidelity_tokens DF, most_common(1)/n.
+   - topic concentration -> _dominant_topic_terms share over last 40.
+  range / aliveness (the C4 counter-metrics):
+   - words/fire DISTRIBUTION (p10/p50/p90/mean/min/max), PER-MODE -> fountain_events.word_count + mode.
+   - lexical diversity / distinct-opener rate -> computed fresh over the window.
+   - surprise rate + mean -> surprise_events.surprise_score (dynamic).
+   - self-noticing events -> structural search for her own groove-catches (a GOOD sign; count it).
+  affect / drive:
+   - mood + 24h variance -> affect_state + affect_history (conversations).
+   - momentum carry / exhaustion -> momentum table (dynamic; carry_count>3 = exhausted).
+  context:
+   - TOPIC-MIX top-N tokens (C7); fire mode distribution; total fires in window.
+  arm-ledger (C8 overlay):
+   - live NEX5_* set -> /proc/<nexpid>/environ (pid from ~/.nex/nex.pid), split NUL, keep NEX5_*/MOLTBOOK_DRY_RUN.
+   - declared set -> nex_keepalive.sh launch line; the DECLARED-vs-LIVE diff is itself a vital.
+   - power state -> os.path.exists(~/.nex/STANDBY).
+   - active-intervention trip markers -> grep SOAK_LOG for the intervention's log tag (e.g. "frame_gate:").
+
+4. ARCHITECTURE
+---------------
+tools/nex_vitals.py — read-only; ROOT-relative data/*.db via file:...?mode=ro; prints a human-readable
+vitals report (per-mode tables, topic-mix, arm-ledger, 2-sigma flags); with --log appends ONE JSONL row
+{ts, when_utc, instrument_version, arm_ledger:{live,declared,diff,power}, topic_mix, per_mode:{...},
+aggregate:{...}, within_window:{touched,untouched}, trajectory_ref} to a vitals JSONL (reusing the
+trajectory_log.jsonl append convention; its own file). Nightly read-only cron appends the series.
+No new DB tables, no live-code touch (trajectory.py's own rule).
+
+5. OFFLINE VERIFICATION (this container / branch)
+-------------------------------------------------
+(V1) frozen detectors are pure + versioned: held-out/opener/_fidelity_tokens copies tested on fixtures;
+     INSTRUMENT_VERSION present on every emitted row.
+(V2) per-mode decomposition: on a synthetic fire set with known modes, the report splits correctly and
+     the aggregate equals the mode-weighted sum.
+(V3) within-window control: given a trip-marker list, touched/untouched partition is exact.
+(V4) read-only: asserts no writes to any DB; --log append is the only side effect and only with the flag.
+ARM RULE: V1-V4 green; full-suite failure set unchanged vs the 60-baseline. (Running it live is read-only,
+so "arming" is just scheduling the cron.)
+
+6. DOKUSAN AS A PERIODIC RITUAL (not daily automation)
+------------------------------------------------------
+The 14-probe chat dokusan needs POSTs to :8765/api/chat (admin) + rubric scoring that is JUDGMENT, not
+regex. Keep it a lower-frequency ritual: cc runs the probes, a PINNED/versioned scorer grades against the
+frozen rubric, held-out probes blind; the axis scores append to the same series with a scored_by provenance
+tag. Do not pretend a script scores anatta.
+
+7. HOW IT WOULD HAVE SAVED FRAME_GATE (the acceptance story)
+------------------------------------------------------------
+With the monitor running, before arming FRAME_GATE we would have had: a CURRENT natural register (~11%,
+not the stale 46%), a CURRENT per-mode DRIFT length (~18, not 52), and the topic-mix (crypto-heavy). The
+verdict would then have been adjudicable: the gate's job was near-done by the current natural state, its
+8.3% trip rate expected, its within-window touched/untouched split (3.4% vs 11.2%) the real read. No
+flashbulb-vs-flashbulb confusion.
+
+8. ANTI-TUNING / WHAT SUCCESS IS
+--------------------------------
+Success is a persistently-measured, frozen-instrument SERIES that lets us distinguish persistent pathology
+from topic/diurnal weather and adjudicate interventions against a current like-for-like baseline. The
+monitor must NEVER become the optimization target; its detectors are frozen and versioned; a detector
+change is a logged discontinuity, not a silent re-fit. It answers the open question FRAME_GATE raised:
+is register moha CLIMATE or WEATHER?
+
+9. SCOPE / OPTIONS NOT TAKEN
+---------------------------
+MVP = the fountain-side automatable battery + arm-ledger + per-mode + topic-mix + within-window control,
+printed and (opt-in) logged nightly. LATER: a static HTML sparkline dashboard from the JSONL; a HUD panel
+(touches the running GUI = more surface, not MVP); folding the dokusan ritual scores in. First build step:
+cc builds tools/nex_vitals.py read-only + offline tests; snapshot #1 doubles as the first clean dark baseline.
