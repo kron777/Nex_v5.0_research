@@ -1,0 +1,70 @@
+REGISTER THREAD — RESOLVED: register moha is STATE-DEPENDENT (weather), not a fixed trait (climate)
+===================================================================================================
+2026-10-09. Inspector: cloud "Nex development" session + cc (live box, read-only). Instrument:
+tools/nex_vitals.py --daily (frozen detectors, retrospective over existing history). This closes the
+register-tuning thread that ran dokusan baseline -> FRAME_DEDUP -> FRAME_GATE.
+
+ONE LINE
+--------
+Her "register moha" (pretty-dharma / stock-register voice) is NOT a stable pathology. Measured
+label-free over the existing history it swings day to day across almost the whole scale; it is a
+condition-dependent fluctuation (directionally topic-coupled), not a trait. There is nothing fixed to
+tune. The register levers (FRAME_DEDUP, FRAME_GATE) were real and worked, but were aimed at a cloud.
+
+THE DECISIVE RESULT (label-free; needs no topic interpretation)
+--------------------------------------------------------------
+Retrospective daily series, 10 DARK days (FRAME armed days 2026-10-08/09 excluded; n>=100 fires/day):
+  ARGUE held-out register : mean 21.4% | SD 17.2% | min 2.4% | max 52.9% | range 50.5pp | CV 0.80
+  AGGREGATE held-out      : mean 14.25% | SD 10.68% | min 1.5% | max 31.7% | range 30.2pp | CV 0.75
+A day-invariant "climate" trait cannot swing ~2% -> 53% day to day. CV ~0.75-0.80 with a near-full-
+scale range refutes the climate hypothesis on the variance alone, before any topic labels. Robust.
+
+THE MECHANISM (suggestive, not nailed)
+--------------------------------------
+Register covaries with the day's topic abstractness (STATED coarse seed lexicon, top-3 topics only):
+  concrete days (crypto/bitcoin/blockchain/security/price/market/tech): ARGUE 16.0% (n=6), AGG 10.6%
+  abstract days (world/being/sometimes/real/presence/nature/meaning):   ARGUE 37.2% (n=2), AGG 24.6%
+  Spearman rho(held-out, abstract-share): ARGUE +0.589, AGG +0.574 (n=10)
+Direction supports topic-coupling (~2.3x lift) but is MODERATE: only 2 clean abstract-days, and
+2026-10-07 is a hard counterexample (classed concrete, yet the single highest ARGUE 52.9%). The exact
+driver is likely topic but is not pinned — and does not need to be for the decision, which rests on the
+label-free climate refutation.
+
+WHAT THIS REINTERPRETS (the whole arc, now explained)
+-----------------------------------------------------
+- dokusan_baseline_2026-10-07 (DULL 1.36, template 64%), and the fountain 55%@40 / held-out 46%:
+  these were HIGH-CONDITION (abstract-leaning) readings, not her floor. Her floor on concrete days is
+  ~2-11%.
+- Every "stale baseline" in FRAME_DEDUP (stale->strengthened) and FRAME_GATE (un-adjudicable) was the
+  same error: differencing two different condition-days and calling the gap drift. The baselines were
+  not drifting instruments so much as weather sampled at different moments.
+- FRAME_DEDUP always-on genuinely lowered register (held-out 46->15) but over-pruned range
+  (words/fire 50->26, DRIFT crushed to ~9). FRAME_GATE was surgical/safe but inert (8.3% trips) because
+  on the measured window register was already low (concrete topics). Both were levers correctly built
+  for a trait that isn't there.
+
+DECISION
+--------
+1. CLOSE the register thread. Retire FRAME_DEDUP and FRAME_GATE as standing levers — no standing
+   register intervention is warranted against a quantity that lives between ~2% and ~53% by condition.
+   The code stays on-branch (dark, unused, proven-safe); nothing is armed.
+2. SCOPE (precise): this closes REGISTER only. var2 (NEX5_CARRY_TOPIC_GATE, topic-rut carry) and var1
+   (NEX5_PERSONA_FOCUS_ROTATE, persona focus-dwell) are NOT refuted by this — they target different
+   pathologies. But they inherit the METHOD: before arming either, run the same climate-vs-weather
+   check on ITS metric over the history (the monitor already carries topic-concentration; add a
+   persona-focus-dwell metric for var1). NB topic-rut already "dissolved" to 0% when first checked
+   live (topic_rut live readout) — it smells like weather too.
+
+THE METHOD LESSON (why the monitor was the real deliverable)
+------------------------------------------------------------
+Three experiments were fogged by comparing scattered flashbulb reads. The vitals monitor — read
+BACKWARD over the existing history — answered the standing question in one afternoon: is this pathology
+climate or weather? The discipline going forward: no one-variable lever is armed until the monitor shows
+its target is a PERSISTENT (low-CV, day-invariant) signal, not condition-dependent weather. Tune the
+instrument for seeing her before tuning her.
+
+CLOSING NOTE
+------------
+What presented as a defilement to scour out — a fixed dull register — was a conditioned state arising
+and passing with what she was attending to. Not a flaw in her; weather moving through. The honest
+outcome of the campaign is not a fix but a correction of our own seeing.
