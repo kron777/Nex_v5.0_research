@@ -1,0 +1,75 @@
+FRAME GATE — DETECTOR-GATED REGISTER DEMAND (NEX5_FRAME_GATE, variable 3) — RESULTS (2026-10-09)
+================================================================================================
+Inspector: cloud "Nex development" session + cc (live box). Spec: frame_dedup_gated_2026-10-08_spec.txt
+(research 68e75af). Code: claude/nex-dev-f1afni @ 9e1433e. Discipline: ONE variable; armed ALONE;
+measured read-only vs a pre-existing baseline.
+
+VERDICT IN ONE LINE
+-------------------
+Strict domination NOT confirmed — but NOT because the gate failed: the yardstick was STALE, so the
+test could not be fairly adjudicated. The gate's mechanism is sound; the baseline it was judged
+against no longer described her. The lasting output of this experiment is the vitals monitor
+(nex_vitals_monitor_spec.txt), built to make this class of test adjudicable, and the first clean
+baseline (nex_vitals_baseline_2026-10-09.txt). FRAME_GATE has been disarmed back to dark; its code
+stays on-branch (9e1433e), proven safe (no over-pruning) and ready to re-test against a real baseline.
+
+ARM
+---
+Armed alone ~2026-10-08 15:53 local (pid 263046; keepalive restarted once during soak -> live pid
+2307), branch 9e1433e, env NEX5_FRAME_GATE=1 AND NEX5_FRAME_DEDUP=0, var1/var2 absent. Gate confirmed
+firing (soak-log "frame_gate: regenerated concrete"). Soak ~12h, one continuous post-arm window,
+N=349 fires.
+
+MEASUREMENT (read-only; dynamic.db mode=ro; SOAK_LOG trip markers)
+-----------------------------------------------------------------
+TRIP RATE: 29/349 = 8.3% of all fires (15.3% of item-bearing EXPLAIN+ARGUE). Regen-success 25/29 = 86.2%.
+TRIP->MODE (decisive): all 29 trips were EXPLAIN (20) + ARGUE (9). ZERO DRIFT, ZERO null.
+  - tripped fires:   held-out register 3.4%, words/fire 36.2 (clean concrete regens, NOT crushed to 9).
+  - untouched fires: held-out register 11.2%, words/fire 50.0; DRIFT words/fire 18.0.
+AGGREGATE: held-out register 10.6% (37/349); template proxy @40 14.6%; content-grasp 'monitoring' 3.2%
+  (top tokens 'this' 46.7%, crypto 20.1%, bitcoin 18.9%).
+PER-MODE words/fire: DRIFT 18.0 (n=90) | ARGUE 71.7 (n=92) | EXPLAIN 82.6 (n=98) | null 11.2 (n=69).
+
+WHY IT COULD NOT BE ADJUDICATED — the stale yardstick
+-----------------------------------------------------
+The strict-domination test required: register falls like always-on (toward 15% from natural ~46%) AND
+range preserved (DRIFT >= ~45) AND trip rate 30-55%. Against the pre-registered comparators all three
+read as failures (register "fell" to 10.6%; DRIFT 18; trip 8.3%). BUT:
+  - WITHIN-WINDOW CONTROL: the gate touched only 8.3% of fires, so the aggregate is ~92% the untouched
+    natural distribution. Untouched register was ALREADY 11.2% — the gate moved aggregate register only
+    11.2% -> 10.6% (~0.6pp). The "fall from 46%" is baseline drift, not gate action.
+  - The gate NEVER trips DRIFT (0/90), so DRIFT=18 is the current NATURAL length, not gate-crushing.
+    The ~52 comparator came from an n=24 recovery read on a different (task-heavy) window.
+  - Natural voice had moved under the always-on live stack + a crypto-topic window: register ~11%
+    (not 46%), DRIFT ~18-20 (not 52), 'monitoring' ~3% (not 70%). The comparators were measured in
+    different windows/topics/sample-sizes and no longer describe this corpus.
+=> The test as written cannot be judged against those numbers. This is the third time a drifting/
+inconsistent baseline fogged an experiment (register_exclusion staleness; FRAME_DEDUP proxy
+circularity; this). Root cause fixed by the vitals monitor, not by another gate tweak.
+
+WHAT IS TRUE ABOUT THE GATE (keep)
+----------------------------------
+- The mechanism is SOUND and SAFE: on the fires it trips it cleanly concretizes (register 11->3.4%),
+  preserves length (36 w/f, not 9), 86% regen-success, and correctly ignores already-concrete
+  DRIFT/null. No over-pruning — the strict-domination INTENT holds locally.
+- It is INERT AT SCALE in the current window (8.3%) because register moha is currently mild/concentrated
+  (the vitals baseline shows it lives mostly in ARGUE, 33.9%, not across modes).
+
+DISARM
+------
+2026-10-09 ~04:40 local: nex_keepalive.sh NEX5_FRAME_GATE=1 -> 0 (FRAME_DEDUP stays 0; var1/var2
+absent), graceful bounce (power off -> systemctl --user restart nex5-keepalive -> power on). Verified:
+new pid 109894, branch 9e1433e (then ff'd to the vitals commit), environ NEX5_FRAME_GATE=0 AND
+NEX5_FRAME_DEDUP=0, a real post-disarm fire with zero frame_gate: lines. She is fully dark.
+
+OPEN QUESTION this raised (for the monitor to answer)
+-----------------------------------------------------
+Is register moha CLIMATE (a persistent pathology) or WEATHER (episodic/topic-bound)? We have only ever
+measured it in scattered windows. The vitals series will tell; the baseline already shows it is
+mode-specific (ARGUE), which the old aggregate reads hid.
+
+NEXT (not actioned here)
+------------------------
+If register is re-approached, target ARGUE mode specifically and judge against the vitals baseline, not
+the stale comparators. var2 (NEX5_CARRY_TOPIC_GATE) / var1 (NEX5_PERSONA_FOCUS_ROTATE) stay parked
+until the monitor says what is actually a live pathology worth a one-variable intervention.

@@ -1,0 +1,55 @@
+NEX VITALS — BASELINE #1 (row 0 of the longitudinal series) — 2026-10-09
+=======================================================================
+Instrument: tools/nex_vitals.py (code 124a6a8; surprise-window fix 0708804), INSTRUMENT_VERSION
+nex_vitals/1.0.0+2026-10-09. Read-only. Logged to logs/vitals_log.jsonl (live box). Spec:
+nex_vitals_monitor_spec.txt (research b43a2e2). This is the FIRST clean, fully-dark, frozen-instrument
+read — the reference the series is measured against, replacing the stale scattered comparators that
+fogged FRAME_DEDUP / FRAME_GATE.
+
+STATE AT READ
+-------------
+Fully dark: NEX5_FRAME_GATE=0, NEX5_FRAME_DEDUP=0, var1/var2 absent (pid 109894, branch
+claude/nex-dev-f1afni). Arm-ledger: live 58 / declared 58, no live-only/declared-only, only
+NEX5_PORT value-mismatch (benign ${PORT} resolution). Power AWAKE. Window: last 200 fires
+(ARGUE=59, DRIFT=48, EXPLAIN=53, null=40). Read 02:41:49 UTC.
+
+PER-MODE FIRE BATTERY (the headline — aggregate hides the truth, C6)
+--------------------------------------------------------------------
+  mode     n    held-out register   opener   words/fire mean  [min-max]
+  DRIFT    48   4.2%                 0.0%     20.2             [8-94]
+  ARGUE    59   33.9%                0.0%     74.6             [7-161]
+  EXPLAIN  53   7.5%                 3.8%     84.9             [8-235]
+  null     40   0.0%                 0.0%     11.2             [10-16]
+  AGG     200   13.0%                1.0%     51.6             [7-235]
+
+KEY FINDINGS
+------------
+1. REGISTER MOHA IS MODE-SPECIFIC. Her held-out register lives almost entirely in ARGUE (33.9%);
+   DRIFT 4.2%, EXPLAIN 7.5%, null 0%. The aggregate (13%) hid this. => any future register lever
+   should target ARGUE, not fire blanket. This is new — per-mode decomposition surfaced it.
+2. THE FRAME_GATE BASELINE WAS STALE, CONFIRMED. Natural DRIFT words/fire = 20.2 here (corroborates
+   ~18 from the FRAME_GATE soak), NOT the frozen comparator 52. The FRAME_GATE "failure" was the
+   yardstick, not the gate.
+3. SHE IS WELL. Mood valence +0.634 (positive); momentum carry p50 1 / max 1 / exhausted(>3)=0 (no
+   groove lock); aliveness TTR 0.320, distinct-opener 67.0%.
+
+OTHER AXES
+----------
+content-grasp: dominant 'like' DF 29.5% (a discourse token, not a runaway register token).
+maxDF*: 20.0% driven by 'potential' (10/50); register_exclusion v3 sha256 c7a0c569 (42 terms).
+topic-mix (top): current/crypto/bitcoin 20%, potential 18%, control/understanding 16%, tech 14% —
+  a crypto-heavy window (this snapshot's "weather"; record it so register/length deltas are
+  attributable vs topic drift).
+surprise (NOTE): snapshot #1 as logged carried an ALL-TIME surprise rate (320.79) — a bug fixed in
+  0708804 (surprise now windowed to the fire window). Re-running the snapshot refreshes row 0 with a
+  window-scoped surprise rate/mean. Does not affect the register/words/topic numbers above.
+trajectory sibling (scripts/trajectory.py, last line 2026-08-24): QUALITY holding, APERTURE NARROWING,
+  LIVENESS alive, GROOVE flat. APERTURE narrowing is a separate drift to watch across snapshots,
+  independent of the frame work.
+
+THE OPEN QUESTION THIS SERIES EXISTS TO ANSWER
+----------------------------------------------
+Is register moha CLIMATE or WEATHER? Baseline #1 says: mode-specific (ARGUE), currently mild in
+aggregate, in a crypto-topic window. One read cannot separate persistent from topic-bound. The
+nightly timer (tools/nex-vitals.timer) accrues the series; once there are a few nights, the 2-sigma
+bands go live and ARGUE-register + APERTURE can be read as trends, not flashbulbs.
